@@ -1,4 +1,4 @@
-import { QueryClient, type MutationFunction, type UseQueryOptions } from '@tanstack/react-query';
+import { QueryClient, UseMutationOptions, type UseQueryOptions } from '@tanstack/react-query';
 import createClient, { type FetchOptions, type FetchResponse } from 'openapi-fetch';
 import type { FilterKeys, PathsWithMethod as PathsWith } from 'openapi-typescript-helpers';
 import type { paths as Paths } from 'src/generated/core';
@@ -39,8 +39,8 @@ export function queryService<P extends PathsOf<'get'>>(
 
 export function mutateService<M extends Methods, P extends PathsOf<M>>(
   ...[method, url]: [M, P]
-): MutationFunction<ResponseData<M, P>, RequestData<M, P>> {
-  return request.bind(null, method, url);
+): UseMutationOptions<ResponseData<M, P>, RequestData<M, P>> {
+  return { mutationFn: request.bind(null, method, url) };
 }
 
 export const queryClient = new QueryClient({
