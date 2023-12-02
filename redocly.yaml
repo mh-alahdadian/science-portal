@@ -1,0 +1,9 @@
+apis:
+  core@v2:
+    root: ./docs/openapi/core.json
+    x-openapi-ts:
+      output: ./src/generated/core.d.ts
+  forum@v1:
+    root: ./docs/openapi/forum.json
+    x-openapi-ts:
+      output: ./src/generated/forum.d.ts
