@@ -1,8 +1,8 @@
 'use client';
 
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Button, MenuItem, MenuList, Tooltip } from '@mui/material';
 import Link from 'next/link';
-import { Fragment, MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, useState } from 'react';
 import type { components } from 'src/generated/forum';
 
 interface Props {
@@ -17,27 +17,22 @@ export function ServiceMenu(props: Props) {
   const open: MouseEventHandler = (event) => setElement(event.currentTarget);
   const close: MouseEventHandler = (event) => setElement(null);
 
+  const menu = (
+    <div>
+      {props.items.map((category) => (
+        <MenuItem component={Link} key={category.id} href={`${props.path}/${category.id}`} onClick={close}>
+          {category.title}
+        </MenuItem>
+      ))}
+    </div>
+  );
+
   return (
-    <Fragment>
-      <Button color="info" variant="text" className="block mx-2" onClick={open}>
+    <Tooltip title={menu}>
+      {/*! remove /all when nextjs supported optional slug */}
+      <Button color="info" variant="text" component={Link} href={`${props.path}/all`} onMouseOver={open}>
         {props.title}
       </Button>
-      <Menu
-        anchorEl={anchorEl}
-        keepMounted
-        // anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        // transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        open={Boolean(anchorEl)}
-        onClose={close}
-      >
-        {props.items.map((category) => (
-          <MenuItem component={Link} key={category.id} href={`${props.path}/${category.id}`} onClick={close}>
-            {/* <Link key={category.id} onClick={close} href={`${props.path}/${category.id}`}> */}
-            {/* <Typography textAlign="center">{setting}</Typography> */}
-            {category.title}
-          </MenuItem>
-        ))}
-      </Menu>
-    </Fragment>
+    </Tooltip>
   );
 }

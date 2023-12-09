@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Logo from 'src/assets/logo.png';
 import { ServiceMenu } from './ServiceMenu';
+import { AuthDialogController } from './AuthDialogController';
 
 interface Props {}
 
@@ -27,14 +28,14 @@ export default async function Header() {
       <Toolbar disableGutters>
         <Image alt="Cognitive Logo" src={Logo} width={60} />
         <div className="flex flex-auto">
-          <Button LinkComponent={Link} href="/scopes" color="info" variant="text" className="block mx-2">
+          <Button LinkComponent={Link} href="/scopes" color="info" variant="text" className="">
             حوزه‌ها
           </Button>
           {services.map((page, index) => (
             <ServiceMenu key={page.title} path={page.path} title={page.title} items={servicesItems[index]} />
           ))}
         </div>
-        <Button variant="contained">ورود</Button>
+        <AuthDialogController />
       </Toolbar>
     </AppBar>
   );
