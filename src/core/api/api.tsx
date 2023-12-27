@@ -1,8 +1,23 @@
-import { QueryClient, UseMutationOptions, type UseQueryOptions } from '@tanstack/react-query';
+import { createEvent } from '@/utils/event-emitter';
+import { QueryClient, UseMutationOptions, isServer, type UseQueryOptions } from '@tanstack/react-query';
 import createClient, { type FetchOptions, type FetchResponse } from 'openapi-fetch';
 import type { FilterKeys, PathsWithMethod as PathsWith } from 'openapi-typescript-helpers';
 import type { paths as CorePaths } from 'src/generated/core';
 import type { paths as ForumPaths } from 'src/generated/forum';
+
+interface RequestContext {
+  method: Methods;
+  url: string;
+  payload: any | RequestInit;
+  waitForPromise?: Promise<void>;
+}
+
+const [emitApiEvent, listenApiEvent] = createEvent<{
+  request: (request: RequestContext) => void;
+  data: (data: any, request: RequestContext) => void;
+  error: (error: any, request: RequestContext) => void;
+}>();
+export { listenApiEvent };
 
 type PathGen<BasePath extends string, Paths> = {
   [k in keyof Paths & string as `${BasePath}${k}`]: Paths[k];
@@ -10,26 +25,25 @@ type PathGen<BasePath extends string, Paths> = {
 
 type Paths = PathGen<'core:', CorePaths> & PathGen<'forum:', ForumPaths>;
 
-const isServer = typeof window === 'undefined';
-
 const serverUrl = isServer ? require('src/config').server_url : '/api/';
 
 const api = createClient<Paths>({ baseUrl: serverUrl, cache: 'no-cache' });
 type Methods = Lowercase<keyof typeof api>;
 
-async function request(method: Methods, url: string, payload: any) {
-  url = '/' + url.split(':').join('')
+export async function request(method: Methods, url: string, payload: any) {
+  const request: RequestContext = { method, url, payload };
+  url = '/' + url.split(':').join('');
 
+  emitApiEvent('request', request);
+
+  if (request.waitForPromise) await request.waitForPromise;
   // @ts-ignore
   const { data, error } = await api[method.toUpperCase()](url, payload);
   if (error) {
-    if (payload.formatError !== false && !isServer) {
-      const toast = require('react-toastify').toast;
-      const formatError = payload.formatError;
-      toast.error(formatError(error));
-    }
+    emitApiEvent('error', error, request);
     throw error;
   }
+  emitApiEvent('data', data, request);
   return data;
 }
 
