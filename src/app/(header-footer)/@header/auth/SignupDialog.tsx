@@ -10,7 +10,7 @@ import { components } from 'src/generated/core';
 import { AuthDialogProps } from './types';
 import { toast } from 'react-toastify';
 
-type FormData = components['schemas']['RegisterRequestDTO'];
+type FormData = Schema<'RegisterRequestDTO'>;
 
 export default function SignupDialog({ setDialog }: AuthDialogProps) {
   const [showPassword, setShowPassword] = useState(false);

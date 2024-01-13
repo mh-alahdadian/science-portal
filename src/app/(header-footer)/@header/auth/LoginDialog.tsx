@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { components } from 'src/generated/core';
 import { AuthDialogProps } from './types';
 
-type FormData = components['schemas']['PasswordLoginRequestDTO'] | components['schemas']['VerifyCodeLoginRequestDTO'];
+type FormData = Schema<'PasswordLoginRequestDTO' | 'VerifyCodeLoginRequestDTO'>;
 
 type Method = 'password' | 'verify-code';
 

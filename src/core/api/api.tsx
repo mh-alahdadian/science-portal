@@ -3,6 +3,7 @@ import { QueryClient, UseMutationOptions, isServer, type UseQueryOptions } from 
 import createClient, { type FetchOptions, type FetchResponse } from 'openapi-fetch';
 import type { FilterKeys, PathsWithMethod as PathsWith } from 'openapi-typescript-helpers';
 import type { paths as CorePaths } from 'src/generated/core';
+import type { paths as NewsPaths } from 'src/generated/news';
 import type { paths as ForumPaths } from 'src/generated/forum';
 
 interface RequestContext {
@@ -23,7 +24,7 @@ type PathGen<BasePath extends string, Paths> = {
   [k in keyof Paths & string as `${BasePath}${k}`]: Paths[k];
 };
 
-type Paths = PathGen<'core:', CorePaths> & PathGen<'forum:', ForumPaths>;
+type Paths = PathGen<'core:', CorePaths> & PathGen<'news:', NewsPaths> & PathGen<'forum:', ForumPaths>;
 
 const serverUrl = isServer ? require('src/config').server_url : '/api/';
 

@@ -863,8 +863,8 @@ __metadata:
   linkType: hard
 
 "@redocly/openapi-core@npm:^1.4.1":
-  version: 1.5.0
-  resolution: "@redocly/openapi-core@npm:1.5.0"
+  version: 1.6.0
+  resolution: "@redocly/openapi-core@npm:1.6.0"
   dependencies:
     "@redocly/ajv": "npm:^8.11.0"
     "@types/node": "npm:^14.11.8"
@@ -876,7 +876,7 @@ __metadata:
     node-fetch: "npm:^2.6.1"
     pluralize: "npm:^8.0.0"
     yaml-ast-parser: "npm:0.0.43"
-  checksum: 27638f5a2d7f1050a6db9bd0359bab79f65e960bdffbdfe9391a84345e887751094faff3d8bbc5704c324845aece613bddf2c6b7b946256f06873e697f9b4904
+  checksum: a3ecbe16752f39c4941ec23a8ee7a6e76204408fb319357197b74c1035937f9fead7eb4f615f7721c9c26e8a2eceee398b2ec1c3e0d0ff046f5a0c75e12c5ef9
   languageName: node
   linkType: hard
 
@@ -1587,7 +1587,7 @@ __metadata:
     eslint-config-next: "npm:14.0.1"
     js-cookie: "npm:^3.0.5"
     next: "npm:14.0.1"
-    openapi-fetch: "npm:0.8.0-next.0"
+    openapi-fetch: "npm:^0.8.2"
     openapi-typescript: "npm:^7.0.0-next.5"
     postcss: "npm:^8"
     prettier: "npm:^3.0.3"
@@ -3740,19 +3740,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"openapi-fetch@npm:0.8.0-next.0":
-  version: 0.8.0-next.0
-  resolution: "openapi-fetch@npm:0.8.0-next.0"
+"openapi-fetch@npm:^0.8.2":
+  version: 0.8.2
+  resolution: "openapi-fetch@npm:0.8.2"
   dependencies:
-    openapi-typescript-helpers: "npm:^0.0.4"
-  checksum: a62ba1cb820cd83dbd1df69a9d321d106a783fa0b6ccf2882311e42e9355abc813ff3616c257c383d9a0c4eb1f1832f884154793bf6946f24e15b56c880146c5
+    openapi-typescript-helpers: "npm:^0.0.5"
+  checksum: b8c43cf559f06a29a6a7d0da4a5a0130b5b42c6ce3ce75afe2db81104ae686374bd29e9d115fb119ca905d2194fe686c4aab8145a60f50cab6984b48f39b16a3
   languageName: node
   linkType: hard
 
-"openapi-typescript-helpers@npm:^0.0.4":
-  version: 0.0.4
-  resolution: "openapi-typescript-helpers@npm:0.0.4"
-  checksum: 021735ae6ad653c41353c8892647aa5477e231dc315a427a2ceaf565ad087b71263b27736ace4ac8d5bca31730873bdc7fad1be0e0e371d16e46b5eb75420272
+"openapi-typescript-helpers@npm:^0.0.5":
+  version: 0.0.5
+  resolution: "openapi-typescript-helpers@npm:0.0.5"
+  checksum: 0394192a00d014acf5fd174bc3646c0a5abe8861ed3e76ecec26f2f8a6b17b09e16051b09d454239cb481ef53590f3778d8a3f3582a128d7b7f681555a76971a
   languageName: node
   linkType: hard
 
@@ -4877,12 +4877,12 @@ __metadata:
   linkType: hard
 
 "typescript@npm:^5.3.2":
-  version: 5.3.2
-  resolution: "typescript@npm:5.3.2"
+  version: 5.3.3
+  resolution: "typescript@npm:5.3.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: d7dbe1fbe19039e36a65468ea64b5d338c976550394ba576b7af9c68ed40c0bc5d12ecce390e4b94b287a09a71bd3229f19c2d5680611f35b7c53a3898791159
+  checksum: e33cef99d82573624fc0f854a2980322714986bc35b9cb4d1ce736ed182aeab78e2cb32b385efa493b2a976ef52c53e20d6c6918312353a91850e2b76f1ea44f
   languageName: node
   linkType: hard
 
@@ -4897,12 +4897,12 @@ __metadata:
   linkType: hard
 
 "typescript@patch:typescript@npm%3A^5.3.2#optional!builtin<compat/typescript>":
-  version: 5.3.2
-  resolution: "typescript@patch:typescript@npm%3A5.3.2#optional!builtin<compat/typescript>::version=5.3.2&hash=29ae49"
+  version: 5.3.3
+  resolution: "typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=29ae49"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: c81b9bd20c6dbe90fa43e876c586021447f2b47baede9fa542b1f56715835c043e23b2eaf19c42c067cc6f5ae512bd9a9be28a67b3a1d9807f8c9cfb1269875e
+  checksum: e22df47df9b2b2f2617b8bf511a29aea3d177f9f7a0756818230a76b01cbd7da988bf55f9463aaa1a4c1ff90b80f8dc5676460d4e9dfc010572cbba59b822b0c
   languageName: node
   linkType: hard
 

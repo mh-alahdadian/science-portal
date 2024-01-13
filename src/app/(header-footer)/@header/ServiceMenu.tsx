@@ -1,17 +1,18 @@
 'use client';
 
-import { Button, MenuItem, MenuList, Tooltip } from '@mui/material';
+import { useScopePrefix } from '@/hooks/scope';
+import { Button, MenuItem, Tooltip } from '@mui/material';
 import Link from 'next/link';
 import { MouseEventHandler, useState } from 'react';
-import type { components } from 'src/generated/forum';
 
 interface Props {
   title: string;
   path: string;
-  items: components['schemas']['CategoryDTO'][];
+  items: Schema<'CategoryDTO'>[];
 }
 
 export function ServiceMenu(props: Props) {
+  const prefix = useScopePrefix();
   const [anchorEl, setElement] = useState<Element | null>(null);
 
   const open: MouseEventHandler = (event) => setElement(event.currentTarget);
@@ -20,7 +21,7 @@ export function ServiceMenu(props: Props) {
   const menu = (
     <div>
       {props.items.map((category) => (
-        <MenuItem component={Link} key={category.id} href={`${props.path}/${category.id}`} onClick={close}>
+        <MenuItem component={Link} key={category.id} href={`${prefix}/${props.path}/${category.id}`} onClick={close}>
           {category.title}
         </MenuItem>
       ))}
@@ -30,7 +31,7 @@ export function ServiceMenu(props: Props) {
   return (
     <Tooltip title={menu}>
       {/*! remove /all when nextjs supported optional slug */}
-      <Button color="info" variant="text" component={Link} href={`${props.path}/all`} onMouseOver={open}>
+      <Button color="info" variant="text" component={Link} href={`${prefix}/${props.path}/all`} onMouseOver={open}>
         {props.title}
       </Button>
     </Tooltip>
