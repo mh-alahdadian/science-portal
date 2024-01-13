@@ -31,3 +31,11 @@ export function setToken(newToken: Tokens) {
   Cookies.set(ACCESS_TOKEN_KEY, cachedToken.accessToken!)
   queryClient.invalidateQueries({ queryKey: queryService('core:/user/profile', {}).queryKey });
 }
+
+export function removeToken() {
+  if (isServer) return;
+
+  localStorage.removeItem(TOKEN_STORAGE_KEY);
+  Cookies.remove(ACCESS_TOKEN_KEY)
+  queryClient.invalidateQueries({ queryKey: queryService('core:/user/profile', {}).queryKey });
+}

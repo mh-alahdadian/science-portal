@@ -1,7 +1,8 @@
 'use client';
 
+import { logout } from '@/api';
 import { useProfile } from '@/hooks';
-import { Button, Dialog, DialogContent } from '@mui/material';
+import { Avatar, Button, Dialog, DialogContent, IconButton, Menu, MenuItem } from '@mui/material';
 import { lazy, useState } from 'react';
 import { AuthDialogs } from './auth/types';
 
@@ -11,8 +12,17 @@ const SignupDialog = lazy(() => import('./auth/SignupDialog'));
 export function AuthDialogController() {
   const profile = useProfile({ throwOnError: false });
   const [dialog, setDialog] = useState<AuthDialogs>();
+  const [anchor, setAnchor] = useState<HTMLElement>();
   return profile ? (
-    <>welcome {profile.username}</>
+    <>
+      <IconButton size="small" onClick={(e) => setAnchor(e.currentTarget)}>
+        <Avatar />
+      </IconButton>
+      <Menu open={!!anchor} onClose={() => setAnchor(undefined)} anchorEl={anchor}>
+        <MenuItem>پروفایل</MenuItem>
+        <MenuItem onClick={logout}>خروج</MenuItem>
+      </Menu>
+    </>
   ) : (
     <>
       <Button variant="contained" onClick={() => setDialog('login')}>

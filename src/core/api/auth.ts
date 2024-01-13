@@ -1,5 +1,5 @@
 import { listenApiEvent, request } from './api';
-import { getToken, setToken } from './utils';
+import { getToken, removeToken, setToken } from './utils';
 
 let refreshingTokenPromise: Promise<void> | undefined;
 
@@ -38,5 +38,9 @@ listenApiEvent('error', (error, request) => {
     });
   }
 });
+
+export function logout() {
+  removeToken()  
+}
 
 export {};
