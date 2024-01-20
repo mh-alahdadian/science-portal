@@ -1,7 +1,6 @@
 'use client';
 
 import { useScopePrefix } from '@/hooks/scope';
-import { Button, MenuItem, Tooltip } from '@mui/material';
 import Link from 'next/link';
 import { MouseEventHandler, useState } from 'react';
 
@@ -18,22 +17,19 @@ export function ServiceMenu(props: Props) {
   const open: MouseEventHandler = (event) => setElement(event.currentTarget);
   const close: MouseEventHandler = (event) => setElement(null);
 
-  const menu = (
-    <div>
-      {props.items.map((category) => (
-        <MenuItem component={Link} key={category.id} href={`${prefix}/${props.path}/${category.id}`} onClick={close}>
-          {category.title}
-        </MenuItem>
-      ))}
-    </div>
-  );
-
   return (
-    <Tooltip title={menu}>
+    <div className="dropdown">
       {/*! remove /all when nextjs supported optional slug */}
-      <Button color="info" variant="text" component={Link} href={`${prefix}/${props.path}/all`} onMouseOver={open}>
+      <Link className="btn btn-info btn-link" href={`${prefix}/${props.path}/all`} onMouseOver={open}>
         {props.title}
-      </Button>
-    </Tooltip>
+      </Link>
+      <ul className="dropdown-content z-[1] menu">
+        {props.items.map((category) => (
+          <Link key={category.id} href={`${prefix}/${props.path}/${category.id}`} onClick={close}>
+            {category.title}
+          </Link>
+        ))}
+      </ul>
+    </div>
   );
 }

@@ -1,19 +1,9 @@
 'use client';
 
 import createCache from '@emotion/cache';
-import { createTheme } from '@mui/material/styles';
 import { useServerInsertedHTML } from 'next/navigation';
 import { useState } from 'react';
 import rtlPlugin from 'stylis-plugin-rtl';
-
-export const theme = createTheme({
-  direction: 'rtl',
-  components: {
-    MuiTextField: {
-      defaultProps: { variant: 'outlined', size: 'small' },
-    },
-  },
-});
 
 export function useEmotionCache() {
   const [{ cache, flush }] = useState(() => {

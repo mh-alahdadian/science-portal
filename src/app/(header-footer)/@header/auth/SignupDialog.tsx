@@ -1,14 +1,12 @@
 'use client';
 
 import { mutateService } from '@/api';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Button, IconButton, InputProps, TextField, Typography } from '@mui/material';
+import { TextField } from '@/components';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { components } from 'src/generated/core';
-import { AuthDialogProps } from './types';
 import { toast } from 'react-toastify';
+import { AuthDialogProps } from './types';
 
 type FormData = Schema<'RegisterRequestDTO'>;
 
@@ -19,41 +17,41 @@ export default function SignupDialog({ setDialog }: AuthDialogProps) {
   const { mutate: registerMutate } = useMutation(mutateService('post', 'core:/auth/register'));
 
   const handleSignup = handleSubmit((data) => {
-    registerMutate({ body: data }, {
-      onSuccess(data, variables, context) {
-        setDialog('login')
-        toast.success('ثبت نام با موفقیت انجام شد.')
+    registerMutate(
+      { body: data },
+      {
+        onSuccess(data, variables, context) {
+          setDialog('login');
+          toast.success('ثبت نام با موفقیت انجام شد.');
+        },
       },
-    });
+    );
   });
 
-  const passwordProps: InputProps = {
-    endAdornment: (
-      <IconButton onClick={() => setShowPassword(!showPassword)}>
-        {showPassword ? <VisibilityOff /> : <Visibility />}
-      </IconButton>
-    ),
-  };
+  const endAdornment = (
+    <button className="btn btn-circle" onClick={() => setShowPassword(!showPassword)}>
+      {showPassword ? "hide" : "show"}
+    </button>
+  );
 
   return (
     <div className="flex h-full justify-center items-center ">
       <div className="flex flex-col gap-5  max-w-xs w-full">
-        <Typography variant="h3">ورود</Typography>
-        <TextField {...register('username')} fullWidth label="نام کاربری" />
+        <h3>ورود</h3>
+        <TextField {...register('username')} label="نام کاربری" />
         <TextField
           {...register('password')}
-          fullWidth
           label="رمز عبور"
           type={showPassword ? undefined : 'password'}
-          InputProps={passwordProps}
+          endAdornment={endAdornment}
         />
-        <TextField {...register('firstName')} fullWidth label="نام" />
-        <TextField {...register('lastName')} fullWidth label="نام‌خانوادگی" />
-        <TextField {...register('email')} fullWidth label="ایمیل" />
-        <TextField {...register('phoneNumber')} fullWidth label="شماره موبایل" />
-        <Button fullWidth variant="contained" color="primary" onClick={handleSignup}>
+        <TextField {...register('firstName')} label="نام" />
+        <TextField {...register('lastName')} label="نام‌خانوادگی" />
+        <TextField {...register('email')} label="ایمیل" />
+        <TextField {...register('phoneNumber')} label="شماره موبایل" />
+        <button className="btn btn-primary" onClick={handleSignup}>
           ثبت نام
-        </Button>
+        </button>
       </div>
     </div>
   );

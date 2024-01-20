@@ -1,11 +1,10 @@
 'use client';
 
 import { mutateService } from '@/api';
-import { Button, InputProps, TextField, Typography } from '@mui/material';
+import { TextField } from '@/components';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { components } from 'src/generated/core';
 import { AuthDialogProps } from './types';
 
 type FormData = Schema<'PasswordLoginRequestDTO' | 'VerifyCodeLoginRequestDTO'>;
@@ -38,39 +37,37 @@ export default function LoginDialog({ setDialog }: AuthDialogProps) {
     requestVerifyCodeMutate({ body: { username: data.username } });
   });
 
-  const verifyCodeProps: InputProps = {
-    endAdornment: (
-      <Button size="small" variant="contained" onClick={requestVerifyCode} className="text-xs">
-        دریافت رمز عبور
-      </Button>
-    ),
-  };
+  const endAdornment = (
+    <button className="btn btn-sm text-xs" onClick={requestVerifyCode}>
+      دریافت رمز عبور
+    </button>
+  );
 
   return (
     <div className="flex h-full justify-center items-center ">
       <div className="flex flex-col gap-5  max-w-xs w-full">
-        <Typography variant="h3">ورود</Typography>
-        <TextField {...register('username')} fullWidth label="نام کاربری" />
+        <h3>ورود</h3>
+        <TextField {...register('username')} className="w-full" label="نام کاربری" />
         {isOtpMode ? (
           <TextField
             {...register('verifyCode')}
-            fullWidth
+            className="w-full"
             label="رمز عبور یکبار مصرف"
             type="password"
-            InputProps={verifyCodeProps}
+            endAdornment={endAdornment}
           />
         ) : (
-          <TextField {...register('password')} fullWidth label="رمز عبور" type="password" />
+          <TextField {...register('password')} formControlClassName='w-full' label="رمز عبور" type="password" />
         )}
-        <Button fullWidth variant="contained" color="primary" onClick={handleLogin}>
+        <button className='w-full btn btn-primary' onClick={handleLogin}>
           ورود
-        </Button>
-        <Button type="button" variant="text" color="primary" onClick={toggleMethod}>
+        </button>
+        <button type="button" className='w-full btn btn-link btn-primary' onClick={toggleMethod}>
           {isOtpMode ? 'ورود با رمز' : 'ورود با رمز یکبار مصرف'}
-        </Button>
-        <Button type="button" variant="text" color="primary" onClick={() => setDialog('signup')}>
+        </button>
+        <button type="button" className='w-full btn btn-link btn-primary' onClick={() => setDialog('signup')}>
           ثبت نام
-        </Button>
+        </button>
       </div>
     </div>
   );

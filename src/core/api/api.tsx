@@ -72,6 +72,7 @@ export const queryClient = new QueryClient({
     queries: {
       suspense: true,
       throwOnError: true,
+      retry: isServer ? false : undefined,
       queryFn: async (context) => {
         // TODO: support non get services
         // TODO: assert if queryKey is what we want
