@@ -2,16 +2,19 @@
 
 import { mutateService } from '@/api';
 import { TextField } from '@/components';
+import { CaretLeft, CaretRight } from '@phosphor-icons/react';
 import { useMutation } from '@tanstack/react-query';
+import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { AuthDialogProps } from './types';
+import LoginIllustration from '../assets/Login-Illustration.svg';
+import { containerStyles } from '../styles';
 
 type FormData = Schema<'PasswordLoginRequestDTO' | 'VerifyCodeLoginRequestDTO'>;
 
 type Method = 'password' | 'verify-code';
 
-export default function LoginDialog({ setDialog }: AuthDialogProps) {
+export default function LoginDialog() {
   const [method, setMethod] = useState<Method>('password');
   const isOtpMode = method === 'verify-code';
 
@@ -44,9 +47,14 @@ export default function LoginDialog({ setDialog }: AuthDialogProps) {
   );
 
   return (
-    <div className="flex h-full justify-center items-center ">
-      <div className="flex flex-col gap-5  max-w-xs w-full">
-        <h3>ورود</h3>
+    <div className="container w-full h-full justify-between bg-neutral">
+      <style jsx>{containerStyles}</style>
+      <Link href="/" className="btn btn-transparent col-span-full justify-self-start">
+        <CaretRight />
+        <span className="text-lg font-medium">بازگشت به خانه</span>
+      </Link>
+      <div className="gap-6 w-full bg-white card-body">
+        <h3 className="font-bold text-[26px]">ورود</h3>
         <TextField {...register('username')} className="w-full" label="نام کاربری" />
         {isOtpMode ? (
           <TextField
@@ -57,18 +65,26 @@ export default function LoginDialog({ setDialog }: AuthDialogProps) {
             endAdornment={endAdornment}
           />
         ) : (
-          <TextField {...register('password')} formControlClassName='w-full' label="رمز عبور" type="password" />
+          <TextField {...register('password')} formControlClassName="w-full" label="رمز عبور" type="password" />
         )}
-        <button className='w-full btn btn-primary' onClick={handleLogin}>
+        <Link href="/forget-password" type="button" className="text-sm mr-auto">
+          رمز عبور خود را فراموش کردم
+        </Link>
+        <button className="w-full btn btn-primary" onClick={handleLogin}>
           ورود
+          <CaretLeft />
         </button>
-        <button type="button" className='w-full btn btn-link btn-primary' onClick={toggleMethod}>
+        {/* <button type="button" className="w-full btn btn-link btn-primary" onClick={toggleMethod}>
           {isOtpMode ? 'ورود با رمز' : 'ورود با رمز یکبار مصرف'}
-        </button>
-        <button type="button" className='w-full btn btn-link btn-primary' onClick={() => setDialog('signup')}>
-          ثبت نام
-        </button>
+        </button> */}
+        <div className="flex justify-between text-sm">
+          <span>حساب کاربری ندارم</span>
+          <Link href="/signup" type="button" className="link">
+            ثبت نام
+          </Link>
+        </div>
       </div>
+      <LoginIllustration />
     </div>
   );
 }

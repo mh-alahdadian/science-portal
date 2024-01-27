@@ -29,10 +29,10 @@ export default async function Header({ params }: PageProps<'scopeId'>) {
   const servicesItems = await Promise.all([
     queryClient.fetchQuery(queryService('news:/categories/scopes', getParams(params.scopeId))),
     queryClient.fetchQuery(queryService('forum:/categories/scopes', getParams(params.scopeId))),
-  ]);
+  ]).catch(() => []);
 
   return (
-    <div className="navbar sticky">
+    <header className="navbar sticky">
       <Link href="/">
         <div className="text-2xl ml-2">Cognitive</div>
         <Logo />
@@ -46,6 +46,6 @@ export default async function Header({ params }: PageProps<'scopeId'>) {
         ))}
       </div>
       <AuthDialogController />
-    </div>
+    </header>
   );
 }

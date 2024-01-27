@@ -3,6 +3,7 @@
 import createCache from '@emotion/cache';
 import { useServerInsertedHTML } from 'next/navigation';
 import { useState } from 'react';
+import { createStyleRegistry } from 'styled-jsx';
 import rtlPlugin from 'stylis-plugin-rtl';
 
 export function useEmotionCache() {
@@ -51,4 +52,16 @@ export function useEmotionCache() {
   });
 
   return cache;
+}
+
+export function useStyledJsxRegistry() {
+  const [jsxStyleRegistry] = useState(() => createStyleRegistry());
+
+  useServerInsertedHTML(() => {
+    const styles = jsxStyleRegistry.styles();
+    jsxStyleRegistry.flush();
+    return <>{styles}</>;
+  });
+
+  return jsxStyleRegistry;
 }

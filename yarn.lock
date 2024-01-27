@@ -2883,6 +2883,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clsx@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "clsx@npm:2.1.0"
+  checksum: c09c00ad14f638366ca814097e6cab533dfa1972a358da5b557be487168acbb25b4c1395e89ffa842a8a61ba87a462d2b4885bc9d4f8410b598f3cb339599cdb
+  languageName: node
+  linkType: hard
+
 "cognitive-website@workspace:.":
   version: 0.0.0-use.local
   resolution: "cognitive-website@workspace:."
@@ -2897,6 +2904,7 @@ __metadata:
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
     autoprefixer: "npm:^10.0.1"
+    clsx: "npm:^2.1.0"
     daisyui: "npm:^4.6.0"
     eslint: "npm:^8"
     eslint-config-next: "npm:14.0.1"
@@ -2915,6 +2923,7 @@ __metadata:
     stylis-plugin-rtl: "npm:^2.1.1"
     tailwindcss: "npm:^3.3.0"
     typescript: "npm:^5"
+    vazirmatn: "npm:^33.0.3"
   languageName: unknown
   linkType: soft
 
@@ -6676,6 +6685,13 @@ __metadata:
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
   checksum: 41a5bdd214df2f6c3ecf8622745e4a366c4adced864bc3c833739791aeeeb1838119af7daed4ba36428114b5c67dcda034a79c882e97e43c03e66a4dd7389942
+  languageName: node
+  linkType: hard
+
+"vazirmatn@npm:^33.0.3":
+  version: 33.0.3
+  resolution: "vazirmatn@npm:33.0.3"
+  checksum: aa6d90cd68a69c0043fb2014c5908f1576e0264aaa7e21d9e8643f8dc1c0f7423d1f97cb05e0e273e539421d7d786efaa48a4853338dcbdd5d2339d5c4495c7e
   languageName: node
   linkType: hard
 

@@ -5,7 +5,8 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/ReactToastify.min.css';
 import { queryClient } from 'src/core/api';
-import { useEmotionCache } from './styling';
+import { StyleRegistry } from 'styled-jsx';
+import { useEmotionCache, useStyledJsxRegistry } from './styling';
 
 interface Props {
   children: React.ReactNode;
@@ -13,10 +14,12 @@ interface Props {
 
 export default function Providers({ children }: Props) {
   const cache = useEmotionCache();
+  const jsxStyleRegistry = useStyledJsxRegistry();
+
   return (
     <QueryClientProvider client={queryClient}>
       <CacheProvider value={cache}>
-        {children}
+        <StyleRegistry registry={jsxStyleRegistry}>{children}</StyleRegistry>
         <ToastContainer theme="colored" rtl position="bottom-right" />
       </CacheProvider>
     </QueryClientProvider>

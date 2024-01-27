@@ -5,11 +5,20 @@ const themes: CustomTheme = {
   light: {
     ...require('daisyui/src/theming/themes')['light'],
     primary: '#28B876',
+    'primary-content': '#FFF',
 
     success: '#1CB0A5',
     error: '#E0526A',
     warning: '#E99E0C',
     info: '#256EF6',
+
+    neutral: '#F9F9FB',
+    'neutral-content': '#20222A',
+
+    '.btn.btn-transparent': {
+      background: 'transparent',
+      border: 'none',
+    }
 
     // secondary: 'teal',
   },
