@@ -12,9 +12,9 @@ export function AuthDialogController() {
   const profile = useProfile({ throwOnError: false, retry: 0 });
   const [dialog, setDialog] = useState<AuthDialogs>();
   return profile ? (
-    <div className="dropdown">
+    <div className="dropdown dropdown-bottom dropdown-end">
       <button role="button" className="btn btn-sm">
-        <div className="avatar"></div>
+        <div className="avatar">hi</div>
       </button>
       <ul className="dropdown-content z-[1] menu p-2">
         <li>پروفایل</li>

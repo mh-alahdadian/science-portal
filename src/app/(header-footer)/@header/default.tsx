@@ -1,7 +1,6 @@
 import { queryClient, queryService } from '@/api';
-import Image from 'next/image';
 import Link from 'next/link';
-import Logo from 'src/assets/logo.png';
+import Logo from 'src/assets/logo.svg';
 import { AuthDialogController } from './AuthDialogController';
 import { ServiceMenu } from './ServiceMenu';
 
@@ -34,25 +33,19 @@ export default async function Header({ params }: PageProps<'scopeId'>) {
 
   return (
     <div className="navbar sticky">
-      <div className="navbar-start">
-        <Image alt="Cognitive Logo" src={Logo} width={60} />
-        <div className="flex flex-auto">
-          <Link href="/scopes" className="btn btn-link">
-            حوزه‌ها
-          </Link>
-          {services.map((page, index) => (
-            <ServiceMenu
-              key={page.title}
-              path={page.path}
-              title={page.title}
-              items={servicesItems[index] || emptyArr}
-            />
-          ))}
-        </div>
+      <Link href="/">
+        <div className="text-2xl ml-2">Cognitive</div>
+        <Logo />
+      </Link>
+      <div className="flex ml-auto">
+        <Link href="/scopes" className="btn btn-link">
+          حوزه‌ها
+        </Link>
+        {services.map((page, index) => (
+          <ServiceMenu key={page.title} path={page.path} title={page.title} items={servicesItems[index] || emptyArr} />
+        ))}
       </div>
-      <div className="navbar-end">
-        <AuthDialogController />
-      </div>
+      <AuthDialogController />
     </div>
   );
 }
