@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" dir="rtl" data-theme="light">
-      <body className={clsx('flex flex-col px-12')}>
+      <body className={clsx('flex flex-col')}>
         <Providers>{children}</Providers>
       </body>
     </html>

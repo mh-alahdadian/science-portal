@@ -32,7 +32,7 @@ export default async function Header({ params }: PageProps<'scopeId'>) {
   ]).catch(() => []);
 
   return (
-    <header className="navbar sticky">
+    <header className="navbar sticky px-12">
       <Link href="/">
         <div className="text-2xl ml-2">Cognitive</div>
         <Logo />

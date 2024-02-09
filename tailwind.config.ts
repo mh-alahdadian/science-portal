@@ -1,5 +1,6 @@
 import type { CustomTheme } from 'daisyui';
 import type { Config } from 'tailwindcss';
+import plugin from 'tailwindcss/plugin';
 
 const themes: CustomTheme = {
   light: {
@@ -18,7 +19,7 @@ const themes: CustomTheme = {
     '.btn.btn-transparent': {
       background: 'transparent',
       border: 'none',
-    }
+    },
 
     // secondary: 'teal',
   },
@@ -36,9 +37,16 @@ const themes: CustomTheme = {
 };
 
 Object.entries(themes).forEach(([name, th]) => {
-  delete th['secondary']
-  delete th['secondary-content']
-})
+  delete th['secondary'];
+  delete th['secondary-content'];
+});
+
+const gridTemplate = plugin(({ matchUtilities, theme }) => {
+  matchUtilities(
+    { 'grid-area': (value) => ({ gridArea: `area-${value}` }) },
+    { values: { '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6 } },
+  );
+});
 
 const config: Config = {
   daisyui: { themes: [themes] },
@@ -51,6 +59,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('daisyui')],
+  plugins: [require('daisyui'), gridTemplate],
 };
 export default config;
