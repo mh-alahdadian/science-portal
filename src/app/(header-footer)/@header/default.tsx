@@ -1,8 +1,6 @@
 import { queryClient, queryService } from '@/api';
-import { AppBar, Button, Toolbar } from '@mui/material';
-import Image from 'next/image';
 import Link from 'next/link';
-import Logo from 'src/assets/logo.png';
+import Logo from 'src/assets/logo.svg';
 import { AuthDialogController } from './AuthDialogController';
 import { ServiceMenu } from './ServiceMenu';
 
@@ -28,30 +26,26 @@ function getParams(scopeId: string) {
 const emptyArr: any[] = [];
 
 export default async function Header({ params }: PageProps<'scopeId'>) {
-  const servicesItems = (await Promise.all([
+  const servicesItems = await Promise.all([
     queryClient.fetchQuery(queryService('news:/categories/scopes', getParams(params.scopeId))),
     queryClient.fetchQuery(queryService('forum:/categories/scopes', getParams(params.scopeId))),
-  ]));
+  ]).catch(() => []);
 
   return (
-    <AppBar className="px-2" color="default" elevation={1} position="sticky">
-      <Toolbar disableGutters>
-        <Image alt="Cognitive Logo" src={Logo} width={60} />
-        <div className="flex flex-auto">
-          <Button LinkComponent={Link} href="/scopes" color="info" variant="text" className="">
-            حوزه‌ها
-          </Button>
-          {services.map((page, index) => (
-            <ServiceMenu
-              key={page.title}
-              path={page.path}
-              title={page.title}
-              items={servicesItems[index] || emptyArr}
-            />
-          ))}
-        </div>
-        <AuthDialogController />
-      </Toolbar>
-    </AppBar>
+    <header className="navbar sticky px-12">
+      <Link href="/">
+        <div className="text-2xl ml-2">Cognitive</div>
+        <Logo />
+      </Link>
+      <div className="flex ml-auto">
+        <Link href="/scopes" className="btn btn-link">
+          حوزه‌ها
+        </Link>
+        {services.map((page, index) => (
+          <ServiceMenu key={page.title} path={page.path} title={page.title} items={servicesItems[index] || emptyArr} />
+        ))}
+      </div>
+      <AuthDialogController />
+    </header>
   );
 }

@@ -2,37 +2,26 @@
 
 import { logout } from '@/api';
 import { useProfile } from '@/hooks';
-import { Avatar, Button, Dialog, DialogContent, IconButton, Menu, MenuItem } from '@mui/material';
-import { lazy, useState } from 'react';
-import { AuthDialogs } from './auth/types';
-
-const LoginDialog = lazy(() => import('./auth/LoginDialog'));
-const SignupDialog = lazy(() => import('./auth/SignupDialog'));
+import Link from 'next/link';
 
 export function AuthDialogController() {
-  const profile = useProfile({ throwOnError: false });
-  const [dialog, setDialog] = useState<AuthDialogs>();
-  const [anchor, setAnchor] = useState<HTMLElement>();
+  const profile = useProfile({ throwOnError: false, retry: 0 });
+
   return profile ? (
-    <>
-      <IconButton size="small" onClick={(e) => setAnchor(e.currentTarget)}>
-        <Avatar />
-      </IconButton>
-      <Menu open={!!anchor} onClose={() => setAnchor(undefined)} anchorEl={anchor}>
-        <MenuItem>پروفایل</MenuItem>
-        <MenuItem onClick={logout}>خروج</MenuItem>
-      </Menu>
-    </>
+    <div className="dropdown dropdown-bottom dropdown-end">
+      <button role="button" className="btn btn-sm">
+        <div className="avatar">hi</div>
+      </button>
+      <ul className="dropdown-content z-[1] menu p-2">
+        <li>پروفایل</li>
+        <li onClick={logout}>خروج</li>
+      </ul>
+    </div>
   ) : (
     <>
-      <Button variant="contained" onClick={() => setDialog('login')}>
+      <Link href="/login" className="btn">
         ورود
-      </Button>
-      <Dialog open={!!dialog} onClose={() => setDialog(undefined)}>
-        <DialogContent>
-          {dialog === 'login' ? <LoginDialog setDialog={setDialog} /> : <SignupDialog setDialog={setDialog} />}
-        </DialogContent>
-      </Dialog>
+      </Link>
     </>
   );
 }

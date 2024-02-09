@@ -1,9 +1,8 @@
 import Providers from '@/Providers';
+import clsx from 'clsx';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import 'vazirmatn/Vazirmatn-font-face.css';
 import './globals.css';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -12,8 +11,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" dir="rtl">
-      <body className={inter.className}>
+    <html lang="en" dir="rtl" data-theme="light">
+      <body className={clsx('flex flex-col')}>
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -8,7 +8,7 @@ export default function OutsideScopeLayout({ children, header }: LayoutProps<'he
   return (
     <>
       {header}
-      <main>{children}</main>
+      <main className="flex-1 px-12 bg-neutral">{children}</main>
       <footer></footer>
     </>
   );

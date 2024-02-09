@@ -1,4 +1,3 @@
-import { Card } from '@mui/material';
 import Link from 'next/link';
 
 interface Props {
@@ -6,5 +5,9 @@ interface Props {
 }
 
 export default function ScopeCard({ scope }: Props) {
-  return <Card component={Link} href={`/scope/${scope.id}`} className="flex flex-col gap-5 h-48">{scope.title}</Card>;
+  return (
+    <Link href={`/scope/${scope.id}`} className="card card-body flex flex-col gap-5 h-48">
+      {scope.title}
+    </Link>
+  );
 }

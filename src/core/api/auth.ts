@@ -1,17 +1,48 @@
-import { listenApiEvent, request } from './api';
+'use client';
+
+import { MutationObserver } from '@tanstack/react-query';
+import { jwtDecode } from 'jwt-decode';
+import { listenApiEvent, mutateService, queryClient } from './api';
 import { getToken, removeToken, setToken } from './utils';
 
+// TODO: Regulate system date-time if it was not correct
+
 let refreshingTokenPromise: Promise<void> | undefined;
+let expTime = 1;
+
+const refreshTokenMutation = new MutationObserver(queryClient, {
+  ...mutateService('post', 'core:/auth/refresh-token'),
+  retry: 3,
+  // onSuccess(data, variables, context) {
+  //   setToken(data)
+  // },
+  onError(error, variables, context) {
+    if ((error as any).status == 401) {
+      logout()
+    }
+  },
+});
 
 const config = {
   refreshPath: 'core:/auth/refresh-token',
   loginPath: 'core:/auth/login/',
-  refreshFn: (refreshToken: string) => request('post', 'core:/auth/refresh-token', { body: { refreshToken } }),
+  expDelaySec: 10,
+  refreshFn: (refreshToken: string) => refreshTokenMutation.mutate({ body: { refreshToken } }),
 };
 
 listenApiEvent('request', (request) => {
+  const { accessToken, refreshToken } = getToken();
+  if (refreshToken && !refreshingTokenPromise && Date.now() > expTime - config.expDelaySec * 1000) {
+    refreshingTokenPromise = config
+      .refreshFn(refreshToken)
+      .then(setToken)
+      .finally(() => {
+        refreshingTokenPromise = undefined;
+      });
+  }
+
   request.payload.headers ??= {};
-  request.payload.headers['Authorization'] = 'Bearer ' + getToken().accessToken;
+  request.payload.headers['Authorization'] = 'Bearer ' + accessToken;
   request.waitForPromise = refreshingTokenPromise;
 
   // TODO: only if auth needed
@@ -20,27 +51,13 @@ listenApiEvent('request', (request) => {
 
 listenApiEvent('data', (data, request) => {
   if (request.url.startsWith(config.loginPath) || request.url.startsWith(config.refreshPath)) {
+    expTime = jwtDecode(data.accessToken).exp! * 1000;
     setToken(data);
   }
 });
 
-listenApiEvent('error', (error, request) => {
-  if (error.status == 401) {
-    const { refreshToken } = getToken();
-    if (!refreshToken) return;
-
-    refreshingTokenPromise = config.refreshFn(refreshToken).then(({ data }) => {
-      data = data as any;
-      if (data) {
-        setToken(data);
-      }
-      refreshingTokenPromise = undefined;
-    });
-  }
-});
-
 export function logout() {
-  removeToken()  
+  removeToken();
 }
 
 export {};
