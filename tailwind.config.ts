@@ -21,6 +21,11 @@ const themes: CustomTheme = {
       border: 'none',
     },
 
+    '.card.image-full:before': {
+      content: 'none',
+    }
+
+
     // secondary: 'teal',
   },
   dark: {
