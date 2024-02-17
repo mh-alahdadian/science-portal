@@ -26,6 +26,9 @@ const nextConfig = {
       },
     },
   },
+  compiler: {
+    emotion: true,
+  },
   /** @param {import('webpack').Configuration} config */
   webpack(config) {
     config.module.rules.push({

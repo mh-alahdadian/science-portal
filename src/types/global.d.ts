@@ -1,4 +1,5 @@
 // import { ReactNode } from "react";
+/// <reference types="@emotion/react/types/css-prop" />
 
 type SearchParams<T extends string> = {
   [key in T as key extends `${infer k}[]` ? k : key extends `${infer k}?` ? k : key]: T extends `${string}[]`
