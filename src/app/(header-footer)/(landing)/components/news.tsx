@@ -1,13 +1,14 @@
 // 'use client';
 
 import { queryService } from '@/api';
+import { css } from '@emotion/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 export default function News() {
   let { data: posts } = useSuspenseQuery(queryService('news:/posts', { params: { query: { searchDTO: {} } } }));
 
-  const content: (Schema<'PostDTO'> & { banner: string, scopeId: number })[] = posts.content?.length
+  const content: (Schema<'PostDTO'> & { banner: string; scopeId: number })[] = posts.content?.length
     ? (posts.content as any)
     : [
         { id: '1', title: 'title 1', banner: 'https://api.slingacademy.com/public/sample-photos/1.jpeg' },
@@ -18,24 +19,7 @@ export default function News() {
       ];
 
   return (
-    <div className="grid gap-6" style={{}}>
-      <style jsx>{`
-        .grid {
-          grid-template: auto auto / 1fr 1fr 2fr;
-          grid-auto-flow: column;
-        }
-        .card:last-child {
-          grid-row: 1/-1;
-        }
-        .card.image-full {
-          --rounded-box: 0.5rem;
-          --padding-card: 1rem;
-        }
-        .card-body {
-          color: white !important;
-          background: #14161966;
-        }
-      `}</style>
+    <div className="grid gap-6" css={styles}>
       {content.map((x) => (
         <Link href={`/scope/${x.scopeId || 'general'}/news/${x.id}`} key={x.id} className="card image-full rounded-lg">
           <figure>
@@ -49,3 +33,21 @@ export default function News() {
     </div>
   );
 }
+
+const styles = css`
+  &.grid {
+    grid-template: auto auto / 1fr 1fr 2fr;
+    grid-auto-flow: column;
+  }
+  & .card:last-child {
+    grid-row: 1/-1;
+  }
+  & .card.image-full {
+    --rounded-box: 0.5rem;
+    --padding-card: 1rem;
+  }
+  & .card-body {
+    color: white !important;
+    background: #14161966;
+  }
+`;
