@@ -1,10 +1,15 @@
-import type { CustomTheme } from 'daisyui';
+import type { CustomTheme, Config as DaisyConfig } from 'daisyui';
 import type { Config } from 'tailwindcss';
 import plugin from 'tailwindcss/plugin';
+
+const baseTheme = {
+  '--padding-card': '1rem',
+};
 
 const themes: CustomTheme = {
   light: {
     ...require('daisyui/src/theming/themes')['light'],
+    ...baseTheme,
     primary: '#28B876',
     'primary-content': '#FFF',
 
@@ -15,18 +20,6 @@ const themes: CustomTheme = {
 
     neutral: '#F9F9FB',
     'neutral-content': '#20222A',
-
-    '.btn.btn-transparent': {
-      background: 'transparent',
-      border: 'none',
-    },
-
-    '.card.image-full:before': {
-      content: 'none',
-    }
-
-
-    // secondary: 'teal',
   },
   dark: {
     ...require('daisyui/src/theming/themes')['dark'],
@@ -36,8 +29,6 @@ const themes: CustomTheme = {
     error: '#D04D63',
     warning: '#FDA802',
     info: '#508BF7',
-
-    // secondary: 'teal',
   },
 };
 
@@ -54,7 +45,7 @@ const gridTemplate = plugin(({ matchUtilities, theme }) => {
 });
 
 const config: Config = {
-  daisyui: { themes: [themes] },
+  daisyui: { logs: false, themes: [themes] } as DaisyConfig,
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {

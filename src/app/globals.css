@@ -3,10 +3,21 @@
 @tailwind utilities;
 
 html, body {
-    height: 100%;
-    font-family: Vazirmatn;
+  height: 100%;
+  font-family: Vazirmatn;
 }
 
 svg {
-    display: inline;
+  display: inline;
+}
+
+@layer components {
+  .btn.btn-transparent {
+    background: transparent;
+    border: none;
+  }
+
+  .card.image-full:before {
+    content: none;
+  }
 }
