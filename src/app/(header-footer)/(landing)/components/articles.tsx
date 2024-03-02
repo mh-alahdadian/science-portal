@@ -17,15 +17,15 @@ export default function Articles() {
   const data = [scopeArticlesData, scopeArticlesData, scopeArticlesData, scopeArticlesData];
   return (
     <div className="grid grid-cols-2 gap-6">
-      {data.map((d) => (
-        <div className="card card-body gap-10" key={d.scope.id}>
-          <div className='flex items-center'>
+      {data.map((d, index) => (
+        <div className="card card-body gap-10" key={index}>
+          <div className="flex items-center">
             <BoundingBox />
             {d.scope.title}
             <Link href={`/scope/${d.scope.id}/articles`} className="btn ms-auto">
-                نمایش همه
-                <CaretLeft />
-              </Link>
+              نمایش همه
+              <CaretLeft />
+            </Link>
           </div>
           <div className="flex flex-col gap-6">
             {d.articles.map((article) => (
