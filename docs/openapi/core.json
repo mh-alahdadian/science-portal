@@ -17,67 +17,7 @@
         }
     ],
     "paths": {
-        "/user/profile": {
-            "get": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "get profile info",
-                "operationId": "getProfile",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/UserInfoDTO"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "update profile info",
-                "operationId": "updateProfile",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UserInfoDTO"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            }
-        },
-        "/admin/users/{userId}": {
+        "/users/{userId}": {
             "get": {
                 "tags": [
                     "manager-controller"
@@ -128,6 +68,66 @@
                         }
                     }
                 ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserInfoDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/user/profile": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "get profile info",
+                "operationId": "getProfile",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserInfoDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "update profile info",
+                "operationId": "updateProfile",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -237,23 +237,115 @@
                 ]
             }
         },
-        "/user/verify-phone-number": {
+        "/users/{userId}/roles": {
             "post": {
                 "tags": [
-                    "User"
+                    "manager-controller"
                 ],
-                "summary": "verification phone number",
-                "operationId": "verifyPhoneNumber",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/VerificationDTO"
-                            }
+                "operationId": "addRole",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
                         }
                     },
-                    "required": true
+                    {
+                        "name": "roleIds",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "format": "int32"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
                 },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/users/{userId}/change-password": {
+            "post": {
+                "tags": [
+                    "manager-controller"
+                ],
+                "operationId": "changeUserPassword",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "newPassword",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/users/{userId}/block-unblock": {
+            "post": {
+                "tags": [
+                    "manager-controller"
+                ],
+                "operationId": "blockAndUnblockUser",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -309,13 +401,39 @@
                 ]
             }
         },
+        "/user/request-verify-email": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "send verify code to email address",
+                "operationId": "verifyEmail_1",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
         "/auth/verify-phone-number/{phoneNumber}": {
             "post": {
                 "tags": [
                     "auth-controller"
                 ],
                 "summary": "create verify code to verification phone number",
-                "operationId": "verifyPhoneNumber_1",
+                "operationId": "verifyPhoneNumber",
                 "parameters": [
                     {
                         "name": "phoneNumber",
@@ -340,23 +458,23 @@
                 }
             }
         },
-        "/auth/verify-email/{email}": {
+        "/auth/verify-code": {
             "post": {
                 "tags": [
                     "auth-controller"
                 ],
-                "summary": "create verify code to verification email address",
-                "operationId": "verifyEmail_1",
-                "parameters": [
-                    {
-                        "name": "email",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "summary": "send verify code",
+                "operationId": "changeLoginMethod",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequestDTO"
+                            }
                         }
-                    }
-                ],
+                    },
+                    "required": true
+                },
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -557,165 +675,6 @@
                 }
             }
         },
-        "/auth/change-login-type": {
-            "post": {
-                "tags": [
-                    "auth-controller"
-                ],
-                "summary": "change login method type to verify code",
-                "operationId": "changeLoginMethod",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/LoginRequestDTO"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ResponseDTO"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/admin/users/{userId}/roles": {
-            "post": {
-                "tags": [
-                    "manager-controller"
-                ],
-                "operationId": "addRole",
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    },
-                    {
-                        "name": "roleIds",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "integer",
-                                "format": "int32"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            }
-        },
-        "/admin/users/{userId}/change-password": {
-            "post": {
-                "tags": [
-                    "manager-controller"
-                ],
-                "operationId": "changeUserPassword",
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    },
-                    {
-                        "name": "newPassword",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            }
-        },
-        "/admin/users/{userId}/block-unblock": {
-            "post": {
-                "tags": [
-                    "manager-controller"
-                ],
-                "operationId": "blockAndUnblockUser",
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            }
-        },
         "/admin/scopes": {
             "get": {
                 "tags": [
@@ -777,7 +736,53 @@
                 ]
             }
         },
-        "/admin/users": {
+        "/user/change-phone-number/{phoneNumber}": {
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "verification phone number",
+                "operationId": "verifyPhoneNumber_1",
+                "parameters": [
+                    {
+                        "name": "phoneNumber",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VerificationDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/users": {
             "get": {
                 "tags": [
                     "manager-controller"
@@ -812,7 +817,7 @@
                 ]
             }
         },
-        "/admin/users/roles": {
+        "/users/roles": {
             "get": {
                 "tags": [
                     "manager-controller"
@@ -911,17 +916,7 @@
                         "readOnly": true
                     },
                     "phoneNumber": {
-                        "pattern": "^(09[0-9]{9})$",
-                        "type": "string"
-                    },
-                    "verifyPhoneNumberCode": {
-                        "maximum": 999999,
-                        "minimum": 0,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "isVerifyPhoneNumber": {
-                        "type": "boolean",
+                        "type": "string",
                         "readOnly": true
                     },
                     "job": {
@@ -990,77 +985,42 @@
                     }
                 }
             },
+            "LoginRequestDTO": {
+                "required": [
+                    "username"
+                ],
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    }
+                }
+            },
             "RegisterRequestDTO": {
                 "required": [
-                    "firstName",
-                    "lastName",
                     "password",
                     "username"
                 ],
                 "type": "object",
                 "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
                     "username": {
                         "type": "string"
+                    },
+                    "phoneNumber": {
+                        "pattern": "^(09[0-9]{9})$",
+                        "type": "string"
+                    },
+                    "verifyCode": {
+                        "maximum": 999999,
+                        "minimum": 0,
+                        "type": "integer",
+                        "format": "int32"
                     },
                     "password": {
                         "maxLength": 2147483647,
                         "minLength": 4,
                         "type": "string",
                         "writeOnly": true
-                    },
-                    "firstName": {
-                        "type": "string"
-                    },
-                    "lastName": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string"
-                    },
-                    "verifyEmailCode": {
-                        "maximum": 999999,
-                        "minimum": 0,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "isVerifyEmail": {
-                        "type": "boolean",
-                        "readOnly": true
-                    },
-                    "phoneNumber": {
-                        "pattern": "^(09[0-9]{9})$",
-                        "type": "string"
-                    },
-                    "verifyPhoneNumberCode": {
-                        "maximum": 999999,
-                        "minimum": 0,
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "isVerifyPhoneNumber": {
-                        "type": "boolean",
-                        "readOnly": true
-                    },
-                    "enable": {
-                        "type": "boolean",
-                        "readOnly": true
-                    },
-                    "roles": {
-                        "type": "array",
-                        "readOnly": true,
-                        "items": {
-                            "$ref": "#/components/schemas/Role"
-                        }
-                    },
-                    "verifyEmail": {
-                        "type": "boolean"
-                    },
-                    "verifyPhoneNumber": {
-                        "type": "boolean"
                     }
                 }
             },
@@ -1151,17 +1111,6 @@
                     }
                 }
             },
-            "LoginRequestDTO": {
-                "required": [
-                    "username"
-                ],
-                "type": "object",
-                "properties": {
-                    "username": {
-                        "type": "string"
-                    }
-                }
-            },
             "Pageable": {
                 "type": "object",
                 "properties": {
@@ -1194,26 +1143,6 @@
                         "type": "integer",
                         "format": "int64"
                     },
-                    "pageable": {
-                        "$ref": "#/components/schemas/PageableObject"
-                    },
-                    "first": {
-                        "type": "boolean"
-                    },
-                    "last": {
-                        "type": "boolean"
-                    },
-                    "number": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "sort": {
-                        "$ref": "#/components/schemas/SortObject"
-                    },
-                    "numberOfElements": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "size": {
                         "type": "integer",
                         "format": "int32"
@@ -1224,6 +1153,26 @@
                             "$ref": "#/components/schemas/UserInfoDTO"
                         }
                     },
+                    "number": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sort": {
+                        "$ref": "#/components/schemas/SortObject"
+                    },
+                    "pageable": {
+                        "$ref": "#/components/schemas/PageableObject"
+                    },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
                     "empty": {
                         "type": "boolean"
                     }
@@ -1232,6 +1181,13 @@
             "PageableObject": {
                 "type": "object",
                 "properties": {
+                    "offset": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "sort": {
+                        "$ref": "#/components/schemas/SortObject"
+                    },
                     "pageNumber": {
                         "type": "integer",
                         "format": "int32"
@@ -1240,31 +1196,24 @@
                         "type": "integer",
                         "format": "int32"
                     },
-                    "sort": {
-                        "$ref": "#/components/schemas/SortObject"
-                    },
                     "paged": {
                         "type": "boolean"
                     },
                     "unpaged": {
                         "type": "boolean"
-                    },
-                    "offset": {
-                        "type": "integer",
-                        "format": "int64"
                     }
                 }
             },
             "SortObject": {
                 "type": "object",
                 "properties": {
+                    "empty": {
+                        "type": "boolean"
+                    },
                     "sorted": {
                         "type": "boolean"
                     },
                     "unsorted": {
-                        "type": "boolean"
-                    },
-                    "empty": {
                         "type": "boolean"
                     }
                 }
@@ -1323,9 +1272,6 @@
                         }
                     },
                     "verifyEmail": {
-                        "type": "boolean"
-                    },
-                    "verifyPhoneNumber": {
                         "type": "boolean"
                     }
                 }

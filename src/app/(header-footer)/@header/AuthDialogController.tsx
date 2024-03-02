@@ -6,7 +6,6 @@ import Link from 'next/link';
 
 export function AuthDialogController() {
   const profile = useProfile({ throwOnError: false, retry: 0 });
-
   return profile ? (
     <div className="dropdown dropdown-bottom dropdown-end">
       <button role="button" className="btn btn-sm">

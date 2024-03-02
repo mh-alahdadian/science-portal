@@ -7,6 +7,7 @@ import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 
 type FormData = Schema<'PasswordLoginRequestDTO' | 'VerifyCodeLoginRequestDTO'>;
 
@@ -19,19 +20,23 @@ export default function LoginDialog(props: PageProps) {
   const { control, formState, handleSubmit, register } = useForm<FormData>({});
 
   const { mutate: requestVerifyCodeMutate } = useMutation(mutateService('post', 'core:/auth/change-login-type'));
-  const { mutate: loginPasswordMutate } = useMutation(mutateService('post', 'core:/auth/login/password'));
-  const { mutate: loginVerifyCodeMutate } = useMutation(mutateService('post', 'core:/auth/login/verify-code'));
+  const { mutate: loginMutate } = useMutation(
+    mutateService('post', isOtpMode ? 'core:/auth/login/verify-code' : 'core:/auth/login/password'),
+  );
 
   const toggleMethod = () => {
     setMethod(isOtpMode ? 'password' : 'verify-code');
   };
 
   const handleLogin = handleSubmit((data) => {
-    if (isOtpMode) {
-      loginVerifyCodeMutate({ body: data as any });
-    } else {
-      loginPasswordMutate({ body: data as any });
-    }
+    loginMutate(
+      { body: data as any },
+      {
+        onSuccess() {
+          toast.success('با موفقیت وارد شدید.');
+        },
+      },
+    );
   });
 
   const requestVerifyCode = handleSubmit((data) => {
