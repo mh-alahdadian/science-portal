@@ -19,7 +19,7 @@ export default function LoginDialog(props: PageProps) {
 
   const { control, formState, handleSubmit, register } = useForm<FormData>({});
 
-  const { mutate: requestVerifyCodeMutate } = useMutation(mutateService('post', 'core:/auth/change-login-type'));
+  const { mutate: requestVerifyCodeMutate } = useMutation(mutateService('post', 'core:/auth/verify-code'));
   const { mutate: loginMutate } = useMutation(
     mutateService('post', isOtpMode ? 'core:/auth/login/verify-code' : 'core:/auth/login/password'),
   );

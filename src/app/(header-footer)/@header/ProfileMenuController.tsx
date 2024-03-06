@@ -4,7 +4,7 @@ import { logout } from '@/api';
 import { useProfile } from '@/hooks';
 import Link from 'next/link';
 
-export function AuthDialogController() {
+export default function AuthDialogController() {
   const profile = useProfile({ throwOnError: false, retry: 0 });
   return profile ? (
     <div className="dropdown dropdown-bottom dropdown-end">
