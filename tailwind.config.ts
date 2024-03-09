@@ -55,6 +55,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('daisyui'), gridTemplate],
+  plugins: [require('@tailwindcss/typography'), require('daisyui'), gridTemplate],
 };
 export default config;
