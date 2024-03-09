@@ -1,8 +1,10 @@
 'use client';
 
+import { useProfile } from '@/hooks';
 import { CaretRight } from '@phosphor-icons/react';
 import Link from 'next/link';
-import { ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import { ReactNode, useEffect } from 'react';
 import LoginIllustration from './assets/Login-Illustration.svg';
 
 interface Props {
@@ -10,6 +12,13 @@ interface Props {
 }
 
 export default function AuthLayout({ children }: Props) {
+  const profile = useProfile({ throwOnError: false, retry: 0 });
+  const router = useRouter();
+
+  useEffect(() => {
+    if (profile) router.push('/');
+  }, [profile]);
+
   return (
     <div className="container w-full h-full justify-between">
       <style jsx>{`

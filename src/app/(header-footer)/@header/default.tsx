@@ -1,36 +1,11 @@
-import { queryClient, queryService } from '@/api';
 import Link from 'next/link';
 import Logo from 'src/assets/logo.svg';
-import { AuthDialogController } from './AuthDialogController';
-import { ServiceMenu } from './ServiceMenu';
+import AuthDialogController from './ProfileMenuController';
+import Services from './Services';
+import ManagementMenu from './ManagementMenuController';
 
-interface Props {}
 
-interface Page {
-  title: string;
-  path: string;
-}
-
-const services: Page[] = [
-  { title: 'اخبار', path: 'news' },
-  { title: 'انجمن', path: 'forum' },
-  { title: 'کتابخانه', path: 'library' },
-  { title: 'وبلاگ', path: 'blog' },
-  { title: 'گالری', path: 'gallery' },
-];
-
-function getParams(scopeId: string) {
-  return { params: Number.isInteger(+scopeId) ? { query: { scopeId } } : {} } as any;
-}
-
-const emptyArr: any[] = [];
-
-export default async function Header({ params }: PageProps<'scopeId'>) {
-  const servicesItems = await Promise.all([
-    queryClient.fetchQuery(queryService('news:/categories/scopes', getParams(params.scopeId))),
-    queryClient.fetchQuery(queryService('forum:/categories/scopes', getParams(params.scopeId))),
-  ]).catch(() => []);
-
+export default function Header({ params }: PageProps<'scopeId'>) {
   return (
     <header className="navbar sticky px-12">
       <Link href="/">
@@ -41,9 +16,8 @@ export default async function Header({ params }: PageProps<'scopeId'>) {
         <Link href="/scopes" className="btn btn-link">
           حوزه‌ها
         </Link>
-        {services.map((page, index) => (
-          <ServiceMenu key={page.title} path={page.path} title={page.title} items={servicesItems[index] || emptyArr} />
-        ))}
+        <Services scopeId={params.scopeId} />
+        <ManagementMenu scopeId={+params.scopeId}/>
       </div>
       <AuthDialogController />
     </header>

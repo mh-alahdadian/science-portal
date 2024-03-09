@@ -11,3 +11,7 @@ apis:
     root: ./docs/openapi/forum.json
     x-openapi-ts:
       output: ./src/generated/forum.d.ts
+  library@v1:
+    root: ./docs/openapi/library.json
+    x-openapi-ts:
+      output: ./src/generated/library.d.ts

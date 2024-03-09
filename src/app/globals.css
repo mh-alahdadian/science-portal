@@ -12,6 +12,10 @@ svg {
 }
 
 @layer components {
+  .modal-backdrop {
+    opacity: 0.3;
+  }
+
   .btn.btn-transparent {
     background: transparent;
     border: none;
