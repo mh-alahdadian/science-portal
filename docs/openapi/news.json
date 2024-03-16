@@ -6,7 +6,7 @@
     },
     "servers": [
         {
-            "url": "http://192.168.59.20:8484",
+            "url": "http://localhost:8484/news/api",
             "description": "Generated server url"
         }
     ],
@@ -52,12 +52,12 @@
                 }
             }
         },
-        "/posts": {
+        "/v1/posts": {
             "get": {
                 "tags": [
                     "post-controller"
                 ],
-                "operationId": "getPosts",
+                "operationId": "getPosts_1",
                 "parameters": [
                     {
                         "name": "searchDTO",
@@ -118,7 +118,7 @@
                 }
             }
         },
-        "/posts/{postId}/state/{stateId}": {
+        "/v1/posts/{postId}/state/{stateId}": {
             "post": {
                 "tags": [
                     "post-controller"
@@ -158,7 +158,7 @@
                 }
             }
         },
-        "/posts/{postId}/confirmation": {
+        "/v1/posts/{postId}/confirmation": {
             "post": {
                 "tags": [
                     "post-controller"
@@ -250,12 +250,81 @@
                 }
             }
         },
-        "/posts/{postId}": {
+        "/v1/public/posts": {
+            "get": {
+                "tags": [
+                    "public-post-controller"
+                ],
+                "operationId": "getPosts",
+                "parameters": [
+                    {
+                        "name": "searchDTO",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/PostSearchDTO"
+                        }
+                    },
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PagePostDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/public/posts/{postId}": {
+            "get": {
+                "tags": [
+                    "public-post-controller"
+                ],
+                "operationId": "getPost",
+                "parameters": [
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PostDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/posts/{postId}": {
             "get": {
                 "tags": [
                     "post-controller"
                 ],
-                "operationId": "getPost",
+                "operationId": "getPost_1",
                 "parameters": [
                     {
                         "name": "postId",
@@ -344,6 +413,33 @@
                     }
                 }
             },
+            "CommentStats": {
+                "type": "object",
+                "properties": {
+                    "count": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "FeedbackStatsDTO": {
+                "type": "object",
+                "properties": {
+                    "modelId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "comment": {
+                        "$ref": "#/components/schemas/CommentStats"
+                    },
+                    "reaction": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ReactionResponseDTO"
+                        }
+                    }
+                }
+            },
             "PostDTO": {
                 "type": "object",
                 "properties": {
@@ -352,6 +448,9 @@
                         "format": "int64"
                     },
                     "title": {
+                        "type": "string"
+                    },
+                    "coverImage": {
                         "type": "string"
                     },
                     "content": {
@@ -370,6 +469,28 @@
                     "categoryId": {
                         "type": "integer",
                         "format": "int32"
+                    },
+                    "isPublic": {
+                        "type": "boolean"
+                    },
+                    "feedbackStats": {
+                        "$ref": "#/components/schemas/FeedbackStatsDTO"
+                    }
+                }
+            },
+            "ReactionResponseDTO": {
+                "type": "object",
+                "properties": {
+                    "reactionTypeId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "reactionType": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "format": "int64"
                     }
                 }
             },
@@ -428,18 +549,6 @@
                         "type": "integer",
                         "format": "int64"
                     },
-                    "pageable": {
-                        "$ref": "#/components/schemas/PageableObject"
-                    },
-                    "first": {
-                        "type": "boolean"
-                    },
-                    "last": {
-                        "type": "boolean"
-                    },
-                    "sort": {
-                        "$ref": "#/components/schemas/SortObject"
-                    },
                     "size": {
                         "type": "integer",
                         "format": "int32"
@@ -454,9 +563,21 @@
                         "type": "integer",
                         "format": "int32"
                     },
+                    "sort": {
+                        "$ref": "#/components/schemas/SortObject"
+                    },
+                    "pageable": {
+                        "$ref": "#/components/schemas/PageableObject"
+                    },
                     "numberOfElements": {
                         "type": "integer",
                         "format": "int32"
+                    },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
                     },
                     "empty": {
                         "type": "boolean"
@@ -466,6 +587,13 @@
             "PageableObject": {
                 "type": "object",
                 "properties": {
+                    "offset": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "sort": {
+                        "$ref": "#/components/schemas/SortObject"
+                    },
                     "pageNumber": {
                         "type": "integer",
                         "format": "int32"
@@ -473,13 +601,6 @@
                     "pageSize": {
                         "type": "integer",
                         "format": "int32"
-                    },
-                    "sort": {
-                        "$ref": "#/components/schemas/SortObject"
-                    },
-                    "offset": {
-                        "type": "integer",
-                        "format": "int64"
                     },
                     "paged": {
                         "type": "boolean"
@@ -492,10 +613,10 @@
             "SortObject": {
                 "type": "object",
                 "properties": {
-                    "sorted": {
+                    "empty": {
                         "type": "boolean"
                     },
-                    "empty": {
+                    "sorted": {
                         "type": "boolean"
                     },
                     "unsorted": {

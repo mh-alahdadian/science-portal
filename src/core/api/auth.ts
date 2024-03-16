@@ -37,7 +37,9 @@ if (!isServer) {
       !refreshingTokenPromise &&
       Date.now() > expTime - config.expDelaySec * 1000
     ) {
-      refreshingTokenPromise = mutateService('post', 'core:/auth/refresh-token').mutationFn!({ body: { refreshToken } })
+      refreshingTokenPromise = mutateService('post', 'core:/v1/auth/refresh-token').mutationFn!({
+        params: { query: { refreshToken } },
+      })
         .then(setToken, errorHandler)
         .finally(() => {
           refreshingTokenPromise = undefined;

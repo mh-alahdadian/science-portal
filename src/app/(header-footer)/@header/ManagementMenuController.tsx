@@ -5,7 +5,7 @@ import { useProfile } from '@/hooks';
 import { getScopeUrl } from '@/utils/scope';
 import Link from 'next/link';
 
-function hasManagementPermission(profile: Schema<'User'>, scopeId: number) {
+function hasManagementPermission(profile: Schema<'UserInfoDTO'>, scopeId: number) {
   return profile.roles?.some(
     (r) => (r as any).scopeId === +scopeId || r.authorities!.includes('OP_USER_BLOCK_AND_UNBLOCK'),
   );

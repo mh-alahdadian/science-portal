@@ -17,7 +17,7 @@ export function useCurrentScope() {
   const { scopeId } = useParams();
   const enabled = !!scopeId && Number.isInteger(+scopeId);
   const { data } = useQuery({
-    ...queryService('core:/admin/scopes/{scopeId}', { params: { path: { scopeId: +scopeId } } }),
+    ...queryService('core:/v1/scopes/{scopeId}', { params: { path: { scopeId: +scopeId } } }),
     ...{ suspense: true },
     enabled,
   });

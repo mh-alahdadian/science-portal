@@ -6,7 +6,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 export default function News() {
-  let { data: posts } = useSuspenseQuery(queryService('news:/posts', { params: { query: { searchDTO: {} } } }));
+  let { data: posts } = useSuspenseQuery(queryService('news:/v1/posts', { params: { query: { searchDTO: {} } } }));
 
   const content: (Schema<'PostDTO'> & { banner: string; scopeId: number })[] = posts.content?.length
     ? (posts.content as any)

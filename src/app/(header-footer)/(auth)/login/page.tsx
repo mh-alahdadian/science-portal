@@ -19,9 +19,11 @@ export default function LoginDialog(props: PageProps) {
 
   const { control, formState, handleSubmit, register } = useForm<FormData>({});
 
-  const { mutate: requestVerifyCodeMutate } = useMutation(mutateService('post', 'core:/auth/verify-code'));
+  const { mutate: requestVerifyCodeMutate } = useMutation(
+    mutateService('post', 'core:/v1/auth/login/send-verify-code'),
+  );
   const { mutate: loginMutate } = useMutation(
-    mutateService('post', isOtpMode ? 'core:/auth/login/verify-code' : 'core:/auth/login/password'),
+    mutateService('post', isOtpMode ? 'core:/v1/auth/login/verify-code' : 'core:/v1/auth/login/password'),
   );
 
   const toggleMethod = () => {
@@ -30,7 +32,7 @@ export default function LoginDialog(props: PageProps) {
 
   const handleLogin = handleSubmit((data) => {
     loginMutate(
-      { body: data as any },
+      { body: data },
       {
         onSuccess() {
           toast.success('با موفقیت وارد شدید.');
@@ -40,7 +42,7 @@ export default function LoginDialog(props: PageProps) {
   });
 
   const requestVerifyCode = handleSubmit((data) => {
-    requestVerifyCodeMutate({ body: { username: data.username } });
+    requestVerifyCodeMutate({ params: { query: { username: data.username } } });
   });
 
   const endAdornment = (

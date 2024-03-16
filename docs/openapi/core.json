@@ -6,98 +6,30 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8181",
+            "url": "http://localhost:8181/core/api",
             "description": "Generated server url"
         }
     ],
     "tags": [
         {
-            "name": "User",
-            "description": "The User API. Contains get and update user profile info."
+            "name": "Role_management",
+            "description": "API for managing roles and their authorities"
+        },
+        {
+            "name": "User_management",
+            "description": "API for managing users and their roles"
+        },
+        {
+            "name": "Scope_management",
+            "description": "API for managing scopes"
+        },
+        {
+            "name": "Authentication_management",
+            "description": "APIs for user authentication and authorization"
         }
     ],
     "paths": {
-        "/users/{userId}": {
-            "get": {
-                "tags": [
-                    "manager-controller"
-                ],
-                "operationId": "getUserInfo",
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "manager-controller"
-                ],
-                "operationId": "updateUserInfo",
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UserInfoDTO"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            }
-        },
-        "/user/profile": {
+        "/v1/users/profile": {
             "get": {
                 "tags": [
                     "User"
@@ -157,11 +89,13 @@
                 ]
             }
         },
-        "/admin/scopes/{scopeId}": {
+        "/v1/scopes/{scopeId}": {
             "get": {
                 "tags": [
-                    "scope-controller"
+                    "Scope_management"
                 ],
+                "summary": "Get a scope by ID",
+                "description": "Retrieve a specific scope by its ID.",
                 "operationId": "getScope",
                 "parameters": [
                     {
@@ -194,8 +128,10 @@
             },
             "put": {
                 "tags": [
-                    "scope-controller"
+                    "Scope_management"
                 ],
+                "summary": "Update a scope",
+                "description": "Update the details of an existing scope.",
                 "operationId": "updateScope",
                 "parameters": [
                     {
@@ -237,12 +173,312 @@
                 ]
             }
         },
-        "/users/{userId}/roles": {
+        "/v1/roles/{roleId}": {
+            "get": {
+                "tags": [
+                    "Role_management"
+                ],
+                "summary": "Get a role by ID",
+                "description": "Retrieve a specific role by its ID.",
+                "operationId": "getRole",
+                "parameters": [
+                    {
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Role_management"
+                ],
+                "summary": "Update a role",
+                "description": "Update the details of an existing role.",
+                "operationId": "updateRole",
+                "parameters": [
+                    {
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RoleRequestDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/v1/manager/users/{userId}": {
+            "get": {
+                "tags": [
+                    "User_management"
+                ],
+                "summary": "Get user info",
+                "description": "Retrieve information about a specific user by ID.",
+                "operationId": "getUserInfo",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserInfoDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "User_management"
+                ],
+                "summary": "Update user info",
+                "description": "Update the profile information of a specific user.",
+                "operationId": "updateUserInfo",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserInfoDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/v1/scopes": {
+            "get": {
+                "tags": [
+                    "Scope_management"
+                ],
+                "summary": "Get all scopes",
+                "description": "Retrieve a list of all scopes available in the system.",
+                "operationId": "getScopes",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ScopeDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            },
             "post": {
                 "tags": [
-                    "manager-controller"
+                    "Scope_management"
                 ],
+                "summary": "Create a new scope",
+                "description": "Create a new scope with the provided details.",
+                "operationId": "setScope",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ScopeDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ScopeDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/v1/roles": {
+            "get": {
+                "tags": [
+                    "Role_management"
+                ],
+                "summary": "Get all roles",
+                "description": "Retrieve a list of all roles in the system.",
+                "operationId": "getRoleList",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RoleResponseDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Role_management"
+                ],
+                "summary": "Add a new role",
+                "description": "Create a new role with the provided details.",
                 "operationId": "addRole",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RoleRequestDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/v1/manager/users/{userId}/roles": {
+            "post": {
+                "tags": [
+                    "User_management"
+                ],
+                "summary": "Add roles to user",
+                "description": "Assign roles to a specific user.",
+                "operationId": "addRole_1",
                 "parameters": [
                     {
                         "name": "userId",
@@ -285,55 +521,13 @@
                 ]
             }
         },
-        "/users/{userId}/change-password": {
+        "/v1/manager/users/{userId}/block-unblock": {
             "post": {
                 "tags": [
-                    "manager-controller"
+                    "User_management"
                 ],
-                "operationId": "changeUserPassword",
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    },
-                    {
-                        "name": "newPassword",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            }
-        },
-        "/users/{userId}/block-unblock": {
-            "post": {
-                "tags": [
-                    "manager-controller"
-                ],
+                "summary": "Block/Unblock user",
+                "description": "Toggle the block status of a user.",
                 "operationId": "blockAndUnblockUser",
                 "parameters": [
                     {
@@ -365,18 +559,18 @@
                 ]
             }
         },
-        "/user/verify-email": {
+        "/v1/auth/register": {
             "post": {
                 "tags": [
-                    "User"
+                    "Authentication_management"
                 ],
-                "summary": "verification email address",
-                "operationId": "verifyEmail",
+                "summary": "register user",
+                "operationId": "registerUSer",
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/VerificationDTO"
+                                "$ref": "#/components/schemas/RegisterRequestDTO"
                             }
                         }
                     },
@@ -388,49 +582,18 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/JwtResponseDTO"
                                 }
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             }
         },
-        "/user/request-verify-email": {
+        "/v1/auth/register/send-verify-code/{phoneNumber}": {
             "post": {
                 "tags": [
-                    "User"
-                ],
-                "summary": "send verify code to email address",
-                "operationId": "verifyEmail_1",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ResponseDTO"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            }
-        },
-        "/auth/verify-phone-number/{phoneNumber}": {
-            "post": {
-                "tags": [
-                    "auth-controller"
+                    "Authentication_management"
                 ],
                 "summary": "create verify code to verification phone number",
                 "operationId": "verifyPhoneNumber",
@@ -458,85 +621,24 @@
                 }
             }
         },
-        "/auth/verify-code": {
+        "/v1/auth/refresh-token": {
             "post": {
                 "tags": [
-                    "auth-controller"
+                    "Authentication_management"
                 ],
-                "summary": "send verify code",
-                "operationId": "changeLoginMethod",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/LoginRequestDTO"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ResponseDTO"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/register": {
-            "post": {
-                "tags": [
-                    "auth-controller"
-                ],
-                "summary": "register user",
-                "operationId": "registerUSer",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RegisterRequestDTO"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/auth/refresh-token": {
-            "post": {
-                "tags": [
-                    "auth-controller"
-                ],
-                "summary": "generate new jwt token by refresh token",
+                "summary": "Generate new JWT token by refresh token",
+                "description": "Refresh the JWT token using a valid refresh token.",
                 "operationId": "refreshToken",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TokenRefreshRequestDTO"
-                            }
+                "parameters": [
+                    {
+                        "name": "refreshToken",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
-                    },
-                    "required": true
-                },
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -551,10 +653,10 @@
                 }
             }
         },
-        "/auth/new-password": {
+        "/v1/auth/new-password": {
             "post": {
                 "tags": [
-                    "auth-controller"
+                    "Authentication_management"
                 ],
                 "summary": "set new password",
                 "operationId": "changePassword",
@@ -582,10 +684,10 @@
                 }
             }
         },
-        "/auth/login/verify-code": {
+        "/v1/auth/login/verify-code": {
             "post": {
                 "tags": [
-                    "auth-controller"
+                    "Authentication_management"
                 ],
                 "summary": "login user by verify code",
                 "operationId": "loginByVerifyCode",
@@ -613,12 +715,44 @@
                 }
             }
         },
-        "/auth/login/password": {
+        "/v1/auth/login/send-verify-code": {
             "post": {
                 "tags": [
-                    "auth-controller"
+                    "Authentication_management"
                 ],
-                "summary": "login user by password",
+                "summary": "send verify code",
+                "operationId": "changeLoginMethod",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/auth/login/password": {
+            "post": {
+                "tags": [
+                    "Authentication_management"
+                ],
+                "summary": "Login user by password",
+                "description": "Authenticate a user by their username and password.",
                 "operationId": "loginByPassword",
                 "requestBody": {
                     "content": {
@@ -644,23 +778,23 @@
                 }
             }
         },
-        "/auth/forget-password": {
+        "/v1/auth/forget-password/send-verify-code": {
             "post": {
                 "tags": [
-                    "auth-controller"
+                    "Authentication_management"
                 ],
                 "summary": "create verify code to forget password",
                 "operationId": "forgetPassword",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/LoginRequestDTO"
-                            }
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
                         }
-                    },
-                    "required": true
-                },
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -675,120 +809,23 @@
                 }
             }
         },
-        "/admin/scopes": {
+        "/v1/manager/users": {
             "get": {
                 "tags": [
-                    "scope-controller"
+                    "User_management"
                 ],
-                "operationId": "getScopes",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/ScopeDTO"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "scope-controller"
-                ],
-                "operationId": "setScope",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/ScopeDTO"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ScopeDTO"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            }
-        },
-        "/user/change-phone-number/{phoneNumber}": {
-            "patch": {
-                "tags": [
-                    "User"
-                ],
-                "summary": "verification phone number",
-                "operationId": "verifyPhoneNumber_1",
-                "parameters": [
-                    {
-                        "name": "phoneNumber",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/VerificationDTO"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            }
-        },
-        "/users": {
-            "get": {
-                "tags": [
-                    "manager-controller"
-                ],
+                "summary": "Get user list",
+                "description": "Retrieve a list of users with optional search criteria.",
                 "operationId": "getUserList",
                 "parameters": [
+                    {
+                        "name": "searchDTO",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/UserSearchDTO"
+                        }
+                    },
                     {
                         "name": "pageable",
                         "in": "query",
@@ -816,34 +853,6 @@
                     }
                 ]
             }
-        },
-        "/users/roles": {
-            "get": {
-                "tags": [
-                    "manager-controller"
-                ],
-                "operationId": "getRoleList",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Role"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            }
         }
     },
     "components": {
@@ -858,6 +867,18 @@
                     "title": {
                         "type": "string"
                     },
+                    "authorityLevel": {
+                        "type": "string",
+                        "enum": [
+                            "PUBLIC",
+                            "SCOPE",
+                            "GENERAL"
+                        ]
+                    },
+                    "scopeId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
                     "description": {
                         "type": "string"
                     },
@@ -869,9 +890,8 @@
                                 "OP_USER_REPORT",
                                 "OP_USER_BLOCK_AND_UNBLOCK",
                                 "OP_UPDATE_USER_INFO",
-                                "OP_CHANGE_USER_PASS",
                                 "OP_ADD_USER_ROLE",
-                                "OP_ACCESS_USER"
+                                "OP_ROLE_CONFIGURATION"
                             ]
                         }
                     }
@@ -888,15 +908,19 @@
                         "type": "integer",
                         "format": "int64"
                     },
-                    "username": {
-                        "type": "string",
-                        "readOnly": true
-                    },
                     "firstName": {
                         "type": "string"
                     },
                     "lastName": {
                         "type": "string"
+                    },
+                    "coverImage": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "coverImageUUID": {
+                        "type": "string",
+                        "writeOnly": true
                     },
                     "birthDay": {
                         "pattern": "1[3-4][0-9]{2}-[0-1][0-9]-[0-3][0-9]",
@@ -953,6 +977,14 @@
                         "type": "integer",
                         "format": "int64"
                     },
+                    "coverImageUUID": {
+                        "type": "string",
+                        "writeOnly": true
+                    },
+                    "coverImage": {
+                        "type": "string",
+                        "readOnly": true
+                    },
                     "title": {
                         "type": "string"
                     },
@@ -961,15 +993,37 @@
                     }
                 }
             },
-            "VerificationDTO": {
-                "required": [
-                    "verifyCode"
-                ],
+            "RoleRequestDTO": {
                 "type": "object",
                 "properties": {
-                    "verifyCode": {
+                    "id": {
                         "type": "integer",
                         "format": "int32"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "authorityLevel": {
+                        "type": "string",
+                        "enum": [
+                            "PUBLIC",
+                            "SCOPE",
+                            "GENERAL"
+                        ]
+                    },
+                    "scopeId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "authorities": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
                     }
                 }
             },
@@ -981,17 +1035,6 @@
                         "format": "int32"
                     },
                     "message": {
-                        "type": "string"
-                    }
-                }
-            },
-            "LoginRequestDTO": {
-                "required": [
-                    "username"
-                ],
-                "type": "object",
-                "properties": {
-                    "username": {
                         "type": "string"
                     }
                 }
@@ -1021,17 +1064,6 @@
                         "minLength": 4,
                         "type": "string",
                         "writeOnly": true
-                    }
-                }
-            },
-            "TokenRefreshRequestDTO": {
-                "required": [
-                    "refreshToken"
-                ],
-                "type": "object",
-                "properties": {
-                    "refreshToken": {
-                        "type": "string"
                     }
                 }
             },
@@ -1111,6 +1143,88 @@
                     }
                 }
             },
+            "AuthorityDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RoleResponseDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "authorityLevel": {
+                        "type": "string",
+                        "enum": [
+                            "PUBLIC",
+                            "SCOPE",
+                            "GENERAL"
+                        ]
+                    },
+                    "scopeId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "authorities": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AuthorityDTO"
+                        }
+                    }
+                }
+            },
+            "UserSearchDTO": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "isVerifyEmail": {
+                        "type": "boolean"
+                    },
+                    "phoneNumber": {
+                        "type": "string"
+                    },
+                    "education": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "enable": {
+                        "type": "boolean"
+                    },
+                    "roleId": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            },
             "Pageable": {
                 "type": "object",
                 "properties": {
@@ -1135,13 +1249,13 @@
             "PageUserInfoDTO": {
                 "type": "object",
                 "properties": {
-                    "totalPages": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "totalElements": {
                         "type": "integer",
                         "format": "int64"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
                     },
                     "size": {
                         "type": "integer",
@@ -1163,15 +1277,15 @@
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
-                    "numberOfElements": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "first": {
                         "type": "boolean"
                     },
                     "last": {
                         "type": "boolean"
+                    },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
                     },
                     "empty": {
                         "type": "boolean"
@@ -1214,64 +1328,6 @@
                         "type": "boolean"
                     },
                     "unsorted": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "User": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "username": {
-                        "type": "string"
-                    },
-                    "password": {
-                        "type": "string"
-                    },
-                    "firstName": {
-                        "type": "string"
-                    },
-                    "lastName": {
-                        "type": "string"
-                    },
-                    "birthDay": {
-                        "type": "string"
-                    },
-                    "email": {
-                        "type": "string"
-                    },
-                    "phoneNumber": {
-                        "type": "string"
-                    },
-                    "job": {
-                        "type": "string"
-                    },
-                    "education": {
-                        "type": "string",
-                        "enum": [
-                            "SCHOOL",
-                            "DIPLOMA",
-                            "BACHELOR",
-                            "MASTER",
-                            "PH"
-                        ]
-                    },
-                    "orientation": {
-                        "type": "string"
-                    },
-                    "enable": {
-                        "type": "boolean"
-                    },
-                    "roles": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/Role"
-                        }
-                    },
-                    "verifyEmail": {
                         "type": "boolean"
                     }
                 }
