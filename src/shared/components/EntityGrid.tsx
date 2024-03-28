@@ -1,8 +1,9 @@
+import { useThemeName } from '@/utils/scope';
 import { GridOptions } from 'ag-grid-community';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-quartz.css';
+// import 'ag-grid-enterprise';
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react';
-import { useParams } from 'next/navigation';
 
 const autoSizeStrategy: GridOptions['autoSizeStrategy'] = {
   type: 'fitGridWidth',
@@ -16,10 +17,21 @@ const autoSizeStrategy: GridOptions['autoSizeStrategy'] = {
 };
 
 export function DataGrid(props: AgGridReactProps) {
-  const params = useParams();
-  const myTheme = params.scopeId ? 'ag-theme-quartz-dark' : 'ag-theme-quartz';
+  const myTheme = {
+    light: 'ag-theme-quartz',
+    dark: 'ag-theme-quartz-dark',
+  }[useThemeName()];
 
   return (
-    <AgGridReact editType="fullRow" enableRtl autoSizeStrategy={autoSizeStrategy} className={'ag-theme-quartz-dark'} {...props} />
+    <AgGridReact
+      editType="fullRow"
+      // rowModelType="serverSide"
+      enableRtl
+      suppressRowVirtualisation
+      suppressColumnVirtualisation
+      autoSizeStrategy={autoSizeStrategy}
+      className={myTheme}
+      {...props}
+    />
   );
 }
