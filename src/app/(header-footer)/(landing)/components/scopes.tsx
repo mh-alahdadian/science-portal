@@ -30,7 +30,7 @@ function Scope(props: { scope: Schema<'ScopeDTO'> }) {
 }
 
 export default function Scopes() {
-  const { data: scopes } = useSuspenseQuery(queryService('core:/admin/scopes', {}));
+  const { data: scopes } = useSuspenseQuery(queryService('core:/v1/scopes', {}));
   return (
     <div className="flex gap-6">
       {scopes.map((scope) => (

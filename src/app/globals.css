@@ -1,4 +1,4 @@
-@tailwind base;
+@tailwind base; /* we use bootstrap instead */
 @tailwind components;
 @tailwind utilities;
 

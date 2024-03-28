@@ -56,7 +56,7 @@ export async function request(method: Methods, url: string, payload: any) {
 type PathsOf<M> = PathsWith<Paths, M>;
 type RequestData<M extends Methods, P extends PathsOf<M>> = FetchOptions<FilterKeys<Paths[P], M>>;
 type ResponseData<M extends Methods, P extends PathsOf<M>> = NonNullable<
-  FetchResponse<M extends keyof Paths[P] ? Paths[P][keyof Paths[P] & M] : unknown>['data']
+  FetchResponse<Paths[P][keyof Paths[P] & M], null>['data']
 >;
 
 export function queryService<P extends PathsOf<'get'>>(

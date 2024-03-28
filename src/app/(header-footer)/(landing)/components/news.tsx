@@ -6,16 +6,18 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 export default function News() {
-  let { data: posts } = useSuspenseQuery(queryService('news:/posts', { params: { query: { searchDTO: {} } } }));
+  let { data: posts } = useSuspenseQuery(
+    queryService('news:/v1/scope/{scopeId}/posts', { params: { path: { scopeId: 0 }, query: {} as any } }),
+  );
 
-  const content: (Schema<'PostDTO'> & { banner: string; scopeId: number })[] = posts.content?.length
+  const content: (Schema<'PostDTO'> & { scopeId: number })[] = posts.content?.length
     ? (posts.content as any)
     : [
-        { id: '1', title: 'title 1', banner: 'https://api.slingacademy.com/public/sample-photos/1.jpeg' },
-        { id: '2', title: 'title 2', banner: 'https://api.slingacademy.com/public/sample-photos/2.jpeg' },
-        { id: '3', title: 'title 3', banner: 'https://api.slingacademy.com/public/sample-photos/3.jpeg' },
-        { id: '4', title: 'title 4', banner: 'https://api.slingacademy.com/public/sample-photos/4.jpeg' },
-        { id: '5', title: 'title 5', banner: 'https://api.slingacademy.com/public/sample-photos/5.jpeg' },
+        { id: '1', title: 'title 1', coverImage: 'https://api.slingacademy.com/public/sample-photos/1.jpeg' },
+        { id: '2', title: 'title 2', coverImage: 'https://api.slingacademy.com/public/sample-photos/2.jpeg' },
+        { id: '3', title: 'title 3', coverImage: 'https://api.slingacademy.com/public/sample-photos/3.jpeg' },
+        { id: '4', title: 'title 4', coverImage: 'https://api.slingacademy.com/public/sample-photos/4.jpeg' },
+        { id: '5', title: 'title 5', coverImage: 'https://api.slingacademy.com/public/sample-photos/5.jpeg' },
       ];
 
   return (
@@ -23,7 +25,7 @@ export default function News() {
       {content.map((x) => (
         <Link href={`/scope/${x.scopeId || 'general'}/news/${x.id}`} key={x.id} className="card image-full rounded-lg">
           <figure>
-            <img src={x.banner} alt={x.title} />
+            <img src={x.coverImage} alt={x.title} />
           </figure>
           <div className="card-body self-end">
             <p className="card-title">{x.title}</p>

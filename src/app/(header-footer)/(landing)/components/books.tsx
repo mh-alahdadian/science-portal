@@ -7,7 +7,7 @@ import Link from 'next/link';
 const imageUrl = 'https://api.slingacademy.com/public/sample-photos';
 
 export default function Books() {
-  // let { data: posts } = useSuspenseQuery(queryService('library:/posts', { params: { query: { searchDTO: {} } } }));
+  // let { data: posts } = useSuspenseQuery(queryService('library:/v1/books', { params: { query: { searchDTO: {} } } }));
   const books = { content: [] };
 
   const category: Schema<'CategoryDTO'> = { id: 1, title: 'sadasdasd' };

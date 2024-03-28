@@ -71,13 +71,20 @@ function transform(user: User) {
 }
 
 export default function UserManagement({ params }: PageProps<'scopeId' | 'id'>) {
-  const users = useSuspenseQuery(queryService('core:/users', {})).data.content!;
+  const users = useSuspenseQuery(
+    queryService('core:/v1/manager/{page}/users', { params: { path: { page: params.scopeId }, query: {} as any } }),
+  ).data.content!;
 
-  const { mutate: mutateUser } = useMutation(mutateService('put', 'core:/users/{userId}'));
+  const { mutate: mutateUser } = useMutation(mutateService('post', 'core:/v1/manager/{page}/users/{userId}/roles'));
   const handleEdit = (data: User) => {
     if (data?.id) {
       mutateUser(
-        { body: data, params: { path: { userId: data.id } } },
+        {
+          params: {
+            path: { page: params.scopeId, userId: data.id },
+            query: { roleIds: data.roles!.map(prop('id')) as number[] },
+          },
+        },
         {
           onSuccess: () => {
             setEditingUser(null);

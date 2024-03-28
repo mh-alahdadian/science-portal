@@ -12,7 +12,7 @@ const placeholder: Schema<'ScopeDTO'>[] = [
 ];
 
 export default function ScopesPage(props: PageProps) {
-  const { data } = useSuspenseQuery(queryService('core:/admin/scopes', {}));
+  const { data } = useSuspenseQuery(queryService('core:/v1/scopes', {}));
   return (
     <div className="flex flex-col gap-5 w-full">
       Scopes:

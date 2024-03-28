@@ -6,59 +6,32 @@
     },
     "servers": [
         {
-            "url": "http://192.168.59.20:8484",
+            "url": "http://192.168.59.20:8484/news/api",
             "description": "Generated server url"
         }
     ],
+    "tags": [
+        {
+            "name": "category_management",
+            "description": "APIs for managing categories. This includes operations to create, update, and retrieve categories."
+        }
+    ],
     "paths": {
-        "/categories/{categoryId}": {
-            "put": {
-                "tags": [
-                    "category-controller"
-                ],
-                "operationId": "updateCategories",
-                "parameters": [
-                    {
-                        "name": "categoryId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CategoryDTO"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CategoryDTO"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/posts": {
+        "/v1/manager/{page}/posts": {
             "get": {
                 "tags": [
                     "post-controller"
                 ],
-                "operationId": "getPosts",
+                "operationId": "getAllPost",
                 "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "searchDTO",
                         "in": "query",
@@ -93,7 +66,17 @@
                 "tags": [
                     "post-controller"
                 ],
-                "operationId": "setPost",
+                "operationId": "createPost",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -110,7 +93,7 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PostDTO"
+                                    "$ref": "#/components/schemas/ResponseDTO"
                                 }
                             }
                         }
@@ -118,7 +101,7 @@
                 }
             }
         },
-        "/posts/{postId}/state/{stateId}": {
+        "/v1/manager/{page}/posts/{postId}/status": {
             "post": {
                 "tags": [
                     "post-controller"
@@ -126,6 +109,14 @@
                 "operationId": "changeState",
                 "parameters": [
                     {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "postId",
                         "in": "path",
                         "required": true,
@@ -135,12 +126,20 @@
                         }
                     },
                     {
-                        "name": "stateId",
-                        "in": "path",
+                        "name": "statusId",
+                        "in": "query",
+                        "description": "1: DRAFT 2: AWAITING_CONFIRMATION 3: AWAITING_CORRECTION 4: AWAITING_PUBLISHED 5: PUBLISHED 6: UN_PUBLISH",
                         "required": true,
                         "schema": {
                             "type": "integer",
-                            "format": "int32"
+                            "enum": [
+                                "1",
+                                "2",
+                                "3",
+                                "4",
+                                "5",
+                                "6"
+                            ]
                         }
                     }
                 ],
@@ -150,7 +149,7 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "type": "object"
+                                    "$ref": "#/components/schemas/ResponseDTO"
                                 }
                             }
                         }
@@ -158,13 +157,21 @@
                 }
             }
         },
-        "/posts/{postId}/confirmation": {
+        "/v1/manager/{page}/post/{postId}/confirmation": {
             "post": {
                 "tags": [
                     "post-controller"
                 ],
                 "operationId": "confirmationPost",
                 "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "postId",
                         "in": "path",
@@ -191,7 +198,7 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PostDTO"
+                                    "$ref": "#/components/schemas/ResponseDTO"
                                 }
                             }
                         }
@@ -199,33 +206,22 @@
                 }
             }
         },
-        "/categories": {
-            "get": {
-                "tags": [
-                    "category-controller"
-                ],
-                "operationId": "getCategories",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/CategoryDTO"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
+        "/v1/manager/{page}/categories": {
             "post": {
                 "tags": [
-                    "category-controller"
+                    "category_management"
                 ],
                 "operationId": "setCategories",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -250,13 +246,116 @@
                 }
             }
         },
-        "/posts/{postId}": {
+        "/v1/manager/{page}/categories/{categoryId}/enable": {
+            "patch": {
+                "tags": [
+                    "category_management"
+                ],
+                "operationId": "enableOrDisable",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "enable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoryDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/scope/{scopeId}/posts": {
+            "get": {
+                "tags": [
+                    "post-controller"
+                ],
+                "operationId": "getPosts",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "searchDTO",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/PostSearchDTO"
+                        }
+                    },
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PagePostDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/scope/{scopeId}/posts/{postId}": {
             "get": {
                 "tags": [
                     "post-controller"
                 ],
                 "operationId": "getPost",
                 "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
                     {
                         "name": "postId",
                         "in": "path",
@@ -281,20 +380,92 @@
                 }
             }
         },
-        "/categories/scopes": {
+        "/v1/scope/{scopeId}/categories": {
             "get": {
                 "tags": [
-                    "category-controller"
+                    "category_management"
+                ],
+                "operationId": "getCategories",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CategoryDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/manager/{page}/posts/{postId}": {
+            "get": {
+                "tags": [
+                    "post-controller"
+                ],
+                "operationId": "getPost_1",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PostDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/categories": {
+            "get": {
+                "tags": [
+                    "category_management"
                 ],
                 "operationId": "getCategories_1",
                 "parameters": [
                     {
-                        "name": "scopeId",
+                        "name": "isEnable",
                         "in": "query",
                         "required": false,
                         "schema": {
-                            "type": "integer",
-                            "format": "int32"
+                            "type": "boolean"
                         }
                     }
                 ],
@@ -318,6 +489,114 @@
     },
     "components": {
         "schemas": {
+            "CommentStats": {
+                "type": "object",
+                "properties": {
+                    "count": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "FeedbackStatsDTO": {
+                "type": "object",
+                "properties": {
+                    "modelId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "comment": {
+                        "$ref": "#/components/schemas/CommentStats"
+                    },
+                    "reaction": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ReactionResponseDTO"
+                        }
+                    }
+                }
+            },
+            "PostDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "coverImage": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "statusId": {
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true
+                    },
+                    "userId": {
+                        "type": "integer",
+                        "format": "int64",
+                        "readOnly": true
+                    },
+                    "categoryId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "isPublic": {
+                        "type": "boolean"
+                    },
+                    "publishAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "feedbackStats": {
+                        "$ref": "#/components/schemas/FeedbackStatsDTO"
+                    },
+                    "createAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "updateAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    }
+                }
+            },
+            "ReactionResponseDTO": {
+                "type": "object",
+                "properties": {
+                    "reactionTypeId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "reactionType": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "ResponseDTO": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
             "CategoryDTO": {
                 "type": "object",
                 "properties": {
@@ -344,35 +623,6 @@
                     }
                 }
             },
-            "PostDTO": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "title": {
-                        "type": "string"
-                    },
-                    "content": {
-                        "type": "string"
-                    },
-                    "statusId": {
-                        "type": "integer",
-                        "format": "int32",
-                        "readOnly": true
-                    },
-                    "userId": {
-                        "type": "integer",
-                        "format": "int64",
-                        "readOnly": true
-                    },
-                    "categoryId": {
-                        "type": "integer",
-                        "format": "int32"
-                    }
-                }
-            },
             "PostSearchDTO": {
                 "type": "object",
                 "properties": {
@@ -380,12 +630,9 @@
                         "type": "integer",
                         "format": "int64"
                     },
-                    "categoryIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
+                    "categoryId": {
+                        "type": "integer",
+                        "format": "int32"
                     },
                     "statusId": {
                         "type": "integer",
@@ -393,6 +640,13 @@
                     },
                     "title": {
                         "type": "string"
+                    },
+                    "isPublic": {
+                        "type": "boolean"
+                    },
+                    "scopeId": {
+                        "type": "integer",
+                        "format": "int32"
                     }
                 }
             },
@@ -428,18 +682,6 @@
                         "type": "integer",
                         "format": "int64"
                     },
-                    "pageable": {
-                        "$ref": "#/components/schemas/PageableObject"
-                    },
-                    "first": {
-                        "type": "boolean"
-                    },
-                    "last": {
-                        "type": "boolean"
-                    },
-                    "sort": {
-                        "$ref": "#/components/schemas/SortObject"
-                    },
                     "size": {
                         "type": "integer",
                         "format": "int32"
@@ -454,9 +696,21 @@
                         "type": "integer",
                         "format": "int32"
                     },
+                    "sort": {
+                        "$ref": "#/components/schemas/SortObject"
+                    },
+                    "pageable": {
+                        "$ref": "#/components/schemas/PageableObject"
+                    },
                     "numberOfElements": {
                         "type": "integer",
                         "format": "int32"
+                    },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
                     },
                     "empty": {
                         "type": "boolean"
@@ -466,6 +720,13 @@
             "PageableObject": {
                 "type": "object",
                 "properties": {
+                    "offset": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "sort": {
+                        "$ref": "#/components/schemas/SortObject"
+                    },
                     "pageNumber": {
                         "type": "integer",
                         "format": "int32"
@@ -473,13 +734,6 @@
                     "pageSize": {
                         "type": "integer",
                         "format": "int32"
-                    },
-                    "sort": {
-                        "$ref": "#/components/schemas/SortObject"
-                    },
-                    "offset": {
-                        "type": "integer",
-                        "format": "int64"
                     },
                     "paged": {
                         "type": "boolean"
@@ -492,10 +746,10 @@
             "SortObject": {
                 "type": "object",
                 "properties": {
-                    "sorted": {
+                    "empty": {
                         "type": "boolean"
                     },
-                    "empty": {
+                    "sorted": {
                         "type": "boolean"
                     },
                     "unsorted": {

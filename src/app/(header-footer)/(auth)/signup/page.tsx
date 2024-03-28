@@ -3,7 +3,6 @@
 import { mutateService } from '@/api';
 import { TextField } from '@/components';
 import { useMutation } from '@tanstack/react-query';
-// import { useRouter } from 'next/navigation'
 import Link from 'next/link';
 import Router from 'next/router';
 import { useState } from 'react';
@@ -16,7 +15,7 @@ export default function SignupDialog(props: PageProps) {
   const [showPassword, setShowPassword] = useState(false);
   const { control, formState, handleSubmit, register } = useForm<FormData>({});
 
-  const { mutate: registerMutate } = useMutation(mutateService('post', 'core:/auth/register'));
+  const { mutate: registerMutate } = useMutation(mutateService('post', 'core:/v1/auth/register'));
 
   const handleSignup = handleSubmit((data) => {
     registerMutate(
