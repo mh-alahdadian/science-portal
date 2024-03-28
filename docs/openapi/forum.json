@@ -6,52 +6,32 @@
     },
     "servers": [
         {
-            "url": "http://localhost:8585/forum/api",
+            "url": "http://192.168.59.20:8585/forum/api",
             "description": "Generated server url"
         }
     ],
+    "tags": [
+        {
+            "name": "category_management",
+            "description": "APIs for managing categories. This includes operations to create, update, and retrieve categories."
+        }
+    ],
     "paths": {
-        "/topic/{topicId}": {
-            "get": {
-                "tags": [
-                    "topic-controller"
-                ],
-                "operationId": "getTopics_1",
-                "parameters": [
-                    {
-                        "name": "topicId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TopicDTO"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            },
+        "/v1/manager/{page}/topics/{topicId}": {
             "put": {
                 "tags": [
                     "topic-controller"
                 ],
-                "operationId": "getTopicByScopeId",
+                "operationId": "updateTopic",
                 "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "topicId",
                         "in": "path",
@@ -66,7 +46,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/TopicDTO"
+                                "$ref": "#/components/schemas/TopicRequestDTO"
                             }
                         }
                     },
@@ -78,7 +58,7 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/TopicDTO"
+                                    "$ref": "#/components/schemas/ResponseDTO"
                                 }
                             }
                         }
@@ -91,15 +71,15 @@
                 ]
             }
         },
-        "/categories/{categoryId}": {
-            "put": {
+        "/v1/scope/{scopeId}/topic/posts": {
+            "post": {
                 "tags": [
-                    "category-controller"
+                    "post-controller"
                 ],
-                "operationId": "updateCategory",
+                "operationId": "setPublicPost",
                 "parameters": [
                     {
-                        "name": "categoryId",
+                        "name": "scopeId",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -112,7 +92,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/CategoryDTO"
+                                "$ref": "#/components/schemas/PostDTO"
                             }
                         }
                     },
@@ -124,21 +104,34 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/CategoryDTO"
+                                    "$ref": "#/components/schemas/ResponseDTO"
                                 }
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
             }
         },
-        "/topic": {
+        "/v1/manager/{page}/topics": {
             "get": {
                 "tags": [
                     "topic-controller"
                 ],
-                "operationId": "getTopics",
+                "operationId": "getTopics_1",
                 "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
                     {
                         "name": "searchDTO",
                         "in": "query",
@@ -162,7 +155,7 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PageTopicDTO"
+                                    "$ref": "#/components/schemas/PageTopicResponseDTO"
                                 }
                             }
                         }
@@ -178,12 +171,22 @@
                 "tags": [
                     "topic-controller"
                 ],
-                "operationId": "getTopicByScopeId_1",
+                "operationId": "createTopic",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/TopicDTO"
+                                "$ref": "#/components/schemas/TopicRequestDTO"
                             }
                         }
                     },
@@ -195,7 +198,7 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/TopicDTO"
+                                    "$ref": "#/components/schemas/ResponseDTO"
                                 }
                             }
                         }
@@ -208,53 +211,27 @@
                 ]
             }
         },
-        "/posts": {
-            "get": {
-                "tags": [
-                    "post-controller"
-                ],
-                "operationId": "getAll",
-                "parameters": [
-                    {
-                        "name": "searchDTO",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/PostSearchDTO"
-                        }
-                    },
-                    {
-                        "name": "pageable",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/components/schemas/Pageable"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PagePostDTO"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
+        "/v1/manager/{page}/tags": {
             "post": {
                 "tags": [
-                    "post-controller"
+                    "tag-controller"
                 ],
-                "operationId": "setPost",
+                "operationId": "createTag",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/PostDTO"
+                                "$ref": "#/components/schemas/TagEntity"
                             }
                         }
                     },
@@ -266,41 +243,35 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PostDTO"
+                                    "$ref": "#/components/schemas/TagEntity"
                                 }
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
             }
         },
-        "/categories": {
-            "get": {
-                "tags": [
-                    "category-controller"
-                ],
-                "operationId": "getCategories",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/CategoryDTO"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
+        "/v1/manager/{page}/categories": {
             "post": {
                 "tags": [
-                    "category-controller"
+                    "category_management"
                 ],
                 "operationId": "setCategories",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -322,16 +293,214 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
             }
         },
-        "/posts/{topicId}": {
-            "get": {
+        "/v1/manager/{page}/topic/posts/{postId}/publish": {
+            "patch": {
                 "tags": [
                     "post-controller"
                 ],
-                "operationId": "getAllByTopicId",
+                "operationId": "getPost",
                 "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "postId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "isPublish",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/v1/manager/{page}/categories/{categoryId}/enable": {
+            "patch": {
+                "tags": [
+                    "category_management"
+                ],
+                "operationId": "enableOrDisable",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "enable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CategoryDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/v1/tags": {
+            "get": {
+                "tags": [
+                    "tag-controller"
+                ],
+                "operationId": "getTags",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TagEntity"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/v1/scope/{scopeId}/topics": {
+            "get": {
+                "tags": [
+                    "topic-controller"
+                ],
+                "operationId": "getTopics",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "searchDTO",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/TopicSearchDTO"
+                        }
+                    },
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageTopicResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/v1/scope/{scopeId}/topics/{topicId}": {
+            "get": {
+                "tags": [
+                    "topic-controller"
+                ],
+                "operationId": "getTopicById",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
                     {
                         "name": "topicId",
                         "in": "path",
@@ -348,28 +517,83 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/PostDTO"
-                                    }
+                                    "$ref": "#/components/schemas/TopicResponseDTO"
                                 }
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
             }
         },
-        "/categories/scopes": {
+        "/v1/scope/{scopeId}/topic/{topicId}/posts": {
             "get": {
                 "tags": [
-                    "category-controller"
+                    "post-controller"
                 ],
-                "operationId": "getCategories_1",
+                "operationId": "getPublicPost",
                 "parameters": [
                     {
                         "name": "scopeId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "pageable",
                         "in": "query",
-                        "required": false,
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PagePostResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/v1/scope/{scopeId}/categories": {
+            "get": {
+                "tags": [
+                    "category_management"
+                ],
+                "operationId": "getCategories",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "path",
+                        "required": true,
                         "schema": {
                             "type": "integer",
                             "format": "int32"
@@ -390,15 +614,118 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/v1/manager/{page}/topic/{topicId}/posts": {
+            "get": {
+                "tags": [
+                    "post-controller"
+                ],
+                "operationId": "getPost_1",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "isPublish",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PagePostResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/v1/categories": {
+            "get": {
+                "tags": [
+                    "category_management"
+                ],
+                "operationId": "getCategories_1",
+                "parameters": [
+                    {
+                        "name": "isEnable",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CategoryDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
             }
         }
     },
     "components": {
         "schemas": {
-            "TopicDTO": {
+            "TopicRequestDTO": {
                 "required": [
-                    "category",
+                    "categoryId",
                     "enable",
                     "title"
                 ],
@@ -414,38 +741,42 @@
                     "content": {
                         "type": "string"
                     },
-                    "category": {
+                    "categoryId": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int64"
                     },
                     "enable": {
+                        "type": "boolean"
+                    },
+                    "lastActivityDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    "view": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "public": {
                         "type": "boolean"
                     }
                 }
             },
-            "CategoryDTO": {
+            "ResponseDTO": {
                 "type": "object",
                 "properties": {
-                    "id": {
+                    "code": {
                         "type": "integer",
                         "format": "int32"
                     },
-                    "title": {
+                    "message": {
                         "type": "string"
-                    },
-                    "scopeId": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "parentId": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "children": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/CategoryDTO"
-                        }
                     }
                 }
             },
@@ -453,10 +784,6 @@
                 "type": "object",
                 "properties": {
                     "id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "topicId": {
                         "type": "integer",
                         "format": "int64"
                     },
@@ -470,10 +797,72 @@
                         "type": "boolean",
                         "readOnly": true
                     },
+                    "topicId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
                     "userId": {
                         "type": "integer",
                         "format": "int64",
                         "readOnly": true
+                    },
+                    "userName": {
+                        "type": "string",
+                        "readOnly": true
+                    }
+                }
+            },
+            "TagEntity": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CategoryDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "scopeId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "scopeTitle": {
+                        "type": "string"
+                    },
+                    "parentId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CategoryDTO"
+                        }
+                    },
+                    "createAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "updateAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "enable": {
+                        "type": "boolean"
                     }
                 }
             },
@@ -484,18 +873,22 @@
                         "type": "integer",
                         "format": "int64"
                     },
-                    "categoryIds": {
-                        "type": "array",
-                        "items": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
+                    "categoryId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "scopeId": {
+                        "type": "integer",
+                        "format": "int32"
                     },
                     "enable": {
                         "type": "boolean"
                     },
                     "title": {
                         "type": "string"
+                    },
+                    "isPublic": {
+                        "type": "boolean"
                     }
                 }
             },
@@ -520,7 +913,7 @@
                     }
                 }
             },
-            "PageTopicDTO": {
+            "PageTopicResponseDTO": {
                 "type": "object",
                 "properties": {
                     "totalPages": {
@@ -538,7 +931,7 @@
                     "content": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/TopicDTO"
+                            "$ref": "#/components/schemas/TopicResponseDTO"
                         }
                     },
                     "number": {
@@ -606,7 +999,12 @@
                     }
                 }
             },
-            "PostSearchDTO": {
+            "TopicResponseDTO": {
+                "required": [
+                    "categoryId",
+                    "enable",
+                    "title"
+                ],
                 "type": "object",
                 "properties": {
                     "id": {
@@ -616,19 +1014,59 @@
                     "title": {
                         "type": "string"
                     },
-                    "categoryIds": {
+                    "content": {
+                        "type": "string"
+                    },
+                    "categoryId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "enable": {
+                        "type": "boolean"
+                    },
+                    "lastActivityDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "tags": {
                         "type": "array",
                         "items": {
-                            "type": "integer",
-                            "format": "int32"
+                            "$ref": "#/components/schemas/TagEntity"
                         }
                     },
-                    "publish": {
+                    "public": {
                         "type": "boolean"
                     }
                 }
             },
-            "PagePostDTO": {
+            "CommentStats": {
+                "type": "object",
+                "properties": {
+                    "count": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                }
+            },
+            "FeedbackStatsDTO": {
+                "type": "object",
+                "properties": {
+                    "modelId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "comment": {
+                        "$ref": "#/components/schemas/CommentStats"
+                    },
+                    "reaction": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ReactionResponseDTO"
+                        }
+                    }
+                }
+            },
+            "PagePostResponseDTO": {
                 "type": "object",
                 "properties": {
                     "totalPages": {
@@ -646,7 +1084,7 @@
                     "content": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/PostDTO"
+                            "$ref": "#/components/schemas/PostResponseDTO"
                         }
                     },
                     "number": {
@@ -671,6 +1109,61 @@
                     },
                     "empty": {
                         "type": "boolean"
+                    }
+                }
+            },
+            "PostResponseDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "publish": {
+                        "type": "boolean",
+                        "readOnly": true
+                    },
+                    "topicId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "userId": {
+                        "type": "integer",
+                        "format": "int64",
+                        "readOnly": true
+                    },
+                    "userName": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "feedbackStats": {
+                        "$ref": "#/components/schemas/FeedbackStatsDTO"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "ReactionResponseDTO": {
+                "type": "object",
+                "properties": {
+                    "reactionTypeId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "reactionType": {
+                        "type": "string"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "format": "int64"
                     }
                 }
             }
