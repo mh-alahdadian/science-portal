@@ -11,8 +11,8 @@ let refreshingTokenPromise: Promise<void> | undefined;
 let expTime = 1;
 
 const config = {
-  refreshPath: 'core:/auth/refresh-token',
-  loginPath: 'core:/auth/login/',
+  refreshPath: 'core:/v1/auth/refresh-token',
+  loginPath: 'core:/v1/auth/login/password',
   expDelaySec: 10,
 };
 
