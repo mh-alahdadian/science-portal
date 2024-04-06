@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import { ReactNode, SelectHTMLAttributes, forwardRef } from 'react';
+import { FieldWrapper } from './FieldWrapper';
 
 interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
   formControlClassName?: string;
@@ -31,14 +31,7 @@ function SelectField(props: Props, ref: any) {
   } = props;
 
   return (
-    <label className={clsx('form-control w-full', formControlClassName)}>
-      {(label || labelAlt) && (
-        <div className="label pt-0">
-          <span className="label-text">{label}</span>
-          <span className="label-text-alt">{labelAlt}</span>
-        </div>
-      )}
-
+    <FieldWrapper {...{ formControlClassName, label, labelAlt, helperText, helperAltText }}>
       <div className="relative flex items-center">
         <div className="absolute pointer-events-none right-0">{startAdornment}</div>
         <div className="absolute pointer-events-none right-4">{selectProps.placeholder}</div>
@@ -47,15 +40,7 @@ function SelectField(props: Props, ref: any) {
         </select>
         <div className="absolute left-0">{endAdornment}</div>
       </div>
-
-      {(helperText || helperAltText) && (
-        // in design this texts has line-height:18px
-        <div className="label pb-0">
-          <span className="label-text-alt">{helperText}</span>
-          <span className="label-text-alt">{helperAltText}</span>
-        </div>
-      )}
-    </label>
+    </FieldWrapper>
   );
 }
 

@@ -3,11 +3,11 @@
 import { queryService } from '@/api';
 import { DataFilter, DataGrid } from '@/components';
 import { useCurrentScope } from '@/hooks';
+import { Plus } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { GridOptions, ICellRendererParams } from 'ag-grid-community';
 import Link from 'next/link';
 import Community from './assets/Community.svg';
-import { Plus } from '@phosphor-icons/react';
 
 type Topic = Schema<'TopicResponseDTO'>;
 type Options = GridOptions<Topic>;
@@ -52,11 +52,11 @@ const schema = {
   },
 } as const;
 
-export default function Forum({ params }: PageProps<'scopeId' | 'id'>) {
+export default function Forum({ params }: PageProps<'scopeId' | 'categoryId'>) {
   const scope = useCurrentScope();
   const topics = useSuspenseQuery(
     queryService('forum:/v1/scope/{scopeId}/topics', {
-      params: { path: { scopeId: +params.scopeId }, query: {} as any },
+      params: { path: { scopeId: +params.scopeId }, query: {} },
     }),
   ).data.content;
 
@@ -66,17 +66,17 @@ export default function Forum({ params }: PageProps<'scopeId' | 'id'>) {
         <Community />
         <div className="flex flex-col gap-6">
           <p>
-            به فروم {params.id} حوزه {scope.title} خوش آمدید
+            به فروم {params.categoryId} حوزه {scope.title} خوش آمدید
           </p>
           <p>در اینجا شما می‌توانید سوالات و دانش خود را با دیگران به اشتراک بگذارید</p>
         </div>
       </div>
       <div className="flex justify-between mb-2">
         <DataFilter schema={schema} />
-        <button className="btn btn-primary">
+        <Link href={{ pathname: 'topic/new', query: { categoryId: params.categoryId } }} className="btn btn-primary">
           <Plus />
           سوال جدید
-        </button>
+        </Link>
       </div>
       <DataGrid rowHeight={180} suppressMovableColumns rowData={topics} columnDefs={colDefs} />
     </>
