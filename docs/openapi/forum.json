@@ -135,7 +135,6 @@
                     {
                         "name": "searchDTO",
                         "in": "query",
-                        "required": true,
                         "schema": {
                             "$ref": "#/components/schemas/TopicSearchDTO"
                         }
@@ -143,7 +142,6 @@
                     {
                         "name": "pageable",
                         "in": "query",
-                        "required": true,
                         "schema": {
                             "$ref": "#/components/schemas/Pageable"
                         }
@@ -452,7 +450,6 @@
                     {
                         "name": "searchDTO",
                         "in": "query",
-                        "required": true,
                         "schema": {
                             "$ref": "#/components/schemas/TopicSearchDTO"
                         }
@@ -460,7 +457,6 @@
                     {
                         "name": "pageable",
                         "in": "query",
-                        "required": true,
                         "schema": {
                             "$ref": "#/components/schemas/Pageable"
                         }
@@ -558,7 +554,6 @@
                     {
                         "name": "pageable",
                         "in": "query",
-                        "required": true,
                         "schema": {
                             "$ref": "#/components/schemas/Pageable"
                         }
@@ -657,7 +652,6 @@
                     {
                         "name": "pageable",
                         "in": "query",
-                        "required": true,
                         "schema": {
                             "$ref": "#/components/schemas/Pageable"
                         }
