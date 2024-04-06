@@ -7,7 +7,7 @@ import { Plus } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { GridOptions, ICellRendererParams } from 'ag-grid-community';
 import Link from 'next/link';
-import Community from './assets/Community.svg';
+import Community from '../assets/Community.svg';
 
 type Topic = Schema<'TopicResponseDTO'>;
 type Options = GridOptions<Topic>;
