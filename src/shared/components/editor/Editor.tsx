@@ -5,7 +5,7 @@ import { ComponentPropsWithoutRef } from 'react';
 import './editor.css';
 
 interface Props extends Omit<ComponentPropsWithoutRef<typeof CKEditor>, 'editor'> {
-  className: string;
+  className?: string;
 }
 
 export default function Editor(props: Props) {
