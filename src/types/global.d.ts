@@ -10,7 +10,7 @@ type SearchParams<T extends string> = {
 };
 
 interface PageProps<T extends string = never, U extends string = never> {
-  params: { [k in T]: string };
+  params: { [k in T]: k extends `${string}Id` | 'id' ? number : string };
   searchParams: SearchParams<U>;
 }
 

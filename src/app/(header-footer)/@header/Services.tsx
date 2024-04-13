@@ -14,13 +14,13 @@ const services: Page[] = [
   { title: 'گالری', path: 'gallery' },
 ];
 
-function getParams(scopeId: string) {
+function getParams(scopeId: number) {
   return { params: Number.isInteger(+scopeId) ? { query: { scopeId } } : {} } as any;
 }
 
 const emptyArr: any[] = [];
 
-export default async function Services({ scopeId }: { scopeId: string }) {
+export default async function Services({ scopeId }: { scopeId: number }) {
   const servicesItems = await Promise.all([
     queryClient.fetchQuery(queryService('news:/v1/scope/{scopeId}/categories', getParams(scopeId))),
     queryClient.fetchQuery(queryService('forum:/v1/scope/{scopeId}/categories', getParams(scopeId))),

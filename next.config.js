@@ -1,3 +1,5 @@
+const path = require('path')
+
 const isDev = process.env.NODE_ENV !== 'production';
 const serverAddress = 'http://192.168.59.20';
 
@@ -16,6 +18,9 @@ const svgLoaders = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'app')],
+  },
   experimental: {
     turbo: {
       rules: {

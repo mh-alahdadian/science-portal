@@ -1,38 +1,35 @@
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
+import clsx from 'clsx';
+import { ComponentPropsWithoutRef } from 'react';
 import './editor.css';
 
-interface Props {}
+interface Props extends Omit<ComponentPropsWithoutRef<typeof CKEditor>, 'editor'> {
+  className: string;
+}
 
 export default function Editor(props: Props) {
   return (
-    <div className="contents prose">
+    <div className={clsx('contents prose', props.className)}>
       <CKEditor
         config={{
           language: 'fa',
-          // textPartLanguage: [
-          //   { title: 'Arabic', languageCode: 'ar' },
-          //   { title: 'French', languageCode: 'fr' },
-          //   { title: 'Hebrew', languageCode: 'he' },
-          //   { title: 'Spanish', languageCode: 'es' },
-          // ],
+          toolbar: {
+            removeItems: ['heading'],
+          },
         }}
         editor={ClassicEditor}
-        data="<h1>Hello from CKEditor&nbsp;5!</h1> <p>Hello from CKEditor&nbsp;5!</p>"
         onReady={(editor) => {
-          editor.sourceElement!.classList.add('prose');
-          // You can store the "editor" and use when it is needed.
-          console.log('Editor is ready to use!', editor);
+          const {
+            toolbar: { element: toolbarElement },
+            editable: { element: editableElement },
+          } = editor.ui.view;
+          if (props.disabled) {
+            toolbarElement!.style.display = 'none';
+            editableElement!.classList.remove('ck-editor__editable', 'ck-editor__editable_inline');
+          }
         }}
-        onChange={(event) => {
-          console.log(event);
-        }}
-        onBlur={(event, editor) => {
-          console.log('Blur.', editor);
-        }}
-        onFocus={(event, editor) => {
-          console.log('Focus.', editor);
-        }}
+        {...props}
       />
     </div>
   );

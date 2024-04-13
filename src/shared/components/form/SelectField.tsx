@@ -1,7 +1,7 @@
-import { InputHTMLAttributes, ReactNode, forwardRef } from 'react';
+import { ReactNode, SelectHTMLAttributes, forwardRef } from 'react';
 import { FieldWrapper } from './FieldWrapper';
 
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
   formControlClassName?: string;
 
   label?: ReactNode;
@@ -9,32 +9,35 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   helperText?: ReactNode;
   helperAltText?: ReactNode;
 
-  children?: ReactNode;
+  children: ReactNode;
 
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
 }
 
-function TextField(props: Props, ref: any) {
+function SelectField(props: Props, ref: any) {
   const {
     formControlClassName,
+
     label,
     labelAlt,
     helperText,
     helperAltText,
-
     children,
 
     startAdornment,
     endAdornment,
-    ...inputProps
+    ...selectProps
   } = props;
 
   return (
     <FieldWrapper {...{ formControlClassName, label, labelAlt, helperText, helperAltText }}>
       <div className="relative flex items-center">
-        <div className="absolute right-0">{startAdornment}</div>
-        {children || <input ref={ref} {...inputProps} className="input input-bordered w-full" />}
+        <div className="absolute pointer-events-none right-0">{startAdornment}</div>
+        <div className="absolute pointer-events-none right-4">{selectProps.placeholder}</div>
+        <select ref={ref} {...selectProps} className="select select-bordered pr-36 w-full">
+          {children}
+        </select>
         <div className="absolute left-0">{endAdornment}</div>
       </div>
     </FieldWrapper>
@@ -42,5 +45,5 @@ function TextField(props: Props, ref: any) {
 }
 
 // @ts-ignore
-const TextFieldForwardedRef: typeof TextField = forwardRef(TextField);
-export { TextFieldForwardedRef as TextField };
+const SelectFieldForwardedRef: typeof SelectField = forwardRef(SelectField);
+export { SelectFieldForwardedRef as SelectField };
