@@ -1,5 +1,6 @@
 'use client';
 
+import { getScopeUrl } from '@/utils/scope';
 import { css } from '@emotion/react';
 import { BoundingBox, Download } from '@phosphor-icons/react';
 import Link from 'next/link';
@@ -23,11 +24,7 @@ export default function Books() {
   return (
     <div className="flex gap-6" css={styles}>
       {content.map((x) => (
-        <Link
-          href={`/scope/${x.scopeId || 'general'}/library/${x.id}`}
-          key={x.id}
-          className="card card-body gap-4 rounded-lg"
-        >
+        <Link href={`${getScopeUrl(x.scopeId)}/library/${x.id}`} key={x.id} className="card card-body gap-4 rounded-lg">
           <figure>
             <img src={x.banner} alt={x.title} />
           </figure>

@@ -20,7 +20,7 @@ export function ServiceMenu(props: Props) {
   return (
     <div className="dropdown">
       {/*! remove /all when nextjs supported optional slug */}
-      <Link className="btn btn-info btn-link" href={`${prefix}/${props.path}/all`} onMouseOver={open}>
+      <Link className="btn btn-info btn-link" href={`${prefix}/${props.path}`} onMouseOver={open}>
         {props.title}
       </Link>
       <ul className="dropdown-content z-[1] menu">

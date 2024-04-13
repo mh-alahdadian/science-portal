@@ -3,14 +3,14 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 
 const defaultScope: Schema<'ScopeDTO'> = {
-  id: 'general' as any,
+  id: 0,
   title: 'عمومی',
   enable: true,
 };
 
 export function useScopePrefix() {
   const { scopeId } = useParams();
-  return `/scope/${scopeId || 'general'}`;
+  return `/scope/${scopeId || '0'}`;
 }
 
 export function useCurrentScope() {

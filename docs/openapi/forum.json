@@ -169,7 +169,7 @@
                 "tags": [
                     "topic-controller"
                 ],
-                "operationId": "createTopic",
+                "operationId": "createTopic_1",
                 "parameters": [
                     {
                         "name": "page",
@@ -196,7 +196,7 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ResponseDTO"
+                                    "$ref": "#/components/schemas/TopicResponseDTO"
                                 }
                             }
                         }
@@ -469,6 +469,50 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PageTopicResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "topic-controller"
+                ],
+                "operationId": "createTopic",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TopicRequestDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TopicResponseDTO"
                                 }
                             }
                         }
@@ -828,6 +872,9 @@
                     "title": {
                         "type": "string"
                     },
+                    "coverImage": {
+                        "type": "string"
+                    },
                     "scopeId": {
                         "type": "integer",
                         "format": "int32"
@@ -835,12 +882,18 @@
                     "scopeTitle": {
                         "type": "string"
                     },
+                    "topicCount": {
+                        "type": "integer",
+                        "format": "int64",
+                        "readOnly": true
+                    },
                     "parentId": {
                         "type": "integer",
                         "format": "int64"
                     },
                     "children": {
                         "type": "array",
+                        "readOnly": true,
                         "items": {
                             "$ref": "#/components/schemas/CategoryDTO"
                         }
@@ -854,6 +907,9 @@
                         "type": "string",
                         "format": "date-time",
                         "readOnly": true
+                    },
+                    "lastLayer": {
+                        "type": "boolean"
                     },
                     "enable": {
                         "type": "boolean"
@@ -1063,13 +1119,13 @@
             "PagePostResponseDTO": {
                 "type": "object",
                 "properties": {
-                    "totalPages": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "totalElements": {
                         "type": "integer",
                         "format": "int64"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
                     },
                     "size": {
                         "type": "integer",
@@ -1158,6 +1214,9 @@
                     "count": {
                         "type": "integer",
                         "format": "int64"
+                    },
+                    "userReacted": {
+                        "type": "boolean"
                     }
                 }
             }

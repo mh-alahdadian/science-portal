@@ -1,13 +1,16 @@
 // 'use client';
 
-import { queryService } from '@/api';
+import { fileManagerUrl, queryService } from '@/api';
+import { getScopeUrl } from '@/utils/scope';
 import { css } from '@emotion/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 
 export default function News() {
   let { data: posts } = useSuspenseQuery(
-    queryService('news:/v1/scope/{scopeId}/posts', { params: { path: { scopeId: 0 }, query: {} as any } }),
+    queryService('news:/v1/scope/{scopeId}/posts', {
+      params: { path: { scopeId: 0 }, query: { pageable: { size: 5 } } },
+    }),
   );
 
   const content: (Schema<'PostDTO'> & { scopeId: number })[] = posts.content?.length
@@ -23,9 +26,9 @@ export default function News() {
   return (
     <div className="grid gap-6" css={styles}>
       {content.map((x) => (
-        <Link href={`/scope/${x.scopeId || 'general'}/news/${x.id}`} key={x.id} className="card image-full rounded-lg">
+        <Link href={`${getScopeUrl(x.scopeId)}/news/${x.id}`} key={x.id} className="card image-full rounded-lg">
           <figure>
-            <img src={x.coverImage} alt={x.title} />
+            <img src={fileManagerUrl + x.coverImage} alt={x.title} />
           </figure>
           <div className="card-body self-end">
             <p className="card-title">{x.title}</p>

@@ -29,8 +29,8 @@ const schema: JsonSchema = {
 };
 
 const uiSchema: UiSchema<Pick<Topic, 'title' | 'content' | 'tags'>, JsonSchema> = {
-  "ui:submitButtonOptions": {
-    submitText: "ایجاد"
+  'ui:submitButtonOptions': {
+    submitText: 'ایجاد',
   },
   content: {
     'ui:widget': 'editor',
@@ -45,15 +45,14 @@ const uiSchema: UiSchema<Pick<Topic, 'title' | 'content' | 'tags'>, JsonSchema> 
 };
 
 export default function NewTopicPage(props: PageProps<'scopeId', 'categoryId'>) {
-  if (!props.searchParams.categoryId)
-    notFound()
+  if (!props.searchParams.categoryId) notFound();
 
-  const router = useRouter()
+  const router = useRouter();
   const { mutate } = useMutation({
-    ...mutateService('post', 'forum:/v1/manager/{page}/topics'),
+    ...mutateService('post', 'forum:/v1/scope/{scopeId}/topics'),
     onSuccess(data, variables, context) {
       // TODO: use topic.id later
-      router.push('1')
+      router.push('1');
     },
   });
 
@@ -64,7 +63,7 @@ export default function NewTopicPage(props: PageProps<'scopeId', 'categoryId'>) 
         uiSchema={uiSchema}
         onSubmit={({ formData }) =>
           mutate({
-            params: { path: { page: String(props.params.scopeId) } },
+            params: { path: props.params },
             body: { categoryId: +props.searchParams.categoryId, enable: true, ...formData! },
           })
         }

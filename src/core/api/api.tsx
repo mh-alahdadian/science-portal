@@ -32,7 +32,11 @@ type Paths = PathGen<'core:', CorePaths> &
 
 const serverUrl = isServer ? require('src/config').server_url : '/api/';
 
-const api = createClient<Paths>({ baseUrl: serverUrl, cache: 'no-cache' });
+const api = createClient<Paths>({
+  baseUrl: serverUrl,
+  querySerializer: { object: { style: 'form', explode: true } },
+  cache: 'no-cache',
+});
 type Methods = Lowercase<keyof typeof api>;
 
 export async function request(method: Methods, url: string, payload: any) {
