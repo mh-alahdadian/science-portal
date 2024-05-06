@@ -1,7 +1,7 @@
 const path = require('path')
 
 const isDev = process.env.NODE_ENV !== 'production';
-const serverAddress = 'http://192.168.59.20';
+const serverAddress = 'https://cogcenter.ir';
 
 const svgLoaders = [
   {
