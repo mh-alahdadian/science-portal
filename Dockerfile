@@ -1,18 +1,18 @@
 # Builder image
-FROM node:20-alpine AS BUILDER
+FROM docker.arvancloud.ir/node:20-alpine AS BUILDER
 WORKDIR /app
 
 COPY .yarn ./.yarn
 COPY .yarnrc.yml package.json yarn.lock ./
 
-RUN yarn workspaces focus 
+RUN yarn workspaces focus
 
 COPY . .
 
 RUN yarn build
 
 # Final image
-FROM node:20-alpine AS FINAL
+FROM docker.arvancloud.ir/node:20-alpine AS FINAL
 
 WORKDIR /app
 
