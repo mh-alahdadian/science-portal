@@ -72,7 +72,7 @@ function transform(user: User) {
 
 export default function UserManagement({ params }: PageProps<'scopeId' | 'id'>) {
   const users = useSuspenseQuery(
-    queryService('core:/v1/manager/{page}/users', { params: { path: { page: String(params.scopeId) }, query: {} as any } }),
+    queryService('core:/v1/manager/{page}/users', { params: { path: { page: String(params.scopeId) }, query: {} } }),
   ).data.content!;
 
   const { mutate: mutateUser } = useMutation(mutateService('post', 'core:/v1/manager/{page}/users/{userId}/roles'));

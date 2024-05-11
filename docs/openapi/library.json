@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8686/library/api",
+      "url": "http://192.168.59.20:8686/library/api",
       "description": "Generated server url"
     }
   ],
@@ -29,13 +29,21 @@
     }
   ],
   "paths": {
-    "/v1/publishers/{publisherId}": {
+    "/v1/manager/{page}/publishers/{publisherId}": {
       "get": {
         "tags": ["publishers_management"],
         "summary": "Get a publisher by ID",
         "description": "This endpoint is used to retrieve a publisher by its ID.",
-        "operationId": "getPublisher",
+        "operationId": "getPublisher_1",
         "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "publisherId",
             "in": "path",
@@ -71,6 +79,14 @@
         "operationId": "updatePublisher",
         "parameters": [
           {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "publisherId",
             "in": "path",
             "required": true,
@@ -96,7 +112,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/PublisherDTO"
+                  "$ref": "#/components/schemas/ResponseDTO"
                 }
               }
             }
@@ -109,54 +125,21 @@
         ]
       }
     },
-    "/v1/categories/{categoryId}": {
-      "put": {
-        "tags": ["category_management"],
-        "summary": "Update an existing category",
-        "description": "This API is used to update an existing category.",
-        "operationId": "updateCategories",
-        "parameters": [
-          {
-            "name": "categoryId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CategoryDTO"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/CategoryDTO"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/books/{bookId}": {
+    "/v1/manager/{page}/books/{bookId}": {
       "get": {
         "tags": ["book_management"],
         "summary": "Retrieve book",
         "description": "Get a specific book by its ID.",
-        "operationId": "getBook",
+        "operationId": "getBook_1",
         "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "bookId",
             "in": "path",
@@ -192,6 +175,14 @@
         "operationId": "updateBook",
         "parameters": [
           {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "bookId",
             "in": "path",
             "required": true,
@@ -230,11 +221,19 @@
         ]
       }
     },
-    "/v1/authors/{authorId}": {
+    "/v1/manager/{page}/authors/{authorId}": {
       "get": {
         "tags": ["Author_management"],
         "operationId": "getAuthor",
         "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "authorId",
             "in": "path",
@@ -270,6 +269,14 @@
         "operationId": "updateAuthor",
         "parameters": [
           {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "authorId",
             "in": "path",
             "required": true,
@@ -295,7 +302,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthorDTO"
+                  "$ref": "#/components/schemas/ResponseDTO"
                 }
               }
             }
@@ -308,19 +315,33 @@
         ]
       }
     },
-    "/v1/publishers": {
+    "/v1/manager/{page}/publishers": {
       "get": {
         "tags": ["publishers_management"],
         "summary": "Get all publishers",
         "description": "This endpoint is used to retrieve a list of all publishers. An optional 'isEnable' parameter can be provided to filter publishers by their 'isEnable' status.",
-        "operationId": "getPublishers",
+        "operationId": "getPublishers_1",
         "parameters": [
           {
-            "name": "isEnable",
-            "in": "query",
-            "required": false,
+            "name": "page",
+            "in": "path",
+            "required": true,
             "schema": {
-              "type": "boolean"
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchDTO",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/PublisherSearchDTO"
+            }
+          },
+          {
+            "name": "pageable",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
             }
           }
         ],
@@ -330,10 +351,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PublisherDTO"
-                  }
+                  "$ref": "#/components/schemas/PagePublisherDTO"
                 }
               }
             }
@@ -350,6 +368,16 @@
         "summary": "Create a new publisher",
         "description": "This endpoint is used to create a new publisher. The request body must contain all necessary information for the publisher.",
         "operationId": "setPublisher",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -366,7 +394,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/PublisherDTO"
+                  "$ref": "#/components/schemas/ResponseDTO"
                 }
               }
             }
@@ -379,43 +407,20 @@
         ]
       }
     },
-    "/v1/categories": {
-      "get": {
+    "/v1/manager/{page}/categories": {
+      "post": {
         "tags": ["category_management"],
-        "summary": "Get categories",
-        "description": "This endpoint retrieves all categories. If the 'isEnable' parameter is provided, only categories with the matching 'isEnable' status are returned. If 'isEnable' is not provided, all categories are returned regardless of their 'isEnable' status.",
-        "operationId": "getCategories",
+        "operationId": "setCategories",
         "parameters": [
           {
-            "name": "isEnable",
-            "in": "query",
-            "required": false,
+            "name": "page",
+            "in": "path",
+            "required": true,
             "schema": {
-              "type": "boolean"
+              "type": "string"
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CategoryDTO"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": ["category_management"],
-        "summary": "Create a new category",
-        "description": "This API is used to create a new category.",
-        "operationId": "setCategories",
         "requestBody": {
           "content": {
             "application/json": {
@@ -440,17 +445,24 @@
         }
       }
     },
-    "/v1/books": {
+    "/v1/manager/{page}/books": {
       "get": {
         "tags": ["book_management"],
         "summary": "Retrieve books",
         "description": "Retrieves a list of books based on the provided search criteria.",
-        "operationId": "getBooks",
+        "operationId": "getAllBooks",
         "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "searchDTO",
             "in": "query",
-            "required": true,
             "schema": {
               "$ref": "#/components/schemas/BookSearchDTO"
             }
@@ -458,7 +470,6 @@
           {
             "name": "pageable",
             "in": "query",
-            "required": true,
             "schema": {
               "$ref": "#/components/schemas/Pageable"
             }
@@ -484,8 +495,18 @@
       },
       "post": {
         "tags": ["book_management"],
-        "summary": "set a new book",
+        "summary": "set a bookResponseDTOew book",
         "operationId": "setBook",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -515,19 +536,31 @@
         ]
       }
     },
-    "/v1/authors": {
+    "/v1/manager/{page}/authors": {
       "get": {
         "tags": ["Author_management"],
-        "summary": "Get authors",
-        "description": "This endpoint retrieves all authors. If the 'isEnable' parameter is provided, only authors with the matching 'isEnable' status are returned. If 'isEnable' is not provided, all authors are returned regardless of their 'isEnable' status.",
         "operationId": "getAuthors",
         "parameters": [
           {
-            "name": "isEnable",
-            "in": "query",
-            "required": false,
+            "name": "page",
+            "in": "path",
+            "required": true,
             "schema": {
-              "type": "boolean"
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchDTO",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AuthorSearchDTO"
+            }
+          },
+          {
+            "name": "pageable",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
             }
           }
         ],
@@ -537,10 +570,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AuthorDTO"
-                  }
+                  "$ref": "#/components/schemas/PageAuthorDTO"
                 }
               }
             }
@@ -557,6 +587,16 @@
         "summary": "Create a new author",
         "description": "This endpoint is used to create a new author. The request body must contain all necessary information for the author.",
         "operationId": "setAuthor",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -573,7 +613,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthorDTO"
+                  "$ref": "#/components/schemas/ResponseDTO"
                 }
               }
             }
@@ -586,17 +626,60 @@
         ]
       }
     },
-    "/v1/categories/scopes": {
+    "/v1/manager/{page}/categories/{categoryId}/enable": {
+      "patch": {
+        "tags": ["category_management"],
+        "operationId": "enableOrDisable",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "enable",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CategoryDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/scope/{scopeId}/categories": {
       "get": {
         "tags": ["category_management"],
-        "summary": "Retrieve categories by scope ID",
-        "description": "This API is used to retrieve categories by scope ID.",
-        "operationId": "getCategoriesByScopeId",
+        "operationId": "getCategories",
         "parameters": [
           {
             "name": "scopeId",
-            "in": "query",
-            "required": false,
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -618,6 +701,282 @@
             }
           }
         }
+      }
+    },
+    "/v1/scope/{scopeId}/books": {
+      "get": {
+        "tags": ["book_management"],
+        "summary": "Retrieve books",
+        "description": "Retrieves a list of books based on the provided search criteria.",
+        "operationId": "getBooks",
+        "parameters": [
+          {
+            "name": "scopeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "searchDTO",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/BookSearchDTO"
+            }
+          },
+          {
+            "name": "pageable",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageBookResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Authentication": []
+          }
+        ]
+      }
+    },
+    "/v1/scope/{scopeId}/books/{bookId}": {
+      "get": {
+        "tags": ["book_management"],
+        "summary": "Retrieve book",
+        "description": "Get a specific book by its ID.",
+        "operationId": "getBook",
+        "parameters": [
+          {
+            "name": "scopeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "bookId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookResponseDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Authentication": []
+          }
+        ]
+      }
+    },
+    "/v1/publishers": {
+      "get": {
+        "tags": ["publishers_management"],
+        "summary": "Get all publishers",
+        "description": "This endpoint is used to retrieve a list of all publishers. An optional 'isEnable' parameter can be provided to filter publishers by their 'isEnable' status.",
+        "operationId": "getPublishers",
+        "parameters": [
+          {
+            "name": "searchDTO",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/PublisherSearchDTO"
+            }
+          },
+          {
+            "name": "pageable",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagePublisherDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Authentication": []
+          }
+        ]
+      }
+    },
+    "/v1/publishers/{publisherId}": {
+      "get": {
+        "tags": ["publishers_management"],
+        "summary": "Get a publisher by ID",
+        "description": "This endpoint is used to retrieve a publisher by its ID.",
+        "operationId": "getPublisher",
+        "parameters": [
+          {
+            "name": "publisherId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublisherDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Authentication": []
+          }
+        ]
+      }
+    },
+    "/v1/categories": {
+      "get": {
+        "tags": ["category_management"],
+        "operationId": "getCategories_1",
+        "parameters": [
+          {
+            "name": "isEnable",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CategoryDTO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/authors": {
+      "get": {
+        "tags": ["Author_management"],
+        "operationId": "getAuthors_1",
+        "parameters": [
+          {
+            "name": "searchDTO",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AuthorSearchDTO"
+            }
+          },
+          {
+            "name": "pageable",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageAuthorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Authentication": []
+          }
+        ]
+      }
+    },
+    "/v1/authors/{authorId}": {
+      "get": {
+        "tags": ["Author_management"],
+        "operationId": "getAuthor_1",
+        "parameters": [
+          {
+            "name": "authorId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorDTO"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Bearer Authentication": []
+          }
+        ]
       }
     }
   },
@@ -648,45 +1007,15 @@
           }
         }
       },
-      "CategoryDTO": {
+      "ResponseDTO": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "title": {
-            "type": "string"
-          },
-          "scopeId": {
+          "code": {
             "type": "integer",
             "format": "int32"
           },
-          "scopeTitle": {
+          "message": {
             "type": "string"
-          },
-          "parentId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "children": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CategoryDTO"
-            }
-          },
-          "createAt": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
-          },
-          "updateAt": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
-          },
-          "enable": {
-            "type": "boolean"
           }
         }
       },
@@ -727,6 +1056,10 @@
           },
           "categoryId": {
             "type": "integer",
+            "format": "int64"
+          },
+          "scopeId": {
+            "type": "integer",
             "format": "int32"
           },
           "fileUUID": {
@@ -742,18 +1075,6 @@
           },
           "public": {
             "type": "boolean"
-          }
-        }
-      },
-      "ResponseDTO": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
           }
         }
       },
@@ -789,6 +1110,49 @@
             "type": "string",
             "format": "date-time",
             "readOnly": true
+          }
+        }
+      },
+      "CategoryDTO": {
+        "required": ["scopeId", "scopeTitle"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "title": {
+            "type": "string"
+          },
+          "scopeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "scopeTitle": {
+            "type": "string"
+          },
+          "parentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "children": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoryDTO"
+            }
+          },
+          "createAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updateAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "enable": {
+            "type": "boolean"
           }
         }
       },
@@ -940,14 +1304,15 @@
       },
       "PageBookResponseDTO": {
         "type": "object",
+        "required": ["content"],
         "properties": {
-          "totalElements": {
-            "type": "integer",
-            "format": "int64"
-          },
           "totalPages": {
             "type": "integer",
             "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
           },
           "size": {
             "type": "integer",
@@ -1023,6 +1388,9 @@
           "count": {
             "type": "integer",
             "format": "int64"
+          },
+          "userReacted": {
+            "type": "boolean"
           }
         }
       },
@@ -1036,6 +1404,127 @@
             "type": "boolean"
           },
           "unsorted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PublisherSearchDTO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "enable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PagePublisherDTO": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublisherDTO"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AuthorSearchDTO": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["WRITER", "TRANSPORTER"]
+          },
+          "enable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PageAuthorDTO": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuthorDTO"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "empty": {
             "type": "boolean"
           }
         }

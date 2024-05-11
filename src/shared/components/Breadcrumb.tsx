@@ -7,16 +7,11 @@ interface Props {
 
 export function Breadcrumb(props: Props) {
   return (
-    <nav className='breadcrumbs'>
+    <nav className="breadcrumbs">
       <ol>
-        {props.items.map((item, index) => {
-          const LinkOrFragment = item.url ? Link : Fragment;
-          return (
-            <li key={index}>
-              <LinkOrFragment href={item.url!}>{item.text}</LinkOrFragment>
-            </li>
-          );
-        })}
+        {props.items.map((item, index) => (
+          <li key={index}>{item.url ? <Link href="">{item.text}</Link> : <Fragment>{item.text}</Fragment>}</li>
+        ))}
       </ol>
     </nav>
   );

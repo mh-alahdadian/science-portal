@@ -19,6 +19,7 @@ const config = {
 listenApiEvent('request', (request) => {
   const { accessToken } = getToken();
   request.payload.headers ??= {};
+  // if (request.url.startsWith('core')) return;
   request.payload.headers['Authorization'] = 'Bearer ' + accessToken;
 });
 
@@ -62,4 +63,5 @@ export function logout() {
   removeToken();
 }
 
-export {};
+export { };
+

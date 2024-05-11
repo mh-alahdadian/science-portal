@@ -1,0 +1,32 @@
+'use client';
+
+import { fileManagerUrl, queryService } from '@/api';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import Link from 'next/link';
+import { BookInfo } from '../../components/BookInfo';
+
+interface Props extends PageProps<'scopeId' | 'bookId'> {
+  tags: number[];
+}
+
+export function SimilarBooks({ params, tags }: Props) {
+  const similarBooks = useSuspenseQuery(
+    queryService('library:/v1/scope/{scopeId}/books', {
+      params: {
+        path: params,
+        query: { pageable: { size: 4 }, tags } as any,
+      },
+    }),
+  ).data.content!;
+  return (
+    <div className="mt-10 flex flex-col gap-3">
+      <span className="text-black text-opacity-50">کتاب‌های مشابه</span>
+      {similarBooks.map((b) => (
+        <Link key={b.id} href={`${b.id}`} className="flex gap-4">
+          <img src={fileManagerUrl + b.coverImage} width={90} />
+          <BookInfo book={b} />
+        </Link>
+      ))}
+    </div>
+  );
+}
