@@ -789,7 +789,6 @@
                     {
                         "name": "searchDTO",
                         "in": "query",
-                        "required": true,
                         "schema": {
                             "$ref": "#/components/schemas/UserSearchDTO"
                         }
@@ -797,7 +796,6 @@
                     {
                         "name": "pageable",
                         "in": "query",
-                        "required": true,
                         "schema": {
                             "$ref": "#/components/schemas/Pageable"
                         }

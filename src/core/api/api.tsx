@@ -3,6 +3,7 @@ import { QueryClient, UseMutationOptions, isServer, type UseQueryOptions } from 
 import createClient, { type FetchOptions, type FetchResponse } from 'openapi-fetch';
 import type { FilterKeys, PathsWithMethod as PathsWith } from 'openapi-typescript-helpers';
 import type { paths as CorePaths } from 'src/generated/core';
+import type { paths as FeedbackPaths } from 'src/generated/feedback';
 import type { paths as ForumPaths } from 'src/generated/forum';
 import type { paths as LibraryPaths } from 'src/generated/library';
 import type { paths as NewsPaths } from 'src/generated/news';
@@ -28,7 +29,8 @@ type PathGen<BasePath extends string, Paths> = {
 type Paths = PathGen<'core:', CorePaths> &
   PathGen<'news:', NewsPaths> &
   PathGen<'forum:', ForumPaths> &
-  PathGen<'library:', LibraryPaths>;
+  PathGen<'library:', LibraryPaths> &
+  PathGen<'feedback:', FeedbackPaths>;
 
 const serverUrl = isServer ? require('src/config').server_url : '/api/';
 
@@ -79,7 +81,7 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       suspense: true,
-      throwOnError: true,
+      throwOnError: false,
       retry: isServer ? false : undefined,
       queryFn: async (context) => {
         // TODO: support non get services
