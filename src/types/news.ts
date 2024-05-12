@@ -29,3 +29,21 @@ export interface newsSingleCard {
     date: string;
     time: string;
 }
+
+export interface newsSingleItem {
+    id: number;
+    userId: number;
+    categoryId: number;
+    content: string;
+    coverImage: string;
+    createAt: string;
+    feedbackStats?: any;
+    idPublic: boolean;
+    publishAt?: any;
+    statusId?: number | null;
+    title: string;
+    updateAt?: any;
+    
+
+
+}
