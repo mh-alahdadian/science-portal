@@ -26,57 +26,13 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
     }),
   ).data.content;
 
+  const highlightedNews = news[0]
 
-  const date: string = news[0].createAt.slice(0, 10).split("-").join("/")
-  const time: string = news[0].createAt.slice(11, 19)
+
+  const date: string = highlightedNews.createAt.slice(0, 10).split("-").join("/")
+  const time: string = highlightedNews.createAt.slice(11, 19)
 
   const allPagesCount: number = Math.ceil(news.length / 8);
-  
-
-  // const latestNewsMock: newsSingleCard[] = [
-  //   {
-  //     title: "عنوان خبر که می‌تواند به اندازه خوبی طولانی باشدعنوان خبر که می‌تواند به اندازه خوبی طولانی باشد",
-  //     author: "نویسنده خبر",
-  //     img: "/newsPoster.png",
-  //     date: "1402/11/01",
-  //     time: "12:34:50"
-  //   },
-  //   {
-  //     title: "عنوان خبر که می‌تواند به اندازه خوبی طولانی باشدعنوان خبر که می‌تواند به اندازه خوبی طولانی باشد",
-  //     author: "نویسنده خبر",
-  //     img: "/newsPoster.png",
-  //     date: "1402/11/01",
-  //     time: "12:34:50"
-  //   },
-  //   {
-  //     title: "عنوان خبر که می‌تواند به اندازه خوبی طولانی باشدعنوان خبر که می‌تواند به اندازه خوبی طولانی باشد",
-  //     author: "نویسنده خبر",
-  //     img: "/newsPoster.png",
-  //     date: "1402/11/01",
-  //     time: "12:34:50"
-  //   },
-  //   {
-  //     title: "عنوان خبر که می‌تواند به اندازه خوبی طولانی باشدعنوان خبر که می‌تواند به اندازه خوبی طولانی باشد",
-  //     author: "نویسنده خبر",
-  //     img: "/newsPoster.png",
-  //     date: "1402/11/01",
-  //     time: "12:34:50"
-  //   },
-  //   {
-  //     title: "عنوان خبر که می‌تواند به اندازه خوبی طولانی باشدعنوان خبر که می‌تواند به اندازه خوبی طولانی باشد",
-  //     author: "نویسنده خبر",
-  //     img: "/newsPoster.png",
-  //     date: "1402/11/01",
-  //     time: "12:34:50"
-  //   },
-  //   {
-  //     title: "عنوان خبر که می‌تواند به اندازه خوبی طولانی باشدعنوان خبر که می‌تواند به اندازه خوبی طولانی باشد",
-  //     author: "نویسنده خبر",
-  //     img: "/newsPoster.png",
-  //     date: "1402/11/01",
-  //     time: "12:34:50"
-  //   },
-  // ]
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -87,10 +43,10 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
       {/* hero container */}
       <div className="flex gap-4">
         <div className="w-1/2 overflow-hidden rounded-lg relative">
-          <Link href={`news/${news[0].id}`}>
-            <img src={`${news[0].coverImage}`} className="w-full h-full" />
+          <Link href={`news/${highlightedNews.id}`}>
+            <img src={`${highlightedNews.coverImage}`} className="w-full h-full" />
             <div className="absolute bg-gray-900 bg-opacity-50 w-full p-4 bottom-0 left-0">
-              <h3 className="font-bold text-lg mb-2">{news[0].title}</h3>
+              <h3 className="font-bold text-lg mb-2">{highlightedNews.title}</h3>
               <div><Clock /> {time} - {date}</div>
             </div>
           </Link>
@@ -108,8 +64,8 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
 
           </div>
           <div className="pr-4 mt-4 flex flex-col gap-4">
-            {news && isTopNewsSelected? (
-              news.slice(0,5).map((newsItem: newsSingleItem) => {
+            {news && isTopNewsSelected ? (
+              news.slice(0, 5).map((newsItem: newsSingleItem) => {
                 return (
                   <Link href={`news/${newsItem.id}`}>
                     <h3>{newsItem.title}</h3>
@@ -117,7 +73,7 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
                 )
               })
             ) : (
-              news.slice(20,25).map((newsItem: newsSingleItem) => {
+              news.slice(20, 25).map((newsItem: newsSingleItem) => {
                 return (
                   <Link href={`news/${newsItem.id}`}>
                     <h3>{newsItem.title}</h3>
@@ -134,7 +90,16 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
       <h3 className="text-lg font-bold my-4">تازه ترین اخبار</h3>
 
       <div className="grid grid-cols-3 gap-6">
-        {news.slice(0,3).map((item: newsSingleItem) => <NewsCard {...item} />)}
+        {news.slice(0, 3).map((item: newsSingleItem) => <NewsCard
+          id={item.id}
+          content={item.content}
+          title={item.title}
+          coverImage={item.coverImage}
+          createAt={item.createAt}
+          userId={item.userId}
+          categoryId={item.categoryId}
+          isPublic={item.isPublic}
+        />)}
       </div>
 
       {/* most viewed news */}
@@ -142,7 +107,16 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
 
       <div className="grid grid-cols-4 gap-6">
         {/* {news.slice(0, 4).map((item: newsSingleCard) => <NewsCard img={item.img} author={item.author} title={item.title} date={item.date} time={item.time} />)} */}
-        {news.slice(0,4).map((item: newsSingleItem) => <NewsCard {...item} />)}
+        {news.slice(0, 4).map((item: newsSingleItem) => <NewsCard
+          id={item.id}
+          content={item.content}
+          title={item.title}
+          coverImage={item.coverImage}
+          createAt={item.createAt}
+          userId={item.userId}
+          categoryId={item.categoryId}
+          isPublic={item.isPublic}
+        />)}
 
       </div>
 
@@ -152,13 +126,22 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
       {/* اخبار پایین صفحه */}
       <div className="grid grid-cols-3 gap-6 mt-12">
         {/* {latestNewsMock.map((item: newsSingleCard) => <NewsCard img={item.img} author={item.author} title={item.title} date={item.date} time={item.time} />)} */}
-        {news.slice((currentPage - 1) * perPage, (currentPage * perPage)).map((item: newsSingleItem) => <NewsCard {...item} />)}
+        {news.slice((currentPage - 1) * perPage, (currentPage * perPage)).map((item: newsSingleItem) => <NewsCard
+          id={item.id}
+          content={item.content}
+          title={item.title}
+          coverImage={item.coverImage}
+          createAt={item.createAt}
+          userId={item.userId}
+          categoryId={item.categoryId}
+          isPublic={item.isPublic}
+        />)}
 
       </div>
 
       {/* pagination */}
       <div className="mt-20">
-            <Pagination  current={currentPage} itemsCount={news.length} perPage={perPage} handleClick={setCurrentPage}/>
+        <Pagination current={currentPage} itemsCount={news.length} perPage={perPage} handleClick={setCurrentPage} />
       </div>
     </div>
   );

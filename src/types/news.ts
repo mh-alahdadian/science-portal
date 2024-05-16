@@ -38,7 +38,7 @@ export interface newsSingleItem {
     coverImage: string;
     createAt: string;
     feedbackStats?: any;
-    idPublic: boolean;
+    isPublic: boolean;
     publishAt?: any;
     statusId?: number | null;
     title: string;
