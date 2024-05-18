@@ -10,8 +10,7 @@ const services: Page[] = [
   { title: 'اخبار', path: 'news' },
   { title: 'انجمن', path: 'forum' },
   { title: 'کتابخانه', path: 'library' },
-  { title: 'وبلاگ', path: 'blog' },
-  { title: 'گالری', path: 'gallery' },
+  { title: 'مقالات', path: 'article' },
 ];
 
 function getParams(scopeId: number) {

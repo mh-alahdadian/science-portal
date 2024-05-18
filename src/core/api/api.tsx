@@ -2,6 +2,7 @@ import { createEvent } from '@/utils/event-emitter';
 import { QueryClient, UseMutationOptions, isServer, type UseQueryOptions } from '@tanstack/react-query';
 import createClient, { type FetchOptions, type FetchResponse } from 'openapi-fetch';
 import type { FilterKeys, PathsWithMethod as PathsWith } from 'openapi-typescript-helpers';
+import type { paths as ArticlePaths } from 'src/generated/article';
 import type { paths as CorePaths } from 'src/generated/core';
 import type { paths as FeedbackPaths } from 'src/generated/feedback';
 import type { paths as ForumPaths } from 'src/generated/forum';
@@ -28,6 +29,7 @@ type PathGen<BasePath extends string, Paths> = {
 
 type Paths = PathGen<'core:', CorePaths> &
   PathGen<'news:', NewsPaths> &
+  PathGen<'article:', ArticlePaths> &
   PathGen<'forum:', ForumPaths> &
   PathGen<'library:', LibraryPaths> &
   PathGen<'feedback:', FeedbackPaths>;
@@ -62,7 +64,7 @@ export async function request(method: Methods, url: string, payload: any) {
 type PathsOf<M> = PathsWith<Paths, M>;
 type RequestData<M extends Methods, P extends PathsOf<M>> = FetchOptions<FilterKeys<Paths[P], M>>;
 type ResponseData<M extends Methods, P extends PathsOf<M>> = NonNullable<
-  FetchResponse<Paths[P][keyof Paths[P] & M], null>['data']
+  FetchResponse<Paths[P][keyof Paths[P] & M], unknown, '*/*'>['data']
 >;
 
 export function queryService<P extends PathsOf<'get'>>(
