@@ -7,13 +7,17 @@ import 'vazirmatn/Vazirmatn-font-face.css';
 import './bootstrap.scss';
 import './globals.css';
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children, header }: LayoutProps<'header'>) {
   const myTheme = useThemeName();
 
   return (
     <html lang="en" dir="rtl" data-theme={myTheme} data-bs-theme={myTheme}>
       <body className={clsx('flex flex-col')}>
-        <Providers>{children}</Providers>
+        <Providers>
+          {header}
+          <main className="flex-1 px-12 bg-neutral">{children}</main>
+          <footer></footer>
+        </Providers>
       </body>
     </html>
   );
