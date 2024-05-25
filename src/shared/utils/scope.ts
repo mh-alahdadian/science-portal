@@ -7,5 +7,6 @@ export function getScopeUrl(scopeId: number) {
 export function useThemeName() {
   const params = useParams();
   const scopeId = params.scopeId as string;
-  return scopeId === '0' ? 'dark' : 'light';
+  // TODO: add dark theme later
+  return scopeId === '0' ? 'light' : 'light';
 }
