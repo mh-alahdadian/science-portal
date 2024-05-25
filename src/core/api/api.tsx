@@ -2,12 +2,6 @@ import { createEvent } from '@/utils/event-emitter';
 import { QueryClient, UseMutationOptions, isServer, type UseQueryOptions } from '@tanstack/react-query';
 import createClient, { type FetchOptions, type FetchResponse } from 'openapi-fetch';
 import type { FilterKeys, PathsWithMethod as PathsWith } from 'openapi-typescript-helpers';
-import type { paths as ArticlePaths } from 'src/generated/article';
-import type { paths as CorePaths } from 'src/generated/core';
-import type { paths as FeedbackPaths } from 'src/generated/feedback';
-import type { paths as ForumPaths } from 'src/generated/forum';
-import type { paths as LibraryPaths } from 'src/generated/library';
-import type { paths as NewsPaths } from 'src/generated/news';
 
 interface RequestContext {
   method: Methods;
@@ -23,16 +17,7 @@ const [emitApiEvent, listenApiEvent] = createEvent<{
 }>();
 export { listenApiEvent };
 
-type PathGen<BasePath extends string, Paths> = {
-  [k in keyof Paths & string as `${BasePath}${k}`]: Paths[k];
-};
-
-type Paths = PathGen<'core:', CorePaths> &
-  PathGen<'news:', NewsPaths> &
-  PathGen<'article:', ArticlePaths> &
-  PathGen<'forum:', ForumPaths> &
-  PathGen<'library:', LibraryPaths> &
-  PathGen<'feedback:', FeedbackPaths>;
+type Paths = ApiPaths;
 
 const serverUrl = isServer ? require('src/config').server_url : '/api/';
 

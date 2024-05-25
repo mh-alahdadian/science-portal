@@ -1,27 +1,37 @@
-import { components as Article } from 'src/generated/article';
-import { components as Core } from 'src/generated/core';
-import { components as Feedback } from 'src/generated/feedback';
-import { components as Forum } from 'src/generated/forum';
-import { components as Library } from 'src/generated/library';
-import { components as News } from 'src/generated/news';
+import type { components as Article, paths as ArticlePaths } from 'src/generated/article';
+import type { components as Blog, paths as BlogPaths } from 'src/generated/blog';
+import type { components as Core, paths as CorePaths } from 'src/generated/core';
+import type { components as Feedback, paths as FeedbackPaths } from 'src/generated/feedback';
+import type { components as Forum, paths as ForumPaths } from 'src/generated/forum';
+import type { components as Library, paths as LibraryPaths } from 'src/generated/library';
+import type { components as News, paths as NewsPaths } from 'src/generated/news';
 
-type AllSchemas = Core['schemas'] &
-  News['schemas'] &
-  Forum['schemas'] &
-  Library['schemas'] &
-  Feedback['schemas'] &
-  Article['schemas'];
+type UnionToIntersection<U> = (U extends any ? (x: U) => void : never) extends (x: infer I) => void ? I : never;
 
-type SchemasOf = {
-  core: Core['schemas'];
-  news: News['schemas'];
-  forum: Forum['schemas'];
-  library: Library['schemas'];
-  feedback: Feedback['schemas'];
-  article: Article['schemas'];
+type Services = {
+  article: { components: Article; paths: ArticlePaths };
+  blog: { components: Blog; paths: BlogPaths };
+  core: { components: Core; paths: CorePaths };
+  feedback: { components: Feedback; paths: FeedbackPaths };
+  forum: { components: Forum; paths: ForumPaths };
+  library: { components: Library; paths: LibraryPaths };
+  news: { components: News; paths: NewsPaths };
 };
+
+type AllSchemas = UnionToIntersection<Services[keyof Services]['components']['schemas']>;
+
+type PathGen<BasePath extends string, Paths> = {
+  [k in keyof Paths & string as `${BasePath}${k}`]: Paths[k];
+};
+
+type AllPaths = UnionToIntersection<
+  {
+    [key in keyof Services]: PathGen<`${key}:`, Services[key]['paths']>;
+  }[keyof Services]
+>;
 
 declare global {
   export type Schema<T extends keyof AllSchemas> = AllSchemas[T];
-  export type SchemaOf<X extends keyof SchemasOf, T extends keyof SchemasOf[X]> = SchemasOf[X][T];
+  // export type SchemaOf<X extends keyof Services, T extends keyof Services[X]> = Services[X]['components']['schemas'][T];
+  export type ApiPaths = AllPaths;
 }
