@@ -622,7 +622,11 @@
             "type": "string",
             "format": "date-time"
           }
-        }
+        },
+        "required": [
+          "authorId",
+          "authorName"
+        ]
       },
       "FeedbackStatsDTO": {
         "type": "object",

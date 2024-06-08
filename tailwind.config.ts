@@ -20,6 +20,8 @@ const themes: CustomTheme = {
 
     neutral: '#F9F9FB',
     'neutral-content': '#20222A',
+
+    '--neutral-md': '#CBD5DF',
   },
   dark: {
     ...require('daisyui/src/theming/themes')['dark'],
@@ -44,6 +46,11 @@ const gridTemplate = plugin(({ matchUtilities, theme }) => {
   );
 });
 
+const tagComponent = plugin(({ addComponents, matchComponents }) => {
+  addComponents({ '.tag': { padding: '0.75rem', background: '#CBD5DF7f' } }, {});
+  // matchComponents({ tag: (values) => ({ padding: '0.75rem', background: '#CBD5DF7f' }) }, {  });
+});
+
 const config: Config = {
   daisyui: { logs: false, themes: [themes] } as DaisyConfig,
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
@@ -55,6 +62,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('@tailwindcss/typography'), require('daisyui'), gridTemplate],
+  plugins: [require('@tailwindcss/typography'), require('daisyui'), gridTemplate, tagComponent],
 };
 export default config;

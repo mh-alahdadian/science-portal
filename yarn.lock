@@ -2835,9 +2835,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tailwindcss/typography@npm:^0.5.10":
-  version: 0.5.10
-  resolution: "@tailwindcss/typography@npm:0.5.10"
+"@tailwindcss/typography@npm:^0.5.13":
+  version: 0.5.13
+  resolution: "@tailwindcss/typography@npm:0.5.13"
   dependencies:
     lodash.castarray: "npm:^4.4.0"
     lodash.isplainobject: "npm:^4.0.6"
@@ -2845,7 +2845,7 @@ __metadata:
     postcss-selector-parser: "npm:6.0.10"
   peerDependencies:
     tailwindcss: "*"
-  checksum: 0fa9c96bf091fb79fdc39a0244027b3891e9205f714197c8196e7ba2305523ce8695d14b912366de9b77d4b1d3a742fb7f9bc9bb633fddc7c7f13374b41075d2
+  checksum: 6c01287e7492c001595cd5a39765f313e48e1d2997ea78823919edabd692300d144c42b6e16dee6e077a683e635b9164ff985d5a0f8eeff7824b2d119151899e
   languageName: node
   linkType: hard
 
@@ -3769,7 +3769,7 @@ __metadata:
     "@rjsf/utils": "npm:^5.17.1"
     "@rjsf/validator-ajv8": "npm:^5.17.1"
     "@svgr/webpack": "npm:^8.1.0"
-    "@tailwindcss/typography": "npm:^0.5.10"
+    "@tailwindcss/typography": "npm:^0.5.13"
     "@tanstack/react-query": "npm:^5.4.3"
     "@tanstack/react-table": "npm:^8.17.3"
     "@types/bootstrap": "npm:^5"
@@ -3784,9 +3784,10 @@ __metadata:
     autoprefixer: "npm:^10.0.1"
     bootstrap: "npm:^5.3.3"
     clsx: "npm:^2.1.0"
-    daisyui: "npm:^4.6.0"
+    daisyui: "npm:^4.12.2"
     eslint: "npm:^8"
     eslint-config-next: "npm:^14.2.3"
+    human-format: "npm:^1.2.0"
     js-cookie: "npm:^3.0.5"
     jwt-decode: "npm:^4.0.0"
     next: "npm:^14.2.3"
@@ -3805,7 +3806,7 @@ __metadata:
     sass: "npm:^1.72.0"
     sharp: "npm:^0.33.3"
     stylis-plugin-rtl: "npm:^2.1.1"
-    tailwindcss: "npm:^3.3.0"
+    tailwindcss: "npm:^3.4.4"
     typescript: "npm:^5.3.3"
     vazirmatn: "npm:^33.0.3"
   languageName: unknown
@@ -4083,15 +4084,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"daisyui@npm:^4.6.0":
-  version: 4.6.0
-  resolution: "daisyui@npm:4.6.0"
+"daisyui@npm:^4.12.2":
+  version: 4.12.2
+  resolution: "daisyui@npm:4.12.2"
   dependencies:
     css-selector-tokenizer: "npm:^0.8"
     culori: "npm:^3"
     picocolors: "npm:^1"
     postcss-js: "npm:^4"
-  checksum: 8067773259cdac8a6bd84538656e3d2cc338f57b8be08cd95a9a274c9c2c0fd9a4c270b6c39bc1025c0229ff0bfacbdaaab7403470fec7a191533acc678900fc
+  checksum: 28ddd2ed44ddbcee9ba0c7f4c4b3a1db88a07772caadfa47e23a0bc9c01982a72504256be98aa38204be995dcaca1574de68db5237f6eb9a457705a0c81d8d3f
   languageName: node
   linkType: hard
 
@@ -5195,6 +5196,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"human-format@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "human-format@npm:1.2.0"
+  checksum: 1add0d16f67021a641725658526c6585ee4da02fd073d8a064a25ccab84ffdc73970ab24815dce6fc1140d05f0e72671f8078410fa6630f9acfe9fe3ff376858
+  languageName: node
+  linkType: hard
+
 "iconv-lite@npm:^0.6.2":
   version: 0.6.3
   resolution: "iconv-lite@npm:0.6.3"
@@ -5584,12 +5592,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jiti@npm:^1.19.1":
-  version: 1.21.0
-  resolution: "jiti@npm:1.21.0"
+"jiti@npm:^1.21.0":
+  version: 1.21.3
+  resolution: "jiti@npm:1.21.3"
   bin:
     jiti: bin/jiti.js
-  checksum: 7f361219fe6c7a5e440d5f1dba4ab763a5538d2df8708cdc22561cf25ea3e44b837687931fca7cdd8cdd9f567300e90be989dd1321650045012d8f9ed6aab07f
+  checksum: 5de8b6a30e02e665ff03a925e43110097082e2e695cbf958ee8b2ba18fa894e3688862bb2ea52356fbefd924050d28b729b0c4efdaf4b05bf24f2c52ad0e778d
   languageName: node
   linkType: hard
 
@@ -7625,9 +7633,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:^3.3.0":
-  version: 3.3.5
-  resolution: "tailwindcss@npm:3.3.5"
+"tailwindcss@npm:^3.4.4":
+  version: 3.4.4
+  resolution: "tailwindcss@npm:3.4.4"
   dependencies:
     "@alloc/quick-lru": "npm:^5.2.0"
     arg: "npm:^5.0.2"
@@ -7637,7 +7645,7 @@ __metadata:
     fast-glob: "npm:^3.3.0"
     glob-parent: "npm:^6.0.2"
     is-glob: "npm:^4.0.3"
-    jiti: "npm:^1.19.1"
+    jiti: "npm:^1.21.0"
     lilconfig: "npm:^2.1.0"
     micromatch: "npm:^4.0.5"
     normalize-path: "npm:^3.0.0"
@@ -7654,7 +7662,7 @@ __metadata:
   bin:
     tailwind: lib/cli.js
     tailwindcss: lib/cli.js
-  checksum: a57c0a9cdba9db19097e34e25b7e4690fab43f31ba200afc3bb9635a03036ca93e9884a17b616fb8a2486d57d2ecc9a06862ce4685b3ace57f7a67436e7594a0
+  checksum: e4f7e1a2e1897871a4744f421ccb5639e8d51012e3644b0c35cf723527fdc8f9cddd3fa3b0fc28c198b0ea6ce44ead21c89cfec549d80bad9b1f3dd9d8bf2d54
   languageName: node
   linkType: hard
 
