@@ -2,7 +2,7 @@
 
 import { useCurrentScope } from "@/hooks";
 import { CaretLeft } from "@phosphor-icons/react";
-import { Clock } from "@phosphor-icons/react/dist/ssr";
+import { Clock, X } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useMemo, useState } from "react";
 import { newsSingleCard } from "src/types/news";
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
@@ -13,7 +13,6 @@ import { columns } from "./topicsCols"
 import { useReactTable, TableOptions, Column, createColumnHelper, getCoreRowModel, getPaginationRowModel, flexRender } from "@tanstack/react-table";
 import React from "react";
 import Link from "next/link";
-import { Button } from "bootstrap";
 
 
 
@@ -22,8 +21,7 @@ import { Button } from "bootstrap";
 
 
 export default function TopicsTab(props) {
-    const [pageNumber, setPageNumber] = useState(1)
-    const [selectedCat, setSelectedCat] = useState<any>(null)
+    const [selectedCategory, setSelectedCategory] = useState<any>(null)
     const [isModalVisible, setIsModalVisible] = useState(true)
 
     const [pagination, setPagination] = useState({
@@ -72,7 +70,7 @@ export default function TopicsTab(props) {
 
 
     function handleCatNameClick(cat: any) {
-        setSelectedCat(cat)
+        setSelectedCategory(cat)
         setIsModalVisible(true)
 
 
@@ -107,34 +105,17 @@ export default function TopicsTab(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {table.getRowModel().rows.map((row: any, index: number) => {
-
-                        const c = new Date(row.original.createAt!).toLocaleString('fa-IR');
+                    {table.getRowModel().rows.map((row: any) => {
 
                         return (
                             
-                            <tr onClick={() => handleCatNameClick(row.original)} key={row.id} className={`${index % 2 ? "bg-gray-200" : ""} cursor-pointer`}>
+                            <tr onClick={() => handleCatNameClick(row.original)} key={row.id} className="even:bg-gray-200 cursor-pointer" >
 
                                 {row.getVisibleCells().map((cell: any) => (
                                     <td className="py-2">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </td>
                                 ))}
-
-
-                                {/* <td className="py-2">
-                                    {flexRender(cell.column.columnDef.cell, cell.getContenx())}
-                                </td>
-                                <td className="py-2">
-                                    <span onClick={() => handleCatNameClick(row)} className="underline cursor-pointer text-blue-700">
-                                        {row.original.title}
-                                    </span>
-                                </td>
-                                <td className="py-2">
-                                    {row.original.isPublic ? "عمومی" : "فقط برای مدیران"}
-                                   
-                                </td> */}
-
 
 
                             </tr>
@@ -144,30 +125,31 @@ export default function TopicsTab(props) {
             </table>
 
 
-            {selectedCat && isModalVisible &&
+            {selectedCategory && isModalVisible &&
                 <div className="absolute w-3/4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-200 p-8">
                     <form action="#">
                         <div className="mb-3">
                             <span>id:</span>
-                            <span>{selectedCat?.id ? selectedCat.id : "undefined"}</span>
+                            <span>{selectedCategory?.id ? selectedCategory.id : "undefined"}</span>
                         </div>
 
                         <div className="mb-3 ">
                             <label htmlFor="title">عنوان:</label>
-                            <input type="text" id="title" value={selectedCat.title} onChange={(e) => {
-                                setSelectedCat({
-                                    ...selectedCat,
+                            <input type="text" id="title" value={selectedCategory.title} onChange={(e) => {
+                                setSelectedCategory({
+                                    ...selectedCategory,
                                     title: e.target.value
                                 })
                             }} />
                         </div>
-                        <button onClick={() => disableCat(selectedCat.id)} className="bg-red-700 px-4 py-2 text-white">غیرفعال کردن</button>
-                        <button onClick={confirmChanges} className="bg-green-700 px-4 py-2 text-white mx-4">ثبت تغییرات</button>
+                        <button onClick={() => disableCat(selectedCategory.id)} className="btn bg-red-700 px-4 py-2 text-white">غیرفعال کردن</button>
+                        <button onClick={confirmChanges} className="btn bg-green-700 px-4 py-2 text-white mx-4">ثبت تغییرات</button>
 
                     </form>
 
-                    <svg onClick={() => setIsModalVisible(false)} className="absolute cursor-pointer top-0 right-0 translate-x-1/2 -translate-y-1/2" fill="#ff0000" height="20px" width="20px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460.775 460.775" stroke="#ff0000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55 c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55 c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505 c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55 l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719 c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"></path> </g></svg>
+                    {/* <svg onClick={() => setIsModalVisible(false)} className="absolute cursor-pointer top-0 right-0 translate-x-1/2 -translate-y-1/2" fill="#ff0000" height="20px" width="20px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460.775 460.775" stroke="#ff0000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M285.08,230.397L456.218,59.27c6.076-6.077,6.076-15.911,0-21.986L423.511,4.565c-2.913-2.911-6.866-4.55-10.992-4.55 c-4.127,0-8.08,1.639-10.993,4.55l-171.138,171.14L59.25,4.565c-2.913-2.911-6.866-4.55-10.993-4.55 c-4.126,0-8.08,1.639-10.992,4.55L4.558,37.284c-6.077,6.075-6.077,15.909,0,21.986l171.138,171.128L4.575,401.505 c-6.074,6.077-6.074,15.911,0,21.986l32.709,32.719c2.911,2.911,6.865,4.55,10.992,4.55c4.127,0,8.08-1.639,10.994-4.55 l171.117-171.12l171.118,171.12c2.913,2.911,6.866,4.55,10.993,4.55c4.128,0,8.081-1.639,10.992-4.55l32.709-32.719 c6.074-6.075,6.074-15.909,0-21.986L285.08,230.397z"></path> </g></svg> */}
 
+                            <X size={32} onClick={() => setIsModalVisible(false)} className="absolute cursor-pointer top-0 right-0 translate-x-1/2 -translate-y-1/2" />
                 </div>
             }
         </div>
