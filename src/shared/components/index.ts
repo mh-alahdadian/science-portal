@@ -8,6 +8,7 @@ export * from './Paginator';
 export * from './Rating';
 export * from './RatingChart';
 export * from './Tags';
+export * from './TextIcon';
 export * from './form/FieldWrapper';
 export * from './form/SelectField';
 export * from './form/TextField';

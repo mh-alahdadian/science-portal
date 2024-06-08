@@ -2,13 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
+html,
+body {
   height: 100%;
   font-family: Vazirmatn;
 }
 
 svg {
   display: inline;
+}
+
+time {
+  @apply text-black text-opacity-50;
 }
 
 @layer components {
