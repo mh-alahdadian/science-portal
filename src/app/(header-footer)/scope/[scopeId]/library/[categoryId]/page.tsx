@@ -2,9 +2,10 @@
 
 import { queryService } from '@/api';
 import { DataFilter } from '@/components';
+import { TextIcon } from '@/components/TextIcon';
 import { useCurrentScope } from '@/hooks';
 import { css } from '@emotion/react';
-import { CaretLeft, Download, Star } from '@phosphor-icons/react';
+import { CaretLeft, Download } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import Community from '../../assets/Community.svg';
@@ -53,12 +54,10 @@ export default function Library({ params }: PageProps<'scopeId' | 'categoryId'>)
             <figure>
               <img src={book.coverImage} alt={book.name} />
             </figure>
-            <BookInfo book={book}/>
+            <BookInfo book={book} />
             <hr />
             <div className="flex items-center">
-              <span>
-                <Download /> {5700} بار دانلود
-              </span>
+              <TextIcon Icon={Download} text={5700 + 'بار دانلود'} />
               <button className="btn btn-primary btn-link">
                 مشاهده بیشتر
                 <CaretLeft />

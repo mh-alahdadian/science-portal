@@ -30,7 +30,7 @@ export default function Categories({ params }: PageProps<'scopeId' | 'categoryId
         {categories.map((cat, i) => (
           <Link href={`forum/${cat.id}`} key={cat.id} className="card rounded-lg">
             <figure>
-              <img src={mockImage.replace('{}', String(i + 1))} alt={cat.title} />
+              <img src={cat.coverImage || mockImage.replace('{}', String(i + 1))} alt={cat.title} />
             </figure>
             <div className="card-body w-full text-center self-end">
               <p className="card-title justify-center">{cat.title}</p>

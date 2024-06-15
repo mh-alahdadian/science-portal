@@ -20,13 +20,13 @@ const mock: Comment = {
 };
 
 export function CommentsList(props: Props) {
-  const comments = (useQuery(
+  let comments = useQuery(
     queryService('feedback:/v1/comments', {
       params: { query: { dto: { modelId: props.modelId, modelTypeId: props.modelTypeId } } },
     }),
-  ).data || [mock, mock]) as Comment[] | undefined;
+  ).data?.content;
 
-  if (!comments) return null;
+  if (!comments?.length) comments = [mock, mock];
 
   return (
     <div className="p-6 pb-0 rounded-lg bg-white mt-10 flex flex-col">

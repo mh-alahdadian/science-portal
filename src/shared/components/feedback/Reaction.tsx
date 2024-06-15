@@ -7,7 +7,7 @@ interface Props {
   modelTypeId: ModelType;
   modelId: number;
   type: ReactionType;
-  reactions: SchemaOf<'feedback', 'FeedbackStatsDTO'>['reaction'];
+  reactions: Schema<'FeedbackStatsDTO'>['reaction'];
 }
 const IconMap = {
   [ReactionType.LIKE]: ThumbsUp,
