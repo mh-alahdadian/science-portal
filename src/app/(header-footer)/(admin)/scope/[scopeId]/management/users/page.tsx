@@ -83,7 +83,9 @@ export default function UserManagement({ params }: PageProps<'scopeId' | 'id'>) 
           params: {
             path: { page: String(params.scopeId), userId: data.id },
             query: { roleIds: data.roles!.map(prop('id')) as number[] },
+
           },
+          
         },
         {
           onSuccess: () => {
