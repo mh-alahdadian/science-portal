@@ -1,7 +1,7 @@
 'use client';
 
 import { mutateService, queryService } from '@/api';
-import { DataGrid, Form } from '@/components';
+import { DataGrid, Dialog, Form } from '@/components';
 import { Pen, Trash } from '@phosphor-icons/react';
 import { RJSFSchema, UiSchema } from '@rjsf/utils';
 import validator from '@rjsf/validator-ajv8';
@@ -104,17 +104,15 @@ export default function UserManagement({ params }: PageProps<'scopeId' | 'id'>) 
         rowData={users}
         columnDefs={colDefs}
       />
-      <dialog open={!!editingUser} className="modal">
+      <Dialog open={!!editingUser} onClose={() => setEditingUser(null)}>
         <Form
-          className="modal-box"
           schema={schema}
           validator={validator}
           formData={editingUser ? transform(editingUser) : null}
           uiSchema={uiSchema}
           onSubmit={(param) => handleEdit(param.formData)}
         />
-        <div className="modal-backdrop" onClick={() => setEditingUser(null)}></div>
-      </dialog>
+      </Dialog>
     </>
   );
 }

@@ -9,3 +9,5 @@ export enum ReactionType {
   LIKE = 'LIKE',
   DISLIKE = 'DISLIKE',
 }
+
+export const defaultPagination = { pageIndex: 0, pageSize: 10 };

@@ -23,7 +23,7 @@ export default function NewsAdminLayout({ children, params }: LayoutProps & Page
 
       {/* main */}
       <div className="w-full">
-        <div className="pr-10">{children}</div>
+        <div className="pr-10 py-8">{children}</div>
       </div>
     </div>
   );
