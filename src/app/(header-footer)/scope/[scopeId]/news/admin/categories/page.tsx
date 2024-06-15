@@ -3,14 +3,11 @@
 import { mutateService, queryService } from '@/api';
 import { X } from '@phosphor-icons/react/dist/ssr';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
-import { useState } from 'react';
-import { columns } from './topicsCols';
-
 import { flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from '@tanstack/react-table';
+import { useState } from 'react';
+import { columns } from './cols';
 
-// @ts-ignore
-
-export default function TopicsTab(props) {
+export default function TopicsTab({ params }: PageProps<'scopeId'>) {
   const [selectedCategory, setSelectedCategory] = useState<any>(null);
   const [isModalVisible, setIsModalVisible] = useState(true);
 
@@ -23,7 +20,7 @@ export default function TopicsTab(props) {
 
   const data = useSuspenseQuery({
     ...queryService('news:/v1/scope/{scopeId}/categories', {
-      params: { path: { scopeId: props.scopeId } },
+      params: { path: { scopeId: params.scopeId } },
     }),
 
     queryFn: () => {
@@ -60,7 +57,7 @@ export default function TopicsTab(props) {
   }
 
   function disableCat(id: string) {
-    mutate({ params: { path: { categoryId: +id, page: props.scopeId }, query: { enable: false } } });
+    mutate({ params: { path: { categoryId: +id, page: String(params.scopeId) }, query: { enable: false } } });
   }
 
   return (
@@ -74,15 +71,17 @@ export default function TopicsTab(props) {
           </tr>
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row: any) => {
+          {table.getRowModel().rows.map((row) => {
             return (
               <tr
                 onClick={() => handleCatNameClick(row.original)}
                 key={row.id}
                 className="even:bg-gray-200 cursor-pointer"
               >
-                {row.getVisibleCells().map((cell: any) => (
-                  <td className="py-2">{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                {row.getVisibleCells().map((cell) => (
+                  <td key={cell.id} className="py-2">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
                 ))}
               </tr>
             );
@@ -95,7 +94,7 @@ export default function TopicsTab(props) {
           <form action="#">
             <div className="mb-3">
               <span>id:</span>
-              <span>{selectedCategory?.id ? selectedCategory.id : 'undefined'}</span>
+              <span>{selectedCategory.id}</span>
             </div>
 
             <div className="mb-3 ">

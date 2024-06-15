@@ -32,6 +32,6 @@ type AllPaths = UnionToIntersection<
 
 declare global {
   export type Schema<T extends keyof AllSchemas> = AllSchemas[T];
-  // export type SchemaOf<X extends keyof Services, T extends keyof Services[X]> = Services[X]['components']['schemas'][T];
+  export type SchemaOf<X extends keyof Services, T extends keyof Services[X]['components']['schemas']> = Services[X]['components']['schemas'][T];
   export type ApiPaths = AllPaths;
 }

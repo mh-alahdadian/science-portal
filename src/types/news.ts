@@ -20,10 +20,6 @@ export interface newsCommentType {
   items: newsSingleComment[];
 }
 
-export interface newsSingleCard {
-  img: string;
-  title: string;
-  author: string;
-  date: string;
-  time: string;
-}
+export interface newsSingleCard extends SchemaOf<'news', 'PostDTO'> {
+  author?: string
+} 
