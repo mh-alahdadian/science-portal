@@ -4,7 +4,7 @@ import { mutateService, queryService } from '@/api';
 import { Paginator, Table } from '@/components';
 import { defaultPagination } from '@/constants';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
-import { getCoreRowModel, getPaginationRowModel, useReactTable } from '@tanstack/react-table';
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useState } from 'react';
 import { columns } from './cols';
 
@@ -37,7 +37,7 @@ export default function Admin({ params }: PageProps<'scopeId' | 'id'>) {
     columns,
     data: data.content!,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: true,
     onPaginationChange: setPagination,
     pageCount: data.totalPages,
     state: { pagination },
