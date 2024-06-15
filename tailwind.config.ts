@@ -51,6 +51,10 @@ const tagComponent = plugin(({ addComponents, matchComponents }) => {
   // matchComponents({ tag: (values) => ({ padding: '0.75rem', background: '#CBD5DF7f' }) }, {  });
 });
 
+const textUtility = plugin(({ addUtilities }) => {
+  addUtilities({ '.text-bidi': { unicodeBidi: 'plaintext' } }, {});
+});
+
 const config: Config = {
   daisyui: { logs: false, themes: [themes] } as DaisyConfig,
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
@@ -62,6 +66,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [require('@tailwindcss/typography'), require('daisyui'), gridTemplate, tagComponent],
+  plugins: [require('@tailwindcss/typography'), require('daisyui'), gridTemplate, tagComponent, textUtility],
 };
 export default config;

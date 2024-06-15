@@ -30,13 +30,7 @@ export default function Categories({ params }: PageProps<'scopeId'>) {
 
   return (
     <>
-      <Breadcrumb
-        items={[
-          { text: 'صفحه اصلی', url: '/' },
-          { text: 'حوزه ' + scope.title, url: '/scope/' + params.scopeId },
-          { text: 'مقالات' },
-        ]}
-      />
+      <Breadcrumb params={params} items={[{ text: 'مقالات' }]} />
       <div className="flex gap-20 items-center bg-neutral-300">
         <Community />
         <div className="flex flex-col gap-6">
@@ -44,7 +38,7 @@ export default function Categories({ params }: PageProps<'scopeId'>) {
           <p>در اینجا شما می‌توانید سوالات و دانش خود را با دیگران به اشتراک بگذارید</p>
         </div>
       </div>
-      <div className="flex flex-col gap-6" >
+      <div className="flex flex-col gap-6">
         <DataFilter schema={schema} />
         {articles.map((article) => (
           <Article key={article.id} article={article} />
@@ -53,4 +47,3 @@ export default function Categories({ params }: PageProps<'scopeId'>) {
     </>
   );
 }
-

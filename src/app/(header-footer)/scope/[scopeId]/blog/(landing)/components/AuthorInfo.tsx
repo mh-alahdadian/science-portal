@@ -12,7 +12,7 @@ export function AuthorInfo({ author }: Props) {
           <img src={author.avatar} alt="test image" />
         </div>
       </div>
-      <p>
+      <p className="flex-1">
         {author.name || `${author.firstName} ${author.lastName}`}
       </p>
     </>

@@ -5,9 +5,9 @@ import { TextIcon } from '@/components';
 import { CaretLeft, Tag } from '@phosphor-icons/react';
 import { useSuspenseQueries } from '@tanstack/react-query';
 import Link from 'next/link';
+import { mockTags } from '../../mocks';
 import { AuthorsList } from '../components/AuthorsList';
 import { PostRows } from '../components/PostRows';
-import { mockTags } from '../mocks';
 
 export default function BlogLandingSidebar({ params }: PageProps<'scopeId'>) {
   const [{ data: tags }] = useSuspenseQueries({
