@@ -16,7 +16,7 @@ export default function ScopesPage(props: PageProps) {
   return (
     <div className="flex flex-col gap-5 w-full">
       Scopes:
-      <div className='grid gap-4 grid-cols-3'>
+      <div className="grid gap-4 grid-cols-3">
         {data.map((x: any) => (
           <ScopeCard key={x.id} scope={x} />
         ))}

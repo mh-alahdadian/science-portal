@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import Logo from 'src/assets/logo.svg';
+import ManagementMenu from './ManagementMenuController';
 import AuthDialogController from './ProfileMenuController';
 import Services from './Services';
-import ManagementMenu from './ManagementMenuController';
 
 export default function Header({ params }: PageProps<'scopeId'>) {
   return (
@@ -16,7 +16,7 @@ export default function Header({ params }: PageProps<'scopeId'>) {
           حوزه‌ها
         </Link>
         <Services scopeId={params.scopeId} />
-        <ManagementMenu scopeId={+params.scopeId}/>
+        <ManagementMenu scopeId={+params.scopeId} />
       </div>
       <AuthDialogController />
     </header>

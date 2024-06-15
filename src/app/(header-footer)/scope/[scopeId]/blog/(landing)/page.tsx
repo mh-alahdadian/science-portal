@@ -4,7 +4,6 @@ import { queryService } from '@/api';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { PostCard } from './components/PostCard';
 
-
 export default function BlogLandingPage({ params }: PageProps<'scopeId'>) {
   const pathParams = { scopeId: params.scopeId };
   const categories = useSuspenseQuery(

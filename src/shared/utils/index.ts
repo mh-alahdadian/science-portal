@@ -1,2 +1,2 @@
-export * from './date-time'
-export * from './scope'
+export * from './date-time';
+export * from './scope';

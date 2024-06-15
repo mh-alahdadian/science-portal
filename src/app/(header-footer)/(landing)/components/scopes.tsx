@@ -1,11 +1,11 @@
 // 'use client';
 
 import { queryService } from '@/api';
+import { getScopeUrl } from '@/utils/scope';
 import { BookOpenText, Users } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import IdeaIllustration from '../assets/Idea.svg';
 import Link from 'next/link';
-import { getScopeUrl } from '@/utils/scope';
+import IdeaIllustration from '../assets/Idea.svg';
 
 function Scope(props: { scope: Schema<'ScopeDTO'> }) {
   const { scope } = props;

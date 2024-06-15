@@ -1,14 +1,12 @@
 'use client';
 
-import { useCurrentScope } from "@/hooks";
-import { ThumbsDown, ThumbsUp } from "@phosphor-icons/react/dist/ssr";
+import { useCurrentScope } from '@/hooks';
+import { ThumbsDown, ThumbsUp } from '@phosphor-icons/react/dist/ssr';
 
-import { newsCommentType, newsSingleComment } from "src/types/news";
-
+import { newsCommentType, newsSingleComment } from 'src/types/news';
 
 export default function NewsComments(props: newsCommentType) {
-  const scope = useCurrentScope()
-
+  const scope = useCurrentScope();
 
   return (
     <div className="p-6 pb-0 rounded-lg bg-white mt-10 flex flex-col">
@@ -22,18 +20,23 @@ export default function NewsComments(props: newsCommentType) {
               <img src={commentItem.userImg} className="w-[40px] h-[40px] rounded-full" />
               <span>{commentItem.userName}</span>
             </div>
-            <span className="text-gray-500">{commentItem.date} - {commentItem.time}</span>
+            <span className="text-gray-500">
+              {commentItem.date} - {commentItem.time}
+            </span>
           </div>
           <p className="my-3 text-gray-500">{commentItem.content}</p>
 
           {/* like container */}
           <div className="flex gap-8 self-end text-gray-500">
-            <div className="flex gap-2 items-center hover:bg-gray-200 p-2 rounded-md"><ThumbsUp /> {commentItem.likes ? commentItem.likes : "0"}</div>
-            <div className="flex gap-2 items-center hover:bg-gray-200 p-2 rounded-md"><ThumbsDown /> {commentItem.dislikes ? commentItem.dislikes : "0"}</div>
+            <div className="flex gap-2 items-center hover:bg-gray-200 p-2 rounded-md">
+              <ThumbsUp /> {commentItem.likes ? commentItem.likes : '0'}
+            </div>
+            <div className="flex gap-2 items-center hover:bg-gray-200 p-2 rounded-md">
+              <ThumbsDown /> {commentItem.dislikes ? commentItem.dislikes : '0'}
+            </div>
           </div>
         </div>
       ))}
-
     </div>
   );
 }

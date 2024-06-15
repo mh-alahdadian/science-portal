@@ -1,6 +1,5 @@
 'use client';
 
-import { logout } from '@/api';
 import { useProfile } from '@/hooks';
 import { getScopeUrl } from '@/utils/scope';
 import Link from 'next/link';

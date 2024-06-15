@@ -14,7 +14,7 @@ const Theme5: ThemeProps = {
 export const Form = withTheme(Theme5);
 
 export function EntityForm<T = any>(props: Omit<FormProps<T, JsonSchema, FormContextType>, 'validator'>) {
-  const Form2 = Form as any
+  const Form2 = Form as any;
   return <Form2 {...props} validator={validator} />;
 }
 

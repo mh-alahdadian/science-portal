@@ -1,13 +1,12 @@
 'use client';
-import { newsListType, singleNewsItem } from "src/types/news";
+import { newsListType, singleNewsItem } from 'src/types/news';
 
-import { useCurrentScope } from "@/hooks";
-import NewsListSingleItem from "./NewsListSingleItem";
+import { useCurrentScope } from '@/hooks';
+import NewsListSingleItem from './NewsListSingleItem';
 
 export default function NewsList(props: newsListType) {
-  const scope = useCurrentScope()
+  const scope = useCurrentScope();
 
-  
   return (
     <div className="max-w-[300px] ">
       <div className="flex flex-row items-center gap-2 mb-4">
@@ -16,8 +15,7 @@ export default function NewsList(props: newsListType) {
       </div>
       <div className="flex flex-col">
         {props.items?.map((item: singleNewsItem) => {
-            return <NewsListSingleItem image={item.image} title={item.title} />
-            
+          return <NewsListSingleItem image={item.image} title={item.title} />;
         })}
       </div>
     </div>

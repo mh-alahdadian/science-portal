@@ -1,3 +1,3 @@
 export * from './AutocompleteWidget';
-export * from './SelectWidget';
 export * from './EditorWidget';
+export * from './SelectWidget';

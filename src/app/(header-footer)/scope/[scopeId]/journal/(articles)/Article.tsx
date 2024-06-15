@@ -22,7 +22,8 @@ export default function Article({ article }: Props) {
           ['زبان', article.language || 'فارسی'],
         ].map(([key, value]) => (
           <p key={key}>
-            <span>{key}:</span><span className="ms-2">{value}</span>
+            <span>{key}:</span>
+            <span className="ms-2">{value}</span>
           </p>
         ))}
       </div>

@@ -1,3 +1,3 @@
-export default function BookNotFound(props:{}) {
-    return "Book 404"
+export default function BookNotFound(props: {}) {
+  return 'Book 404';
 }

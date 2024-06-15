@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { InputHTMLAttributes, ReactNode, forwardRef } from 'react';
+import { InputHTMLAttributes, ReactNode } from 'react';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
   formControlClassName?: string;

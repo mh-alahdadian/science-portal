@@ -1,6 +1,6 @@
 import { isServer } from '@tanstack/react-query';
-import { queryClient, queryService } from './api';
 import Cookies from 'js-cookie';
+import { queryClient, queryService } from './api';
 
 const TOKEN_STORAGE_KEY = 'TOKEN_STORAGE_KEY';
 const ACCESS_TOKEN_KEY = 'accessToken';
@@ -28,7 +28,7 @@ export function setToken(newToken: Tokens) {
 
   cachedToken = { accessToken: newToken.accessToken, refreshToken: newToken.refreshToken };
   localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify(cachedToken));
-  Cookies.set(ACCESS_TOKEN_KEY, cachedToken.accessToken!)
+  Cookies.set(ACCESS_TOKEN_KEY, cachedToken.accessToken!);
   queryClient.invalidateQueries({ queryKey: queryService('core:/v1/users/profile', {}).queryKey });
 }
 
@@ -36,6 +36,6 @@ export function removeToken() {
   if (isServer) return;
 
   localStorage.removeItem(TOKEN_STORAGE_KEY);
-  Cookies.remove(ACCESS_TOKEN_KEY)
+  Cookies.remove(ACCESS_TOKEN_KEY);
   queryClient.invalidateQueries({ queryKey: queryService('core:/v1/users/profile', {}).queryKey });
 }

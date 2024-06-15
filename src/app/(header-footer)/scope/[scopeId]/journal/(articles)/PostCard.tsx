@@ -12,7 +12,6 @@ interface Mock extends Schema<'ArticleResponseDTO'> {
   pagesCount: number;
 }
 
-
 export function PostCard(props: Props) {
   const post = props.post as Mock;
 

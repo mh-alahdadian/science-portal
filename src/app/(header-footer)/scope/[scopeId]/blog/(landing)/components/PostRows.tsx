@@ -27,7 +27,7 @@ const mockPosts: (Schema<'ArticleResponseDTO'> & { view: number })[] = [
 export function PostRows(props: {}) {
   const posts = mockPosts;
   return (
-    <ol className='flex flex-col gap-4'>
+    <ol className="flex flex-col gap-4">
       {posts.map((post, i) => (
         <li className="flex items-center gap-4" key={i}>
           <div className="avatar placeholder">
@@ -38,7 +38,7 @@ export function PostRows(props: {}) {
           <div>
             <Link className="flex" href={`blog/${post.id}`}>
               <p>{post.title}</p>
-              <ArrowLeft className='shrink-0' size={24} />
+              <ArrowLeft className="shrink-0" size={24} />
             </Link>
             <div className="flex items-center gap-3 mt-2">
               <p>{post.authorName}</p>

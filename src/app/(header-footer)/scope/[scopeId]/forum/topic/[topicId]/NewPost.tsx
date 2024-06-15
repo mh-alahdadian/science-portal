@@ -36,7 +36,7 @@ export function NewPost({ params }: Pick<PageProps<'scopeId' | 'topicId'>, 'para
   return (
     <div>
       <EntityForm
-      className='mb-32'
+        className="mb-32"
         schema={schema}
         uiSchema={uiSchema}
         onSubmit={({ formData }) =>

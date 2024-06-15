@@ -16,7 +16,7 @@ export default function Editor(props: Props) {
           language: 'fa',
           toolbar: {
             removeItems: ['heading'],
-            items: props.disabled ? [] : undefined 
+            items: props.disabled ? [] : undefined,
           },
         }}
         editor={ClassicEditor}

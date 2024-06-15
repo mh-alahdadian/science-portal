@@ -1,5 +1,5 @@
 // See https://github.com/rjsf-team/react-jsonschema-form/pull/2887/files#diff-b51e893c9f8a0244c2806c0256561cff0261e2774247ec4232218082fc2dc952
-import { WidgetProps, asNumber, guessType } from '@rjsf/utils';
+import { WidgetProps, asNumber } from '@rjsf/utils';
 import { useState } from 'react';
 import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
