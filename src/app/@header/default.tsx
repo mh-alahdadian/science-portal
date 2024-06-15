@@ -4,7 +4,6 @@ import AuthDialogController from './ProfileMenuController';
 import Services from './Services';
 import ManagementMenu from './ManagementMenuController';
 
-
 export default function Header({ params }: PageProps<'scopeId'>) {
   return (
     <header className="navbar sticky px-12">

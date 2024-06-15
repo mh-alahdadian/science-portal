@@ -15,3 +15,15 @@ apis:
     root: ./docs/openapi/library.json
     x-openapi-ts:
       output: ./src/generated/library.d.ts
+  feedback@v1:
+    root: ./docs/openapi/feedback.json
+    x-openapi-ts:
+      output: ./src/generated/feedback.d.ts
+  article@v1:
+    root: ./docs/openapi/article.json
+    x-openapi-ts:
+      output: ./src/generated/article.d.ts
+  blog@v1:
+    root: ./docs/openapi/article.json
+    x-openapi-ts:
+      output: ./src/generated/blog.d.ts

@@ -1,13 +1,13 @@
 'use client';
 
 import { queryService } from '@/api';
-import { DataFilter, DataGrid } from '@/components';
+import { DataFilter, DataGrid, Tags } from '@/components';
 import { useCurrentScope } from '@/hooks';
 import { Plus } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { GridOptions, ICellRendererParams } from 'ag-grid-community';
 import Link from 'next/link';
-import Community from '../assets/Community.svg';
+import Community from '../../assets/Community.svg';
 
 type Topic = Schema<'TopicResponseDTO'>;
 type Options = GridOptions<Topic>;
@@ -23,13 +23,7 @@ const colDefs: Options['columnDefs'] = [
         <Link href={`topic/${topic.id}`}>
           <p className="text-base">{topic.title}</p>
           <p className="text-sm text-opacity-50 whitespace-pre-wrap line-clamp-4 h-20 mt-2">{topic.content}</p>
-          <div className="mt-4 flex gap-6">
-            {topic.tags?.map((tag) => (
-              <div className="badge" key={tag.id}>
-                {tag.name}
-              </div>
-            ))}
-          </div>
+          <Tags tags={topic.tags!} />
         </Link>
       );
     },

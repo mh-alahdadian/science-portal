@@ -1,6 +1,5 @@
 import type { WidgetProps } from '@rjsf/utils';
-import { useState } from 'react';
-import Editor from '../editor/Editor';
+import { Editor } from '../';
 
 export function EditorWidget({
   schema, id, disabled, value, autofocus, onChange, rawErrors = [],

@@ -1,10 +1,14 @@
 import dynamic from 'next/dynamic';
 
-// export * from './Editor';
 export * from './Breadcrumb';
 export * from './EntityFilter';
 export * from './EntityForm';
 export * from './EntityGrid';
+export * from './Paginator';
+export * from './Rating';
+export * from './RatingChart';
+export * from './Tags';
+export * from './TextIcon';
 export * from './form/FieldWrapper';
 export * from './form/SelectField';
 export * from './form/TextField';

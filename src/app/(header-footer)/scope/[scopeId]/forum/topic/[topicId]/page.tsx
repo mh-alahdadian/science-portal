@@ -34,7 +34,8 @@ export default function TopicPage({ params }: PageProps<'scopeId' | 'topicId'>) 
 
   return (
     <div className="">
-      <Breadcrumb items={[{ text: 'حوزه' }, { text: 'فروم' }, { text: topic.title }]} />
+      <Breadcrumb params={params} items={[{ text: 'فروم' }, { text: topic.title }]} />
+
       <div className="flex gap-6">
         <ol className="flex-1 flex flex-col gap-12">
           {posts?.map((post) => (

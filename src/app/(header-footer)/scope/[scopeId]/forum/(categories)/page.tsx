@@ -5,7 +5,7 @@ import { useCurrentScope } from '@/hooks';
 import { css } from '@emotion/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import Community from '../assets/Community.svg';
+import Community from '../../assets/Community.svg';
 
 const mockImage = `https://api.slingacademy.com/public/sample-photos/{}.jpeg`;
 
@@ -30,11 +30,11 @@ export default function Categories({ params }: PageProps<'scopeId' | 'categoryId
         {categories.map((cat, i) => (
           <Link href={`forum/${cat.id}`} key={cat.id} className="card rounded-lg">
             <figure>
-              <img src={mockImage.replace('{}', String(i + 1))} alt={cat.title} />
+              <img src={cat.coverImage || mockImage.replace('{}', String(i + 1))} alt={cat.title} />
             </figure>
             <div className="card-body w-full text-center self-end">
               <p className="card-title justify-center">{cat.title}</p>
-              <p>{587} تاپیک</p>
+              <p>{cat.topicCount} تاپیک</p>
             </div>
           </Link>
         ))}

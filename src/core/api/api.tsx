@@ -2,10 +2,6 @@ import { createEvent } from '@/utils/event-emitter';
 import { QueryClient, UseMutationOptions, isServer, type UseQueryOptions } from '@tanstack/react-query';
 import createClient, { type FetchOptions, type FetchResponse } from 'openapi-fetch';
 import type { FilterKeys, PathsWithMethod as PathsWith } from 'openapi-typescript-helpers';
-import type { paths as CorePaths } from 'src/generated/core';
-import type { paths as ForumPaths } from 'src/generated/forum';
-import type { paths as LibraryPaths } from 'src/generated/library';
-import type { paths as NewsPaths } from 'src/generated/news';
 
 interface RequestContext {
   method: Methods;
@@ -21,14 +17,7 @@ const [emitApiEvent, listenApiEvent] = createEvent<{
 }>();
 export { listenApiEvent };
 
-type PathGen<BasePath extends string, Paths> = {
-  [k in keyof Paths & string as `${BasePath}${k}`]: Paths[k];
-};
-
-type Paths = PathGen<'core:', CorePaths> &
-  PathGen<'news:', NewsPaths> &
-  PathGen<'forum:', ForumPaths> &
-  PathGen<'library:', LibraryPaths>;
+type Paths = ApiPaths;
 
 const serverUrl = isServer ? require('src/config').server_url : '/api/';
 
@@ -60,7 +49,7 @@ export async function request(method: Methods, url: string, payload: any) {
 type PathsOf<M> = PathsWith<Paths, M>;
 type RequestData<M extends Methods, P extends PathsOf<M>> = FetchOptions<FilterKeys<Paths[P], M>>;
 type ResponseData<M extends Methods, P extends PathsOf<M>> = NonNullable<
-  FetchResponse<Paths[P][keyof Paths[P] & M], null, '*/*'>['data']
+  FetchResponse<Paths[P][keyof Paths[P] & M], unknown, '*/*'>['data']
 >;
 
 export function queryService<P extends PathsOf<'get'>>(
@@ -79,7 +68,7 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       suspense: true,
-      throwOnError: true,
+      throwOnError: false,
       retry: isServer ? false : undefined,
       queryFn: async (context) => {
         // TODO: support non get services

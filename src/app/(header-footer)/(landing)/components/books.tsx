@@ -1,5 +1,6 @@
 'use client';
 
+import { TextIcon } from '@/components/TextIcon';
 import { getScopeUrl } from '@/utils/scope';
 import { css } from '@emotion/react';
 import { BoundingBox, Download } from '@phosphor-icons/react';
@@ -30,12 +31,8 @@ export default function Books() {
           </figure>
           <p className="card-title">{x.title}</p>
           <div>
-            <div>
-              <BoundingBox /> {x.category.title}
-            </div>
-            <div>
-              <Download /> {'unknown'}
-            </div>
+            <TextIcon Icon={BoundingBox} text={x.category.title!} />
+            <TextIcon Icon={Download} text={'unknown'} />
           </div>
         </Link>
       ))}
