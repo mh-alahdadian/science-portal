@@ -7,18 +7,15 @@ import { CaretLeft } from "@phosphor-icons/react/dist/ssr";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { queryService } from "@/api";
 
-export default function News({ params }: PageProps<'scopeId' | 'id'>) {
+export default function News({ params }: PageProps<'scopeId' | 'postId'>) {
   const scope = useCurrentScope()
   const news = useSuspenseQuery(
-    queryService('news:/v1/scope/{scopeId}/posts/{postId}', { params: { path: {scopeId: params.scopeId, postId: params.id} } }),
+    queryService('news:/v1/scope/{scopeId}/posts/{postId}', { params: { path: { scopeId: params.scopeId, postId: params.postId } } }),
   ).data;
 
-
-  console.log(scope)
-console.log(news)
-
-const date = news.createAt.slice(0,10).split("-").join("/")
-const time = news.createAt.slice(11,19)
+  const dateTemp = new Date(news.createdAt!).toLocaleString('fa-IR');
+  const date = dateTemp.slice(0, 10).split("-").join("/")
+  const time = dateTemp.slice(11, 19)
 
 
   return (
