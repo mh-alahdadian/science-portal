@@ -7,21 +7,12 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 
 import {newsSingleCard, newsSingleItem} from "src/types/news";
 
-
-export default function NewsCard(props: newsSingleItem) {
+export default function NewsCard(props: Schema<"PostDTO">) {
   const scope = useCurrentScope()
 
-  // const users = useSuspenseQuery(
-  //   queryService("core:/v1/manager/{page}/users/{userId}", {
-  //     params: {
-  //       path: {page: `${props.createAt ? props.createAt : "0"}`, userId: props.userId }
-  //     }
-  //   })
-  // )
-  console.log(props)
-
-  const date:string = props.createAt?.slice(0, 10).split("-").join("/")
-  const time: string = props.createAt?.slice(11, 19)
+  const dateTemp:string = new Date(props.createAt!).toLocaleString('fa-IR');
+  const date:string = dateTemp?.slice(0, 10).split("-").join("/")
+  const time: string = dateTemp?.slice(11, 19)
 
 
   return (

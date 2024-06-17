@@ -20,7 +20,7 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
   const [currentPage, setCurrentPage] = useState(19)
   const [perPage, setPerPage] = useState(6)
 
-  const news: newsSingleItem[] = useSuspenseQuery(
+  const news: Schema<"PostDTO">[] = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/posts', {
       params: { path: { scopeId: +params.scopeId }, query: {} },
     }),
@@ -28,9 +28,9 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
 
   const highlightedNews = news[0]
 
-
-  const date: string = highlightedNews.createAt.slice(0, 10).split("-").join("/")
-  const time: string = highlightedNews.createAt.slice(11, 19)
+  const dateTemp:string = new Date(highlightedNews.createAt!).toLocaleString('fa-IR');
+  const date: string = dateTemp.slice(0, 10).split("-").join("/")
+  const time: string = dateTemp.slice(11, 19)
 
   const allPagesCount: number = Math.ceil(news.length / 8);
 
@@ -65,7 +65,7 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
           </div>
           <div className="pr-4 mt-4 flex flex-col gap-4">
             {news && isTopNewsSelected ? (
-              news.slice(0, 5).map((newsItem: newsSingleItem) => {
+              news.slice(0, 5).map((newsItem: Schema<"PostDTO">) => {
                 return (
                   <Link href={`news/${newsItem.id}`}>
                     <h3>{newsItem.title}</h3>
@@ -73,7 +73,7 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
                 )
               })
             ) : (
-              news.slice(20, 25).map((newsItem: newsSingleItem) => {
+              news.slice(20, 25).map((newsItem: Schema<"PostDTO">) => {
                 return (
                   <Link href={`news/${newsItem.id}`}>
                     <h3>{newsItem.title}</h3>
@@ -90,15 +90,12 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
       <h3 className="text-lg font-bold my-4">تازه ترین اخبار</h3>
 
       <div className="grid grid-cols-3 gap-6">
-        {news.slice(0, 3).map((item: newsSingleItem) => <NewsCard
-          id={item.id}
-          content={item.content}
+        {news.slice(0, 3).map((item: Schema<"PostDTO">) => <NewsCard
+          key={item.id}
           title={item.title}
           coverImage={item.coverImage}
           createAt={item.createAt}
           userId={item.userId}
-          categoryId={item.categoryId}
-          isPublic={item.isPublic}
         />)}
       </div>
 
@@ -106,16 +103,12 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
       <h3 className="text-lg font-bold my-4">پربازدید ترین اخبار</h3>
 
       <div className="grid grid-cols-4 gap-6">
-        {/* {news.slice(0, 4).map((item: newsSingleCard) => <NewsCard img={item.img} author={item.author} title={item.title} date={item.date} time={item.time} />)} */}
-        {news.slice(0, 4).map((item: newsSingleItem) => <NewsCard
-          id={item.id}
-          content={item.content}
+        {news.slice(0, 4).map((item: Schema<"PostDTO">) => <NewsCard
+          key={item.id}
           title={item.title}
           coverImage={item.coverImage}
           createAt={item.createAt}
           userId={item.userId}
-          categoryId={item.categoryId}
-          isPublic={item.isPublic}
         />)}
 
       </div>
@@ -125,16 +118,12 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
 
       {/* اخبار پایین صفحه */}
       <div className="grid grid-cols-3 gap-6 mt-12">
-        {/* {latestNewsMock.map((item: newsSingleCard) => <NewsCard img={item.img} author={item.author} title={item.title} date={item.date} time={item.time} />)} */}
-        {news.slice((currentPage - 1) * perPage, (currentPage * perPage)).map((item: newsSingleItem) => <NewsCard
-          id={item.id}
-          content={item.content}
+        {news.slice((currentPage - 1) * perPage, (currentPage * perPage)).map((item: Schema<"PostDTO">) => <NewsCard
+          key={item.id}
           title={item.title}
           coverImage={item.coverImage}
           createAt={item.createAt}
           userId={item.userId}
-          categoryId={item.categoryId}
-          isPublic={item.isPublic}
         />)}
 
       </div>
