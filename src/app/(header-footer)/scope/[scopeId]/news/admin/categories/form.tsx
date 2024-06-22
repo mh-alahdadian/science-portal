@@ -1,4 +1,5 @@
 import { mutateService } from '@/api';
+import { TextField } from '@/components';
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 
@@ -26,20 +27,18 @@ export function Form(props: Props) {
         <span>id:</span>
         <span>{selectedCategory.id}</span>
       </div>
-      <div className="mb-3 ">
-        <label htmlFor="title">عنوان:</label>
-        <input
-          type="text"
-          id="title"
-          value={category.title}
-          onChange={(e) => {
-            setCategory({
-              ...selectedCategory,
-              title: e.target.value,
-            });
-          }}
-        />
-      </div>
+      <TextField
+        type="text"
+        id="title"
+        label={'عنوان:'}
+        value={category.title}
+        onChange={(e) => {
+          setCategory({
+            ...selectedCategory,
+            title: e.target.value,
+          });
+        }}
+      />
       <button className="btn bg-green-700 px-4 py-2 text-white mx-4">ثبت تغییرات</button>
     </form>
   );
