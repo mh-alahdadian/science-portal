@@ -4,7 +4,7 @@ import { queryService } from '@/api';
 import { Editor, TextIcon } from '@/components';
 import { CommentsList, SubmitComment } from '@/components/feedback';
 import { ModelType } from '@/constants';
-import { formatDateTime } from '@/utils';
+import { createFileUrl, formatDateTime } from '@/utils';
 import { Eye } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import humanFormat from 'human-format';
@@ -30,7 +30,7 @@ export default function BlogPostPage({ params }: PageProps<'scopeId' | 'postId'>
         <time dateTime={post.createAt}>{formatDateTime(post.createAt!)}</time>
         <TextIcon Icon={Eye} text={humanFormat(62000)} />
       </div>
-      <img src={post.coverImage} alt={`cover of postId=${post.id}`} />
+      <img src={createFileUrl(post.coverImage)} alt={`cover of postId=${post.id}`} />
       <h1 className="font-bold">{post.title}</h1>
       <Editor disabled data={post.content} />
       <h3 className="font-bold">مطالب مشابه</h3>

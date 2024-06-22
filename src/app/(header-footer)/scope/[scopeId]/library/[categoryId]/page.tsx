@@ -4,6 +4,7 @@ import { queryService } from '@/api';
 import { DataFilter } from '@/components';
 import { TextIcon } from '@/components/TextIcon';
 import { useCurrentScope } from '@/hooks';
+import { createFileUrl } from '@/utils';
 import { css } from '@emotion/react';
 import { CaretLeft, Download } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -52,7 +53,7 @@ export default function Library({ params }: PageProps<'scopeId' | 'categoryId'>)
         {books.map((book, i) => (
           <Link href={`book/${book.id}`} key={book.id} className="card card-body rounded-lg">
             <figure>
-              <img src={book.coverImage} alt={book.name} />
+              <img src={createFileUrl(book.coverImage)} alt={book.name} />
             </figure>
             <BookInfo book={book} />
             <hr />

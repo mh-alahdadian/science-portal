@@ -1,6 +1,7 @@
 'use client';
 
-import { fileManagerUrl, queryService } from '@/api';
+import { queryService } from '@/api';
+import { createFileUrl } from '@/utils';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { BookInfo } from '../../components/BookInfo';
@@ -23,7 +24,7 @@ export function SimilarBooks({ params, tags }: Props) {
       <span className="text-black text-opacity-50">کتاب‌های مشابه</span>
       {similarBooks.map((b) => (
         <Link key={b.id} href={`${b.id}`} className="flex gap-4">
-          <img src={fileManagerUrl + b.coverImage} width={90} />
+          <img src={createFileUrl(b.coverImage)} width={90} alt="" />
           <BookInfo book={b} />
         </Link>
       ))}

@@ -1,9 +1,10 @@
 'use client';
 
-import { fileManagerUrl, mutateService, queryService } from '@/api';
+import { mutateService, queryService } from '@/api';
 import { Breadcrumb, Rating, RatingChart } from '@/components';
 import { CommentsList, SubmitComment } from '@/components/feedback';
 import { ModelType } from '@/constants';
+import { createFileUrl } from '@/utils';
 import { Download, Share, Star } from '@phosphor-icons/react';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -46,7 +47,7 @@ export default function BookPage(props: PageProps<'scopeId' | 'bookId'>) {
   const bookInfo = (
     <div className="card flex-row gap-4">
       <img
-        src={mockImage || fileManagerUrl + book.coverImage}
+        src={mockImage || createFileUrl(book.coverImage)}
         alt={book.name!}
         width={200}
         className="object-contain object-top"

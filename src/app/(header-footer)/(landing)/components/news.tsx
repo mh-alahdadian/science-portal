@@ -1,6 +1,7 @@
 // 'use client';
 
-import { fileManagerUrl, queryService } from '@/api';
+import { queryService } from '@/api';
+import { createFileUrl } from '@/utils';
 import { getScopeUrl } from '@/utils/scope';
 import { css } from '@emotion/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -28,7 +29,7 @@ export default function News() {
       {content.map((x) => (
         <Link href={`${getScopeUrl(x.scopeId)}/news/${x.id}`} key={x.id} className="card image-full rounded-lg">
           <figure>
-            <img src={fileManagerUrl + x.coverImage} alt={x.title} />
+            <img src={createFileUrl(x.coverImage)} alt={x.title} />
           </figure>
           <div className="card-body self-end">
             <p className="card-title">{x.title}</p>

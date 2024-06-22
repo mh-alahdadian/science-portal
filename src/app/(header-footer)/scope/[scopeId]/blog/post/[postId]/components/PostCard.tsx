@@ -1,4 +1,4 @@
-import { formatDateTime } from '@/utils';
+import { createFileUrl, formatDateTime } from '@/utils';
 import { AuthorInfo } from '../../../(landing)/components/AuthorInfo';
 import { BlogPostMock } from '../../../mocks';
 
@@ -11,7 +11,7 @@ export function PostCard(props: Props) {
 
   return (
     <div className="card rounded-lg card-body flex flex-col gap-4">
-      <img className="w-full" src={post.coverImage} alt={post.title} />
+      <img className="w-full" src={createFileUrl(post.coverImage)} alt={post.title} />
       <p className="card-title">{post.title}</p>
       <div className="flex items-center gap-4">
         <AuthorInfo author={post.author} />

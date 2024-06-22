@@ -1,4 +1,5 @@
 import { TextIcon } from '@/components';
+import { createFileUrl } from '@/utils';
 import { ArrowLeft, Eye } from '@phosphor-icons/react';
 import humanFormat from 'human-format';
 import Link from 'next/link';
@@ -32,7 +33,7 @@ export function PostRows(props: {}) {
         <li className="flex items-center gap-4" key={i}>
           <div className="avatar placeholder">
             <div className="w-20 rounded-lg">
-              <img src={post.coverImage} alt="test image" />
+              <img src={createFileUrl(post.coverImage)} alt="test image" />
             </div>
           </div>
           <div>

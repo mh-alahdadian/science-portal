@@ -1,5 +1,5 @@
 import { TextIcon } from '@/components/TextIcon';
-import { formatDateTime } from '@/utils';
+import { createFileUrl, formatDateTime } from '@/utils';
 import { CaretLeft, ChatTeardropDots, Eye, ThumbsDown, ThumbsUp } from '@phosphor-icons/react';
 import humanFormat from 'human-format';
 import Link from 'next/link';
@@ -21,7 +21,7 @@ export function PostCard(props: Props) {
         <AuthorInfo author={post.author} />
         <time dateTime={post.createAt}>{formatDateTime(post.createAt!)}</time>
       </div>
-      <img className="w-full" src={post.coverImage} alt={post.title} />
+      <img className="w-full" src={createFileUrl(post.coverImage)} alt={post.title} />
       <p className="card-title">{post.title}</p>
       <div className="flex gap-6 items-center">
         <TextIcon Icon={Eye} text={humanFormat(post.view || 0)} />

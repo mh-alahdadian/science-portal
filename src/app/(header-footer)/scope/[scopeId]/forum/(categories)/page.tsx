@@ -2,6 +2,7 @@
 
 import { queryService } from '@/api';
 import { useCurrentScope } from '@/hooks';
+import { createFileUrl } from '@/utils';
 import { css } from '@emotion/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -30,7 +31,7 @@ export default function Categories({ params }: PageProps<'scopeId' | 'categoryId
         {categories.map((cat, i) => (
           <Link href={`forum/${cat.id}`} key={cat.id} className="card rounded-lg">
             <figure>
-              <img src={cat.coverImage || mockImage.replace('{}', String(i + 1))} alt={cat.title} />
+              <img src={createFileUrl(cat.coverImage) || mockImage.replace('{}', String(i + 1))} alt={cat.title} />
             </figure>
             <div className="card-body w-full text-center self-end">
               <p className="card-title justify-center">{cat.title}</p>
