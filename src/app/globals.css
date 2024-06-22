@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scrollbar-gutter: unset !important;
+}
+
 html,
 body {
   height: 100%;
