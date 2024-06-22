@@ -13,7 +13,7 @@ type Comment = Schema<'CommentResponseDTO'> & { userImage: string; feedbackStats
 
 const mock: Comment = {
   userName: 'علی',
-  userImage: '/userImage.png',
+  userImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHCZuslFbn42wwA9qw6ywBERhtpr_yOFy3Cw&s',
   createAt: '1402/11/21 11:26',
   text: 'یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.',
   feedbackStats: { reaction: { [ReactionType.LIKE]: { count: 47, userReacted: false } } as any },

@@ -2,10 +2,6 @@ export interface singleNewsItem {
   image: string;
   title: string;
 }
-export interface newsListType {
-  title: string;
-  items?: singleNewsItem[];
-}
 
 export interface newsSingleComment {
   userName: string;

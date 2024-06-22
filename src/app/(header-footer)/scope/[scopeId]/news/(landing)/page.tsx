@@ -1,125 +1,121 @@
 'use client';
 
 import { queryService } from '@/api';
-import { Paginator } from '@/components';
+import { Breadcrumb, Paginator } from '@/components';
+import { Tabs } from '@/components/Tabs';
 import { useCurrentScope } from '@/hooks';
-import { CaretLeft } from '@phosphor-icons/react';
+import { createFileUrl, formatDateTime } from '@/utils';
 import { Clock } from '@phosphor-icons/react/dist/ssr';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import clsx from 'clsx';
 import Link from 'next/link';
 import { useState } from 'react';
 import NewsCard from './NewsCard';
 
+enum NewsTab {
+  TOP = 'TOP',
+  CHIEF_CHOICES = 'CHIEF_CHOICES',
+}
+
 export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
   const scope = useCurrentScope();
-  const [isTopNewsSelected, setIsTopNewsSelected] = useState(true);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [currentPage, setCurrentPage] = useState(19);
+  const [activeTab, setActiveTab] = useState(NewsTab.TOP);
+  const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(6);
 
-  const news = useSuspenseQuery(
+  const topNews = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/posts', {
       params: { path: { scopeId: +params.scopeId }, query: {} },
     }),
   ).data.content!;
 
-  const highlightedNews = news[0];
+  const latestNews = useSuspenseQuery(
+    queryService('news:/v1/scope/{scopeId}/posts', {
+      params: { path: { scopeId: +params.scopeId }, query: { pageable: { page: currentPage, size: perPage } } },
+    }),
+  ).data.content!;
 
-  const dateTemp: string = new Date(highlightedNews.createAt!).toLocaleString('fa-IR');
-  const date: string = dateTemp.slice(0, 10).split('-').join('/');
-  const time: string = dateTemp.slice(11, 19);
-
-  const allPagesCount: number = Math.ceil(news.length / 8);
+  const [activeHero, setActiveHero] = useState(0);
+  const highlightedNews = topNews[activeHero];
 
   return (
-    <div className="max-w-7xl mx-auto">
-      <div className="flex gap-1 items-center text-gray-500 my-4">
-        <span>حوزه های {scope.title}</span> <CaretLeft /> <span>اخبار</span>
-      </div>
+    <div className="max-w-7xl mx-auto flex flex-col gap-8">
+      <Breadcrumb params={params} items={[{ text: 'اخبار' }]} />
 
       {/* hero container */}
       <div className="flex gap-4">
         <div className="w-1/2 overflow-hidden rounded-lg relative">
           <Link href={`news/${highlightedNews.id}`}>
-            <img src={`${highlightedNews.coverImage}`} className="w-full h-full" />
+            <img src={createFileUrl(highlightedNews.coverImage)} className="w-full h-full" alt="" />
             <div className="absolute bg-gray-900 bg-opacity-50 w-full p-4 bottom-0 left-0">
               <h3 className="font-bold text-lg mb-2">{highlightedNews.title}</h3>
               <div>
-                <Clock /> {time} - {date}
+                <Clock /> {formatDateTime(highlightedNews.createAt!)}
               </div>
             </div>
           </Link>
         </div>
 
         <div className="w-1/2">
-          <div className="w-full bg-gray-300 rounded-lg">
-            <button
-              onClick={() => setIsTopNewsSelected(true)}
-              className={`btn btn-primary w-1/2 text-black left-0 self-end ${
-                isTopNewsSelected ? '' : 'bg-transparent border-none'
-              }`}
-            >
-              برترین اخبار
-            </button>
+          <Tabs<NewsTab>
+            onChange={setActiveTab}
+            active={activeTab}
+            options={[
+              { title: 'برترین اخبار', value: NewsTab.TOP },
+              // { title: 'انتخاب سردبیر', value: NewsTab.CHIEF_CHOICES },
+            ]}
+          />
 
-            <button
-              onClick={() => setIsTopNewsSelected(false)}
-              className={`btn btn-primary w-1/2 text-black left-0 self-end ${
-                isTopNewsSelected ? 'bg-transparent border-none' : ''
-              }`}
-            >
-              انتخاب سردبیر
-            </button>
-          </div>
-          <div className="pr-4 mt-4 flex flex-col gap-4">
-            {news && isTopNewsSelected
-              ? news.slice(0, 5).map((newsItem: Schema<'PostDTO'>) => (
-                  <Link key={newsItem.id} href={`news/${newsItem.id}`}>
-                    <h3>{newsItem.title}</h3>
-                  </Link>
-                ))
-              : news.slice(20, 25).map((newsItem: Schema<'PostDTO'>) => (
-                  <Link key={newsItem.id} href={`news/${newsItem.id}`}>
-                    <h3>{newsItem.title}</h3>
-                  </Link>
-                ))}
+          <div className="pr-4 mt-6 flex flex-col gap-6">
+            {topNews.slice(0, 5).map((newsItem, index) => (
+              <Link key={newsItem.id} href={`news/${newsItem.id}`}>
+                <h3
+                  onMouseEnter={() => setActiveHero(index)}
+                  className={clsx('font-bold text-black', index !== activeHero && 'text-opacity-50')}
+                >
+                  {newsItem.title}
+                </h3>
+              </Link>
+            ))}
           </div>
         </div>
       </div>
 
       {/* latest news */}
-      <h3 className="text-lg font-bold my-4">تازه ترین اخبار</h3>
+      <div>
+        <h3 className="mb-6 text-lg font-bold">تازه ترین اخبار</h3>
 
-      <div className="grid grid-cols-3 gap-6">
-        {news.slice(0, 3).map((item: Schema<'PostDTO'>) => (
-          <NewsCard key={item.id} post={item} />
-        ))}
+        <div className="grid grid-cols-3 gap-6">
+          {latestNews.slice(0, 3).map((item) => (
+            <NewsCard key={item.id} post={item} />
+          ))}
+        </div>
       </div>
 
       {/* most viewed news */}
-      <h3 className="text-lg font-bold my-4">پربازدید ترین اخبار</h3>
+      {/* <div>
+        <h3 className="mb-6 text-lg font-bold">پربازدید ترین اخبار</h3>
 
-      <div className="grid grid-cols-4 gap-6">
-        {news.slice(0, 4).map((item: Schema<'PostDTO'>) => (
-          <NewsCard key={item.id} post={item} />
-        ))}
-      </div>
+        <div className="grid grid-cols-4 gap-6">
+          {latestNews.slice(0, 4).map((item) => (
+            <NewsCard key={item.id} post={item} />
+          ))}
+        </div>
+      </div> */}
 
-      {/* بنر تبلیغاتی */}
-      <img src="/commercialBanner.jpg" className="w-full rounded-lg max-h-[400px] object-cover" />
+      <div className="flex justify-center items-center w-full h-96 rounded-lg bg-cyan-400">بنر تبلیغاتی</div>
 
       {/* اخبار پایین صفحه */}
-      <div className="grid grid-cols-3 gap-6 mt-12">
-        {news.slice((currentPage - 1) * perPage, currentPage * perPage).map((item: Schema<'PostDTO'>) => (
+      <div className="grid grid-cols-3 gap-6">
+        {latestNews.slice((currentPage - 1) * perPage, currentPage * perPage).map((item: Schema<'PostDTO'>) => (
           <NewsCard key={item.id} post={item} />
         ))}
       </div>
 
-      {/* pagination */}
       <div className="mt-20">
         <Paginator
           current={currentPage}
-          total={news.length}
+          total={latestNews.length}
           pageSize={perPage}
           changePage={setCurrentPage}
           changePageSize={setPerPage}

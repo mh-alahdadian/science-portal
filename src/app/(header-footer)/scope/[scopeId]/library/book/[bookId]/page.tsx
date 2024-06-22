@@ -105,8 +105,8 @@ export default function BookPage(props: PageProps<'scopeId' | 'bookId'>) {
   return (
     <div className="">
       <Breadcrumb
+        params={params}
         items={[
-          { text: 'حوزه', url: '../..' },
           { text: 'کتابخانه', url: '../' + book.category!.id },
           { text: book.name! },
         ]}

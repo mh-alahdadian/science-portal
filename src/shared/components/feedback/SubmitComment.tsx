@@ -31,3 +31,14 @@ export function SubmitComment(props: Props) {
     </form>
   );
 }
+
+/* 
+<div className="p-6 rounded-lg bg-white mt-10 flex flex-col">
+  <h5 className="font-bold text-xl">دیدگاه من:</h5>
+  <textarea
+    placeholder="نوشتن دیدگاه"
+    className="rounded-lg w-full min-h-32 mt-6 bg-gray-100 resize-none p-4"
+  ></textarea>
+  <button className="btn btn-primary w-52 text-white mt-6 left-0 self-end">ثبت دیدگاه</button>
+</div>
+*/
