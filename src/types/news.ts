@@ -37,7 +37,4 @@ export interface newsSingleItem {
     statusId?: number | null;
     title: string;
     updateAt?: any;
-    
-
-
 }
