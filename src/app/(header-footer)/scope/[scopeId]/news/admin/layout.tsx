@@ -8,16 +8,23 @@ export default function NewsAdminLayout({ children, params }: LayoutProps & Page
   const selectedSegment = useSelectedLayoutSegment()
   const prefixRoute = selectedSegment === null ? 'admin/' : ''
 
+
   return (
     <div className="max-w-7xl mx-auto ">
       {/* sidebar */}
-      <div className="basis-8 flex flex-col justify-center h-[90vh] gap-6 fixed top-0 right-0">
+      <div className={`group w-12 hover:w-28 bg-white z-20 duration-200 hover:duration-200 border-l-2 mt-16 flex flex-col justify-center h-[90vh] gap-6 fixed top-0 right-0`}>
         <Link href={`${prefixRoute}posts`}>
-          <ChatsCircle size={64} />
+          <div className={` ${selectedSegment === "posts" ? "bg-green-500 rounded-md" : ""}`}>
+            <NewspaperClipping size={64} width="100%" />
+            <span className='hidden text-center group-hover:block'>پست ها</span>
+          </div>
         </Link>
 
         <Link href={`${prefixRoute}categories`}>
-          <NewspaperClipping size={64} />
+          <div className={` ${selectedSegment === "categories" ? "bg-green-500 rounded-md" : ""}`}>
+            <ChatsCircle size={64} width="100%" />
+            <span className='hidden text-center group-hover:block'>دسته ها</span>
+          </div>
         </Link>
       </div>
 
