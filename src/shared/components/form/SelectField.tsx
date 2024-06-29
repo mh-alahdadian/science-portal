@@ -1,4 +1,4 @@
-import { ReactNode, SelectHTMLAttributes, forwardRef } from 'react';
+import { ReactNode, SelectHTMLAttributes } from 'react';
 import { FieldWrapper } from './FieldWrapper';
 
 interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
@@ -13,10 +13,14 @@ interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
 
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
+
+  ref?: any;
 }
 
-function SelectField(props: Props, ref: any) {
+export function SelectField(props: Props) {
   const {
+    ref,
+
     formControlClassName,
 
     label,
@@ -43,7 +47,3 @@ function SelectField(props: Props, ref: any) {
     </FieldWrapper>
   );
 }
-
-// @ts-ignore
-const SelectFieldForwardedRef: typeof SelectField = forwardRef(SelectField);
-export { SelectFieldForwardedRef as SelectField };

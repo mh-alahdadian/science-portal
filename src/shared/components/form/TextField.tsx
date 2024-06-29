@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, ReactNode, forwardRef } from 'react';
+import { InputHTMLAttributes, ReactNode } from 'react';
 import { FieldWrapper } from './FieldWrapper';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
@@ -13,10 +13,14 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 
   startAdornment?: ReactNode;
   endAdornment?: ReactNode;
+
+  ref?: any;
 }
 
-function TextField(props: Props, ref: any) {
+export function TextField(props: Props) {
   const {
+    ref,
+
     formControlClassName,
     label,
     labelAlt,
@@ -40,7 +44,3 @@ function TextField(props: Props, ref: any) {
     </FieldWrapper>
   );
 }
-
-// @ts-ignore
-const TextFieldForwardedRef: typeof TextField = forwardRef(TextField);
-export { TextFieldForwardedRef as TextField };
