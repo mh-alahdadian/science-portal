@@ -1,10 +1,8 @@
 'use client';
 
 import { queryService } from '@/api';
-import { createFileUrl } from '@/utils';
-import { CaretLeft } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import Link from 'next/link';
+import { NewsRow } from '../components/NewsRow';
 
 type PostsService = ReturnType<typeof queryService<'news:/v1/scope/{scopeId}/posts'>>;
 
@@ -23,18 +21,8 @@ export default function NewsList(props: Props) {
         <div className="w-full h-[2px] bg-slate-400"></div>
       </div>
       <div className="flex flex-col">
-        {related.map((item) => (
-          <Link
-            href={`./${item.id}`}
-            key={item.id}
-            className="flex flex-row gap-2 w-full items-center mb-0 hover:bg-gray-200 p-2 rounded-md"
-          >
-            <img src={createFileUrl(item.coverImage)} className="w-[80px] h-[58px] object-cover rounded-lg" alt="" />
-            <div className="flex flex-row justify-between w-full h-full">
-              <h5 className="m-0 line-clamp-2 text-sm">{props.title}</h5>
-              <CaretLeft className="shrink-0 self-center" />
-            </div>
-          </Link>
+        {related.map((post) => (
+          <NewsRow key={post.id} baseUrl="." post={post} />
         ))}
       </div>
     </div>

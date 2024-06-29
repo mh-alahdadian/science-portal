@@ -25,11 +25,11 @@ export default function LandingPage(props: PageProps) {
           <h1 className="text-5xl font-medium">سامانه جامع علوم شناختی</h1>
           <p className="text-2xl font-bold">مجموعه کامل گروه‌ها و کتاب‌خانه‌های حوزه علوم شناختی و Cognitive Science</p>
           <div className="flex gap-4">
-            <button className="btn btn-primary w-52">
+            <button className="btn btn-primary flex-1 max-w-52">
               مشاهده حوزه‌ها
               <CaretLeft />
             </button>
-            <button className="btn btn-outline w-52">ثبت‌نام</button>
+            <button className="btn btn-outline flex-1 max-w-52">ثبت‌نام</button>
           </div>
         </div>
         <BrainIllustration />

@@ -42,11 +42,20 @@ export default function News() {
 
 const styles = css`
   &.grid {
-    grid-template: auto auto / 1fr 1fr 2fr;
+    grid-template: auto auto / 2fr 1fr 1fr;
     grid-auto-flow: column;
   }
-  & .card:last-child {
+  & .card:first-child {
     grid-row: 1/-1;
+  }
+  @media (max-width: 768px) {
+    &.grid {
+      grid-template: auto auto auto / 1fr 1fr;
+      grid-auto-flow: row;
+    }
+    & .card:first-child {
+      grid-column: 1/-1;
+    }
   }
   & .card.image-full {
     --rounded-box: 0.5rem;

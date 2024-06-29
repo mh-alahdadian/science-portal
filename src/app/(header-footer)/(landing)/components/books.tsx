@@ -12,7 +12,7 @@ export default function Books() {
   // let { data: posts } = useSuspenseQuery(queryService('library:/v1/books', { params: { query: { searchDTO: {} } } }));
   const books = { content: [] };
 
-  const category: Schema<'CategoryDTO'> = { id: 1, title: 'sadasdasd' };
+  const category = { id: 1, title: 'sadasdasd' } as Schema<'CategoryDTO'>;
   const content: { id: string; category: Schema<'CategoryDTO'>; title: string; banner: string; scopeId: number }[] = [
     { id: '1', title: 'روان‌شناسی', banner: imageUrl + '/1.jpeg', category, scopeId: 1 },
     { id: '2', title: 'روان‌شناسی', banner: imageUrl + '/2.jpeg', category, scopeId: 1 },
@@ -23,9 +23,13 @@ export default function Books() {
   ];
 
   return (
-    <div className="flex gap-6" css={styles}>
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6" css={styles}>
       {content.map((x) => (
-        <Link href={`${getScopeUrl(x.scopeId)}/library/${x.id}`} key={x.id} className="card card-body gap-4 rounded-lg">
+        <Link
+          href={`${getScopeUrl(x.scopeId)}/library/${x.id}`}
+          key={x.id}
+          className="card card-body gap-4 rounded-lg"
+        >
           <figure>
             <img src={x.banner} alt={x.title} />
           </figure>

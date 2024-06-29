@@ -6,6 +6,7 @@ export * from './EntityForm';
 export * from './EntityGrid';
 export * from './Table';
 export * from './Dialog';
+export * from './Drawer';
 export * from './Paginator';
 export * from './Rating';
 export * from './RatingChart';
