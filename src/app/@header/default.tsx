@@ -1,5 +1,6 @@
 'use client';
 
+import { Drawer } from '@/components';
 import { useScreen } from '@/hooks/screen';
 import { List } from '@phosphor-icons/react';
 import Link from 'next/link';
@@ -18,18 +19,13 @@ export default function Header({ params }: PageProps<'scopeId'>) {
     </Link>
   );
   const navbar = isSmall ? (
-    <div className="dropdown">
-      <div tabIndex={0} role="button" className="btn m-1">
-        <List />
-      </div>
-      <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-        <Link href="/scopes" className="btn btn-link">
-          حوزه‌ها
-        </Link>
-        <Services scopeId={params.scopeId} />
-        <ManagementMenu scopeId={+params.scopeId} />
-      </ul>
-    </div>
+    <Drawer openElement={<List />}>
+      <Link href="/scopes" className="btn btn-link">
+        حوزه‌ها
+      </Link>
+      <Services scopeId={params.scopeId} />
+      <ManagementMenu scopeId={+params.scopeId} />
+    </Drawer>
   ) : (
     <div className="flex ml-auto">
       <Link href="/scopes" className="btn btn-link">
