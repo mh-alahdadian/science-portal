@@ -16,7 +16,7 @@ const scopeArticlesData = {
 export default function Articles() {
   const data = [scopeArticlesData, scopeArticlesData, scopeArticlesData, scopeArticlesData];
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <div className="grid max-md:grid-cols-1 md:grid-cols-2 gap-6">
       {data.map((d, index) => (
         <div className="card card-body gap-10" key={index}>
           <div className="flex items-center">

@@ -10,7 +10,7 @@ import IdeaIllustration from '../assets/Idea.svg';
 function Scope(props: { scope: Schema<'ScopeDTO'> }) {
   const { scope } = props;
   return (
-    <Link href={getScopeUrl(scope.id!)} className="card items-center p-4 gap-4 w-52">
+    <Link href={getScopeUrl(scope.id!)} className="card items-center p-4 gap-4">
       <IdeaIllustration />
       <p>{scope.title}</p>
 
@@ -32,7 +32,7 @@ function Scope(props: { scope: Schema<'ScopeDTO'> }) {
 export default function Scopes() {
   const { data: scopes } = useSuspenseQuery(queryService('core:/v1/scopes', {}));
   return (
-    <div className="flex gap-6">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
       {scopes.map((scope) => (
         <Scope key={scope.id} scope={scope} />
       ))}

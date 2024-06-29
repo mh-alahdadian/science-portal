@@ -1,5 +1,7 @@
-import { queryClient, queryService } from '@/api';
-import { ServiceMenu } from './ServiceMenu';
+'use client';
+
+import { useScopePrefix } from '@/hooks';
+import Link from 'next/link';
 
 interface Page {
   title: string;
@@ -13,22 +15,15 @@ const services: Page[] = [
   { title: 'مقالات', path: 'article' },
 ];
 
-function getParams(scopeId: number) {
-  return { params: Number.isInteger(+scopeId) ? { query: { scopeId } } : {} } as any;
-}
-
-const emptyArr: any[] = [];
-
-export default async function Services({ scopeId }: { scopeId: number }) {
-  const servicesItems = await Promise.all([
-    queryClient.fetchQuery(queryService('news:/v1/scope/{scopeId}/categories', getParams(scopeId))),
-    queryClient.fetchQuery(queryService('forum:/v1/scope/{scopeId}/categories', getParams(scopeId))),
-  ]).catch(() => []);
+export default function Services({ scopeId }: { scopeId: number }) {
+  const prefix = useScopePrefix();
 
   return (
     <>
-      {services.map((page, index) => (
-        <ServiceMenu key={page.title} path={page.path} title={page.title} items={servicesItems[index] || emptyArr} />
+      {services.map((page) => (
+        <Link key={page.path} className="btn btn-info btn-link" href={`${prefix}/${page.path}`}>
+          {page.title}
+        </Link>
       ))}
     </>
   );
