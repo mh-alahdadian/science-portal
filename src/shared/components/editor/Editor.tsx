@@ -8,6 +8,11 @@ interface Props extends Omit<ComponentPropsWithoutRef<typeof CKEditor>, 'editor'
   className?: string;
 }
 
+type EditorPatch = typeof ClassicEditor & {
+  EditorWatchdog: any
+  ContextWatchdog: any
+}
+
 export default function Editor(props: Props) {
   return (
     <div className={clsx('contents prose', props.className)}>
@@ -16,10 +21,16 @@ export default function Editor(props: Props) {
           language: 'fa',
           toolbar: {
             removeItems: ['heading'],
-            items: props.disabled ? [] : ["undo" , "redo" , "bold" , "italic" , "numberedList" , "bulletedList" , "uploadImage"],
+            items: props.disabled
+              ? []
+              : ['undo', 'redo', 'bold', 'italic', 'numberedList', 'bulletedList', 'uploadImage'],
           },
+          // plugins: [SimpleUploadAdapter],
+          // simpleUpload: {
+          //   uploadUrl: serverUrl
+          // },
         }}
-        editor={ClassicEditor}
+        editor={ClassicEditor as EditorPatch}
         onReady={(editor) => {
           const {
             toolbar: { element: toolbarElement },

@@ -45,8 +45,7 @@ export default function Admin({ params }: PageProps<'scopeId' | 'id'>) {
   });
 
   function handleChangeStatus(e: any, id: string) {
-    mutate(
-      { params: { path: { page: String(params.scopeId!), postId: +id }, query: { statusId: e.target.value } } });
+    mutate({ params: { path: { page: String(params.scopeId!), postId: +id }, query: { statusId: e.target.value } } });
   }
 
   return (

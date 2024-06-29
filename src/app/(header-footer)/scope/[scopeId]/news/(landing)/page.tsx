@@ -25,13 +25,19 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
 
   const topNews = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/posts', {
-      params: { path: { scopeId: +params.scopeId }, query: {} },
+      params: {
+        path: { scopeId: +params.scopeId },
+        query: { sort: ['id,desc'] } as any,
+      },
     }),
   ).data.content!;
 
   const latestNews = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/posts', {
-      params: { path: { scopeId: +params.scopeId }, query: { pageable: { page: currentPage, size: perPage } } },
+      params: {
+        path: { scopeId: +params.scopeId },
+        query: { pageable: { page: currentPage, size: perPage }, sort: ['id,desc'] } as any,
+      },
     }),
   ).data.content!;
 

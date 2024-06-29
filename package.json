@@ -13,8 +13,8 @@
     "generate-api": "openapi-typescript"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-build-classic": "^41.2.0",
-    "@ckeditor/ckeditor5-react": "^6.2.0",
+    "@ckeditor/ckeditor5-build-classic": "^42.0.0",
+    "@ckeditor/ckeditor5-react": "^8.0.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@jsonforms/core": "^3.2.1",
@@ -33,6 +33,7 @@
     "ag-grid-enterprise": "^31.1.1",
     "ag-grid-react": "^31.1.1",
     "bootstrap": "^5.3.3",
+    "ckeditor5": "^42.0.0",
     "clsx": "^2.1.0",
     "daisyui": "^4.12.2",
     "human-format": "^1.2.0",
