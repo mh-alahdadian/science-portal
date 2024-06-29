@@ -45,7 +45,7 @@ export function Paginator(props: Props) {
             </span>
           ) : (
             <button
-              className={clsx('join-item btn', current == index - 1 && 'btn-active')}
+              className={clsx('join-item btn', current === index - 1 && 'btn-active')}
               key={index}
               onClick={() => changePage(index - 1)}
             >
@@ -66,7 +66,7 @@ export function Paginator(props: Props) {
           </option>
         ))}
       </select>
-      <span>{`صفحه ${current + 1} از ${total}`}</span>
+      <span>{`صفحه ${current} از ${total}`}</span>
     </div>
   );
 }
