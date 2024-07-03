@@ -1,3 +1,4 @@
+import { useScreen } from '@/hooks';
 import clsx from 'clsx';
 
 interface Props {
@@ -33,19 +34,21 @@ function pagination(currentPage: number, totalPages: number, delta = 2) {
 }
 
 export function Paginator(props: Props) {
+  const { isSmall } = useScreen();
+
   const { current, total, changePage, changePageSize, pageSize } = props;
   return (
-    <div className="flex gap-4 items-center justify-center mt-3">
+    <div className="flex gap-4 items-center justify-center my-3">
       <div className="join">
-        <button className="join-item btn">{Prev}</button>
+        <button className={clsx('join-item btn', isSmall && 'btn-sm')}>{Prev}</button>
         {pagination(current + 1, total, 2).map((index) =>
           index === Ellipsis ? (
-            <span key={index} className="join-item btn">
+            <span key={index} className={clsx('join-item btn', isSmall && 'btn-sm')}>
               {index}
             </span>
           ) : (
             <button
-              className={clsx('join-item btn', current === index - 1 && 'btn-active')}
+              className={clsx('join-item btn', isSmall && 'btn-sm', current === index - 1 && 'btn-active')}
               key={index}
               onClick={() => changePage(index - 1)}
             >
@@ -53,10 +56,10 @@ export function Paginator(props: Props) {
             </button>
           ),
         )}
-        <button className="join-item btn">{Next}</button>
+        <button className={clsx('join-item btn', isSmall && 'btn-sm')}>{Next}</button>
       </div>
       <select
-        className="select select-bordered"
+        className={clsx('select select-bordered', isSmall && 'select-sm')}
         value={pageSize}
         onChange={(e) => changePageSize(Number(e.target.value))}
       >

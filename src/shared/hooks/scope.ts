@@ -1,3 +1,5 @@
+'use client';
+
 import { queryService } from '@/api';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';

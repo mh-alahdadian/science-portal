@@ -62,7 +62,7 @@ const textUtility = plugin(({ addUtilities }) => {
 });
 
 const config: Config = {
-  daisyui: { logs: false, themes: [themes] } as DaisyConfig,
+  daisyui: { logs: false, themes: [themes], utils: true } as DaisyConfig,
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {

@@ -46,15 +46,13 @@ export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
         </div>
       </div>
 
-      <div className="mt-20">
-        <Paginator
-          current={currentPage}
-          total={latestNews.length}
-          pageSize={perPage}
-          changePage={setCurrentPage}
-          changePageSize={setPerPage}
-        />
-      </div>
+      <Paginator
+        current={currentPage}
+        total={latestNews.length}
+        pageSize={perPage}
+        changePage={setCurrentPage}
+        changePageSize={setPerPage}
+      />
     </div>
   );
 }

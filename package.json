@@ -35,7 +35,7 @@
     "bootstrap": "^5.3.3",
     "ckeditor5": "^42.0.0",
     "clsx": "^2.1.0",
-    "daisyui": "^4.12.2",
+    "daisyui": "^4.12.10",
     "human-format": "^1.2.0",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",

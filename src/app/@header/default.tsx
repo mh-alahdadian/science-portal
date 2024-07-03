@@ -37,7 +37,7 @@ export default function Header({ params }: PageProps<'scopeId'>) {
   );
 
   return (
-    <header className="navbar max-md:justify-between sticky px-12">
+    <header className="navbar max-md:justify-between sticky px-2 md:px-6 lg:px-12">
       {isSmall ? (
         <>
           {navbar}
