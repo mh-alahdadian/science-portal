@@ -30,7 +30,7 @@ export default function SignupDialog(props: PageProps) {
   });
 
   const endAdornment = (
-    <button className="btn btn-circle" onClick={() => setShowPassword(!showPassword)}>
+    <button className="btn-circle" onClick={() => setShowPassword(!showPassword)}>
       {showPassword ? 'hide' : 'show'}
     </button>
   );
@@ -50,7 +50,7 @@ export default function SignupDialog(props: PageProps) {
         type={showPassword ? undefined : 'password'}
         endAdornment={endAdornment && <></>}
       />
-      <button className="btn btn-primary" onClick={handleSignup}>
+      <button className="btn-primary" onClick={handleSignup}>
         ثبت نام
       </button>
       <div className="flex justify-between text-sm">

@@ -46,7 +46,7 @@ export default function LoginDialog(props: PageProps) {
   });
 
   const endAdornment = (
-    <button className="btn btn-sm text-xs" onClick={requestVerifyCode}>
+    <button className="btn-sm text-xs" onClick={requestVerifyCode}>
       دریافت رمز عبور
     </button>
   );
@@ -69,11 +69,11 @@ export default function LoginDialog(props: PageProps) {
       <Link href="/forgot-password" type="button" className="text-sm mr-auto">
         رمز عبور خود را فراموش کردم
       </Link>
-      <button className="w-full btn btn-primary" onClick={handleLogin}>
+      <button className="w-full btn-primary" onClick={handleLogin}>
         ورود
         <CaretLeft />
       </button>
-      {/* <button type="button" className="w-full btn btn-link btn-primary" onClick={toggleMethod}>
+      {/* <button type="button" className="w-full btn-link btn-primary" onClick={toggleMethod}>
           {isOtpMode ? 'ورود با رمز' : 'ورود با رمز یکبار مصرف'}
         </button> */}
       <div className="flex justify-between text-sm">

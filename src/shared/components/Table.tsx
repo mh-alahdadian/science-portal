@@ -27,8 +27,7 @@ function renderSortIcon(header: Header<any, unknown>) {
 }
 
 export function Table<TData>({ table, hasError, isLoading, hasData, refetch }: Props<TData>) {
-  const isDataReady = !(hasError || isLoading)
-
+  const isDataReady = !(hasError || isLoading);
 
   return (
     <>
@@ -37,19 +36,18 @@ export function Table<TData>({ table, hasError, isLoading, hasData, refetch }: P
           <thead className="bg-gray-400">
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <th
-                      className={clsx('select-none text-nowrap', { 'cursor-pointer': header.column.getCanSort() })}
-                      key={header.id}
-                      colSpan={header.colSpan}
-                      onClick={header.column.getToggleSortingHandler()}
-                    >
-                      <span className="text-dark ms-1">{renderSortIcon(header)}</span>
-                      {flexRender(header.column.columnDef.header, header.getContext())}
-                    </th>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <th
+                    className={clsx('select-none text-nowrap', { 'cursor-pointer': header.column.getCanSort() })}
+                    key={header.id}
+                    colSpan={header.colSpan}
+                    style={{ width: `${header.getSize()}px` }}
+                    onClick={header.column.getToggleSortingHandler()}
+                  >
+                    <span className="text-dark ms-1">{renderSortIcon(header)}</span>
+                    {flexRender(header.column.columnDef.header, header.getContext())}
+                  </th>
+                ))}
               </tr>
             ))}
           </thead>
@@ -83,7 +81,7 @@ export function Table<TData>({ table, hasError, isLoading, hasData, refetch }: P
               <i className="icon-exclamation-circle ms-2" />
               دریافت اطلاعات با خطا مواجه شد!
             </span>
-            <button className='btn btn-sm btn-error' onClick={refetch}>
+            <button className="btn-sm btn-error" onClick={refetch}>
               دوباره تلاش کنید
             </button>
           </Alert>

@@ -39,7 +39,7 @@ export function SelectField(props: Props) {
       <div className="relative flex items-center">
         <div className="absolute pointer-events-none right-0">{startAdornment}</div>
         <div className="absolute pointer-events-none right-4">{selectProps.placeholder}</div>
-        <select ref={ref} {...selectProps} className="select select-bordered pr-36 w-full">
+        <select ref={ref} {...selectProps} className="pr-36 w-full">
           {children}
         </select>
         <div className="absolute left-0">{endAdornment}</div>

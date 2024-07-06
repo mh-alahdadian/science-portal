@@ -24,6 +24,18 @@ time {
   @apply text-black text-opacity-50;
 }
 
+@layer base {
+  :is(button, [role='button']):not(:where([class~="not-styled"],[class~="not-styled"] *)) {
+    @apply btn;
+  }
+  :is(input, [role='input']):not(:where([class~="not-styled"],[class~="not-styled"] *)) {
+    @apply input input-bordered;
+  }
+  :is(select, [role='select']):not(:where([class~="not-styled"],[class~="not-styled"] *)) {
+    @apply select select-bordered;
+  }
+}
+
 @layer components {
   .modal-backdrop {
     opacity: 0.3;

@@ -28,7 +28,7 @@ export function PostCard(props: Props) {
         <TextIcon Icon={ThumbsUp} text={humanFormat(post.feedbackStats?.reaction?.[0]?.count || 0)} />
         <TextIcon Icon={ThumbsDown} text={humanFormat(post.feedbackStats?.reaction?.[1]?.count || 0)} />
         <TextIcon Icon={ChatTeardropDots} text={humanFormat(post.feedbackStats?.commentCount || 0)} />
-        <Link className="btn btn-link btn-primary ms-auto" href={`blog/post/${post.id}`}>
+        <Link role="button" className="btn-link btn-primary ms-auto" href={`blog/post/${post.id}`}>
           مشاهده بیشتر
           <CaretLeft />
         </Link>

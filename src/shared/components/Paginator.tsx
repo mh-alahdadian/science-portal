@@ -59,7 +59,7 @@ export function Paginator(props: Props) {
         <button className={clsx('join-item btn', isSmall && 'btn-sm')}>{Next}</button>
       </div>
       <select
-        className={clsx('select select-bordered', isSmall && 'select-sm')}
+        className={clsx(isSmall && 'select-sm')}
         value={pageSize}
         onChange={(e) => changePageSize(Number(e.target.value))}
       >

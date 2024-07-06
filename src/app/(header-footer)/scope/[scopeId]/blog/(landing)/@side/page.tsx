@@ -18,7 +18,7 @@ export default function BlogLandingSidebar({ params }: PageProps<'scopeId'>) {
     <div className="card card-body gap-4">
       <div className="flex items-center">
         <p className="font-bold text-base">برترین نویسنده‌ها</p>
-        <Link href="authors" className="btn btn-link btn-sm btn-primary">
+        <Link href="authors" role="button" className="btn-link btn-sm btn-primary">
           همه نویسنده‌ها
           <CaretLeft />
         </Link>

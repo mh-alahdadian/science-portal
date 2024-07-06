@@ -14,6 +14,6 @@ export default function AuthDialogController({ scopeId }: { scopeId: number }) {
   const profile = useProfile({ throwOnError: false, retry: 0 });
 
   return profile && hasManagementPermission(profile, scopeId) ? (
-    <Link className="btn btn-info btn-link" href={`${getScopeUrl(scopeId)}/management/users`}>مدیریت کاربران</Link>
+    <Link role="button" className="btn-link" href={`${getScopeUrl(scopeId)}/management/users`}>مدیریت کاربران</Link>
   ) : null;
 }

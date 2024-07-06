@@ -39,7 +39,7 @@ export function Form(props: Props) {
           });
         }}
       />
-      <button className="btn bg-green-700 px-4 py-2 text-white mx-4">ثبت تغییرات</button>
+      <button className="bg-green-700 px-4 py-2 text-white mx-4">ثبت تغییرات</button>
     </form>
   );
 }

@@ -28,7 +28,7 @@ export const columns = [
       const { handleChangeStatus } = table.options.meta as any;
       return (
         <select
-          className="select select-bordered select-sm"
+          className="select-sm"
           onChange={(e) => {
             handleChangeStatus(e, row.original.id);
           }}

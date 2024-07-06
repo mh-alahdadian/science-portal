@@ -59,7 +59,7 @@ export default function Library({ params }: PageProps<'scopeId' | 'categoryId'>)
             <hr />
             <div className="flex items-center">
               <TextIcon Icon={Download} text={5700 + 'بار دانلود'} />
-              <button className="btn btn-primary btn-link">
+              <button className="btn-primary btn-link">
                 مشاهده بیشتر
                 <CaretLeft />
               </button>

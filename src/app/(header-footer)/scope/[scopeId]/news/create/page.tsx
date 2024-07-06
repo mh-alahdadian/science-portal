@@ -45,7 +45,7 @@ export default function CreateNews({ params }: PageProps<'scopeId' | 'id'>) {
         ))}
       </SelectField>
       <Editor disabled={false} onChange={(event, editor) => handleEditorChange(editor.getData())} />
-      <button className="btn btn-primary mt-5" onClick={handleSubmit}>
+      <button className="btn-primary mt-5" onClick={handleSubmit}>
         ثبت خبر
       </button>
     </>

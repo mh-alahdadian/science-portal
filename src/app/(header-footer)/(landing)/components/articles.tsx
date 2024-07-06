@@ -22,7 +22,7 @@ export default function Articles() {
           <div className="flex items-center">
             <BoundingBox />
             {d.scope.title}
-            <Link href={`/scope/${d.scope.id}/articles`} className="btn ms-auto">
+            <Link href={`/scope/${d.scope.id}/articles`} role="button" className="ms-auto">
               نمایش همه
               <CaretLeft />
             </Link>

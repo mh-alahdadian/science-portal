@@ -7,15 +7,7 @@ import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useState } from 'react';
 import { columns } from './cols';
-
-function paginationStateToQuery(state: typeof defaultPagination) {
-  return {
-    pageable: {
-      page: state.pageIndex,
-      size: state.pageSize,
-    },
-  };
-}
+import { paginationStateToQuery } from '@/utils';
 
 export default function Admin({ params }: PageProps<'scopeId' | 'id'>) {
   const [pagination, setPagination] = useState(defaultPagination);

@@ -25,11 +25,11 @@ export default function LandingPage(props: PageProps) {
           <h1 className="text-5xl font-medium">سامانه جامع علوم شناختی</h1>
           <p className="text-2xl font-bold">مجموعه کامل گروه‌ها و کتاب‌خانه‌های حوزه علوم شناختی و Cognitive Science</p>
           <div className="flex gap-4">
-            <button className="btn btn-primary flex-1 max-w-52">
+            <button className="btn-primary flex-1 max-w-52">
               مشاهده حوزه‌ها
               <CaretLeft />
             </button>
-            <button className="btn btn-outline flex-1 max-w-52">ثبت‌نام</button>
+            <button className="btn-outline flex-1 max-w-52">ثبت‌نام</button>
           </div>
         </div>
         <BrainIllustration />
@@ -39,7 +39,7 @@ export default function LandingPage(props: PageProps) {
           <div className="flex justify-between items-center mb-6">
             <h3 className="text-base font-bold">{x.title}</h3>
             {x.showAllLink && (
-              <Link href={x.showAllLink} className="btn">
+              <Link href={x.showAllLink} role="button">
                 نمایش همه
                 <CaretLeft />
               </Link>

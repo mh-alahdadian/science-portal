@@ -23,7 +23,7 @@ export default function BlogPostSidebar({ params }: PageProps<'scopeId'>) {
           </div>
           <p>{post.author.name}</p>
         </div>
-        <button className="btn btn-primary">
+        <button className="btn-primary">
           <UserPlus />
           دنبال کردن
         </button>

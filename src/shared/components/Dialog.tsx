@@ -12,7 +12,7 @@ export function Dialog({ open, onClose, children, ...rest }: Props) {
     <dialog open={open} className="modal">
       <div className="modal-box" {...rest}>
         <form method="dialog" onSubmit={onClose}>
-          <button className="btn btn-sm btn-circle btn-ghost  relative top-[-1rem] right-[-1rem]">
+          <button className="btn-sm btn-circle btn-ghost  relative top-[-1rem] right-[-1rem]">
             <X />
           </button>
         </form>

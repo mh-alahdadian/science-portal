@@ -1,7 +1,6 @@
 // See https://github.com/rjsf-team/react-jsonschema-form/pull/2887/files#diff-b51e893c9f8a0244c2806c0256561cff0261e2774247ec4232218082fc2dc952
 import { WidgetProps, asNumber } from '@rjsf/utils';
 import { useState } from 'react';
-import { AsyncTypeahead } from 'react-bootstrap-typeahead';
 
 const nums = new Set(['number', 'integer']);
 
@@ -41,21 +40,20 @@ export const AutocompleteWidget = ({
   const { data, isLoading } = useOptions(search);
 
   return (
-    <AsyncTypeahead
-      id={id}
-      selected={typeof value === 'undefined' ? emptyValue : value.filter(Boolean)}
-      isLoading={isLoading}
-      options={data || []}
-      labelKey="login"
-      multiple={multiple}
-      disabled={disabled}
-      autoFocus={autofocus}
-      className={rawErrors.length > 0 ? 'is-invalid' : ''}
-      onChange={(event: any) => {
-        const newValue = event.target.value;
-        onChange(processValue(schema, newValue));
-      }}
-      onSearch={setSearch}
-    />
+    <div className="dropdown">
+      <input placeholder="Pick a country" value={search} onChange={(e) => setSearch(e.target.value)} />
+      {data.length ? (
+        <ul
+          tabIndex={0}
+          className="dropdown-content menu bg-base-200 rounded-box w-60 max-h-80 flex-nowrap overflow-auto"
+        >
+          {data.map((item: any) => (
+            <li className="list-item" key={item.id}>
+              {item.name}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
   );
 };

@@ -27,7 +27,7 @@ export function SubmitComment(props: Props) {
         onChange={(e) => setComment(e.target.value)}
         className="rounded-lg w-full min-h-32 mt-6 bg-gray-100 resize-none p-4"
       />
-      <button className="btn btn-primary w-52 text-white mt-6 left-0 self-end">ثبت دیدگاه</button>
+      <button className="btn-primary w-52 text-white mt-6 left-0 self-end">ثبت دیدگاه</button>
     </form>
   );
 }
@@ -39,6 +39,6 @@ export function SubmitComment(props: Props) {
     placeholder="نوشتن دیدگاه"
     className="rounded-lg w-full min-h-32 mt-6 bg-gray-100 resize-none p-4"
   ></textarea>
-  <button className="btn btn-primary w-52 text-white mt-6 left-0 self-end">ثبت دیدگاه</button>
+  <button className="btn-primary w-52 text-white mt-6 left-0 self-end">ثبت دیدگاه</button>
 </div>
 */

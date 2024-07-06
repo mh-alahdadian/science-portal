@@ -68,11 +68,11 @@ export default function BookPage(props: PageProps<'scopeId' | 'bookId'>) {
           </p>
         ))}
         <div className="actions flex gap-4">
-          <button className="btn btn-primary flex-1">
+          <button className="btn-primary flex-1">
             <Download />
             دانلود کتاب
           </button>
-          <button className="btn btn-neutral">
+          <button className="btn-neutral">
             <Share />
             به اشتراک گذاری
           </button>
@@ -95,7 +95,7 @@ export default function BookPage(props: PageProps<'scopeId' | 'bookId'>) {
       <div className="card-title">امتیاز</div>
       <div className="flex justify-between">
         <Rating value={myRating} onChange={setMyRating} />
-        <button className="btn btn-primary" onClick={handleVoteRating}>
+        <button className="btn-primary" onClick={handleVoteRating}>
           ثبت امتیاز
         </button>
       </div>

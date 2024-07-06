@@ -8,7 +8,7 @@ export default function AuthDialogController() {
   const profile = useProfile({ throwOnError: false, retry: 0 });
   return profile ? (
     <div className="dropdown dropdown-bottom dropdown-end">
-      <button role="button" className="btn btn-sm">
+      <button role="button" className="btn-sm">
         <div className="avatar">hi</div>
       </button>
       <ul className="dropdown-content z-[1] menu p-2">
@@ -18,7 +18,7 @@ export default function AuthDialogController() {
     </div>
   ) : (
     <>
-      <Link href="/login" className="btn">
+      <Link href="/login" role="button">
         ورود
       </Link>
     </>

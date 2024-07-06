@@ -24,10 +24,10 @@ const colDefs: Options['columnDefs'] = [
       const setEditingUser = props.context.setEditingUser;
       return (
         <div className="flex gap-2">
-          <button className="btn btn-circle btn-transparent btn-sm" onClick={() => setEditingUser(props.data)}>
+          <button className="btn-circle btn-transparent btn-sm" onClick={() => setEditingUser(props.data)}>
             <Pen />
           </button>
-          <button className="btn btn-circle btn-transparent btn-sm" onClick={() => setEditingUser(props.data)}>
+          <button className="btn-circle btn-transparent btn-sm" onClick={() => setEditingUser(props.data)}>
             <Trash className="text-danger" />
           </button>
         </div>

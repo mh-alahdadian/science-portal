@@ -24,7 +24,7 @@ export const columns = [
       return (
         <div className="flex gap-2">
           <button
-            className="btn btn-circle btn-transparent btn-sm"
+            className="btn-circle btn-transparent btn-sm"
             onClick={() => setEditingItem(props.row.original)}
           >
             <Pen />

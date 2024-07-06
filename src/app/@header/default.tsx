@@ -20,7 +20,7 @@ export default function Header({ params }: PageProps<'scopeId'>) {
   );
   const navbar = isSmall ? (
     <Drawer openElement={<List />}>
-      <Link href="/scopes" className="btn btn-link">
+      <Link href="/scopes" role="button" className="btn-link">
         حوزه‌ها
       </Link>
       <Services scopeId={params.scopeId} />
@@ -28,7 +28,7 @@ export default function Header({ params }: PageProps<'scopeId'>) {
     </Drawer>
   ) : (
     <div className="flex ml-auto">
-      <Link href="/scopes" className="btn btn-link">
+      <Link href="/scopes" role="button" className="btn-link">
         حوزه‌ها
       </Link>
       <Services scopeId={params.scopeId} />

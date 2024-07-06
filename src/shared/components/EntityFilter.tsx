@@ -1,4 +1,4 @@
-// import '@jsonforms/vanilla-renderers/example/example.css';
+import {} from '@jsonforms/vanilla-renderers';
 import { JsonSchema7, Layout } from '@jsonforms/core';
 import { JSONSchema7 } from 'json-schema';
 import { SelectField, TextField } from '.';
@@ -17,6 +17,7 @@ const uischema: Layout | any = {
     },
   ],
 };
+
 export function DataFilter({ schema }: { schema: JSONSchema7 & JsonSchema7 }) {
   // <JsonForms
   //   schema={schema}

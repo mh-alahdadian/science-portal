@@ -39,7 +39,17 @@ const uiSchema: UiSchema<Pick<Topic, 'title' | 'content' | 'tags'>, JsonSchema> 
     'ui:widget': 'autocomplete',
     'ui:options': {
       useOptions: (search: string) =>
-        useQuery({ ...queryService('forum:/v1/tags', { params: {} }), placeholderData: [] }),
+        useQuery({
+          ...queryService('forum:/v1/tags', { params: { query: { q: search } as any } }),
+          placeholderData: [],
+          queryFn: () => {
+            return [
+              { id: 1, name: 'item 1' },
+              { id: 2, name: 'item 2' },
+              { id: 3, name: 'item 3' },
+            ];
+          },
+        }),
     },
   },
 };

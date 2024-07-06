@@ -27,7 +27,7 @@ export default function AuthLayout({ children }: Props) {
           grid-template: auto 1fr / 35% auto;
         }
       `}</style>
-      <Link href="/" className="btn btn-transparent my-8 col-span-full justify-self-start ">
+      <Link href="/" role="button" className="btn-transparent my-8 col-span-full justify-self-start">
         <CaretRight />
         <span className="text-lg font-medium">بازگشت به خانه</span>
       </Link>

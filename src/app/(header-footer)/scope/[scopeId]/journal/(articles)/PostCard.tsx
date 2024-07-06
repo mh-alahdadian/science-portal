@@ -38,7 +38,7 @@ export function PostCard(props: Props) {
       <div className="flex gap-6 items-center">
         <TextIcon Icon={Eye} text={700} />
         <TextIcon Icon={Download} text={5700} />
-        <Link className="btn btn-link btn-primary ms-auto" href={`article/${post.id}`}>
+        <Link role="button" className="btn-link btn-primary ms-auto" href={`article/${post.id}`}>
           مشاهده و دانلود
           <CaretLeft />
         </Link>
