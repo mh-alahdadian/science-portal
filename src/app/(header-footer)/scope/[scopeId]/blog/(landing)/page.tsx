@@ -16,7 +16,7 @@ export default function BlogLandingPage({ params }: PageProps<'scopeId'>) {
 
   return (
     <>
-      {articles.map((post) => (
+      {articles.map((post: any) => (
         <PostCard key={post.id} post={post} />
       ))}
     </>

@@ -32,7 +32,7 @@ export default function NewsPostPage({ params }: PageProps<'scopeId' | 'postId'>
           {/* نویسنده خبر */}
           <div className="w-full flex justify-between mt-6">
             <h5>نویسنده خبر</h5>
-            <span>{formatDateTime(news.createAt!)}</span>
+            <span>{formatDateTime(news.createdAt!)}</span>
           </div>
 
           {/* جزئیات خبر */}

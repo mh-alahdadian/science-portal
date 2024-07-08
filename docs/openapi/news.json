@@ -1,13 +1,18 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "OpenAPI definition",
-        "version": "v0"
+        "title": "News API",
+        "description": "The news service.",
+        "version": "1.0"
     },
     "servers": [
         {
-            "url": "http://192.168.59.20:8484/news/api",
-            "description": "Generated server url"
+            "url": "http://192.168.59.20:8484/news/api"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
         }
     ],
     "tags": [
@@ -154,7 +159,7 @@
             }
         },
         "/v1/manager/{page}/posts/{postId}/status": {
-            "post": {
+            "patch": {
                 "tags": [
                     "post-controller"
                 ],
@@ -520,30 +525,23 @@
                     "coverImage": {
                         "type": "string"
                     },
+                    "fileKey": {
+                        "type": "string",
+                        "readOnly": true
+                    },
                     "scopeId": {
                         "type": "integer",
                         "format": "int32"
                     },
-                    "parentId": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
                     "enable": {
                         "type": "boolean"
                     },
-                    "children": {
-                        "type": "array",
-                        "readOnly": true,
-                        "items": {
-                            "$ref": "#/components/schemas/CategoryDTO"
-                        }
-                    },
-                    "createAt": {
+                    "createdAt": {
                         "type": "string",
                         "format": "date-time",
                         "readOnly": true
                     },
-                    "updateAt": {
+                    "updatedAt": {
                         "type": "string",
                         "format": "date-time",
                         "readOnly": true
@@ -604,6 +602,10 @@
                     "coverImage": {
                         "type": "string"
                     },
+                    "fileKey": {
+                        "type": "string",
+                        "readOnly": true
+                    },
                     "content": {
                         "type": "string"
                     },
@@ -621,6 +623,11 @@
                         "type": "integer",
                         "format": "int32"
                     },
+                    "scopeId": {
+                        "type": "integer",
+                        "format": "int32",
+                        "readOnly": true
+                    },
                     "isPublic": {
                         "type": "boolean"
                     },
@@ -629,15 +636,20 @@
                         "format": "date-time",
                         "readOnly": true
                     },
+                    "viewCount": {
+                        "type": "integer",
+                        "format": "int64",
+                        "readOnly": true
+                    },
                     "feedbackStats": {
                         "$ref": "#/components/schemas/FeedbackStatsDTO"
                     },
-                    "createAt": {
+                    "createdAt": {
                         "type": "string",
                         "format": "date-time",
                         "readOnly": true
                     },
-                    "updateAt": {
+                    "updatedAt": {
                         "type": "string",
                         "format": "date-time",
                         "readOnly": true
@@ -825,6 +837,13 @@
                         "type": "boolean"
                     }
                 }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
             }
         }
     }

@@ -1,3 +1,4 @@
+import { formatDateTime } from '@/utils';
 import { createColumnHelper } from '@tanstack/react-table';
 import Link from 'next/link';
 
@@ -16,11 +17,7 @@ export const columns = [
   }),
 
   columnHelper.accessor('publishAt', {
-    cell: ({ row }) => {
-      const shamsiDate = new Date(row.original.createAt!).toLocaleString('fa-IR');
-
-      return shamsiDate;
-    },
+    cell: ({ row }) => formatDateTime(row.original.createdAt!),
   }),
 
   columnHelper.accessor('isPublic', {

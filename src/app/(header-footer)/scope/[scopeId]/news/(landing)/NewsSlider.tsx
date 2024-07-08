@@ -58,7 +58,7 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
           <div className="absolute bg-gray-900 bg-opacity-50 w-full p-4 bottom-0 left-0">
             <h3 className="font-bold text-lg mb-2">{highlightedNews.title}</h3>
             <div>
-              <Clock /> {formatDateTime(highlightedNews.createAt!)}
+              <Clock /> {formatDateTime(highlightedNews.createdAt!)}
             </div>
           </div>
         </Link>

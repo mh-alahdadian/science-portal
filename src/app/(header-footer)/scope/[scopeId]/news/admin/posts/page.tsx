@@ -23,7 +23,7 @@ export default function Admin({ params }: PageProps<'scopeId' | 'id'>) {
     }),
   });
 
-  const { mutate } = useMutation(mutateService('post', 'news:/v1/manager/{page}/posts/{postId}/status'));
+  const { mutate } = useMutation(mutateService('patch', 'news:/v1/manager/{page}/posts/{postId}/status'));
 
   const table = useReactTable({
     columns,

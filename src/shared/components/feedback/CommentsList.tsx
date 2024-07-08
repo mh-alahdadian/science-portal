@@ -47,8 +47,8 @@ export function CommentsList(props: Props) {
 
           {/* like container */}
           <div className="flex gap-8 self-end text-gray-500">
-            <Reaction {...props} reactions={commentItem.feedbackStats.reaction} type={ReactionType.LIKE} />
-            <Reaction {...props} reactions={commentItem.feedbackStats.reaction} type={ReactionType.DISLIKE} />
+            <Reaction {...props} reactions={commentItem.reaction!} type={ReactionType.LIKE} />
+            <Reaction {...props} reactions={commentItem.reaction!} type={ReactionType.DISLIKE} />
           </div>
         </div>
       ))}

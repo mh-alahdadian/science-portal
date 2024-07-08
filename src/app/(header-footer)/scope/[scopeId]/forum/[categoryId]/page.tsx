@@ -23,7 +23,7 @@ const colDefs = [
     header: 'تاپیک',
     size: Number.MAX_SAFE_INTEGER,
     cell: (props) => {
-      const topic = props.row.original!;
+      const topic: any = props.row.original!;
       return (
         <Link href={`topic/${topic.id}`}>
           <p className="text-base">{topic.title}</p>

@@ -18,7 +18,7 @@ export default function NewsCard({ post }: Props) {
       <h4 className="font-bold line-clamp-2">{post.title}</h4>
       <div className="flex justify-between opacity-75">
         <span className="text-sm">{post.author || 'نویسنده خبر'}</span>
-        <span className="text-sm">{formatDateTime(post.createAt!)}</span>
+        <span className="text-sm">{formatDateTime(post.createdAt!)}</span>
       </div>
     </Link>
   );

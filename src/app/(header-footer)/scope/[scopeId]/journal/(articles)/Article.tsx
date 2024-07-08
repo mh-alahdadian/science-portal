@@ -4,7 +4,7 @@ import { CaretLeft, Download, Eye } from '@phosphor-icons/react';
 import Link from 'next/link';
 
 interface Props {
-  article: Schema<'ArticleResponseDTO'>;
+  article: Schema<'ArticleResponseDTO'> & any;
 }
 
 export default function Article({ article }: Props) {
