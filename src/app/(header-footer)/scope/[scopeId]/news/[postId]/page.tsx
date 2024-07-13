@@ -27,7 +27,7 @@ export default function NewsPostPage({ params }: PageProps<'scopeId' | 'postId'>
       <Breadcrumb params={params} items={[{ text: 'اخبار', url: '../' }, { text: news.title! }]} />
       <div className="bg-gray-100 text-black flex gap-8">
         <main className="flex flex-col w-3/4 mb-10 ">
-          <img src={createFileUrl(news.coverImage)} className="w-full rounded-md" alt="" />
+          <img src={createFileUrl(news.coverImage, news.fileKey)} className="w-full rounded-md" alt="" />
 
           {/* نویسنده خبر */}
           <div className="w-full flex justify-between mt-6">

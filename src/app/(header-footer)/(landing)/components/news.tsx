@@ -29,7 +29,7 @@ export default function News() {
       {content.map((x) => (
         <Link href={`${getScopeUrl(x.scopeId)}/news/${x.id}`} key={x.id} className="card image-full rounded-lg">
           <figure>
-            <img src={createFileUrl(x.coverImage)} alt={x.title} />
+            <img src={createFileUrl(x.coverImage, x.fileKey)} alt={x.title} />
           </figure>
           <div className="card-body self-end">
             <p className="card-title">{x.title}</p>
