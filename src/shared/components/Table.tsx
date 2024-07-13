@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { ArrowDown, ArrowUp, ArrowsDownUp } from '@phosphor-icons/react';
-import { flexRender, type Header, type Table } from '@tanstack/react-table';
+import { type Header, type Table, flexRender } from '@tanstack/react-table';
 import clsx from 'clsx';
 import { Alert, Spinner } from 'react-bootstrap';
 

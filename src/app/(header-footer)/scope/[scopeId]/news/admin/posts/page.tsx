@@ -3,11 +3,11 @@
 import { mutateService, queryService } from '@/api';
 import { Paginator, Table } from '@/components';
 import { defaultPagination } from '@/constants';
+import { paginationStateToQuery } from '@/utils';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useState } from 'react';
 import { columns } from './cols';
-import { paginationStateToQuery } from '@/utils';
 
 export default function Admin({ params }: PageProps<'scopeId'>) {
   const [pagination, setPagination] = useState(defaultPagination);

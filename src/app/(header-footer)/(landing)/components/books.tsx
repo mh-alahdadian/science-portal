@@ -25,11 +25,7 @@ export default function Books() {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6" css={styles}>
       {content.map((x) => (
-        <Link
-          href={`${getScopeUrl(x.scopeId)}/library/${x.id}`}
-          key={x.id}
-          className="card card-body gap-4 rounded-lg"
-        >
+        <Link href={`${getScopeUrl(x.scopeId)}/library/${x.id}`} key={x.id} className="card card-body gap-4 rounded-lg">
           <figure>
             <img src={x.banner} alt={x.title} />
           </figure>

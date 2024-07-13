@@ -106,10 +106,7 @@ export default function BookPage(props: PageProps<'scopeId' | 'bookId'>) {
     <div className="">
       <Breadcrumb
         params={params}
-        items={[
-          { text: 'کتابخانه', url: '../' + book.category!.id },
-          { text: book.name! },
-        ]}
+        items={[{ text: 'کتابخانه', url: '../' + book.category!.id }, { text: book.name! }]}
       />
       <div className="flex gap-6">
         <div className="flex-1 flex flex-col gap-12">

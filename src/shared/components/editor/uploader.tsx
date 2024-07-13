@@ -15,13 +15,17 @@ export class CustomUploadAdapter extends Plugin {
   }
   init() {
     const uploadData = this.editor.config.get('uploadData') as UploadData;
-    this.editor.plugins.get(FileRepository).createUploadAdapter = (loader: FileLoader) => new Adapter(loader, uploadData);
+    this.editor.plugins.get(FileRepository).createUploadAdapter = (loader: FileLoader) =>
+      new Adapter(loader, uploadData);
   }
 }
 
 class Adapter implements UploadAdapter {
   private xhr?: XMLHttpRequest;
-  constructor(private loader: FileLoader, private uploadData: UploadData) {}
+  constructor(
+    private loader: FileLoader,
+    private uploadData: UploadData,
+  ) {}
 
   async upload(): Promise<UploadResponse> {
     const file = (await this.loader.file)!;
@@ -56,7 +60,7 @@ class Adapter implements UploadAdapter {
     const data = new FormData();
     data.append('file', file);
     Object.entries(this.uploadData).forEach(([key, val]) => {
-        data.append(key, String(val));
+      data.append(key, String(val));
     });
 
     const { accessToken } = getToken();

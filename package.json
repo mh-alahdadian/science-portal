@@ -41,8 +41,6 @@
     "next": "^15.0.0-rc.0",
     "openapi-fetch": "^0.9.4",
     "openapi-typescript": "^7.0.0-next.10",
-    "prettier": "^3.0.3",
-    "prettier-plugin-organize-imports": "^3.2.3",
     "ramda": "^0.29.1",
     "react": "19.0.0-rc-f38c22b244-20240704",
     "react-bootstrap": "^2.10.1",
@@ -63,8 +61,6 @@
     "@types/react": "npm:types-react@rc",
     "@types/react-dom": "npm:types-react-dom@rc",
     "autoprefixer": "^10.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "^14.2.3",
     "postcss": "^8",
     "sass": "^1.72.0",
     "sharp": "^0.33.3",
@@ -79,13 +75,5 @@
     ">0.2%",
     "not dead",
     "not IE 11"
-  ],
-  "prettier": {
-    "plugins": [
-      "prettier-plugin-organize-imports"
-    ],
-    "printWidth": 120,
-    "singleQuote": true,
-    "semi": true
-  }
+  ]
 }

@@ -10,7 +10,7 @@ export function Drawer({ children, openElement }: Props) {
     <div className="drawer">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
-        <label htmlFor="my-drawer" role='button' className="drawer-button">
+        <label htmlFor="my-drawer" role="button" className="drawer-button">
           {openElement}
         </label>
       </div>
