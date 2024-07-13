@@ -38,7 +38,7 @@ export default function NewsPostPage({ params }: PageProps<'scopeId' | 'postId'>
           {/* جزئیات خبر */}
           <div className="mt-8">
             <h1 className="text-4xl font-bold mb-8">{news.title}</h1>
-            <Editor disabled data={news.content} />
+            <Editor readonly data={news.content} />
           </div>
           <SubmitComment scopeId={params.scopeId} modelTypeId={ModelType.NEWS} modelId={params.postId} />
           <CommentsList modelTypeId={ModelType.NEWS} modelId={params.postId} />

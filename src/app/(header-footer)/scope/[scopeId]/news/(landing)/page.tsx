@@ -9,7 +9,7 @@ import { useState } from 'react';
 import NewsCard from './NewsCard';
 import { NewsSlider } from './NewsSlider';
 
-export default function AllNews({ params }: PageProps<'scopeId' | 'id'>) {
+export default function AllNews({ params }: PageProps<'scopeId'>) {
   const scope = useCurrentScope();
   const [currentPage, setCurrentPage] = useState(0);
   const [perPage, setPerPage] = useState(6);

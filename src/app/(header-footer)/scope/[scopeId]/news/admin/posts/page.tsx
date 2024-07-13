@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { columns } from './cols';
 import { paginationStateToQuery } from '@/utils';
 
-export default function Admin({ params }: PageProps<'scopeId' | 'id'>) {
+export default function Admin({ params }: PageProps<'scopeId'>) {
   const [pagination, setPagination] = useState(defaultPagination);
 
   const { data, isLoading, refetch, isError } = useSuspenseQuery({

@@ -1,16 +1,13 @@
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import clsx from 'clsx';
 import { ComponentPropsWithoutRef } from 'react';
+import { BuildedEditor } from './build';
 import './editor.css';
 
 interface Props extends Omit<ComponentPropsWithoutRef<typeof CKEditor>, 'editor'> {
+  uploadData?: Omit<Schema<'UploadRequestDTO'>, 'file'>;
+  readonly?: boolean;
   className?: string;
-}
-
-type EditorPatch = typeof ClassicEditor & {
-  EditorWatchdog: any
-  ContextWatchdog: any
 }
 
 export default function Editor(props: Props) {
@@ -18,29 +15,28 @@ export default function Editor(props: Props) {
     <div className={clsx('contents prose', props.className)}>
       <CKEditor
         config={{
-          language: 'fa',
           toolbar: {
-            removeItems: ['heading'],
-            items: props.disabled
-              ? []
-              : ['undo', 'redo', 'bold', 'italic', 'numberedList', 'bulletedList', 'uploadImage'],
+            removeItems: props.uploadData ? [] : ['uploadImage'],
+            // items: props.disabled
+            //   ? []
+            //   : ['undo', 'redo', 'bold', 'italic', 'numberedList', 'bulletedList', 'uploadImage'],
           },
-          // plugins: [SimpleUploadAdapter],
-          // simpleUpload: {
-          //   uploadUrl: serverUrl
-          // },
+          ...{
+            uploadData: (props.uploadData || {}) as Schema<'UploadRequestDTO'>,
+          },
         }}
-        editor={ClassicEditor as EditorPatch}
+        editor={BuildedEditor}
         onReady={(editor) => {
           const {
             toolbar: { element: toolbarElement },
             editable: { element: editableElement },
           } = editor.ui.view;
-          if (props.disabled) {
+          if (props.readonly) {
             toolbarElement!.style.display = 'none';
             editableElement!.classList.remove('ck-editor__editable', 'ck-editor__editable_inline');
           }
         }}
+        disabled={props.readonly || props.disabled}
         {...props}
       />
     </div>

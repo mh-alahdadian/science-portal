@@ -32,7 +32,7 @@ export default function BlogPostPage({ params }: PageProps<'scopeId' | 'postId'>
       </div>
       <img src={createFileUrl(post.coverImage)} alt={`cover of postId=${post.id}`} />
       <h1 className="font-bold">{post.title}</h1>
-      <Editor disabled data={post.content} />
+      <Editor readonly data={post.content} />
       <h3 className="font-bold">مطالب مشابه</h3>
       <div className="flex gap-6">
         {relatedPosts.map((post) => (
