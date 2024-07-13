@@ -1,6 +1,7 @@
 import type { components as Article, paths as ArticlePaths } from 'src/generated/article';
 import type { components as Blog, paths as BlogPaths } from 'src/generated/blog';
 import type { components as Core, paths as CorePaths } from 'src/generated/core';
+import type { components as Fs, paths as FsPaths } from 'src/generated/fs';
 import type { components as Feedback, paths as FeedbackPaths } from 'src/generated/feedback';
 import type { components as Forum, paths as ForumPaths } from 'src/generated/forum';
 import type { components as Library, paths as LibraryPaths } from 'src/generated/library';
@@ -12,6 +13,7 @@ type Services = {
   article: { components: Article; paths: ArticlePaths };
   blog: { components: Blog; paths: BlogPaths };
   core: { components: Core; paths: CorePaths };
+  fs: { components: Fs; paths: FsPaths };
   feedback: { components: Feedback; paths: FeedbackPaths };
   forum: { components: Forum; paths: ForumPaths };
   library: { components: Library; paths: LibraryPaths };

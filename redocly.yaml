@@ -3,6 +3,10 @@ apis:
     root: ./docs/openapi/core.json
     x-openapi-ts:
       output: ./src/generated/core.d.ts
+  fs@v1:
+    root: ./docs/openapi/file-manager.json
+    x-openapi-ts:
+      output: ./src/generated/fs.d.ts
   news@v1:
     root: ./docs/openapi/news.json
     x-openapi-ts:
