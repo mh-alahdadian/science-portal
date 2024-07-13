@@ -12,6 +12,7 @@ interface Props {
 type Comment = Schema<'CommentResponseDTO'> & { userImage: string; feedbackStats: Schema<'FeedbackStatsDTO'> };
 
 const mock: Comment = {
+  id: 1,
   userName: 'علی',
   userImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHCZuslFbn42wwA9qw6ywBERhtpr_yOFy3Cw&s',
   createAt: '1402/11/21 11:26',
@@ -26,7 +27,7 @@ export function CommentsList(props: Props) {
     }),
   ).data?.content;
 
-  if (!comments?.length) comments = [mock, mock];
+  if (!comments?.length) comments = [mock];
 
   return (
     <div className="p-6 pb-0 rounded-lg bg-white mt-10 flex flex-col">

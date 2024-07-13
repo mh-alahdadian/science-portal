@@ -16,7 +16,7 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
   const postIdOrDraft = last(usePathname().split('/'));
   const isDraft = postIdOrDraft === 'draft';
   const postId = !isDraft ? Number(postIdOrDraft) : (undefined as any as number);
-  // const router = useRouter();
+
   const postService = queryService('news:/v1/manager/{page}/posts/{postId}', {
     params: { path: { page: String(params.scopeId), postId } },
   });
@@ -58,7 +58,6 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
   }
 
   function handleEditorChange(data: any) {
-    // mutateCreatePost()
     setEditorData(data);
   }
 
@@ -86,7 +85,7 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
         onBlur={onBlur}
         disabled={isDraft}
       />
-      <Link className="btn-primary mt-5" href={'../' + post?.id}>
+      <Link role="button" className="btn-primary mt-5" href={'../' + post?.id}>
         ثبت خبر
       </Link>
     </>
