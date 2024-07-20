@@ -7,7 +7,7 @@ interface Props extends ComponentPropsWithoutRef<'div'> {
 
 export function Drawer({ children, openElement }: Props) {
   return (
-    <div className="drawer">
+    <div className="drawer z-20">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content">
         <label htmlFor="my-drawer" role="button" className="drawer-button">
