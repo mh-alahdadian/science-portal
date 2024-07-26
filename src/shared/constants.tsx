@@ -1,3 +1,7 @@
+export enum Service {
+  news = 'news',
+}
+
 export enum ModelType {
   BOOK = 2,
   NEWS = 4,

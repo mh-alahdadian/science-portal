@@ -8,9 +8,11 @@ import Logo from 'src/assets/logo.svg';
 import ManagementMenu from './ManagementMenuController';
 import AuthDialogController from './ProfileMenuController';
 import Services from './Services';
+import { Service } from '@/constants';
 
-export default function Header({ params }: PageProps<'scopeId'>) {
+export default function Header({ params }: PageProps<'scopeId' | 'service'>) {
   const { isSmall } = useScreen();
+  const service = params.service as Service | undefined;
 
   const logo = (
     <Link href="/">
@@ -24,7 +26,7 @@ export default function Header({ params }: PageProps<'scopeId'>) {
         حوزه‌ها
       </Link>
       <Services scopeId={params.scopeId} />
-      <ManagementMenu scopeId={+params.scopeId} />
+      <ManagementMenu service={service} scopeId={+params.scopeId} />
     </Drawer>
   ) : (
     <div className="flex ml-auto">
@@ -32,7 +34,7 @@ export default function Header({ params }: PageProps<'scopeId'>) {
         حوزه‌ها
       </Link>
       <Services scopeId={params.scopeId} />
-      <ManagementMenu scopeId={+params.scopeId} />
+      <ManagementMenu service={service} scopeId={+params.scopeId} />
     </div>
   );
 
