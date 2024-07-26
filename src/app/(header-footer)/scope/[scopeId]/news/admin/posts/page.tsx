@@ -18,6 +18,7 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
         path: { page: String(params.scopeId) },
         query: {
           ...paginationStateToQuery(pagination),
+          ...{sort: 'id,desc'}
         },
       },
     }),

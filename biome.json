@@ -7,9 +7,7 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "style": { "recommended": false },
-      "a11y": { "recommended": false },
-      "suspicious": { "noExplicitAny": "off" }
+      "recommended": false
     }
   },
   "javascript": {

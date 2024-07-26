@@ -43,7 +43,7 @@ class Adapter implements UploadAdapter {
     xhr.addEventListener('load', () => {
       const response = xhr.response;
       if (!response || response.error) {
-        return reject(response && response.error && response.error.message ? response.error.message : genericErrorText);
+        return reject(response?.error?.message || genericErrorText);
       }
       const urls = response.url ? { default: response.url } : response.urls;
       resolve({ ...response, urls });
@@ -59,9 +59,9 @@ class Adapter implements UploadAdapter {
     this.xhr.withCredentials = true;
     const data = new FormData();
     data.append('file', file);
-    Object.entries(this.uploadData).forEach(([key, val]) => {
+    for (const [key, val] of Object.entries(this.uploadData)) {
       data.append(key, String(val));
-    });
+    }
 
     const { accessToken } = getToken();
     xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
