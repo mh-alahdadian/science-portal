@@ -42,7 +42,12 @@ export function Post(props: Props) {
             {post.tags}
         </div> */}
         <div className="font-bold">{post.title}</div>
-        <Editor className="text-black text-opacity-50" data={post.content} uploadData={{ fileKey: (post as any).fileKey }} readonly />
+        <Editor
+          className="text-black text-opacity-50"
+          data={post.content}
+          uploadData={{ fileKey: (post as any).fileKey }}
+          readonly
+        />
         <div className="flex gap-6 ">
           {reaction.map((r) => {
             const Icon = reactionIcon[r.reactionType! as keyof typeof reactionIcon];

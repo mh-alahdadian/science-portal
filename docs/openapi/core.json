@@ -86,13 +86,57 @@
             }
         },
         "/v1/manager/{page}/roles/{roleId}": {
+            "get": {
+                "tags": [
+                    "role_management"
+                ],
+                "summary": "Get a role by ID",
+                "description": "Retrieve a specific role by its ID.",
+                "operationId": "getRole",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "roleId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RoleResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            },
             "put": {
                 "tags": [
                     "role_management"
                 ],
                 "summary": "Update a role",
                 "description": "Update the details of an existing role.",
-                "operationId": "updateScopeRole",
+                "operationId": "updateRole",
                 "parameters": [
                     {
                         "name": "page",
@@ -257,13 +301,51 @@
             }
         },
         "/v1/manager/{page}/roles": {
+            "get": {
+                "tags": [
+                    "role_management"
+                ],
+                "summary": "Get all scope roles",
+                "description": "Retrieve a list of all roles in the system.",
+                "operationId": "getRoleList",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/RoleResponseDTO"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            },
             "post": {
                 "tags": [
                     "role_management"
                 ],
                 "summary": "Add a new role",
                 "description": "Create a new role with the provided details.",
-                "operationId": "addScopeRole",
+                "operationId": "addRole_1",
                 "parameters": [
                     {
                         "name": "page",
@@ -290,7 +372,7 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ResponseDTO"
+                                    "$ref": "#/components/schemas/RoleResponseDTO"
                                 }
                             }
                         }
@@ -327,7 +409,7 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ResponseDTO"
+                                    "$ref": "#/components/schemas/ScopeDTO"
                                 }
                             }
                         }
@@ -597,7 +679,7 @@
                 ],
                 "summary": "Block/Unblock user",
                 "description": "Toggle the block status of a user.",
-                "operationId": "blockAndUnblockUser",
+                "operationId": "blockOrUnblockUser",
                 "parameters": [
                     {
                         "name": "userId",
@@ -716,6 +798,7 @@
                     {
                         "name": "searchDTO",
                         "in": "query",
+                        "required": true,
                         "schema": {
                             "$ref": "#/components/schemas/UserSearchDTO"
                         }
@@ -723,6 +806,7 @@
                     {
                         "name": "pageable",
                         "in": "query",
+                        "required": true,
                         "schema": {
                             "$ref": "#/components/schemas/Pageable"
                         }
@@ -792,74 +876,6 @@
                     }
                 ]
             }
-        },
-        "/v1/manager/roles": {
-            "get": {
-                "tags": [
-                    "role_management"
-                ],
-                "summary": "Get all scope roles",
-                "description": "Retrieve a list of all roles in the system.",
-                "operationId": "getRoleList",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/RoleResponseDTO"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            }
-        },
-        "/v1/manager/roles/{roleId}": {
-            "get": {
-                "tags": [
-                    "role_management"
-                ],
-                "summary": "Get a role by ID",
-                "description": "Retrieve a specific role by its ID.",
-                "operationId": "getRole",
-                "parameters": [
-                    {
-                        "name": "roleId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RoleResponseDTO"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            }
         }
     },
     "components": {
@@ -888,6 +904,14 @@
                     },
                     "title": {
                         "type": "string"
+                    },
+                    "usageScopeIds": {
+                        "uniqueItems": true,
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
                     },
                     "description": {
                         "type": "string"
@@ -973,6 +997,10 @@
                 }
             },
             "RoleRequestDTO": {
+                "required": [
+                    "description",
+                    "title"
+                ],
                 "type": "object",
                 "properties": {
                     "id": {
@@ -984,6 +1012,13 @@
                     },
                     "description": {
                         "type": "string"
+                    },
+                    "usageScopeIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
                     },
                     "authorities": {
                         "type": "array",
@@ -1007,11 +1042,17 @@
                 }
             },
             "ScopeDTO": {
+                "required": [
+                    "title"
+                ],
                 "type": "object",
                 "properties": {
                     "id": {
                         "type": "integer",
                         "format": "int64"
+                    },
+                    "title": {
+                        "type": "string"
                     },
                     "coverImage": {
                         "type": "string"
@@ -1020,11 +1061,55 @@
                         "type": "string",
                         "readOnly": true
                     },
+                    "enable": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "AuthorityDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
                     "title": {
                         "type": "string"
                     },
-                    "enable": {
-                        "type": "boolean"
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            },
+            "RoleResponseDTO": {
+                "required": [
+                    "description",
+                    "title"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "usageScopeIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    "authorities": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AuthorityDTO"
+                        }
                     }
                 }
             },
@@ -1222,15 +1307,15 @@
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
-                    "numberOfElements": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "first": {
                         "type": "boolean"
                     },
                     "last": {
                         "type": "boolean"
+                    },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
                     },
                     "empty": {
                         "type": "boolean"
@@ -1274,42 +1359,6 @@
                     },
                     "unsorted": {
                         "type": "boolean"
-                    }
-                }
-            },
-            "AuthorityDTO": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "title": {
-                        "type": "string"
-                    },
-                    "description": {
-                        "type": "string"
-                    }
-                }
-            },
-            "RoleResponseDTO": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "title": {
-                        "type": "string"
-                    },
-                    "description": {
-                        "type": "string"
-                    },
-                    "authorities": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/AuthorityDTO"
-                        }
                     }
                 }
             }

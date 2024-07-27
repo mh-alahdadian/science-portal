@@ -4,15 +4,18 @@ import { Drawer } from '@/components';
 import { useScreen } from '@/hooks/screen';
 import { List } from '@phosphor-icons/react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Logo from 'src/assets/logo.svg';
 import ManagementMenu from './ManagementMenuController';
 import AuthDialogController from './ProfileMenuController';
 import Services from './Services';
-import { Service } from '@/constants';
+import { HeaderProps } from './types';
 
-export default function Header({ params }: PageProps<'scopeId' | 'service'>) {
+export default function Header() {
   const { isSmall } = useScreen();
-  const service = params.service as Service | undefined;
+
+  const [empty, scope, scopeId, service] = usePathname().split('/');
+  const params = { scopeId: +scopeId, service } as HeaderProps;
 
   const logo = (
     <Link href="/">
@@ -25,16 +28,16 @@ export default function Header({ params }: PageProps<'scopeId' | 'service'>) {
       <Link href="/scopes" role="button" className="btn-link">
         حوزه‌ها
       </Link>
-      <Services scopeId={params.scopeId} />
-      <ManagementMenu service={service} scopeId={+params.scopeId} />
+      <Services {...params} />
+      <ManagementMenu {...params} />
     </Drawer>
   ) : (
     <div className="flex ml-auto">
       <Link href="/scopes" role="button" className="btn-link">
         حوزه‌ها
       </Link>
-      <Services scopeId={params.scopeId} />
-      <ManagementMenu service={service} scopeId={+params.scopeId} />
+      <Services {...params} />
+      <ManagementMenu {...params} />
     </div>
   );
 

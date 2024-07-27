@@ -5,7 +5,7 @@ import { BuildedEditor } from './build';
 import './editor.css';
 
 interface Props extends Omit<ComponentPropsWithoutRef<typeof CKEditor>, 'editor'> {
-  uploadData?: Partial<Omit<Schema<'UploadRequestDTO'>, 'file'>> & {fileKey?: string};
+  uploadData?: Partial<Omit<Schema<'UploadRequestDTO'>, 'file'>> & { fileKey?: string };
   readonly?: boolean;
   className?: string;
 }

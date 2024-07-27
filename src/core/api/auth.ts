@@ -1,14 +1,12 @@
 'use client';
 
 import { isServer } from '@tanstack/react-query';
-import { jwtDecode } from 'jwt-decode';
 import { listenApiEvent, mutateService } from './api';
-import { getToken, removeToken, setToken } from './utils';
+import { getParsedToken, getToken, removeToken, setToken } from './utils';
 
 // TODO: Regulate system date-time if it was not correct
 
 let refreshingTokenPromise: Promise<void> | undefined;
-let expTime = 1;
 
 const config = {
   refreshPath: 'core:/v1/auth/refresh-token',
@@ -36,7 +34,7 @@ if (!isServer) {
       request.url.endsWith('core/auth/refresh-token') &&
       refreshToken &&
       !refreshingTokenPromise &&
-      Date.now() > expTime - config.expDelaySec * 1000
+      Date.now() > (getParsedToken().exp! - config.expDelaySec) * 1000
     ) {
       refreshingTokenPromise = mutateService('post', 'core:/v1/auth/refresh-token').mutationFn!({
         params: { query: { refreshToken } },
@@ -54,7 +52,6 @@ if (!isServer) {
 
 listenApiEvent('data', (data, request) => {
   if (request.url.startsWith(config.loginPath) || request.url.startsWith(config.refreshPath)) {
-    expTime = jwtDecode(data.accessToken).exp! * 1000;
     setToken(data);
   }
 });
