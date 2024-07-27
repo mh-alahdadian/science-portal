@@ -1,5 +1,5 @@
 import { createEvent } from '@/utils/event-emitter';
-import { QueryClient, UseMutationOptions, isServer, type UseQueryOptions } from '@tanstack/react-query';
+import { QueryClient, UseMutationOptions, type UseQueryOptions, isServer } from '@tanstack/react-query';
 import createClient, { type FetchOptions, type FetchResponse } from 'openapi-fetch';
 import type { FilterKeys, PathsWithMethod as PathsWith } from 'openapi-typescript-helpers';
 

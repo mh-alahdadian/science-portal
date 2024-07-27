@@ -23,7 +23,7 @@ import {
   PictureEditing,
   Table,
   TableToolbar,
-  TextTransformation
+  TextTransformation,
 } from 'ckeditor5';
 
 import 'ckeditor5/ckeditor5.css';

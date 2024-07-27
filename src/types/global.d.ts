@@ -5,8 +5,8 @@ type SearchParams<T extends string> = {
   [key in T as key extends `${infer k}[]` ? k : key extends `${infer k}?` ? k : key]: T extends `${string}[]`
     ? string[]
     : T extends `${string}?`
-    ? string | undefined
-    : string;
+      ? string | undefined
+      : string;
 };
 
 interface PageProps<T extends string = never, U extends string = never> {

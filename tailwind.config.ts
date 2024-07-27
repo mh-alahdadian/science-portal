@@ -4,9 +4,6 @@ import plugin from 'tailwindcss/plugin';
 
 const baseTheme = {
   '--padding-card': '1rem',
-  '.tab, .dropdown': {
-    position: 'unset',
-  },
   '.drawer': {
     width: 'auto',
   },

@@ -5,7 +5,7 @@ import { BuildedEditor } from './build';
 import './editor.css';
 
 interface Props extends Omit<ComponentPropsWithoutRef<typeof CKEditor>, 'editor'> {
-  uploadData?: Omit<Schema<'UploadRequestDTO'>, 'file'>;
+  uploadData?: Partial<Omit<Schema<'UploadRequestDTO'>, 'file'>> & { fileKey?: string };
   readonly?: boolean;
   className?: string;
 }
@@ -38,6 +38,7 @@ export default function Editor(props: Props) {
         }}
         disabled={props.readonly || props.disabled}
         {...props}
+        data={props.data?.replaceAll(/src="((?:\w|[/-])*)"/g, `src="/api/fs/$1?key=${props.uploadData?.fileKey}"`)}
       />
     </div>
   );

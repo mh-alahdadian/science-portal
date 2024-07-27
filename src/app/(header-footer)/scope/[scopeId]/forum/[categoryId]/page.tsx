@@ -100,7 +100,11 @@ export default function Forum({ params }: PageProps<'scopeId' | 'categoryId'>) {
       </div>
       <div className="flex justify-between mb-2">
         <DataFilter schema={schema} />
-        <Link href={{ pathname: 'topic/new', query: { categoryId: params.categoryId } }} role="button" className="btn-primary">
+        <Link
+          href={{ pathname: 'topic/new', query: { categoryId: params.categoryId } }}
+          role="button"
+          className="btn-primary"
+        >
           <Plus />
           سوال جدید
         </Link>

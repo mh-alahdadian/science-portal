@@ -3,11 +3,12 @@
 import { mutateService, queryService } from '@/api';
 import { Paginator, Table } from '@/components';
 import { defaultPagination } from '@/constants';
+import { paginationStateToQuery } from '@/utils';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import Link from 'next/link';
 import { useState } from 'react';
 import { columns } from './cols';
-import { paginationStateToQuery } from '@/utils';
 
 export default function Admin({ params }: PageProps<'scopeId'>) {
   const [pagination, setPagination] = useState(defaultPagination);
@@ -18,6 +19,7 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
         path: { page: String(params.scopeId) },
         query: {
           ...paginationStateToQuery(pagination),
+          ...{ sort: 'id,desc' },
         },
       },
     }),
@@ -42,6 +44,12 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
 
   return (
     <div className="">
+      <div className="flex justify-between mb-4">
+        <input placeholder="search" />
+        <Link role="button" className="btn-primary" href="../write/draft">
+          ایجاد خبر
+        </Link>
+      </div>
       <Table table={table} hasData={!!data} hasError={isError} isLoading={isLoading} refetch={refetch} />
       <Paginator
         total={table.getPageCount()}

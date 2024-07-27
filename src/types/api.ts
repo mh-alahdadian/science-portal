@@ -1,9 +1,9 @@
 import type { components as Article, paths as ArticlePaths } from 'src/generated/article';
 import type { components as Blog, paths as BlogPaths } from 'src/generated/blog';
 import type { components as Core, paths as CorePaths } from 'src/generated/core';
-import type { components as Fs, paths as FsPaths } from 'src/generated/fs';
 import type { components as Feedback, paths as FeedbackPaths } from 'src/generated/feedback';
 import type { components as Forum, paths as ForumPaths } from 'src/generated/forum';
+import type { components as Fs, paths as FsPaths } from 'src/generated/fs';
 import type { components as Library, paths as LibraryPaths } from 'src/generated/library';
 import type { components as News, paths as NewsPaths } from 'src/generated/news';
 
@@ -34,6 +34,9 @@ type AllPaths = UnionToIntersection<
 
 declare global {
   export type Schema<T extends keyof AllSchemas> = AllSchemas[T];
-  export type SchemaOf<X extends keyof Services, T extends keyof Services[X]['components']['schemas']> = Services[X]['components']['schemas'][T];
+  export type SchemaOf<
+    X extends keyof Services,
+    T extends keyof Services[X]['components']['schemas'],
+  > = Services[X]['components']['schemas'][T];
   export type ApiPaths = AllPaths;
 }

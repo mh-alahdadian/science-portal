@@ -4,7 +4,6 @@ import { mutateService, queryService } from '@/api';
 import { Editor, SelectField, TextField } from '@/components';
 import { ModelType } from '@/constants';
 import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { last } from 'ramda';
 import { useState } from 'react';
@@ -79,15 +78,15 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
         ))}
       </SelectField>
       <Editor
-        uploadData={{ scopeId: params.scopeId, modelTypeId: ModelType.NEWS, modelId: postId }}
+        uploadData={{ scopeId: params.scopeId, modelTypeId: ModelType.NEWS, modelId: postId, fileKey: post?.fileKey }}
         data={editorData}
         onChange={(event, editor) => handleEditorChange(editor.getData())}
         onBlur={onBlur}
         disabled={isDraft}
       />
-      <Link role="button" className="btn-primary mt-5" href={'../' + post?.id}>
+      <button role="button" className="btn-primary mt-5" onClick={onBlur}>
         ثبت خبر
-      </Link>
+      </button>
     </>
   );
 }
