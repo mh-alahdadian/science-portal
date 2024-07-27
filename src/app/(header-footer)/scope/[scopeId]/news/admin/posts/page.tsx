@@ -6,6 +6,7 @@ import { defaultPagination } from '@/constants';
 import { paginationStateToQuery } from '@/utils';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import Link from 'next/link';
 import { useState } from 'react';
 import { columns } from './cols';
 
@@ -43,6 +44,12 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
 
   return (
     <div className="">
+      <div className="flex justify-between mb-4">
+        <input placeholder="search" />
+        <Link role="button" className="btn-primary" href="../write/draft">
+          ایجاد خبر
+        </Link>
+      </div>
       <Table table={table} hasData={!!data} hasError={isError} isLoading={isLoading} refetch={refetch} />
       <Paginator
         total={table.getPageCount()}

@@ -17,7 +17,7 @@ export const columns = [
     header: 'عنوان خبر',
     cell: ({ row }) => {
       return (
-        <Link className="btn-link" href={`${row.original.id}`}>
+        <Link className="btn-link" href={`../write/${row.original.id}`}>
           {row.original.title}
         </Link>
       );
