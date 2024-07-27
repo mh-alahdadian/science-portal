@@ -61,10 +61,19 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
   }
 
   return (
-    <>
+    <form className="flex flex-col gap-2">
       <h1 className="my-8 text-lg">ایجاد خبر</h1>
-      <TextField name="title" value={title} onChange={(e) => setTitle(e.target.value)} onBlur={onBlur} />
+      <TextField
+        startAdornment="عنوان"
+        name="title"
+        formControlClassName="mt-2"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        onBlur={onBlur}
+      />
       <SelectField
+        startAdornment="دسته‌بندی"
+        formControlClassName="mt-2"
         onChange={(e) => {
           setCategory(e.target.value);
           onBlur();
@@ -80,13 +89,14 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
       <Editor
         uploadData={{ scopeId: params.scopeId, modelTypeId: ModelType.NEWS, modelId: postId, fileKey: post?.fileKey }}
         data={editorData}
+        className="mt-2"
         onChange={(event, editor) => handleEditorChange(editor.getData())}
         onBlur={onBlur}
         disabled={isDraft}
       />
-      <button role="button" className="btn-primary mt-5" onClick={onBlur}>
+      <button role="button" className="w-fit btn-primary mt-5" onClick={onBlur}>
         ثبت خبر
       </button>
-    </>
+    </form>
   );
 }

@@ -36,10 +36,10 @@ export function TextField(props: Props) {
 
   return (
     <FieldWrapper {...{ formControlClassName, label, labelAlt, helperText, helperAltText }}>
-      <div className="relative flex items-center">
-        <div className="absolute right-0">{startAdornment}</div>
-        {children || <input ref={ref} {...inputProps} className="w-full" />}
-        <div className="absolute left-0">{endAdornment}</div>
+      <div role="input" className="flex items-center gap-2">
+        {startAdornment}
+        {children || <input ref={ref} {...inputProps} className="not-styled grow" />}
+        {endAdornment}
       </div>
     </FieldWrapper>
   );

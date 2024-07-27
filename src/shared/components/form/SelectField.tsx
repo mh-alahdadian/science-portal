@@ -37,13 +37,12 @@ export function SelectField(props: Props) {
 
   return (
     <FieldWrapper {...{ formControlClassName, label, labelAlt, helperText, helperAltText }}>
-      <div className="relative flex items-center">
-        <div className="absolute pointer-events-none right-0">{startAdornment}</div>
-        <div className="absolute pointer-events-none right-4">{selectProps.placeholder}</div>
-        <select ref={ref} {...selectProps} className="pr-36 w-full">
+      <div role="select" className="flex items-center gap-2">
+        {startAdornment || selectProps.placeholder}
+        <select ref={ref} {...selectProps} className="not-styled grow">
           {children}
         </select>
-        <div className="absolute left-0">{endAdornment}</div>
+        {endAdornment}
       </div>
     </FieldWrapper>
   );

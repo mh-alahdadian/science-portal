@@ -31,8 +31,14 @@ time {
   :is(input, [role='input']):not(:where([class~="not-styled"],[class~="not-styled"] *)) {
     @apply input input-bordered;
   }
-  :is(select, [role='select']):not(:where([class~="not-styled"],[class~="not-styled"] *)) {
+  :is(select, [role='select']) {
     @apply select select-bordered;
+  }
+  :is(select).not-styled {
+    appearance: none;
+    background: transparent;
+    outline: none !important;
+    border: none;
   }
 }
 
