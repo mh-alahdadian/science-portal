@@ -18,7 +18,6 @@ export default function AuthDialogController(props: HeaderProps) {
 
   const serviceInfo = servicesMap[props.service || 'users'];
   const authorities = getParsedToken().authorities[props.scopeId || 'global'];
-  console.log(serviceInfo, authorities);
   if (!serviceInfo || !authorities || !authorities.includes(serviceInfo.permission)) return null;
 
   return (

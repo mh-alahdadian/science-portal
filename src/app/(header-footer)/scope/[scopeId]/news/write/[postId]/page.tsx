@@ -2,6 +2,8 @@
 
 import { mutateService, queryService } from '@/api';
 import { Editor, SelectField, TextField } from '@/components';
+import { uploadFile } from '@/components/editor/uploader';
+import { FileField } from '@/components/form/FileField';
 import { ModelType } from '@/constants';
 import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
@@ -33,6 +35,7 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
 
   const [editorData, setEditorData] = useState(post?.content || '');
   const [title, setTitle] = useState(post?.title || '');
+  const [coverImage, setCoverImage] = useState(post?.coverImage || '');
   const [category, setCategory] = useState<string>(post ? String(post.categoryId) : '');
 
   function onBlur() {
@@ -42,6 +45,7 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
         body: {
           title: title,
           categoryId: Number(category),
+          coverImage: coverImage,
           isPublic: true,
           content: editorData,
         },
@@ -63,29 +67,38 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
   return (
     <form className="flex flex-col gap-2">
       <h1 className="my-8 text-lg">ایجاد خبر</h1>
-      <TextField
-        startAdornment="عنوان"
-        name="title"
-        formControlClassName="mt-2"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        onBlur={onBlur}
-      />
-      <SelectField
-        startAdornment="دسته‌بندی"
-        formControlClassName="mt-2"
-        onChange={(e) => {
-          setCategory(e.target.value);
-          onBlur();
-        }}
-        onBlur={onBlur}
-      >
-        {categories.map((c) => (
-          <option key={c.id} value={c.id}>
-            {c.title}
-          </option>
-        ))}
-      </SelectField>
+      <div className="flex gap-2">
+        <FileField
+          className="h-[6.5rem]"
+          setSelectedImage={async (file) => {
+            const x = await uploadFile(file, { scopeId: params.scopeId, modelTypeId: ModelType.NEWS, modelId: postId }).promise;
+            setCoverImage(x.fileName!)
+          }}
+        />
+        <div className="flex-1 flex flex-col gap-2">
+          <TextField
+            startAdornment="عنوان"
+            name="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            onBlur={onBlur}
+          />
+          <SelectField
+            startAdornment="دسته‌بندی"
+            onChange={(e) => {
+              setCategory(e.target.value);
+              onBlur();
+            }}
+            onBlur={onBlur}
+          >
+            {categories.map((c) => (
+              <option key={c.id} value={c.id}>
+                {c.title}
+              </option>
+            ))}
+          </SelectField>
+        </div>
+      </div>
       <Editor
         uploadData={{ scopeId: params.scopeId, modelTypeId: ModelType.NEWS, modelId: postId, fileKey: post?.fileKey }}
         data={editorData}
@@ -94,7 +107,7 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
         onBlur={onBlur}
         disabled={isDraft}
       />
-      <button role="button" className="w-fit btn-primary mt-5" onClick={onBlur}>
+      <button role="button" type="button" className="w-fit btn-primary mt-5" onClick={onBlur}>
         ثبت خبر
       </button>
     </form>
