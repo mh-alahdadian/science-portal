@@ -28,7 +28,7 @@ time {
   :is(button, [role='button']):not(:where([class~="not-styled"],[class~="not-styled"] *)) {
     @apply btn;
   }
-  :is(input, [role='input']):not(:where([class~="not-styled"],[class~="not-styled"] *)) {
+  :is(input, [role='input']):not(:where([type="checkbox"], [class~="not-styled"], [class~="not-styled"] *)) {
     @apply input input-bordered;
   }
   :is(select, [role='select']) {

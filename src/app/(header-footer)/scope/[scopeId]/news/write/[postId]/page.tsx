@@ -1,14 +1,15 @@
 'use client';
 
 import { mutateService, queryService } from '@/api';
-import { Editor, SelectField, TextField } from '@/components';
+import { CheckBoxField, Editor, ImageField, SelectField, TextField } from '@/components';
 import { uploadFile } from '@/components/editor/uploader';
-import { FileField } from '@/components/form/FileField';
 import { ModelType } from '@/constants';
+import { createFileUrl } from '@/utils';
 import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import { last } from 'ramda';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { NewsStatusId } from '../../constants';
 
 export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) {
   const { data: categories } = useSuspenseQuery(
@@ -27,6 +28,9 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
     ...mutateService('put', 'news:/v1/manager/{page}/posts/{postId}'),
     mutationKey: postService.queryKey,
   });
+  const { mutateAsync: mutatePostStatus } = useMutation(
+    mutateService('patch', 'news:/v1/manager/{page}/posts/{postId}/status'),
+  );
 
   const post = useQuery({
     ...postService,
@@ -35,68 +39,92 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
 
   const [editorData, setEditorData] = useState(post?.content || '');
   const [title, setTitle] = useState(post?.title || '');
-  const [coverImage, setCoverImage] = useState(post?.coverImage || '');
+  const [isPublic, setIsPublic] = useState<boolean>(post?.isPublic || true);
+  const [coverImage, setCoverImage] = useState<string | File>(post?.coverImage || '');
   const [category, setCategory] = useState<string>(post ? String(post.categoryId) : '');
 
-  function onBlur() {
+  type BodyData = Parameters<typeof mutateCreatePost & typeof mutateEditPost>[0];
+  function createMutateData(overrides?: BodyData['body']): BodyData {
+    return {
+      params: { path: { page: String(params.scopeId), postId } },
+      body: {
+        title: title,
+        categoryId: Number(category),
+        coverImage: coverImage instanceof File ? undefined : coverImage,
+        isPublic: true,
+        content: editorData,
+        ...overrides,
+      },
+    };
+  }
+
+  function submitPost() {
     if (title && category) {
-      const data: Parameters<typeof mutateCreatePost & typeof mutateEditPost>[0] = {
-        params: { path: { page: String(params.scopeId), postId } },
-        body: {
-          title: title,
-          categoryId: Number(category),
-          coverImage: coverImage,
-          isPublic: true,
-          content: editorData,
-        },
-      };
       if (isDraft) {
-        mutateCreatePost(data).then((post) => {
+        return mutateCreatePost(createMutateData()).then((post) => {
           history.replaceState(null, '', './' + post.id);
         });
       } else {
-        mutateEditPost(data);
+        return mutateEditPost(createMutateData());
       }
     }
   }
+
+  useEffect(() => {
+    if (postId && coverImage instanceof File) {
+      uploadFile(coverImage, {
+        scopeId: params.scopeId,
+        modelTypeId: ModelType.NEWS,
+        modelId: postId,
+      }).promise.then((x) => {
+        setCoverImage(x.fileName!);
+        mutateEditPost(createMutateData({ coverImage: x.fileName! }));
+      });
+    }
+  }, [coverImage, postId]);
 
   function handleEditorChange(data: any) {
     setEditorData(data);
   }
 
+  async function submitAndPublish() {
+    await submitPost();
+    mutatePostStatus({
+      params: { path: { page: String(params.scopeId), postId }, query: { statusId: NewsStatusId.AWAITING_PUBLISHED } },
+    });
+  }
+
   return (
-    <form className="flex flex-col gap-2">
+    <form className="flex flex-col gap-2" onBlur={submitPost}>
       <h1 className="my-8 text-lg">ایجاد خبر</h1>
       <div className="flex gap-2">
-        <FileField
+        <ImageField
           className="h-[6.5rem]"
-          setSelectedImage={async (file) => {
-            const x = await uploadFile(file, { scopeId: params.scopeId, modelTypeId: ModelType.NEWS, modelId: postId }).promise;
-            setCoverImage(x.fileName!)
-          }}
+          initialPreview={!(coverImage instanceof File) && !!coverImage ? createFileUrl(coverImage, post!.fileKey) : ''}
+          setSelectedImage={setCoverImage}
         />
         <div className="flex-1 flex flex-col gap-2">
-          <TextField
-            startAdornment="عنوان"
-            name="title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            onBlur={onBlur}
-          />
-          <SelectField
-            startAdornment="دسته‌بندی"
-            onChange={(e) => {
-              setCategory(e.target.value);
-              onBlur();
-            }}
-            onBlur={onBlur}
-          >
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.title}
-              </option>
-            ))}
-          </SelectField>
+          <TextField startAdornment="عنوان:" name="title" value={title} onChange={(e) => setTitle(e.target.value)} />
+          <div className="flex gap-2">
+            <SelectField
+              startAdornment="دسته‌بندی:"
+              onChange={(e) => {
+                setCategory(e.target.value);
+              }}
+            >
+              <option value={''}>انتخاب کنید</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.title}
+                </option>
+              ))}
+            </SelectField>
+            <CheckBoxField
+              startAdornment="پست عمومی؟"
+              checked={isPublic}
+              onChange={(e) => setIsPublic(e.target.checked)}
+            />
+          </div>
         </div>
       </div>
       <Editor
@@ -104,12 +132,16 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
         data={editorData}
         className="mt-2"
         onChange={(event, editor) => handleEditorChange(editor.getData())}
-        onBlur={onBlur}
         disabled={isDraft}
       />
-      <button role="button" type="button" className="w-fit btn-primary mt-5" onClick={onBlur}>
-        ثبت خبر
-      </button>
+      <div className="flex gap-4">
+        <button role="button" type="button" className="w-fit btn-primary mt-5" onClick={submitPost}>
+          ذخیره پیش‌نویس
+        </button>
+        <button role="button" type="button" className="w-fit btn-primary mt-5" onClick={submitAndPublish}>
+          ذخیره و درخواست انتشار
+        </button>
+      </div>
     </form>
   );
 }

@@ -39,4 +39,5 @@ declare global {
     T extends keyof Services[X]['components']['schemas'],
   > = Services[X]['components']['schemas'][T];
   export type ApiPaths = AllPaths;
+  // export type MutationData<>
 }

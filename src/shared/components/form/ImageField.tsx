@@ -7,11 +7,12 @@ import { ErrorCode, type FileRejection, useDropzone } from 'react-dropzone';
 // import UploadImageIcon from 'src/assets/images/upload-image.svg';
 
 interface Props extends HTMLAttributes<HTMLElement> {
+  initialPreview?: string;
   setSelectedImage: (file: File) => void;
 }
 
-export function FileField({ setSelectedImage, ...props }: Props) {
-  const [selectedImagePreview, setSelectedImagePreview] = useState('');
+export function ImageField({ initialPreview, setSelectedImage, ...props }: Props) {
+  const [selectedImagePreview, setSelectedImagePreview] = useState(initialPreview);
   const [error, setError] = useState('');
 
   // const [file, setFile] = useState(null);

@@ -1,16 +1,9 @@
 import { formatDateTime } from '@/utils';
 import { createColumnHelper } from '@tanstack/react-table';
 import Link from 'next/link';
+import { NewsStatusId } from '../../constants';
 
 const columnHelper = createColumnHelper<Schema<'PostDTO'>>();
-
-enum NewsStatusId {
-  DRAFT = 1,
-  AWAITING_CORRECTION = 2,
-  AWAITING_PUBLISHED = 3,
-  PUBLISHED = 4,
-  UN_PUBLISH = 5,
-}
 
 export const columns = [
   columnHelper.accessor('title', {

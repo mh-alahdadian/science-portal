@@ -12,8 +12,10 @@ export default function AuthDialogController() {
         <div className="avatar">hi</div>
       </button>
       <ul className="dropdown-content z-[1] menu p-2">
-        <li>پروفایل</li>
-        <li onClick={logout}>خروج</li>
+        <li className="item">پروفایل</li>
+        <li className="item" onClick={logout}>
+          خروج
+        </li>
       </ul>
     </div>
   ) : (
