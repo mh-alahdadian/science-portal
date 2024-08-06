@@ -1419,12 +1419,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.1.2, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.8, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.22.5, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7":
+"@babel/runtime@npm:^7.1.2":
   version: 7.24.7
   resolution: "@babel/runtime@npm:7.24.7"
   dependencies:
     regenerator-runtime: "npm:^0.14.0"
   checksum: b6fa3ec61a53402f3c1d75f4d808f48b35e0dfae0ec8e2bb5c6fc79fb95935da75766e0ca534d0f1c84871f6ae0d2ebdd950727cfadb745a2cdbef13faef5513
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.8, @babel/runtime@npm:^7.14.6, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.21.0, @babel/runtime@npm:^7.22.5, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.6.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7":
+  version: 7.24.4
+  resolution: "@babel/runtime@npm:7.24.4"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 785aff96a3aa8ff97f90958e1e8a7b1d47f793b204b47c6455eaadc3f694f48c97cd5c0a921fe3596d818e71f18106610a164fb0f1c71fd68c622a58269d537c
   languageName: node
   linkType: hard
 
@@ -2566,6 +2575,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kurkle/color@npm:^0.3.0":
+  version: 0.3.2
+  resolution: "@kurkle/color@npm:0.3.2"
+  checksum: a9e8e3e35dcd59dec4dd4f0105919c05e24823a96347bcf152965c29e48d6290b66d5fb96c071875db752e10930724c48ce6d338fefbd65e0ce5082d5c78970e
+  languageName: node
+  linkType: hard
+
 "@mixmark-io/domino@npm:^2.2.0":
   version: 2.2.0
   resolution: "@mixmark-io/domino@npm:2.2.0"
@@ -3591,6 +3607,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chart.js@npm:^4.4.3":
+  version: 4.4.3
+  resolution: "chart.js@npm:4.4.3"
+  dependencies:
+    "@kurkle/color": "npm:^0.3.0"
+  checksum: 910113b07983d1b2f52689afcd88d0c5fecbd30fbbe89f4e122d78397fd4521e1563fd6d80f7742a391abe7cfbfa8deaf12c58b83c9636431fa77e7285d85c2e
+  languageName: node
+  linkType: hard
+
 "chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.5.3":
   version: 3.6.0
   resolution: "chokidar@npm:3.6.0"
@@ -3741,6 +3766,7 @@ __metadata:
     ag-grid-react: "npm:^31.1.1"
     autoprefixer: "npm:^10.0.1"
     bootstrap: "npm:^5.3.3"
+    chart.js: "npm:^4.4.3"
     ckeditor5: "npm:^42.0.1"
     clsx: "npm:^2.1.0"
     daisyui: "npm:^4.12.10"
@@ -3755,6 +3781,7 @@ __metadata:
     react: "npm:19.0.0-rc-14a4699f-20240725"
     react-bootstrap: "npm:^2.10.1"
     react-bootstrap-typeahead: "npm:^6.3.2"
+    react-chartjs-2: "npm:^5.2.0"
     react-dom: "npm:19.0.0-rc-14a4699f-20240725"
     react-dropzone: "npm:^14.2.3"
     react-hook-form: "npm:^7.48.2"
@@ -5749,6 +5776,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-chartjs-2@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "react-chartjs-2@npm:5.2.0"
+  peerDependencies:
+    chart.js: ^4.1.1
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 437e443a268b7eebab3f1a6f0f5d936e58caf650fca55f568a612a46c563d22af683a64185eac8005aa644e4960a5a72cc1075a2574b89ec46c7653aaf4025e2
+  languageName: node
+  linkType: hard
+
 "react-date-object@npm:^2.1.8":
   version: 2.1.9
   resolution: "react-date-object@npm:2.1.9"
@@ -6655,7 +6692,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^2.0.3, tslib@npm:^2.1.0, tslib@npm:^2.4.0":
+"tslib@npm:^2.0.3, tslib@npm:^2.4.0":
+  version: 2.6.2
+  resolution: "tslib@npm:2.6.2"
+  checksum: e03a8a4271152c8b26604ed45535954c0a45296e32445b4b87f8a5abdb2421f40b59b4ca437c4346af0f28179780d604094eb64546bee2019d903d01c6c19bdb
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.1.0":
   version: 2.6.3
   resolution: "tslib@npm:2.6.3"
   checksum: 2598aef53d9dbe711af75522464b2104724d6467b26a60f2bdac8297d2b5f1f6b86a71f61717384aa8fd897240467aaa7bcc36a0700a0faf751293d1331db39a
