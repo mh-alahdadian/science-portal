@@ -1,6 +1,6 @@
 'use client'
-import { authorsNewsChartData, commentsChartData, postsChartData } from "./mockData";
-import { Line } from "react-chartjs-2"
+import { authorsNewsChartData, categoriesNewsChartData, commentsChartData, mostViewedNewsChartData, postsChartData } from "./mockData";
+import { Line, Bar } from "react-chartjs-2"
 import { Chart as ChartJs, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, registerables } from "chart.js"
 
 ChartJs.register(CategoryScale);
@@ -24,6 +24,15 @@ export default function NewsDashboard() {
                 <h2>تعداد اخبار ثبت شده (آمار نویسنده ها)</h2>
                 <Line options={{}} data={authorsNewsChartData} />
             </div>
+            <div className="bg-white shadow-xl rounded-2xl p-6">
+                <h2>ده خبر پر بازدید ماه اخیر</h2>
+                <Bar options={{}} data={mostViewedNewsChartData} />
+            </div>
+            <div className="bg-white shadow-xl rounded-2xl p-6 col-span-2">
+                <h2>اخبار منتشر شده هر دسته (یک ماه اخیر)</h2>
+                <Line options={{}} data={categoriesNewsChartData} />
+            </div>
+
         </div>
         
     )
