@@ -30,8 +30,8 @@ export function Table<TData>({ table, hasError, isLoading, hasData, refetch }: P
   const isDataReady = !(hasError || isLoading);
 
   return (
-    <>
-      <table className="table table-zebra">
+    <div className="max-w-full overflow-x-auto">
+      <table className="table table-zebra overflow-x-auto">
         {hasData && (
           <thead className="bg-gray-400">
             {table.getHeaderGroups().map((headerGroup) => (
@@ -87,7 +87,7 @@ export function Table<TData>({ table, hasError, isLoading, hasData, refetch }: P
           </Alert>
         </div>
       )}
-    </>
+    </div>
   );
 }
 

@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { InputHTMLAttributes, ReactNode } from 'react';
 import { FieldWrapper } from './FieldWrapper';
 
@@ -38,7 +39,7 @@ export function TextField(props: Props) {
     <FieldWrapper {...{ formControlClassName, label, labelAlt, helperText, helperAltText }}>
       <div role="input" className="flex items-center gap-2">
         {startAdornment}
-        {children || <input ref={ref} {...inputProps} className="not-styled grow" />}
+        {children || <input ref={ref} {...inputProps} className={clsx('not-styled grow', inputProps.className)} />}
         {endAdornment}
       </div>
     </FieldWrapper>
