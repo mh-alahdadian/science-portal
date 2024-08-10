@@ -10,7 +10,7 @@ export function useEmotionCache() {
   const [{ cache, flush }] = useState(() => {
     const cache = createCache({
       key: 'muirtl',
-      prepend: true,
+      // prepend: true,
       stylisPlugins: [rtlPlugin],
     });
     cache.compat = true;

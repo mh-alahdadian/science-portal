@@ -31,6 +31,7 @@ export const columns = [
     filter: ({ column, header, table }) => {
       return (
         <InlineTextField
+          containerClassName="col-2"
           label={column.columnDef.header as string}
           value={column.getFilterValue() as string}
           onChange={(e) => column.setFilterValue(e.target.value)}
@@ -49,7 +50,7 @@ export const columns = [
           value={column.getFilterValue() as string}
           onChange={(e) => column.setFilterValue(e.target.value)}
         >
-          <option value=""></option>
+          <option value="">همه</option>
           {Object.values(table.options.meta!.categories).map((cat) => (
             <option key={cat!.id} value={cat!.id} className="menu-item">
               {cat!.title}
@@ -71,7 +72,7 @@ export const columns = [
           value={column.getFilterValue() as string}
           onChange={(e) => column.setFilterValue(e.target.value)}
         >
-          <option value=""></option>
+          <option value="">همه</option>
           <option value="true">عمومی</option>
           <option value="false">خصوصی</option>
         </InlineSelectField>
@@ -96,9 +97,9 @@ export const columns = [
         <DatePickerField
           label="زمان انتشار"
           range
-          disabled
+          containerClassName="col-2"
           value={column.getFilterValue() as DateObject[]}
-          onChange={column.setFilterValue}
+          // onChange={column.setFilterValue}
         />
       );
     },
@@ -131,7 +132,7 @@ export const columns = [
           value={column.getFilterValue() as string}
           onChange={(e) => column.setFilterValue(e.target.value)}
         >
-          <option value=""></option>
+          <option value="">همه</option>
           <option value={NewsStatusId.DRAFT}>پیش‌نویس</option>
           <option value={NewsStatusId.AWAITING_CORRECTION}>در انتظار اصلاح</option>
           <option value={NewsStatusId.AWAITING_PUBLISHED}>در انتظار انتشار</option>

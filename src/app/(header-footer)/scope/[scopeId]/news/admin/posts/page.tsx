@@ -6,6 +6,7 @@ import { Filter } from '@/components/filter';
 import { defaultPagination } from '@/constants';
 import { combineQueries } from '@/query';
 import { filterStateToQuery, paginationStateToQuery } from '@/utils';
+import { css } from '@emotion/react';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
 import { ColumnFilter, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import Link from 'next/link';
@@ -55,7 +56,7 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
   return (
     <div className="">
       <div className="flex justify-between gap-4 mb-4">
-        <Filter table={table} />
+        <Filter table={table} css={filterStyles} />
         <Link role="button" className="btn-primary" href="../write/draft">
           ایجاد خبر
         </Link>
@@ -71,3 +72,17 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
     </div>
   );
 }
+
+const filterStyles = css`
+display: grid;
+grid: repeat(2, auto) / repeat(6, auto);
+
+label:not(.col-2) {
+  grid-column: span 2 / span 2;
+}
+.col-2 {
+  order: -1;
+  width: 100%;
+  grid-column: span 3 / span 3;
+}
+`;

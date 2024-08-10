@@ -1,11 +1,8 @@
 import { ClassNames } from '@emotion/react';
 import clsx from 'clsx';
+import persian from 'react-date-object/calendars/persian';
+import persian_fa from 'react-date-object/locales/persian_fa';
 import DatePicker, { CalendarProps, DatePickerProps } from 'react-multi-date-picker';
-
-function dbg<T>(x: T) {
-  console.log(x);
-  return x;
-}
 
 export function DatePickerField<Multiple extends boolean = false, Range extends boolean = false>(
   props: Omit<CalendarProps<Multiple, Range>, 'onChange'> & DatePickerProps<Multiple, Range> & { label?: string },
@@ -14,6 +11,9 @@ export function DatePickerField<Multiple extends boolean = false, Range extends 
     <ClassNames>
       {({ css }) => (
         <DatePicker
+          calendar={persian}
+          locale={persian_fa}
+          {...props}
           containerClassName={clsx(
             'input input-bordered',
             css`
@@ -29,9 +29,9 @@ export function DatePickerField<Multiple extends boolean = false, Range extends 
                     opacity: 0.8;
                 }
             `,
+            props.containerClassName,
           )}
-          {...props}
-          inputClass="not-styled w-0 flex-grow"
+          inputClass={clsx('not-styled w-0 flex-grow', props.inputClass)}
         />
       )}
     </ClassNames>
