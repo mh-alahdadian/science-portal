@@ -22,7 +22,7 @@ export default function NewsPostPage({ params }: PageProps<'scopeId' | 'postId'>
   });
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-screen-2xl mx-auto">
       {/* news path */}
       <Breadcrumb params={params} items={[{ text: 'اخبار', url: '../' }, { text: news.title! }]} />
       <div className="bg-gray-100 text-black flex gap-8">

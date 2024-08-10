@@ -9,7 +9,7 @@ export default function NewsAdminLayout({ children, params }: LayoutProps & Page
   const prefixRoute = selectedSegment === null ? 'admin/' : '';
 
   return (
-    <div className="max-w-7xl mx-auto ">
+    <div className="max-w-screen-2xl mx-auto ">
       {/* sidebar */}
       <div
         className={`group w-12 hover:w-28 bg-white z-20 duration-200 hover:duration-200 border-l-2 mt-16 flex flex-col justify-center h-[90vh] gap-6 fixed top-0 right-0`}
