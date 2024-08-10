@@ -1,5 +1,7 @@
 import { DatePickerField, InlineSelectField, InlineTextField } from '@/components';
 import { formatDateTime } from '@/utils';
+import { Reaction } from '@service/components/feedback';
+import { ReactionType } from '@service/constants';
 import { NewsStatusId } from '@service/news/constants';
 import { RowData, createColumnHelper } from '@tanstack/react-table';
 import Link from 'next/link';
@@ -103,6 +105,32 @@ export const columns = [
         />
       );
     },
+  }),
+
+  columnHelper.accessor('viewCount', {
+    header: 'تعداد مشاهده',
+    enableSorting: false,
+  }),
+
+  columnHelper.accessor('feedbackStats.commentCount', {
+    header: 'تعداد کامنت‌ها',
+    enableSorting: false,
+  }),
+  columnHelper.accessor('feedbackStats.reaction', {
+    header: 'واکنش‌ها',
+    cell: ({ row, getValue }) => {
+      const reactions = getValue();
+      return (
+        <div className="flex flex-col">
+          <Reaction reactions={reactions} type={ReactionType.LIKE} />
+          <Reaction reactions={reactions} type={ReactionType.DISLIKE} />
+        </div>
+      );
+      // return Object.keys(reactions!).map((key) => (
+      //   <Reaction reactions={reactions} key={key} type={key as ReactionType} />
+      // ));
+    },
+    enableSorting: false,
   }),
 
   columnHelper.accessor('statusId', {
