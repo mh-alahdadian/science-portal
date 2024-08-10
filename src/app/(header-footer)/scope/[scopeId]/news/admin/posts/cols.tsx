@@ -29,9 +29,14 @@ export const columns = [
       );
     },
     filter: ({ column, header, table }) => {
-      return <InlineTextField containerClassName='w-60' label={column.columnDef.header as string} />;
+      return (
+        <InlineTextField
+          label={column.columnDef.header as string}
+          value={column.getFilterValue() as string}
+          onChange={(e) => column.setFilterValue(e.target.value)}
+        />
+      );
     },
-    
   }),
 
   columnHelper.accessor('categoryId', {
@@ -42,7 +47,7 @@ export const columns = [
         <InlineSelectField
           label={column.columnDef.header as string}
           value={column.getFilterValue() as string}
-          onChange={column.setFilterValue}
+          onChange={(e) => column.setFilterValue(e.target.value)}
         >
           <option value=""></option>
           {Object.values(table.options.meta!.categories).map((cat) => (
@@ -64,7 +69,7 @@ export const columns = [
         <InlineSelectField
           label={column.columnDef.header as string}
           value={column.getFilterValue() as string}
-          onChange={column.setFilterValue}
+          onChange={(e) => column.setFilterValue(e.target.value)}
         >
           <option value=""></option>
           <option value="true">عمومی</option>
@@ -91,6 +96,7 @@ export const columns = [
         <DatePickerField
           label="زمان انتشار"
           range
+          disabled
           value={column.getFilterValue() as DateObject[]}
           onChange={column.setFilterValue}
         />
@@ -123,7 +129,7 @@ export const columns = [
         <InlineSelectField
           label={column.columnDef.header as string}
           value={column.getFilterValue() as string}
-          onChange={column.setFilterValue}
+          onChange={(e) => column.setFilterValue(e.target.value)}
         >
           <option value=""></option>
           <option value={NewsStatusId.DRAFT}>پیش‌نویس</option>

@@ -5,9 +5,9 @@ import { Paginator, Table } from '@/components';
 import { Filter } from '@/components/filter';
 import { defaultPagination } from '@/constants';
 import { combineQueries } from '@/query';
-import { paginationStateToQuery } from '@/utils';
+import { filterStateToQuery, paginationStateToQuery } from '@/utils';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
-import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { ColumnFilter, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import Link from 'next/link';
 import { indexBy, prop } from 'ramda';
 import { useState } from 'react';
@@ -15,6 +15,7 @@ import { columns } from './cols';
 
 export default function Admin({ params }: PageProps<'scopeId'>) {
   const [pagination, setPagination] = useState(defaultPagination);
+  const [filter, setFilter] = useState<ColumnFilter[]>([]);
 
   const [[posts, categories], { isError, isLoading, refetch }] = useSuspenseQueries({
     queries: [
@@ -23,6 +24,7 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
           path: { page: String(params.scopeId) },
           query: {
             ...paginationStateToQuery(pagination),
+            ...filterStateToQuery(filter),
             ...{ sort: 'id,desc' },
           },
         },
@@ -40,8 +42,9 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     onPaginationChange: setPagination,
+    onColumnFiltersChange: setFilter,
     pageCount: posts.totalPages,
-    state: { pagination },
+    state: { pagination, columnFilters: filter },
     meta: { handleChangeStatus, categories: indexBy(prop('id'), categories) },
   });
 
