@@ -5,10 +5,10 @@ import { Paginator, Table } from '@/components';
 import { Filter } from '@/components/filter';
 import { defaultPagination } from '@/constants';
 import { combineQueries } from '@/query';
-import { filterStateToQuery, paginationStateToQuery } from '@/utils';
+import { filterStateToQuery, paginationStateToQuery, sortingStateToQuery } from '@/utils';
 import { css } from '@emotion/react';
 import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
-import { ColumnFilter, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { ColumnFiltersState, SortingState, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import Link from 'next/link';
 import { indexBy, prop } from 'ramda';
 import { useState } from 'react';
@@ -16,7 +16,8 @@ import { columns } from './cols';
 
 export default function Admin({ params }: PageProps<'scopeId'>) {
   const [pagination, setPagination] = useState(defaultPagination);
-  const [filter, setFilter] = useState<ColumnFilter[]>([]);
+  const [filter, setFilter] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'id', desc: true }]);
 
   const [[posts, categories], { isError, isLoading, refetch }] = useSuspenseQueries({
     queries: [
@@ -26,7 +27,7 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
           query: {
             ...paginationStateToQuery(pagination),
             ...filterStateToQuery(filter),
-            ...{ sort: 'id,desc' },
+            ...sortingStateToQuery(sorting),
           },
         },
       }),
@@ -44,8 +45,9 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
     manualPagination: true,
     onPaginationChange: setPagination,
     onColumnFiltersChange: setFilter,
+    onSortingChange: setSorting,
     pageCount: posts.totalPages,
-    state: { pagination, columnFilters: filter },
+    state: { pagination, columnFilters: filter, sorting },
     meta: { handleChangeStatus, categories: indexBy(prop('id'), categories) },
   });
 

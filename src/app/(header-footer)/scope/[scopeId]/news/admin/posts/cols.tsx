@@ -23,7 +23,7 @@ export const columns = [
     header: 'عنوان خبر',
     cell: ({ row }) => {
       return (
-        <Link className="btn-link max-w-52" href={`../write/${row.original.id}`}>
+        <Link className="btn-link block max-w-52 overflow-hidden text-ellipsis" href={`../write/${row.original.id}`}>
           {row.original.title}
         </Link>
       );
