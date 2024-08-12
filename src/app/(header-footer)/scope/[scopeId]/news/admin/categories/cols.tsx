@@ -23,10 +23,7 @@ export const columns = [
       const { setEditingItem } = props.table.options.meta as { setEditingItem: Function };
       return (
         <div className="flex gap-2">
-          <button
-            className="btn-circle btn-transparent btn-sm"
-            onClick={() => setEditingItem(props.row.original)}
-          >
+          <button className="btn-circle btn-transparent btn-sm" onClick={() => setEditingItem(props.row.original)}>
             <Pen />
           </button>
         </div>

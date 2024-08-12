@@ -54,7 +54,11 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
     <div className="flex gap-4">
       <div className="w-1/2 overflow-hidden rounded-lg relative">
         <Link href={`news/${highlightedNews.id}`}>
-          <img src={createFileUrl(highlightedNews.coverImage, highlightedNews.fileKey)} className="w-full h-full" alt="" />
+          <img
+            src={createFileUrl(highlightedNews.coverImage, highlightedNews.fileKey)}
+            className="w-full h-full"
+            alt=""
+          />
           <div className="absolute bg-gray-900 bg-opacity-50 w-full p-4 bottom-0 left-0">
             <h3 className="font-bold text-lg mb-2">{highlightedNews.title}</h3>
             <div>

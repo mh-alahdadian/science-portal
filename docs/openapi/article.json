@@ -623,10 +623,7 @@
             "format": "date-time"
           }
         },
-        "required": [
-          "authorId",
-          "authorName"
-        ]
+        "required": ["authorId", "authorName"]
       },
       "FeedbackStatsDTO": {
         "type": "object",

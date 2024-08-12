@@ -1,5 +1,5 @@
-import {} from '@jsonforms/vanilla-renderers';
 import { JsonSchema7, Layout } from '@jsonforms/core';
+import {} from '@jsonforms/vanilla-renderers';
 import { JSONSchema7 } from 'json-schema';
 import { SelectField, TextField } from '.';
 
