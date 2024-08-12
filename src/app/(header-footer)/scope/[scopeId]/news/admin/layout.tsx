@@ -29,7 +29,7 @@ export default function NewsAdminLayout({ children, params }: LayoutProps & Page
         </Link>
 
         <Link href={`${prefixRoute}dashboard`}>
-          <div className={`rounded-md ${selectedSegment === 'dashboard' ? 'bg-green-500' : ''}`}>
+          <div className={`rounded-md ${selectedSegment === 'dashboard' ? 'bg-green-500' : 'hover:bg-green-200'}`}>
             <ChartLine size={64} width="100%" />
             <span className="hidden text-center group-hover:block">داشبورد</span>
           </div>
