@@ -6,6 +6,7 @@ import { useCurrentScope } from '@/hooks';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { useState } from 'react';
+import Recommendations from 'src/app/(header-footer)/(landing)/components/recommendations';
 import NewsCard from './NewsCard';
 import { NewsSlider } from './NewsSlider';
 
@@ -38,11 +39,11 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
         <div
           className={clsx(
             'flex justify-center items-center',
-            'w-full h-96 rounded-lg bg-cyan-400',
+            'w-full h-96 rounded-lg',
             'row-start-3 md:row-start-2 col-span-full',
           )}
         >
-          بنر تبلیغاتی
+          <Recommendations />
         </div>
       </div>
 

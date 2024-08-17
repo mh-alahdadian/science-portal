@@ -9,6 +9,7 @@ import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import { last } from 'ramda';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { NewsStatusId } from '../../constants';
 
 export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) {
@@ -89,9 +90,10 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
 
   async function submitAndPublish() {
     await submitPost();
-    mutatePostStatus({
+    await mutatePostStatus({
       params: { path: { page: String(params.scopeId), postId }, query: { statusId: NewsStatusId.AWAITING_PUBLISHED } },
     });
+    toast.success('وضعیت با موفقیت تغییر کرد.');
   }
 
   return (
@@ -135,7 +137,15 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
         disabled={isDraft}
       />
       <div className="flex gap-4">
-        <button role="button" type="button" className="w-fit btn-primary mt-5" onClick={submitPost}>
+        <button
+          role="button"
+          type="button"
+          className="w-fit btn-primary mt-5"
+          onClick={async () => {
+            await submitPost();
+            toast.success('تغییرات با موفقیت ذخیره شد.');
+          }}
+        >
           ذخیره پیش‌نویس
         </button>
         <button role="button" type="button" className="w-fit btn-primary mt-5" onClick={submitAndPublish}>

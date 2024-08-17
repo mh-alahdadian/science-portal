@@ -2,6 +2,7 @@ import { Image } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import { HTMLAttributes, useState } from 'react';
 import { ErrorCode, type FileRejection, useDropzone } from 'react-dropzone';
+import { toast } from 'react-toastify';
 
 // import UploadImagePlaceholderIcon from 'src/assets/images/upload-image-placeholder.svg';
 // import UploadImageIcon from 'src/assets/images/upload-image.svg';
@@ -13,12 +14,10 @@ interface Props extends HTMLAttributes<HTMLElement> {
 
 export function ImageField({ initialPreview, setSelectedImage, ...props }: Props) {
   const [selectedImagePreview, setSelectedImagePreview] = useState(initialPreview);
-  const [error, setError] = useState('');
 
   // const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
-  // const [error, setError] = useState(null);
 
   function onDrop(acceptedFiles: File[]) {
     const file = acceptedFiles[0];
@@ -36,9 +35,9 @@ export function ImageField({ initialPreview, setSelectedImage, ...props }: Props
 
   function onDropRejected(fileRejections: FileRejection[]) {
     if (fileRejections[0].errors[0].code === ErrorCode.FileTooLarge) {
-      setError('حجم فایل بیش از 1MB می‌باشد!');
+      toast.error('حجم فایل بیش از 1MB می‌باشد!');
     } else if (fileRejections[0].errors[0].code === ErrorCode.FileInvalidType) {
-      setError('فرمت فایل نامعتبر می‌باشد!');
+      toast.error('فرمت فایل نامعتبر می‌باشد!');
     }
   }
 

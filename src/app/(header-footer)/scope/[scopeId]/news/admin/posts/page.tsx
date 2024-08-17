@@ -7,17 +7,19 @@ import { defaultPagination } from '@/constants';
 import { combineQueries } from '@/query';
 import { filterStateToQuery, paginationStateToQuery, sortingStateToQuery } from '@/utils';
 import { css } from '@emotion/react';
-import { useMutation, useSuspenseQueries } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useSuspenseQueries } from '@tanstack/react-query';
 import { ColumnFiltersState, SortingState, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import Link from 'next/link';
 import { indexBy, prop } from 'ramda';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { columns } from './cols';
 
 export default function Admin({ params }: PageProps<'scopeId'>) {
   const [pagination, setPagination] = useState(defaultPagination);
   const [filter, setFilter] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([{ id: 'id', desc: true }]);
+  const queryClient = useQueryClient();
 
   const [[posts, categories], { isError, isLoading, refetch }] = useSuspenseQueries({
     queries: [
@@ -36,7 +38,7 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
     combine: combineQueries,
   });
 
-  const { mutate } = useMutation(mutateService('patch', 'news:/v1/manager/{page}/posts/{postId}/status'));
+  const { mutateAsync } = useMutation(mutateService('patch', 'news:/v1/manager/{page}/posts/{postId}/status'));
 
   const table = useReactTable({
     columns,
@@ -51,8 +53,12 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
     meta: { handleChangeStatus, categories: indexBy(prop('id'), categories) },
   });
 
-  function handleChangeStatus(e: any, postId: number) {
-    mutate({ params: { path: { page: String(params.scopeId!), postId }, query: { statusId: e.target.value } } });
+  async function handleChangeStatus(e: any, postId: number) {
+    await mutateAsync({
+      params: { path: { page: String(params.scopeId!), postId }, query: { statusId: e.target.value } },
+    });
+    queryClient.invalidateQueries({ queryKey: ['news:/v1/manager/{page}/posts'] });
+    toast.success('وضعیت با موفقیت تغییر کرد.');
   }
 
   return (
