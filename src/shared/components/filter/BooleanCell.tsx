@@ -1,3 +1,3 @@
 export function BooleanCell() {
-    return null
+  return null;
 }

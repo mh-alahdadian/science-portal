@@ -1,8 +1,4 @@
-import {
-  ColumnFiltersState,
-  PaginationState,
-  SortingState,
-} from "@tanstack/react-table";
+import { ColumnFiltersState, PaginationState, SortingState } from '@tanstack/react-table';
 
 export function paginationStateToQuery(state: PaginationState) {
   return {
@@ -21,6 +17,6 @@ export function filterStateToQuery(state: ColumnFiltersState) {
 
 export function sortingStateToQuery(state: SortingState) {
   return {
-    sort: state.map((s) => `${s.id}${s.desc ? ",desc" : ""}`),
+    sort: state.map((s) => `${s.id}${s.desc ? ',desc' : ''}`),
   };
 }
