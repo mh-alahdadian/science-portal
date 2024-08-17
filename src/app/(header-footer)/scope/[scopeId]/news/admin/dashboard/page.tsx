@@ -13,7 +13,7 @@ ChartJs.register(CategoryScale);
 ChartJs.register(...registerables);
 
 export default function NewsDashboard() {
-  const commonChartOptions = {scales:{y: {beginAtZero: true}}}
+  const commonChartOptions = { scales: { y: { beginAtZero: true } } };
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
       <div className="bg-white shadow-xl rounded-2xl p-6">
