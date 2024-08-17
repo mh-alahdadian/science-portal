@@ -1,5 +1,7 @@
 import { DatePickerField, InlineSelectField, InlineTextField } from '@/components';
 import { formatDateTime } from '@/utils';
+import { Reaction } from '@service/components/feedback';
+import { ReactionType } from '@service/constants';
 import { NewsStatusId } from '@service/news/constants';
 import { RowData, createColumnHelper } from '@tanstack/react-table';
 import Link from 'next/link';
@@ -23,7 +25,7 @@ export const columns = [
     header: 'عنوان خبر',
     cell: ({ row }) => {
       return (
-        <Link className="btn-link max-w-52" href={`../write/${row.original.id}`}>
+        <Link className="btn-link block max-w-52 overflow-hidden text-ellipsis" href={`../write/${row.original.id}`}>
           {row.original.title}
         </Link>
       );
@@ -31,6 +33,7 @@ export const columns = [
     filter: ({ column, header, table }) => {
       return (
         <InlineTextField
+          containerClassName="col-2"
           label={column.columnDef.header as string}
           value={column.getFilterValue() as string}
           onChange={(e) => column.setFilterValue(e.target.value)}
@@ -49,7 +52,7 @@ export const columns = [
           value={column.getFilterValue() as string}
           onChange={(e) => column.setFilterValue(e.target.value)}
         >
-          <option value=""></option>
+          <option value="">همه</option>
           {Object.values(table.options.meta!.categories).map((cat) => (
             <option key={cat!.id} value={cat!.id} className="menu-item">
               {cat!.title}
@@ -71,7 +74,7 @@ export const columns = [
           value={column.getFilterValue() as string}
           onChange={(e) => column.setFilterValue(e.target.value)}
         >
-          <option value=""></option>
+          <option value="">همه</option>
           <option value="true">عمومی</option>
           <option value="false">خصوصی</option>
         </InlineSelectField>
@@ -96,12 +99,38 @@ export const columns = [
         <DatePickerField
           label="زمان انتشار"
           range
-          disabled
+          containerClassName="col-2"
           value={column.getFilterValue() as DateObject[]}
-          onChange={column.setFilterValue}
+          // onChange={column.setFilterValue}
         />
       );
     },
+  }),
+
+  columnHelper.accessor('viewCount', {
+    header: 'تعداد مشاهده',
+    enableSorting: false,
+  }),
+
+  columnHelper.accessor('feedbackStats.commentCount', {
+    header: 'تعداد کامنت‌ها',
+    enableSorting: false,
+  }),
+  columnHelper.accessor('feedbackStats.reaction', {
+    header: 'واکنش‌ها',
+    cell: ({ row, getValue }) => {
+      const reactions = getValue();
+      return (
+        <div className="flex flex-col">
+          <Reaction reactions={reactions} type={ReactionType.LIKE} />
+          <Reaction reactions={reactions} type={ReactionType.DISLIKE} />
+        </div>
+      );
+      // return Object.keys(reactions!).map((key) => (
+      //   <Reaction reactions={reactions} key={key} type={key as ReactionType} />
+      // ));
+    },
+    enableSorting: false,
   }),
 
   columnHelper.accessor('statusId', {
@@ -131,7 +160,7 @@ export const columns = [
           value={column.getFilterValue() as string}
           onChange={(e) => column.setFilterValue(e.target.value)}
         >
-          <option value=""></option>
+          <option value="">همه</option>
           <option value={NewsStatusId.DRAFT}>پیش‌نویس</option>
           <option value={NewsStatusId.AWAITING_CORRECTION}>در انتظار اصلاح</option>
           <option value={NewsStatusId.AWAITING_PUBLISHED}>در انتظار انتشار</option>

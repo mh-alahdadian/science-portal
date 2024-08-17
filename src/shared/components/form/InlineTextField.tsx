@@ -27,7 +27,7 @@ export function InlineTextField(props: Props) {
   } = props;
 
   return (
-    <label role="input" className={clsx("flex items-center gap-2")}>
+    <label role="input" className={clsx('flex items-center gap-2', containerClassName)}>
       {startAdornment || <p className="opacity-80 whitespace-nowrap">{label}:</p>}
       {children || <input ref={ref} {...inputProps} className={clsx('not-styled grow w-10', inputProps.className)} />}
       {endAdornment}
