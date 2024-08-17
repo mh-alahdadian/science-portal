@@ -1,13 +1,19 @@
-'use client'
-import { authorsNewsChartData, categoriesNewsChartData, commentsChartData, mostViewedNewsChartData, postsChartData } from "./mockData";
-import { Line, Bar } from "react-chartjs-2"
-import { Chart as ChartJs, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, registerables } from "chart.js"
+'use client';
+import { CategoryScale, Chart as ChartJs, registerables } from 'chart.js';
+import { Bar, Line } from 'react-chartjs-2';
+import {
+  authorsNewsChartData,
+  categoriesNewsChartData,
+  commentsChartData,
+  mostViewedNewsChartData,
+  postsChartData,
+} from './mockData';
 
 ChartJs.register(CategoryScale);
 ChartJs.register(...registerables);
 
 export default function NewsDashboard() {
-  const commonChartOptions = {scales:{y: {beginAtZero: true}}}
+  const commonChartOptions = { scales: { y: { beginAtZero: true } } };
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
       <div className="bg-white shadow-xl rounded-2xl p-6">
