@@ -1,16 +1,22 @@
-const path = require('path');
+const path = require("path");
 
-const isDev = process.env.NODE_ENV !== 'production';
-const serverAddress = 'https://cogcenter.ir';
+const isDev = process.env.NODE_ENV !== "production";
+const serverAddress = "https://cogcenter.ir";
 
 const svgLoaders = [
   {
-    loader: '@svgr/webpack',
+    loader: "@svgr/webpack",
     /** @type {import('@svgr/core').Config} */
     options: {
       svgoConfig: {
         multipass: true,
-        plugins: [{ name: 'preset-default', params: { overrides: { removeViewBox: false } } }, 'prefixIds'],
+        plugins: [
+          {
+            name: "preset-default",
+            params: { overrides: { removeViewBox: false } },
+          },
+          "prefixIds",
+        ],
       },
     },
   },
@@ -18,14 +24,15 @@ const svgLoaders = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "standalone",
   sassOptions: {
-    includePaths: [path.join(__dirname, 'app')],
+    includePaths: [path.join(__dirname, "app")],
   },
   experimental: {
     turbo: {
       rules: {
-        '*.svg': {
-          as: '*.js',
+        "*.svg": {
+          as: "*.js",
           loaders: svgLoaders,
         },
       },
@@ -48,7 +55,7 @@ const nextConfig = {
     if (!isDev) return [];
     return [
       {
-        source: '/api/:path*',
+        source: "/api/:path*",
         destination: `${serverAddress}/api/:path*`, // Proxy to Backend
       },
     ];
