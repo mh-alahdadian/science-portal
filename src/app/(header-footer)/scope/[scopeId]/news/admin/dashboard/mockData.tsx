@@ -1,3 +1,5 @@
+import { identical } from "ramda";
+
 export const postsChartData = {
   labels: ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور'],
   datasets: [
@@ -85,3 +87,41 @@ export const categoriesNewsChartData = {
     },
   ],
 };
+
+export const allNewsStatistics = [
+  {
+    id: 1,
+    title: "کل اخبار منتشر شده",
+    count: 1814
+  },
+  {
+    id: 2,
+    title: "پیش نویس",
+    count: 144
+  },
+  {
+    id: 3,
+    title: "در انتظار اصلاح",
+    count: 37
+  },
+  {
+    id: 4,
+    title: "در انتظار انتشار",
+    count: 19
+  },
+  {
+    id: 5,
+    title: "منتشر شده",
+    count: 1814
+  },
+  {
+    id: 6,
+    title: "منتشر نشده",
+    count: 200
+  },
+  {
+    id: 7,
+    title: "تعداد کل کامنت ها",
+    count: 2096
+  },
+]
