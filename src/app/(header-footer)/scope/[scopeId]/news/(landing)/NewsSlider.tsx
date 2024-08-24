@@ -56,10 +56,10 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
         <Link href={`news/${highlightedNews.id}`}>
           <img
             src={createFileUrl(highlightedNews.coverImage, highlightedNews.fileKey)}
-            className="w-full h-full"
+            className="w-full h-80 object-cover"
             alt=""
           />
-          <div className="absolute bg-gray-900 bg-opacity-50 w-full p-4 bottom-0 left-0">
+          <div className="absolute bg-gray-900 bg-opacity-50 text-white w-full p-4 bottom-0 left-0">
             <h3 className="font-bold text-lg mb-2">{highlightedNews.title}</h3>
             <div>
               <Clock /> {formatDateTime(highlightedNews.createdAt!)}

@@ -113,6 +113,7 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
               onChange={(e) => {
                 setCategory(e.target.value);
               }}
+              className="w-sm"
             >
               <option value={''}>انتخاب کنید</option>
               {categories.map((c) => (

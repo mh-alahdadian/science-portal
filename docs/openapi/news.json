@@ -7,7 +7,7 @@
     },
     "servers": [
         {
-            "url": "http://192.168.59.20:8484/news/api"
+            "url": "https://cogcenter.ir/news/api"
         }
     ],
     "security": [
@@ -325,7 +325,7 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ResponseDTO"
+                                    "$ref": "#/components/schemas/CategoryDTO"
                                 }
                             }
                         }
@@ -477,6 +477,47 @@
                 }
             }
         },
+        "/v1/scope/{scopeId}/posts/most-controversial": {
+            "get": {
+                "tags": [
+                    "post-controller"
+                ],
+                "operationId": "getPosts_1",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "periodLength",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "maximum": 30,
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/scope/{scopeId}/categories": {
             "get": {
                 "tags": [
@@ -514,6 +555,127 @@
                         "Bearer Authentication": []
                     }
                 ]
+            }
+        },
+        "/v1/report/online/today/posts": {
+            "get": {
+                "tags": [
+                    "report-controller"
+                ],
+                "operationId": "todayPostReport",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PerDayReport"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/report/monthly/posts": {
+            "get": {
+                "tags": [
+                    "report-controller"
+                ],
+                "operationId": "monthlyPostReport",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "length",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "maximum": 12,
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 6
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PerMonthReport"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/report/daily/posts": {
+            "get": {
+                "tags": [
+                    "report-controller"
+                ],
+                "operationId": "dailyPostReport",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "length",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "maximum": 30,
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 30
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PerDayReport"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/v1/categories": {
@@ -584,6 +746,10 @@
                 }
             },
             "PostDTO": {
+                "required": [
+                    "categoryId",
+                    "title"
+                ],
                 "type": "object",
                 "properties": {
                     "id": {
@@ -699,6 +865,10 @@
                 }
             },
             "CategoryDTO": {
+                "required": [
+                    "scopeId",
+                    "title"
+                ],
                 "type": "object",
                 "properties": {
                     "id": {
@@ -770,6 +940,14 @@
                     "scopeId": {
                         "type": "integer",
                         "format": "int32"
+                    },
+                    "from": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "to": {
+                        "type": "string",
+                        "format": "date"
                     }
                 }
             },
@@ -825,15 +1003,15 @@
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
-                    "numberOfElements": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "first": {
                         "type": "boolean"
                     },
                     "last": {
                         "type": "boolean"
+                    },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
                     },
                     "empty": {
                         "type": "boolean"
@@ -877,6 +1055,63 @@
                     },
                     "unsorted": {
                         "type": "boolean"
+                    }
+                }
+            },
+            "PerDayReport": {
+                "type": "object",
+                "properties": {
+                    "createCount": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "publishCount": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "viewCount": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "commentCount": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                }
+            },
+            "PerMonthReport": {
+                "type": "object",
+                "properties": {
+                    "createCount": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "publishCount": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "viewCount": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "commentCount": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "year": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "month": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "monthTitle": {
+                        "type": "string"
                     }
                 }
             }

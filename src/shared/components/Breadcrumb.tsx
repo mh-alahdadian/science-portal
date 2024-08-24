@@ -22,7 +22,7 @@ export function Breadcrumb(props: Props) {
     <nav className="breadcrumbs mb-8">
       <ol>
         {scopeBreads.concat(props.items).map((item, index) => (
-          <li key={index}>{item.url ? <Link href="">{item.text}</Link> : <Fragment>{item.text}</Fragment>}</li>
+          <li key={index}>{item.url ? <Link href={item.url}>{item.text}</Link> : <Fragment>{item.text}</Fragment>}</li>
         ))}
       </ol>
     </nav>
