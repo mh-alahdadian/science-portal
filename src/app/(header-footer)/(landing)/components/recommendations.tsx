@@ -14,7 +14,7 @@ const content = [
 
 export default function Recommendations() {
   return (
-    <div className="flex max-md:flex-col gap-6">
+    <div className="flex max-md:flex-col md:mx-auto gap-6">
       {content.map((x, index) => (
         <div key={index} className="card image-full cursor-pointer rounded-lg">
           <figure>

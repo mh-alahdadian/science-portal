@@ -52,8 +52,15 @@ export function CommentsList(props: Props) {
 
           {/* like container */}
           <div className="flex gap-8 self-end text-gray-500">
-            <Reaction {...props} reactions={commentItem.reaction!} type={ReactionType.LIKE} />
-            <Reaction {...props} reactions={commentItem.reaction!} type={ReactionType.DISLIKE} />
+            {[ReactionType.LIKE, ReactionType.DISLIKE].map((type) => (
+              <Reaction
+                key={type}
+                modelTypeId={ModelType.COMMENT}
+                modelId={commentItem.id!}
+                reactions={commentItem.reaction!}
+                type={type}
+              />
+            ))}
           </div>
         </div>
       ))}
