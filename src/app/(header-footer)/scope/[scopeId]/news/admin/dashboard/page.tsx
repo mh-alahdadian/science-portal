@@ -1,42 +1,192 @@
 'use client';
 import { CategoryScale, Chart as ChartJs, registerables } from 'chart.js';
-import { Bar, Line } from 'react-chartjs-2';
-import {
-  authorsNewsChartData,
-  categoriesNewsChartData,
-  commentsChartData,
-  mostViewedNewsChartData,
-  postsChartData,
-} from './mockData';
+import HighchartsReact from 'highcharts-react-official';
+import Highcharts from 'highcharts/highstock'
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { queryService } from '@/api';
+import { useEffect, useRef, useState } from 'react';
+import { formatDateTime } from '@service/utils';
 
-ChartJs.register(CategoryScale);
-ChartJs.register(...registerables);
+export default function NewsDashboard({ params }: PageProps<'scopeId'>) {
+  const chartRef = useRef(null)
+  const [allNewsPerMonth, setAllNewsPerMonth] = useState({
+    series: [{
+      name: 'تعداد اخبار',
+      data: [],
+    }],
+    xAxis: {
+      categories: []
+    },
+    yAxis: {
+      min: 0
+    },
+    rangeSelector: {
+      enabled: false,
+    },
+    navigator: {
+      enabled: false
+    },
+    
+  })
+  const [allCommentsPerMonth, setAllCommentsPerMonth] = useState({
+    series: [{
+      name: 'تعداد کامنت ها',
+      data: [],
+    }],
+    xAxis: {
+      categories: []
+    },
+    yAxis: {
+      min: 0
+    },
+    rangeSelector: {
+      enabled: false,
+    },
+    navigator: {
+      enabled: false
+    },
+  })
+  const [allNewsPerDay, setAllNewsPerDay] = useState({
+    series: [{
+      name: 'تعداد اخبار',
+      data: [],
+    }],
+    xAxis: {
+      categories: []
+    },
+    yAxis: {
+      min: 0
+    },
+    rangeSelector: {
+      enabled: false,
+    },
+    navigator: {
+      enabled: false
+    },
+  })
+  const [allCommentsPerDay, setAllCommentsPerDay] = useState({
+    series: [{
+      name: 'تعداد کامنت ها',
+      data: [],
+    }],
+    xAxis: {
+      categories: []
+    },
+    yAxis: {
+      min: 0
+    },
+    rangeSelector: {
+      enabled: false,
+    },
+    navigator: {
+      enabled: false
+    },
+  })
 
-export default function NewsDashboard() {
-  const commonChartOptions = { scales: { y: { beginAtZero: true } } };
+  const dailyPostsReport = useSuspenseQuery({
+    ...queryService('news:/v1/report/daily/posts',
+      { params: { query: { scopeId: 1, length: 30 } } }
+    )
+  }).data
+
+  const monthlyPostsReport = useSuspenseQuery({
+    ...queryService('news:/v1/report/monthly/posts',
+      { params: { query: { scopeId: 1, length: 12 } } }
+    )
+  }).data
+
+  useEffect(() => {
+    const newsCounts = monthlyPostsReport.map(item => item.createCount)
+    const monthTitles = monthlyPostsReport.map(item => item.monthTitle)
+    const commentsCount = monthlyPostsReport.map(item => item.commentCount)
+    setAllNewsPerMonth({
+      ...allNewsPerMonth,
+      xAxis: {
+        categories: monthTitles
+      },
+      series: [{
+        data: newsCounts
+      }]
+    }
+    )
+
+    setAllCommentsPerMonth({
+      ...allCommentsPerMonth,
+      xAxis: {
+        categories: monthTitles
+      },
+      series: [{
+        data: commentsCount
+      }]
+    }
+    )
+  }, [monthlyPostsReport])
+
+  useEffect(() => {
+    const newsCounts = dailyPostsReport.map(item => item.createCount)
+    const newsDays = dailyPostsReport.map(item => formatDateTime(item.date || "").split(",")[0])
+    const commentsCount = dailyPostsReport.map(item => item.commentCount)
+
+    setAllNewsPerDay({
+      ...allNewsPerDay,
+      xAxis: {
+        categories: newsDays
+      },
+      series: [{
+        data: newsCounts
+      }]
+    }
+    )
+
+    setAllCommentsPerDay({
+      ...allCommentsPerDay,
+      xAxis: {
+        categories: newsDays
+      },
+      series: [{
+        data: commentsCount
+      }]
+    }
+    )
+  }, [dailyPostsReport])
+
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
       <div className="bg-white shadow-xl rounded-2xl p-6">
         <h2>تعداد کل اخبار منتشر شده در ماه های اخیر</h2>
-        <Line options={commonChartOptions} data={postsChartData} />
+        <HighchartsReact
+        ref={chartRef}
+          highcharts={Highcharts}
+          options={allNewsPerMonth}
+          constructorType={"stockChart"}
+        />
       </div>
 
       <div className="bg-white shadow-xl rounded-2xl p-6">
-        <h2>کامنت های ثبت شده (مشارکت کاربران)</h2>
-        <Line options={commonChartOptions} data={commentsChartData} />
+        <h2>کامنت های ثبت شده در ماه های اخیر (مشارکت کاربران)</h2>
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={allCommentsPerMonth}
+          constructorType={"stockChart"}
+        />
       </div>
 
       <div className="bg-white shadow-xl rounded-2xl p-6">
-        <h2>تعداد اخبار ثبت شده (آمار نویسنده ها)</h2>
-        <Line options={commonChartOptions} data={authorsNewsChartData} />
+        <h2>تعداد کل اخبار منتشر شده در هر روز</h2>
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={allNewsPerDay}
+          constructorType={"stockChart"}
+        />
       </div>
       <div className="bg-white shadow-xl rounded-2xl p-6">
-        <h2>ده خبر پر بازدید ماه اخیر</h2>
-        <Bar options={commonChartOptions} data={mostViewedNewsChartData} />
-      </div>
-      <div className="bg-white shadow-xl rounded-2xl p-6 col-span-2">
-        <h2>اخبار منتشر شده هر دسته (یک ماه اخیر)</h2>
-        <Line options={commonChartOptions} data={categoriesNewsChartData} />
+        <h2>تعداد کل کامنت های ثبت شده در هر روز</h2>
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={allNewsPerDay}
+          constructorType={"stockChart"}
+        />
       </div>
     </div>
   );
