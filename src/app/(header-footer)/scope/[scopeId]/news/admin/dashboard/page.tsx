@@ -10,19 +10,51 @@ import {
   postsChartData,
 } from './mockData';
 import StatisticCard from './_components/StatisticCard';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { queryService } from '@/api';
+import { useMemo } from 'react';
 
 ChartJs.register(CategoryScale);
 ChartJs.register(...registerables);
 
 const statisticColors = ['7BDFF2', 'B2F7EF', 'EFF7F6', 'F7D6E0', 'F2B5D4', 'ffa69e', 'b2ff9e', 'fcd29f']
 
-export default function NewsDashboard() {
+export default function NewsDashboard({ params }: PageProps<'scopeId'>) {
+
+  const todayNewsReport = useSuspenseQuery(
+    queryService('news:/v1/report/online/today/posts',
+      { params: { query: { scopeId: +params.scopeId } } }
+    )
+  ).data
+
+  const todayStatisticsData = useMemo(() => {
+    return [
+      {
+        title: "کامنت ها",
+        count: todayNewsReport.commentCount
+      },
+      {
+        title: "اخبار ایجاد شده",
+        count: todayNewsReport.createCount
+      },
+      {
+        title: "اخبار منتشر شده",
+        count: todayNewsReport.publishCount
+      },
+      {
+        title: "تعداد مشاهده",
+        count: todayNewsReport.viewCount
+      }
+    ]
+  }, [todayNewsReport])
+
   const commonChartOptions = { scales: { y: { beginAtZero: true } } };
   return (
     <>
+      <h2 className='mb-4'>آمار امروز</h2>
       <div className='flex gap-4 flex-wrap mb-8'>
-        {allNewsStatistics.map((item, index) => (
-          <StatisticCard title={item.title} count={item.count} color={statisticColors[index]} />
+        {todayStatisticsData.map((item, index) => (
+          <StatisticCard title={item.title} count={item.count!} color={statisticColors[index]} />
         ))}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

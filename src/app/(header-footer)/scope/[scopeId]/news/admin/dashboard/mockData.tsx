@@ -1,4 +1,4 @@
-import { identical } from "ramda";
+
 
 export const postsChartData = {
   labels: ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور'],
