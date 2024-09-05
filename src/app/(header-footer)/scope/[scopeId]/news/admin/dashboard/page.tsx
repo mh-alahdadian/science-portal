@@ -93,81 +93,80 @@ export default function NewsDashboard({ params }: PageProps<'scopeId'>) {
         {todayStatisticsData.map((item, index) => (
           <StatisticCard title={item.title} count={item.count!} color={statisticColors[index]} />
         ))}
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="bg-white shadow-xl rounded-2xl p-6">
+          <h2>تعداد کل اخبار منتشر شده در ماه های اخیر</h2>
+          <HighchartsReact
+            highcharts={Highcharts}
+            options={{
+              ...commonChartData,
+              xAxis: {
+                type: "category",
+                categories: monthTitles,
+              },
+              series: [{
+                data: allNewsPerMonth
+              }]
+            }}
+            constructorType={"stockChart"}
+          />
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div className="bg-white shadow-xl rounded-2xl p-6">
-            <h2>تعداد کل اخبار منتشر شده در ماه های اخیر</h2>
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={{
-                ...commonChartData,
-                xAxis: {
-                  type: "category",
-                  categories: monthTitles,
-                },
-                series: [{
-                  data: allNewsPerMonth
-                }]
-              }}
-              constructorType={"stockChart"}
-            />
-          </div>
+        <div className="bg-white shadow-xl rounded-2xl p-6">
+          <h2>کامنت های ثبت شده در ماه های اخیر (مشارکت کاربران)</h2>
+          <HighchartsReact
+            highcharts={Highcharts}
+            options={{
+              ...commonChartData,
+              xAxis: {
+                type: 'category',
+                categories: monthTitles,
+              },
+              series: [{
+                name: "تعداد کامنت ها",
+                data: allCommentsPerMonth
+              }]
+            }}
+            constructorType={"stockChart"}
+          />
+        </div>
 
-          <div className="bg-white shadow-xl rounded-2xl p-6">
-            <h2>کامنت های ثبت شده در ماه های اخیر (مشارکت کاربران)</h2>
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={{
-                ...commonChartData,
-                xAxis: {
-                  type: 'category',
-                  categories: monthTitles,
-                },
-                series: [{
-                  name: "تعداد کامنت ها",
-                  data: allCommentsPerMonth
-                }]
-              }}
-              constructorType={"stockChart"}
-            />
-          </div>
-
-          <div className="bg-white shadow-xl rounded-2xl p-6">
-            <h2>تعداد کل اخبار منتشر شده در هر روز</h2>
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={{
-                ...commonChartData,
-                xAxis: {
-                  type: 'category',
-                  categories: dayTitles,
-                },
-                series: [{
-                  name: "تعداد کامنت ها",
-                  data: allNewsPerDay
-                }]
-              }}
-              constructorType={"stockChart"}
-            />
-          </div>
-          <div className="bg-white shadow-xl rounded-2xl p-6">
-            <h2>تعداد کل کامنت های ثبت شده در هر روز</h2>
-            <HighchartsReact
-              highcharts={Highcharts}
-              options={{
-                ...commonChartData,
-                xAxis: {
-                  type: 'category',
-                  categories: dayTitles,
-                },
-                series: [{
-                  name: "تعداد کامنت ها",
-                  data: allCommentsPerDay
-                }]
-              }}
-              constructorType={"stockChart"}
-            />
-          </div>
+        <div className="bg-white shadow-xl rounded-2xl p-6">
+          <h2>تعداد کل اخبار منتشر شده در هر روز</h2>
+          <HighchartsReact
+            highcharts={Highcharts}
+            options={{
+              ...commonChartData,
+              xAxis: {
+                type: 'category',
+                categories: dayTitles,
+              },
+              series: [{
+                name: "تعداد کامنت ها",
+                data: allNewsPerDay
+              }]
+            }}
+            constructorType={"stockChart"}
+          />
+        </div>
+        <div className="bg-white shadow-xl rounded-2xl p-6">
+          <h2>تعداد کل کامنت های ثبت شده در هر روز</h2>
+          <HighchartsReact
+            highcharts={Highcharts}
+            options={{
+              ...commonChartData,
+              xAxis: {
+                type: 'category',
+                categories: dayTitles,
+              },
+              series: [{
+                name: "تعداد کامنت ها",
+                data: allCommentsPerDay
+              }]
+            }}
+            constructorType={"stockChart"}
+          />
         </div>
       </div>
     </>
