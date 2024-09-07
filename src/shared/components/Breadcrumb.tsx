@@ -16,7 +16,7 @@ export function Breadcrumb(props: Props) {
   const scope = useCurrentScope();
   const scopeBreads: Bread[] = [
     { text: 'صفحه اصلی', url: '/' },
-    { text: 'حوزه ' + scope.title, url: '/scope/' + props.params.scopeId },
+    { text: 'حوزه پژوهشی ' + scope.title, url: '/scope/' + props.params.scopeId },
   ];
   return (
     <nav className="breadcrumbs mb-8">

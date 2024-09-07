@@ -23,7 +23,7 @@ export default function Categories({ params }: PageProps<'scopeId' | 'categoryId
       <div className="flex gap-20 items-center bg-nغثeutral-300">
         <Community />
         <div className="flex flex-col gap-6">
-          <p>به فروم‌های حوزه {scope.title} خوش آمدید</p>
+          <p>به فروم‌های حوزه پژوهشی {scope.title} خوش آمدید</p>
           <p>در اینجا شما می‌توانید سوالات و دانش خود را با دیگران به اشتراک بگذارید</p>
         </div>
       </div>

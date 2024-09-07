@@ -26,7 +26,7 @@ export default function Header() {
   const navbar = isSmall ? (
     <Drawer openElement={<List />}>
       <Link href="/scopes" role="button" className="btn-link">
-        حوزه‌ها
+        حوزه‌های پژوهشی
       </Link>
       <Services {...params} />
       <ManagementMenu {...params} />
@@ -34,7 +34,7 @@ export default function Header() {
   ) : (
     <div className="flex ml-auto">
       <Link href="/scopes" role="button" className="btn-link">
-        حوزه‌ها
+        حوزه‌های پژوهشی
       </Link>
       <Services {...params} />
       <ManagementMenu {...params} />

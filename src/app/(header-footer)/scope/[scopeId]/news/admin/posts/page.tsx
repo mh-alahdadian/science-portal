@@ -7,6 +7,7 @@ import { defaultPagination } from '@/constants';
 import { combineQueries } from '@/query';
 import { filterStateToQuery, paginationStateToQuery, sortingStateToQuery } from '@/utils';
 import { css } from '@emotion/react';
+import { Plus } from '@phosphor-icons/react';
 import { useMutation, useQueryClient, useSuspenseQueries } from '@tanstack/react-query';
 import { ColumnFiltersState, SortingState, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import Link from 'next/link';
@@ -65,9 +66,6 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
     <div className="">
       <div className="flex justify-between gap-4 mb-4">
         <Filter table={table} css={filterStyles} />
-        <Link role="button" className="btn-primary" href="../write/draft">
-          ایجاد خبر
-        </Link>
       </div>
       <Table table={table} hasData={!!posts} hasError={isError} isLoading={isLoading} refetch={refetch} />
       <Paginator
@@ -77,6 +75,9 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
         pageSize={pagination.pageSize}
         changePageSize={table.setPageSize}
       />
+      <Link role="button" className="btn-lg btn-primary btn-circle fab" href="../write/draft">
+        <Plus size={36} />
+      </Link>
     </div>
   );
 }
@@ -85,12 +86,7 @@ const filterStyles = css`
 display: grid;
 grid: repeat(2, auto) / repeat(6, auto);
 
-label:not(.col-2) {
+label:not([class*="col-span"]) {
   grid-column: span 2 / span 2;
-}
-.col-2 {
-  order: -1;
-  width: 100%;
-  grid-column: span 3 / span 3;
 }
 `;

@@ -16,8 +16,10 @@ export default function AuthDialogController(props: HeaderProps) {
     ? `${getScopeUrl(props.scopeId)}/${props.service}/admin`
     : `${getScopeUrl(props.scopeId)}/management/users`;
 
+  const parsed = getParsedToken();
+  if (!parsed) return null;
   const serviceInfo = servicesMap[props.service || 'users'];
-  const authorities = getParsedToken().authorities[props.scopeId || 'global'];
+  const authorities = parsed.authorities[props.scopeId || 'global'];
   if (!serviceInfo || !authorities || !authorities.includes(serviceInfo.permission)) return null;
 
   return (

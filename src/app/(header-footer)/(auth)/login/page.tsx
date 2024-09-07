@@ -37,6 +37,10 @@ export default function LoginDialog(props: PageProps) {
         onSuccess() {
           toast.success('با موفقیت وارد شدید.');
         },
+        onError(e) {
+          console.log(e);
+          toast.error('مام کاربری یا رمز شما صحیح نمیباشد.');
+        },
       },
     );
   });
