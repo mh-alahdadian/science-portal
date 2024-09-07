@@ -17,6 +17,23 @@ declare module '@tanstack/table-core' {
 
 export const columns = [
   columnHelper.accessor('id', {
+    header: '',
+    size: 10,
+    cell: (props) => {
+      const isSelected = props.row.getIsSelected();
+      return (
+        <input
+          type="checkbox"
+          className="checkbox checkbox-sm rounded-full"
+          checked={isSelected}
+          onClick={() => props.row.toggleSelected()}
+        />
+      );
+    },
+    enableSorting: false,
+  }),
+
+  columnHelper.accessor('id', {
     header: 'شناسه',
   }),
 
