@@ -131,10 +131,6 @@ export const columns = [
     },
   }),
 
-  columnHelper.accessor('viewCount', {
-    header: 'تعداد مشاهده',
-    enableSorting: false,
-  }),
   columnHelper.accessor('feedbackStats', {
     header: 'بازخورد‌ها',
     cell: (props) => {
