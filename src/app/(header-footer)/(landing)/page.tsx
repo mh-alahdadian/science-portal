@@ -1,5 +1,6 @@
 'use client';
 
+import { getParsedToken } from '@/api';
 import { CaretLeft } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 import BrainIllustration from './assets/Brain.svg';
@@ -18,18 +19,21 @@ const sections = [
 ];
 
 export default function LandingPage(props: PageProps) {
+  const token = getParsedToken();
   return (
     <div className="flex flex-col gap-20 w-full">
       <section className="flex justify-around w-full">
         <div className="flex flex-col gap-6 my-auto max-w-xl">
           <h1 className="text-5xl font-medium">سامانه جامع علوم شناختی</h1>
-          <p className="text-2xl font-bold">مجموعه کامل گروه‌ها و کتاب‌خانه‌های حوزه‌های پژوهشی علوم شناختی و Cognitive Science</p>
+          <p className="text-2xl font-bold">
+            مجموعه کامل گروه‌ها و کتاب‌خانه‌های حوزه‌های پژوهشی علوم شناختی و Cognitive Science
+          </p>
           <div className="flex gap-4">
-            <button className="btn-primary flex-1 max-w-52">
+            <button className="btn-primary flex-1 max-w-60">
               مشاهده حوزه‌های پژوهشی
               <CaretLeft />
             </button>
-            <button className="btn-outline flex-1 max-w-52">ثبت‌نام</button>
+            {!token && <button className="btn-outline flex-1 max-w-60">ثبت‌نام</button>}
           </div>
         </div>
         <BrainIllustration />

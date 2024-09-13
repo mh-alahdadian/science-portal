@@ -2708,13 +2708,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@phosphor-icons/react@npm:2.0.15":
-  version: 2.0.15
-  resolution: "@phosphor-icons/react@npm:2.0.15"
+"@phosphor-icons/react@npm:^2.1.7":
+  version: 2.1.7
+  resolution: "@phosphor-icons/react@npm:2.1.7"
   peerDependencies:
     react: ">= 16.8"
     react-dom: ">= 16.8"
-  checksum: b7e60e1adb4440e5fa2930d780ff693ed1540da363354ed005e8d8690b3a94f40e5c3cd62c411b8bbcd847d623e4722bdb1d8a9a372cb9474a087d4794adad78
+  checksum: 8e5c42056f606c5efdfa113174de4c312a084b1ca117262f9bb3063cb68ec58fa9e4ebb414d99372213a23924e064add34bcc917177b2f092f42e90c683e0dbd
   languageName: node
   linkType: hard
 
@@ -3746,7 +3746,7 @@ __metadata:
     "@jsonforms/core": "npm:^3.2.1"
     "@jsonforms/react": "npm:^3.2.1"
     "@jsonforms/vanilla-renderers": "npm:^3.2.1"
-    "@phosphor-icons/react": "npm:2.0.15"
+    "@phosphor-icons/react": "npm:^2.1.7"
     "@rjsf/bootstrap-4": "npm:^5.17.1"
     "@rjsf/core": "npm:^5.17.1"
     "@rjsf/utils": "npm:^5.17.1"

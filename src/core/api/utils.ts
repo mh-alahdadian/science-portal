@@ -16,12 +16,12 @@ interface ParsedToken extends Required<JwtPayload> {
   authorities: Partial<Record<'global' | number, Permission[]>>;
 }
 
-let cachedToken: Tokens;
-let parsedToken: ParsedToken;
+let cachedToken: Tokens | null;
+let parsedToken: ParsedToken | null;
 
 export function getParsedToken(): ParsedToken | null {
   const accessToken = getToken().accessToken;
-  if (!accessToken) return null
+  if (!accessToken) return null;
   if (isServer) {
     return jwtDecode<ParsedToken>(getToken().accessToken!);
   } else {
@@ -54,7 +54,8 @@ export function setToken(newToken: Tokens) {
 
 export function removeToken() {
   if (isServer) return;
-
+  cachedToken = null;
+  parsedToken = null;
   localStorage.removeItem(TOKEN_STORAGE_KEY);
   Cookies.remove(ACCESS_TOKEN_KEY);
   queryClient.invalidateQueries({ queryKey: queryService('core:/v1/users/profile', {}).queryKey });

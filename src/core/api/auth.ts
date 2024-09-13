@@ -1,7 +1,6 @@
 'use client';
 
 import { isServer } from '@tanstack/react-query';
-import { redirect } from 'next/navigation';
 import { listenApiEvent, mutateService } from './api';
 import { getParsedToken, getToken, removeToken, setToken } from './utils';
 
@@ -23,12 +22,6 @@ listenApiEvent('request', (request) => {
   request.payload.headers['Authorization'] = 'Bearer ' + accessToken;
 });
 
-function errorHandler(error: any) {
-  if (error.status == 400) {
-    logout();
-  }
-}
-
 if (!isServer) {
   listenApiEvent('request', (request) => {
     const { refreshToken } = getToken();
@@ -41,7 +34,12 @@ if (!isServer) {
       refreshingTokenPromise = mutateService('post', 'core:/v1/auth/refresh-token').mutationFn!({
         params: { query: { refreshToken } },
       })
-        .then(setToken, errorHandler)
+        .then(setToken)
+        .catch((error: any) => {
+          if (error.status == 400) {
+            logout();
+          }
+        })
         .finally(() => {
           refreshingTokenPromise = undefined;
         });
@@ -49,6 +47,11 @@ if (!isServer) {
 
     // TODO: only if auth needed
     request.waitForPromise = refreshingTokenPromise;
+  });
+  listenApiEvent('error', (error, request) => {
+    console.log(error);
+    if (error) {
+    }
   });
 }
 
@@ -60,7 +63,7 @@ listenApiEvent('data', (data, request) => {
 
 export function logout() {
   removeToken();
+  // const key = queryService('core:/v1/users/profile', {}).queryKey;
+  // queryClient.invalidateQueries({ queryKey: key });
+  window.location.href = '/login';
 }
-
-export { };
-
