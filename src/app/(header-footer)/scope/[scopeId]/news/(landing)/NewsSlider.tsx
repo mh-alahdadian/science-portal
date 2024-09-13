@@ -1,26 +1,26 @@
-import { queryService } from "@/api";
-import { Tabs } from "@/components/Tabs";
-import { useScreen } from "@/hooks";
-import { createFileUrl, formatDateTime } from "@/utils";
-import { Clock } from "@phosphor-icons/react";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import clsx from "clsx";
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { NewsRow } from "../components/NewsRow";
-import internal from "stream";
+import { queryService } from '@/api';
+import { Tabs } from '@/components/Tabs';
+import { useScreen } from '@/hooks';
+import { createFileUrl, formatDateTime } from '@/utils';
+import { Clock } from '@phosphor-icons/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import clsx from 'clsx';
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
+import { NewsRow } from '../components/NewsRow';
+import internal from 'stream';
 
 enum NewsTab {
-  TOP = "TOP",
-  CHIEF_CHOICES = "CHIEF_CHOICES",
+  TOP = 'TOP',
+  CHIEF_CHOICES = 'CHIEF_CHOICES',
 }
 
-export function NewsSlider({ params }: Pick<PageProps<"scopeId">, "params">) {
+export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
   const topNews = useSuspenseQuery(
-    queryService("news:/v1/scope/{scopeId}/posts", {
+    queryService('news:/v1/scope/{scopeId}/posts', {
       params: {
         path: { scopeId: +params.scopeId },
-        query: { sort: ["id,desc"] } as any,
+        query: { sort: ['id,desc'] } as any,
       },
     })
   ).data.content!;
@@ -51,7 +51,7 @@ export function NewsSlider({ params }: Pick<PageProps<"scopeId">, "params">) {
           onChange={setActiveTab}
           active={activeTab}
           options={[
-            { title: "برترین اخبار", value: NewsTab.TOP as NewsTab },
+            { title: 'برترین اخبار', value: NewsTab.TOP as NewsTab },
             // { title: 'انتخاب سردبیر', value: NewsTab.CHIEF_CHOICES },
           ]}
         />
@@ -67,22 +67,9 @@ export function NewsSlider({ params }: Pick<PageProps<"scopeId">, "params">) {
 
   return (
     <div className="carousel rounded-lg w-full">
-      <div
-        id={highlightedNews.id?.toString()}
-        className="carousel-item relative w-full"
-        style={{ maxHeight: 300 }}
-      >
-        <Link
-          href={`news/${highlightedNews.id}`}
-          className="w-full h-full w-full"
-        >
-          <img
-            src={createFileUrl(
-              highlightedNews.coverImage,
-              highlightedNews.fileKey
-            )}
-            className="w-full h-full"
-          />
+      <div id={highlightedNews.id?.toString()} className="carousel-item relative w-full" style={{ maxHeight: 700 }}>
+        <Link href={`news/${highlightedNews.id}`} className="w-full h-full w-full">
+          <img src={createFileUrl(highlightedNews.coverImage, highlightedNews.fileKey)} className="w-full h-full" />
         </Link>
         <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
           <a href="#slide1" className="btn btn-circle">
@@ -94,7 +81,7 @@ export function NewsSlider({ params }: Pick<PageProps<"scopeId">, "params">) {
         </div>
         <div
           className="absolute right-0 bottom-0 transform bg-gray-900 w-full text-white p-2"
-          style={{ backgroundColor: "rgba(0 , 0 ,0, .5)" }}
+          style={{ backgroundColor: 'rgba(0 , 0 ,0, .5)' }}
         >
           <div className="text-lg font-bold">{highlightedNews.title}</div>
           <div>

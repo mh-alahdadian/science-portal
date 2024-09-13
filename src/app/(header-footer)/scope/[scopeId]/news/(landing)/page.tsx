@@ -1,70 +1,57 @@
-"use client";
+'use client';
 
-import { DateObject } from "react-multi-date-picker";
-import clsx from "clsx";
-import Select from "react-select";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import Recommendations from "src/app/(header-footer)/(landing)/components/recommendations";
+import { DateObject } from 'react-multi-date-picker';
+import clsx from 'clsx';
+import Select from 'react-select';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { useState } from 'react';
+import Recommendations from 'src/app/(header-footer)/(landing)/components/recommendations';
 
-import { queryService } from "@/api";
-import { Breadcrumb, DatePickerField, Paginator } from "@/components";
-import { useCurrentScope } from "@/hooks";
-import NewsCard from "./NewsCard";
-import { NewsSlider } from "./NewsSlider";
+import { queryService } from '@/api';
+import { Breadcrumb, DatePickerField, Paginator } from '@/components';
+import { useCurrentScope } from '@/hooks';
+import NewsCard from './NewsCard';
+import { NewsSlider } from './NewsSlider';
 
 const sorts = [
   {
-    value: "id,desc",
-    label: "جدیدترین‌ها",
+    value: 'id,desc',
+    label: 'جدیدترین‌ها',
   },
   {
-    value: "viewCount,desc",
-    label: "پربازدیدترین‌ها",
+    value: 'viewCount,desc',
+    label: 'پربازدیدترین‌ها',
   },
   {
-    value: "commentCount,desc",
-    label: "پربحث‌ترین‌ها",
+    value: 'commentCount,desc',
+    label: 'پربحث‌ترین‌ها',
   },
 ];
 
-const allCategories = { value: "all", label: "همه‌ی موضوعات" };
-
-export default function AllNews({ params }: PageProps<"scopeId">) {
+export default function AllNews({ params }: PageProps<'scopeId'>) {
   const scope = useCurrentScope();
 
   const { data: categories, isLoading: loadingCategories } = useSuspenseQuery({
-    ...queryService("news:/v1/scope/{scopeId}/categories", {
+    ...queryService('news:/v1/scope/{scopeId}/categories', {
       params: { path: { scopeId: params.scopeId } },
     }),
-    select: (data) => [
-      allCategories,
-      ...data.map(({ id, title }) => ({ value: id?.toString(), label: title })),
-    ],
+    select: (data) => data.map(({ id, title }) => ({ value: id?.toString(), label: title })),
   });
 
   const [currentPage, setCurrentPage] = useState(0);
   const [perPage, setPerPage] = useState(15);
-  const [filteredCategories, setFilteredCategories] = useState([allCategories]);
+  const [filteredCategories, setFilteredCategories] = useState([]);
   const [filteredDate, setFilteredDate] = useState<DateObject>();
   const [currSorting, setCurrSorting] = useState(sorts[0].value);
 
-  const selectedAllCategories = filteredCategories.some(
-    ({ value }) => value === allCategories.value
-  );
-
-  // const url = currSorting === "commentCount,desc" ? 'news:/v1/scope/{scopeId}/posts/most-controversial' : "news:/v1/scope/{scopeId}/posts"
-
   const latestNews = useSuspenseQuery(
-    queryService("news:/v1/scope/{scopeId}/posts", {
+    queryService('news:/v1/scope/{scopeId}/posts', {
       params: {
         path: { scopeId: +params.scopeId },
         query: {
           pageable: { page: currentPage, size: perPage },
           sort: [currSorting],
-          categoryIds: selectedAllCategories
-            ? categories.map(({ value }) => value)
-            : filteredCategories.map(({ value }) => value),
+          // categoryIds: filteredCategories.map(({ value }) => value),
         } as any,
       },
     })
@@ -90,14 +77,14 @@ export default function AllNews({ params }: PageProps<"scopeId">) {
 
   return (
     <div className="max-w-screen-2xl mx-auto flex flex-col gap-8">
-      <Breadcrumb params={params} items={[{ text: "اخبار" }]} />
+      <Breadcrumb params={params} items={[{ text: 'اخبار' }]} />
       <NewsSlider params={params} />
 
       <div
         className="flex items-center justify-between rounded-lg bg-white py-3 px-4 gap-4"
-        style={{ backgroundColor: "#f5f7f8" }}
+        style={{ backgroundColor: '#f5f7f8' }}
       >
-        <div className="w-full grid grid-cols-2 md:grid-cols-5 gap-3">
+        <div className="w-full flex gap-3">
           <Select
             isMulti
             isClearable
@@ -110,7 +97,6 @@ export default function AllNews({ params }: PageProps<"scopeId">) {
             //   control: (baseStyles) => ({
             //     ...baseStyles,
             //     maxHeight: 42,
-            //     minWidth: 100,
             //   }),
             // }}
             onChange={handleCategoryFilterChange}
@@ -123,10 +109,7 @@ export default function AllNews({ params }: PageProps<"scopeId">) {
           />
         </div>
 
-        <button
-          className="btn btn-sm text-sm font-normal"
-          onClick={removeFilters}
-        >
+        <button className="btn btn-sm text-sm font-normal" onClick={removeFilters}>
           حذف فیلتر‌ها
         </button>
       </div>
@@ -135,7 +118,7 @@ export default function AllNews({ params }: PageProps<"scopeId">) {
         {sorts.map((tab) => (
           <a
             role="tab"
-            className={clsx("tab", currSorting === tab.value && "tab-active")}
+            className={clsx('tab', currSorting === tab.value && 'tab-active')}
             onClick={() => setCurrSorting(tab.value)}
           >
             {tab.label}

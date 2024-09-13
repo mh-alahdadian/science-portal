@@ -84,5 +84,11 @@
     ">0.2%",
     "not dead",
     "not IE 11"
-  ]
+  ],
+  "prettier": {
+    "plugins": [],
+    "printWidth": 120,
+    "singleQuote": true,
+    "semi": true
+  }
 }
