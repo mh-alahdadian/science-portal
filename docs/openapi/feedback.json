@@ -1,19 +1,28 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "OpenAPI definition",
-    "version": "v0"
+    "title": "feedback API",
+    "description": "The feedback service.",
+    "version": "1.0"
   },
   "servers": [
     {
-      "url": "http://192.168.59.20:8787/feedback/api",
-      "description": "Generated server url"
+      "url": "https://cogcenter.ir/feedback/api"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
     }
   ],
   "tags": [
     {
       "name": "manage_comment",
       "description": "The comment API."
+    },
+    {
+      "name": "report",
+      "description": "The report API."
     },
     {
       "name": "reaction",
@@ -25,7 +34,7 @@
     },
     {
       "name": "FeedbackStats",
-      "description": "The comment and reaction stats API."
+      "description": "The comment, rating and reaction stats API."
     }
   ],
   "paths": {
@@ -58,12 +67,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": ["reaction"],
@@ -90,12 +94,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     },
     "/v1/rating": {
@@ -124,12 +123,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": ["rating"],
@@ -156,12 +150,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     },
     "/v1/manager/{page}/un-publish/{id}": {
@@ -209,12 +198,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     },
     "/v1/manager/{page}/comments/publish/{id}": {
@@ -252,12 +236,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     },
     "/v1/comments": {
@@ -293,12 +272,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": ["manage_comment"],
@@ -325,12 +299,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     },
     "/v1/comments/{commentId}/reply": {
@@ -370,12 +339,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     },
     "/v1/manager/{page}/comments": {
@@ -418,12 +382,119 @@
               }
             }
           }
-        },
-        "security": [
+        }
+      }
+    },
+    "/v1/internal/report/monthly/comments": {
+      "get": {
+        "tags": ["report"],
+        "operationId": "monthlyReport",
+        "parameters": [
           {
-            "Bearer Authentication": []
+            "name": "typeId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "scopeId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/internal/report/daily/comments": {
+      "get": {
+        "tags": ["report"],
+        "operationId": "dailyReport",
+        "parameters": [
+          {
+            "name": "typeId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "scopeId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v1/internal/feedback-stats": {
@@ -447,6 +518,57 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/FeedbackStatsDTO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/internal/feedback-stats/most-controversial": {
+      "get": {
+        "tags": ["FeedbackStats"],
+        "operationId": "getMostComment",
+        "parameters": [
+          {
+            "name": "typeId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "scopeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "periodLength",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "maximum": 30,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FeedbackStatsDTO"
+                  }
                 }
               }
             }
@@ -645,7 +767,8 @@
             "readOnly": true
           },
           "userImage": {
-            "type": "string"
+            "type": "string",
+            "readOnly": true
           }
         }
       },
@@ -678,7 +801,8 @@
           "userReacted": {
             "type": "boolean"
           }
-        }
+        },
+        "required": ["count", "userReacted"]
       },
       "RatingResponseDTO": {
         "type": "object",
@@ -779,6 +903,9 @@
           "userImage": {
             "type": "string"
           },
+          "fileKey": {
+            "type": "string"
+          },
           "modelType": {
             "$ref": "#/components/schemas/ModelTypeEntity"
           },
@@ -796,11 +923,11 @@
             "type": "string",
             "format": "date-time"
           },
-          "createAt": {
+          "createdAt": {
             "type": "string",
             "format": "date-time"
           },
-          "updateAt": {
+          "updatedAt": {
             "type": "string",
             "format": "date-time"
           },
@@ -827,13 +954,13 @@
       "PageCommentResponseDTO": {
         "type": "object",
         "properties": {
-          "totalPages": {
-            "type": "integer",
-            "format": "int32"
-          },
           "totalElements": {
             "type": "integer",
             "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
           },
           "size": {
             "type": "integer",
@@ -938,7 +1065,7 @@
       }
     },
     "securitySchemes": {
-      "Bearer Authentication": {
+      "bearerAuth": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"

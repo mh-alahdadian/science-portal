@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { ReactNode, SelectHTMLAttributes } from 'react';
 import { FieldWrapper } from './FieldWrapper';
 
@@ -39,7 +40,7 @@ export function SelectField(props: Props) {
     <FieldWrapper {...{ formControlClassName, label, labelAlt, helperText, helperAltText }}>
       <div role="select" className="flex items-center gap-2">
         {startAdornment || selectProps.placeholder}
-        <select ref={ref} {...selectProps} className="not-styled grow">
+        <select ref={ref} {...selectProps} className={clsx('not-styled grow', selectProps.className)}>
           {children}
         </select>
         {endAdornment}

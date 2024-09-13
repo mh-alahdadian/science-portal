@@ -1,8 +1,8 @@
+import { Permission } from '@/constants';
 import { isServer } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
+import { JwtPayload, jwtDecode } from 'jwt-decode';
 import { queryClient, queryService } from './api';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
-import { Permission } from '@/constants';
 
 const TOKEN_STORAGE_KEY = 'TOKEN_STORAGE_KEY';
 const ACCESS_TOKEN_KEY = 'accessToken';
@@ -12,14 +12,16 @@ interface Tokens {
   refreshToken?: string;
 }
 
-interface ParsedToken extends JwtPayload {
+interface ParsedToken extends Required<JwtPayload> {
   authorities: Partial<Record<'global' | number, Permission[]>>;
 }
 
 let cachedToken: Tokens;
 let parsedToken: ParsedToken;
 
-export function getParsedToken(): ParsedToken {
+export function getParsedToken(): ParsedToken | null {
+  const accessToken = getToken().accessToken;
+  if (!accessToken) return null
   if (isServer) {
     return jwtDecode<ParsedToken>(getToken().accessToken!);
   } else {

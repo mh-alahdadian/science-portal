@@ -6,7 +6,7 @@ interface Props {
   total: number;
   pageSize: number;
   changePage: (page: number) => void;
-  changePageSize: (page: number) => void;
+  changePageSize?: (page: number) => void;
 }
 
 function pagination(currentPage: number, totalPages: number, delta = 2) {
@@ -40,10 +40,16 @@ export function Paginator(props: Props) {
   return (
     <div className="flex gap-4 items-center justify-center my-3">
       <div className="join">
+<<<<<<< HEAD
         <button className={clsx("join-item btn", isSmall && "btn-sm")}>
           {Prev}
         </button>
 
+=======
+        <button className={clsx('join-item btn', isSmall && 'btn-sm')} onClick={() => changePage(current - 1)}>
+          {Prev}
+        </button>
+>>>>>>> f239299ba7888a439af0557fe00d4697bf4844b6
         {pagination(current + 1, total, 2).map((index) =>
           index === Ellipsis ? (
             <span
@@ -66,6 +72,7 @@ export function Paginator(props: Props) {
             </button>
           )
         )}
+<<<<<<< HEAD
 
         <button className={clsx("join-item btn", isSmall && "btn-sm")}>
           {Next}
@@ -85,6 +92,28 @@ export function Paginator(props: Props) {
       </select>
       */}
       <span>{`صفحه ${current + 1} از ${total + 1}`}</span>
+=======
+        <button className={clsx('join-item btn', isSmall && 'btn-sm')} onClick={() => changePage(current + 1)}>
+          {Next}
+        </button>
+      </div>
+      {changePageSize && (
+        <>
+          <select
+            className={clsx(isSmall && 'select-sm')}
+            value={pageSize}
+            onChange={(e) => changePageSize(Number(e.target.value))}
+          >
+            {[10, 20, 30, 40, 50].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                {pageSize}
+              </option>
+            ))}
+          </select>
+          <span>{`صفحه ${current} از ${total}`}</span>
+        </>
+      )}
+>>>>>>> f239299ba7888a439af0557fe00d4697bf4844b6
     </div>
   );
 }

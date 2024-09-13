@@ -2,6 +2,7 @@ import { mutateService } from '@/api';
 import { ModelType } from '@/constants';
 import { useMutation } from '@tanstack/react-query';
 import { FormEvent, useState } from 'react';
+import { toast } from 'react-toastify';
 
 interface Props {
   scopeId: number;
@@ -15,7 +16,13 @@ export function SubmitComment(props: Props) {
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    mutateAsync({ body: { text: comment, ...props } });
+    mutateAsync({ body: { text: comment, ...props } })
+      .then(() => {
+        toast.success('دیدگاه شما با موفقیت ثبت شد.');
+      })
+      .catch(() => {
+        toast.error('دیدگاه شما ثبت نشد.');
+      });
   }
 
   return (

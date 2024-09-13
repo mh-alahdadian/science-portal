@@ -1,10 +1,11 @@
 "use client";
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import clsx from "clsx";
 import Select from "react-select";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import Recommendations from "src/app/(header-footer)/(landing)/components/recommendations";
 
 import { queryService } from "@/api";
 import { Breadcrumb, DatePickerField, Paginator } from "@/components";
@@ -52,6 +53,8 @@ export default function AllNews({ params }: PageProps<"scopeId">) {
     ({ value }) => value === allCategories.value
   );
 
+  // const url = currSorting === "commentCount,desc" ? 'news:/v1/scope/{scopeId}/posts/most-controversial' : "news:/v1/scope/{scopeId}/posts"
+
   const latestNews = useSuspenseQuery(
     queryService("news:/v1/scope/{scopeId}/posts", {
       params: {
@@ -75,6 +78,15 @@ export default function AllNews({ params }: PageProps<"scopeId">) {
     setFilteredCategories([]);
     setFilteredDate(null);
   }
+
+  // const mostCommented: any[] = useSuspenseQuery(
+  //   queryService('news:/v1/scope/{scopeId}/posts/most-controversial', {
+  //     params: {
+  //       path: { scopeId: +params.scopeId },
+  //       query: { periodLength: 7 },
+  //     },
+  //   }),
+  // ).data! as any;
 
   return (
     <div className="max-w-screen-2xl mx-auto flex flex-col gap-8">
@@ -137,12 +149,14 @@ export default function AllNews({ params }: PageProps<"scopeId">) {
         ))}
       </div>
 
+      {/* <Recommendations /> */}
+
       <Paginator
         current={currentPage}
         total={latestNews.length}
         pageSize={perPage}
         changePage={setCurrentPage}
-        changePageSize={setPerPage}
+        // changePageSize={setPerPage}
       />
     </div>
   );

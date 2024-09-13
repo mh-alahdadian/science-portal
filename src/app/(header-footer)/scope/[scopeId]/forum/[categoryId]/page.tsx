@@ -93,7 +93,7 @@ export default function Forum({ params }: PageProps<'scopeId' | 'categoryId'>) {
         <Community />
         <div className="flex flex-col gap-6">
           <p>
-            به فروم {params.categoryId} حوزه {scope.title} خوش آمدید
+            به فروم {params.categoryId} حوزه پژوهشی {scope.title} خوش آمدید
           </p>
           <p>در اینجا شما می‌توانید سوالات و دانش خود را با دیگران به اشتراک بگذارید</p>
         </div>

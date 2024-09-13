@@ -1,7 +1,6 @@
 import { DatePickerField, InlineSelectField, InlineTextField } from '@/components';
 import { formatDateTime } from '@/utils';
-import { Reaction } from '@service/components/feedback';
-import { ReactionType } from '@service/constants';
+import { ChatCircleDots, Eye, ThumbsDown, ThumbsUp } from '@phosphor-icons/react';
 import { NewsStatusId } from '@service/news/constants';
 import { RowData, createColumnHelper } from '@tanstack/react-table';
 import Link from 'next/link';
@@ -18,6 +17,23 @@ declare module '@tanstack/table-core' {
 
 export const columns = [
   columnHelper.accessor('id', {
+    header: '',
+    size: 10,
+    cell: (props) => {
+      const isSelected = props.row.getIsSelected();
+      return (
+        <input
+          type="checkbox"
+          className="checkbox checkbox-sm rounded-full"
+          checked={isSelected}
+          onClick={() => props.row.toggleSelected()}
+        />
+      );
+    },
+    enableSorting: false,
+  }),
+
+  columnHelper.accessor('id', {
     header: 'شناسه',
   }),
 
@@ -33,7 +49,7 @@ export const columns = [
     filter: ({ column, header, table }) => {
       return (
         <InlineTextField
-          containerClassName="col-2"
+          containerClassName="order-[-1] col-span-4"
           label={column.columnDef.header as string}
           value={column.getFilterValue() as string}
           onChange={(e) => column.setFilterValue(e.target.value)}
@@ -95,40 +111,50 @@ export const columns = [
     header: 'زمان انتشار',
     cell: ({ row }) => formatDateTime(row.original.createdAt!),
     filter: ({ column }) => {
+      const filter: Partial<Record<'from' | 'to', DateObject>> = column.getFilterValue() || {};
       return (
-        <DatePickerField
-          label="زمان انتشار"
-          range
-          containerClassName="col-2"
-          value={column.getFilterValue() as DateObject[]}
-          // onChange={column.setFilterValue}
-        />
+        <>
+          <DatePickerField
+            label="زمان انتشار از"
+            containerClassName="order-[-1]"
+            value={filter.from as DateObject}
+            onChange={(v: DateObject | null) => column.setFilterValue({ ...filter, from: v?.toDate() })}
+          />
+          <DatePickerField
+            label="زمان انتشار تا"
+            containerClassName="order-[-1]"
+            value={filter.to as DateObject}
+            onChange={(v: DateObject | null) => column.setFilterValue({ ...filter, to: v?.toDate() })}
+          />
+        </>
       );
     },
   }),
 
-  columnHelper.accessor('viewCount', {
-    header: 'تعداد مشاهده',
-    enableSorting: false,
-  }),
-
-  columnHelper.accessor('feedbackStats.commentCount', {
-    header: 'تعداد کامنت‌ها',
-    enableSorting: false,
-  }),
-  columnHelper.accessor('feedbackStats.reaction', {
-    header: 'واکنش‌ها',
-    cell: ({ row, getValue }) => {
-      const reactions = getValue();
+  columnHelper.accessor('feedbackStats', {
+    header: 'بازخورد‌ها',
+    cell: (props) => {
+      const value = props.getValue() || {};
       return (
-        <div className="flex flex-col">
-          <Reaction reactions={reactions} type={ReactionType.LIKE} />
-          <Reaction reactions={reactions} type={ReactionType.DISLIKE} />
+        <div className="flex gap-4 justify-center">
+          <p className="flex flex-col items-center gap-2 text-xs">
+            <Eye size={16} />
+            {props.row.original.viewCount || 0}
+          </p>
+          <p className="flex flex-col items-center gap-2 text-xs">
+            <ChatCircleDots size={16} />
+            {value.commentCount || 0}
+          </p>
+          <p className="flex flex-col items-center gap-2 text-xs">
+            <ThumbsUp fill="green" size={16} />
+            {value.reaction?.LIKE ? value.reaction.LIKE.count : 0}
+          </p>
+          <p className="flex flex-col items-center gap-2 text-xs">
+            <ThumbsDown fill="red" size={16} />
+            {value.reaction?.DISLIKE ? value.reaction.DISLIKE.count : 0}
+          </p>
         </div>
       );
-      // return Object.keys(reactions!).map((key) => (
-      //   <Reaction reactions={reactions} key={key} type={key as ReactionType} />
-      // ));
     },
     enableSorting: false,
   }),
@@ -146,10 +172,10 @@ export const columns = [
           }}
         >
           <option value={NewsStatusId.DRAFT}>پیش‌نویس</option>
-          <option value={NewsStatusId.AWAITING_CORRECTION}>در انتظار اصلاح</option>
+          {/* <option value={NewsStatusId.AWAITING_CORRECTION}>در انتظار اصلاح</option> */}
           <option value={NewsStatusId.AWAITING_PUBLISHED}>در انتظار انتشار</option>
           <option value={NewsStatusId.PUBLISHED}>منتشر شده</option>
-          <option value={NewsStatusId.UN_PUBLISH}>منتشر نشده</option>
+          <option value={NewsStatusId.UN_PUBLISH}>عدم انتشار</option>
         </select>
       );
     },
@@ -162,12 +188,13 @@ export const columns = [
         >
           <option value="">همه</option>
           <option value={NewsStatusId.DRAFT}>پیش‌نویس</option>
-          <option value={NewsStatusId.AWAITING_CORRECTION}>در انتظار اصلاح</option>
+          {/* <option value={NewsStatusId.AWAITING_CORRECTION}>در انتظار اصلاح</option> */}
           <option value={NewsStatusId.AWAITING_PUBLISHED}>در انتظار انتشار</option>
           <option value={NewsStatusId.PUBLISHED}>منتشر شده</option>
-          <option value={NewsStatusId.UN_PUBLISH}>منتشر نشده</option>
+          <option value={NewsStatusId.UN_PUBLISH}>عدم انتشار</option>
         </InlineSelectField>
       );
     },
+    enableSorting: false,
   }),
 ];

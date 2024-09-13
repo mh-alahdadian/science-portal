@@ -1,6 +1,7 @@
 'use client';
 
 import { isServer } from '@tanstack/react-query';
+import { redirect } from 'next/navigation';
 import { listenApiEvent, mutateService } from './api';
 import { getParsedToken, getToken, removeToken, setToken } from './utils';
 
@@ -16,6 +17,7 @@ const config = {
 
 listenApiEvent('request', (request) => {
   const { accessToken } = getToken();
+  // if(!accessToken) redirect('/login')
   request.payload.headers ??= {};
   // if (request.url.startsWith('core')) return;
   request.payload.headers['Authorization'] = 'Bearer ' + accessToken;
@@ -34,7 +36,7 @@ if (!isServer) {
       request.url.endsWith('core/auth/refresh-token') &&
       refreshToken &&
       !refreshingTokenPromise &&
-      Date.now() > (getParsedToken().exp! - config.expDelaySec) * 1000
+      Date.now() > (getParsedToken()!.exp - config.expDelaySec) * 1000
     ) {
       refreshingTokenPromise = mutateService('post', 'core:/v1/auth/refresh-token').mutationFn!({
         params: { query: { refreshToken } },
@@ -60,4 +62,5 @@ export function logout() {
   removeToken();
 }
 
-export {};
+export { };
+

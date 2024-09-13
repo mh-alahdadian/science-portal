@@ -1,3 +1,5 @@
+import { RedirectType, redirect } from 'next/navigation';
+
 export default function X() {
-  return <div>not found</div>;
+  redirect('admin/dashboard', RedirectType.replace);
 }

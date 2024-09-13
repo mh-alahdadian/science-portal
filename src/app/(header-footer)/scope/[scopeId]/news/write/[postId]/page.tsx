@@ -1,7 +1,7 @@
 'use client';
 
 import { mutateService, queryService } from '@/api';
-import { CheckBoxField, Editor, ImageField, SelectField, TextField } from '@/components';
+import { Editor, ImageField, InlineSelectField, TextField } from '@/components';
 import { uploadFile } from '@/components/editor/uploader';
 import { ModelType } from '@/constants';
 import { createFileUrl } from '@/utils';
@@ -9,6 +9,7 @@ import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { usePathname } from 'next/navigation';
 import { last } from 'ramda';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { NewsStatusId } from '../../constants';
 
 export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) {
@@ -39,6 +40,7 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
 
   const [editorData, setEditorData] = useState(post?.content || '');
   const [title, setTitle] = useState(post?.title || '');
+  const [status, setStatus] = useState<NewsStatusId>((post?.statusId as any as NewsStatusId) || NewsStatusId.DRAFT);
   const [isPublic, setIsPublic] = useState<boolean>(post?.isPublic || true);
   const [coverImage, setCoverImage] = useState<string | File>(post?.coverImage || '');
   const [category, setCategory] = useState<string>(post ? String(post.categoryId) : '');
@@ -52,6 +54,7 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
         categoryId: Number(category),
         coverImage: coverImage instanceof File ? undefined : coverImage,
         isPublic: true,
+        statusId: +status,
         content: editorData,
         ...overrides,
       },
@@ -87,13 +90,6 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
     setEditorData(data);
   }
 
-  async function submitAndPublish() {
-    await submitPost();
-    mutatePostStatus({
-      params: { path: { page: String(params.scopeId), postId }, query: { statusId: NewsStatusId.AWAITING_PUBLISHED } },
-    });
-  }
-
   return (
     <form className="flex flex-col gap-2" onBlur={submitPost}>
       <h1 className="my-8 text-lg">ایجاد خبر</h1>
@@ -106,24 +102,44 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
         <div className="flex-1 flex flex-col gap-2">
           <TextField startAdornment="عنوان:" name="title" value={title} onChange={(e) => setTitle(e.target.value)} />
           <div className="flex gap-2">
-            <SelectField
-              startAdornment="دسته‌بندی:"
-              onChange={(e) => {
-                setCategory(e.target.value);
-              }}
+            <InlineSelectField
+              label="دسته‌بندی"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              containerClassName="flex-1"
             >
-              <option value={''}>انتخاب کنید</option>
+              <option value="">انتخاب کنید</option>
               {categories.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.title}
                 </option>
               ))}
-            </SelectField>
-            <CheckBoxField
-              startAdornment="پست عمومی؟"
-              checked={isPublic}
-              onChange={(e) => setIsPublic(e.target.checked)}
-            />
+            </InlineSelectField>
+            <InlineSelectField
+              label="وضعیت"
+              value={status}
+              onChange={(e) => setStatus(e.target.value as NewsStatusId)}
+              containerClassName="flex-1"
+            >
+              <option value={NewsStatusId.DRAFT}>پیش‌نویس</option>
+              {/* <option value={NewsStatusId.AWAITING_CORRECTION}>در انتظار اصلاح</option> */}
+              <option value={NewsStatusId.AWAITING_PUBLISHED}>در انتظار انتشار</option>
+              <option disabled value={NewsStatusId.PUBLISHED}>
+                منتشر شده
+              </option>
+              <option disabled value={NewsStatusId.UN_PUBLISH}>
+                عدم انتشار
+              </option>
+            </InlineSelectField>
+            <InlineSelectField
+              label="سطح دسترسی"
+              value={isPublic ? 'public' : 'private'}
+              onChange={(e) => setIsPublic(e.target.value === 'public')}
+              containerClassName="flex-1"
+            >
+              <option value="public">عمومی</option>
+              <option value="private">خصوصی</option>
+            </InlineSelectField>
           </div>
         </div>
       </div>
@@ -135,11 +151,16 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
         disabled={isDraft}
       />
       <div className="flex gap-4">
-        <button role="button" type="button" className="w-fit btn-primary mt-5" onClick={submitPost}>
-          ذخیره پیش‌نویس
-        </button>
-        <button role="button" type="button" className="w-fit btn-primary mt-5" onClick={submitAndPublish}>
-          ذخیره و درخواست انتشار
+        <button
+          role="button"
+          type="button"
+          className="w-fit btn-primary mt-5"
+          onClick={async () => {
+            await submitPost();
+            toast.success('تغییرات با موفقیت ذخیره شد.');
+          }}
+        >
+          ذخیره تغییرات
         </button>
       </div>
     </form>

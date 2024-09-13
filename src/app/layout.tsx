@@ -4,7 +4,7 @@ import Providers from '@/Providers';
 import { useThemeName } from '@/utils/scope';
 import clsx from 'clsx';
 import 'vazirmatn/Vazirmatn-font-face.css';
-import './bootstrap.scss';
+// import './bootstrap.scss';
 import './globals.css';
 
 export default function RootLayout({ children, header }: LayoutProps<'header'>) {
@@ -15,7 +15,7 @@ export default function RootLayout({ children, header }: LayoutProps<'header'>) 
       <body className={clsx('flex flex-col')}>
         <Providers>
           {header}
-          <main className="flex-1 px-2 md:px-6 lg:px-12 bg-neutral">{children}</main>
+          <main className="flex-1 px-2 md:px-6 lg:px-12 lg:py-6 bg-neutral">{children}</main>
           <footer></footer>
         </Providers>
       </body>

@@ -22,8 +22,8 @@ export default function Categories({ params }: PageProps<'scopeId'>) {
       <div className="flex gap-20 items-center mb-10 bg-neutral-300">
         <Community />
         <div className="flex flex-col gap-6">
-          <p>به کتابخانه‌های حوزه {scope.title} خوش آمدید</p>
-          <p>در اینجا شما می‌توانید کتاب‌های مختلف در این حوزه را دانلود کنید</p>
+          <p>به کتابخانه‌های حوزه پژوهشی {scope.title} خوش آمدید</p>
+          <p>در اینجا شما می‌توانید کتاب‌های مختلف در این حوزه پژوهشی را دانلود کنید</p>
         </div>
       </div>
       <div className="grid gap-6" css={styles}>
