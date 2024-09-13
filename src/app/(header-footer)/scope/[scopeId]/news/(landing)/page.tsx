@@ -1,7 +1,8 @@
 "use client";
 
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { DateObject } from "react-multi-date-picker";
 import clsx from "clsx";
 import Select from "react-select";
 
@@ -10,14 +11,23 @@ import { Breadcrumb, DatePickerField, Paginator } from "@/components";
 import { useCurrentScope } from "@/hooks";
 import NewsCard from "./NewsCard";
 import { NewsSlider } from "./NewsSlider";
-import { Recycle } from "@phosphor-icons/react";
-import { DateObject } from "react-multi-date-picker";
 
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
+const sorts = [
+  {
+    value: "id,desc",
+    label: "جدیدترین‌ها",
+  },
+  {
+    value: "viewCount,desc",
+    label: "پربازدیدترین‌ها",
+  },
+  {
+    value: "commentCount,desc",
+    label: "پربحث‌ترین‌ها",
+  },
 ];
+
+const allCategories = { value: "all", label: "همه‌ی موضوعات" };
 
 export default function AllNews({ params }: PageProps<"scopeId">) {
   const scope = useCurrentScope();
@@ -26,16 +36,21 @@ export default function AllNews({ params }: PageProps<"scopeId">) {
     ...queryService("news:/v1/scope/{scopeId}/categories", {
       params: { path: { scopeId: params.scopeId } },
     }),
-    select: (data) =>
-      data.map(({ id, title }) => ({ value: id?.toString(), label: title })),
+    select: (data) => [
+      allCategories,
+      ...data.map(({ id, title }) => ({ value: id?.toString(), label: title })),
+    ],
   });
 
   const [currentPage, setCurrentPage] = useState(0);
   const [perPage, setPerPage] = useState(15);
-  const [filteredCategories, setFilteredCategories] = useState([]);
+  const [filteredCategories, setFilteredCategories] = useState([allCategories]);
   const [filteredDate, setFilteredDate] = useState<DateObject>();
+  const [currSorting, setCurrSorting] = useState(sorts[0].value);
 
-  // TODO: correct send filters to api
+  const selectedAllCategories = filteredCategories.some(
+    ({ value }) => value === allCategories.value
+  );
 
   const latestNews = useSuspenseQuery(
     queryService("news:/v1/scope/{scopeId}/posts", {
@@ -43,8 +58,10 @@ export default function AllNews({ params }: PageProps<"scopeId">) {
         path: { scopeId: +params.scopeId },
         query: {
           pageable: { page: currentPage, size: perPage },
-          categoryIds: filteredCategories.map(({ id }) => id),
-          sort: ["id,desc"],
+          sort: [currSorting],
+          categoryIds: selectedAllCategories
+            ? categories.map(({ value }) => value)
+            : filteredCategories.map(({ value }) => value),
         } as any,
       },
     })
@@ -68,7 +85,7 @@ export default function AllNews({ params }: PageProps<"scopeId">) {
         className="flex items-center justify-between rounded-lg bg-white py-3 px-4 gap-4"
         style={{ backgroundColor: "#f5f7f8" }}
       >
-        <div className="w-full flex gap-3">
+        <div className="w-full grid grid-cols-2 md:grid-cols-5 gap-3">
           <Select
             isMulti
             isClearable
@@ -77,11 +94,19 @@ export default function AllNews({ params }: PageProps<"scopeId">) {
             isLoading={loadingCategories}
             value={filteredCategories}
             options={categories}
+            // styles={{
+            //   control: (baseStyles) => ({
+            //     ...baseStyles,
+            //     maxHeight: 42,
+            //     minWidth: 100,
+            //   }),
+            // }}
             onChange={handleCategoryFilterChange}
           />
           <DatePickerField
             label="تاریخ"
             value={filteredDate}
+            style={{ minWidth: 70 }}
             onChange={(date: DateObject) => setFilteredDate(date)}
           />
         </div>
@@ -94,7 +119,17 @@ export default function AllNews({ params }: PageProps<"scopeId">) {
         </button>
       </div>
 
-      <h3 className="text-lg font-bold">تازه ترین اخبار</h3>
+      <div role="tablist" className="tabs tabs-bordered w-20 mb-4">
+        {sorts.map((tab) => (
+          <a
+            role="tab"
+            className={clsx("tab", currSorting === tab.value && "tab-active")}
+            onClick={() => setCurrSorting(tab.value)}
+          >
+            {tab.label}
+          </a>
+        ))}
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {latestNews.map((item) => (
