@@ -4,11 +4,9 @@ import { useScreen } from '@/hooks';
 import { createFileUrl, formatDateTime } from '@/utils';
 import { Clock } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import clsx from 'clsx';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { NewsRow } from '../components/NewsRow';
-import internal from 'stream';
 
 enum NewsTab {
   TOP = 'TOP',
@@ -25,24 +23,25 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
     })
   ).data.content!;
 
-  const [activeHero, setActiveHero] = useState(1);
+  const [activeHero, setActiveHero] = useState(0);
   const [activeTab, setActiveTab] = useState(NewsTab.TOP);
-  const interval = useRef<ReturnType<typeof setInterval>>(null);
+  const interval = useRef<ReturnType<typeof setTimeout>>(null);
 
   const { isSmall } = useScreen();
   const highlightedNews = topNews[activeHero];
 
   useEffect(() => {
-    if (!interval.current) {
-      interval.current = setInterval(() => {
-        if (activeHero === 5) {
-          setActiveHero(0);
-        } else {
-          setActiveHero((value) => value + 1);
-        }
-      }, 5000);
+    if (interval.current) {
+      clearTimeout(interval.current);
     }
-  }, []);
+    interval.current = setTimeout(() => {
+      if (activeHero === 5) {
+        setActiveHero(0);
+      } else {
+        setActiveHero((value) => value + 1);
+      }
+    }, 5000);
+  }, [activeHero]);
 
   if (isSmall) {
     return (
@@ -72,10 +71,10 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
           <img src={createFileUrl(highlightedNews.coverImage, highlightedNews.fileKey)} className="w-full h-full" />
         </Link>
         <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-          <a href="#slide1" className="btn btn-circle">
+          <a onClick={() => setActiveHero((idx) => idx - 1)} className="btn btn-circle">
             ❮
           </a>
-          <a href="#slide3" className="btn btn-circle">
+          <a onClick={() => setActiveHero((idx) => idx + 1)} className="btn btn-circle">
             ❯
           </a>
         </div>

@@ -4,16 +4,15 @@ import { DateObject } from 'react-multi-date-picker';
 import clsx from 'clsx';
 import Select from 'react-select';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Recommendations from 'src/app/(header-footer)/(landing)/components/recommendations';
 
 import { queryService } from '@/api';
 import { Breadcrumb, DatePickerField, Paginator } from '@/components';
-import { useCurrentScope } from '@/hooks';
 import NewsCard from './NewsCard';
 import { NewsSlider } from './NewsSlider';
 
-const sorts = [
+const sorts: { value: string; label: string }[] = [
   {
     value: 'id,desc',
     label: 'جدیدترین‌ها',
@@ -28,9 +27,12 @@ const sorts = [
   },
 ];
 
-export default function AllNews({ params }: PageProps<'scopeId'>) {
-  const scope = useCurrentScope();
+interface Filter {
+  value?: string;
+  label: string;
+}
 
+export default function AllNews({ params }: PageProps<'scopeId'>) {
   const { data: categories, isLoading: loadingCategories } = useSuspenseQuery({
     ...queryService('news:/v1/scope/{scopeId}/categories', {
       params: { path: { scopeId: params.scopeId } },
@@ -40,9 +42,12 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
 
   const [currentPage, setCurrentPage] = useState(0);
   const [perPage, setPerPage] = useState(15);
-  const [filteredCategories, setFilteredCategories] = useState([]);
-  const [filteredDate, setFilteredDate] = useState<DateObject>();
+  const [filteredCategories, setFilteredCategories] = useState<Filter[]>([]);
+  const [filteredDate, setFilteredDate] = useState<Date | null>(null);
   const [currSorting, setCurrSorting] = useState(sorts[0].value);
+
+  // TODO: check the slider arrow buttons works
+  // TODO: correct react-select input style
 
   const latestNews = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/posts', {
@@ -51,13 +56,25 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
         query: {
           pageable: { page: currentPage, size: perPage },
           sort: [currSorting],
-          // categoryIds: filteredCategories.map(({ value }) => value),
+
+          // TODO: check 'from' and 'to' format to be correct to send one date for both ?
+          ...(filteredDate ? { from: filteredDate, to: filteredDate } : {}),
+          categoryIds: filteredCategories.map(({ value }) => value),
         } as any,
       },
     })
   ).data.content!;
 
-  function handleCategoryFilterChange(newFilter) {
+  const mostControversialNews: any[] = useSuspenseQuery(
+    queryService('news:/v1/scope/{scopeId}/posts/most-controversial', {
+      params: {
+        path: { scopeId: +params.scopeId },
+        query: { periodLength: 7 },
+      },
+    })
+  ).data! as any;
+
+  function handleCategoryFilterChange(newFilter: Filter[]) {
     setFilteredCategories(newFilter);
   }
 
@@ -65,15 +82,6 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
     setFilteredCategories([]);
     setFilteredDate(null);
   }
-
-  // const mostCommented: any[] = useSuspenseQuery(
-  //   queryService('news:/v1/scope/{scopeId}/posts/most-controversial', {
-  //     params: {
-  //       path: { scopeId: +params.scopeId },
-  //       query: { periodLength: 7 },
-  //     },
-  //   }),
-  // ).data! as any;
 
   return (
     <div className="max-w-screen-2xl mx-auto flex flex-col gap-8">
@@ -99,13 +107,13 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
             //     maxHeight: 42,
             //   }),
             // }}
-            onChange={handleCategoryFilterChange}
+            onChange={handleCategoryFilterChange as any}
           />
           <DatePickerField
             label="تاریخ"
             value={filteredDate}
             style={{ minWidth: 70 }}
-            onChange={(date: DateObject) => setFilteredDate(date)}
+            onChange={(date: DateObject) => setFilteredDate(date?.toDate())}
           />
         </div>
 
@@ -118,6 +126,7 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
         {sorts.map((tab) => (
           <a
             role="tab"
+            key={tab.value}
             className={clsx('tab', currSorting === tab.value && 'tab-active')}
             onClick={() => setCurrSorting(tab.value)}
           >
@@ -127,7 +136,7 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {latestNews.map((item) => (
+        {(currSorting === 'commentCount,desc' ? mostControversialNews : latestNews).map((item) => (
           <NewsCard key={item.id} post={item} />
         ))}
       </div>
@@ -139,7 +148,7 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
         total={latestNews.length}
         pageSize={perPage}
         changePage={setCurrentPage}
-        // changePageSize={setPerPage}
+        changePageSize={setPerPage}
       />
     </div>
   );
