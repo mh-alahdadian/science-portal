@@ -1,117 +1,49 @@
 'use client';
 
-import { mutateService, queryService } from '@/api';
-import { DataGrid, Dialog, Form } from '@/components';
+import { queryService } from '@/api';
+import { Dialog, Table } from '@/components';
 import { Pen, Trash } from '@phosphor-icons/react';
 import { RJSFSchema, UiSchema } from '@rjsf/utils';
-import validator from '@rjsf/validator-ajv8';
-import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { GridOptions, ICellRendererParams } from 'ag-grid-community';
 import { prop } from 'ramda';
 import { useState } from 'react';
+import UserEditForm from './_components/UserEditForm';
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { columns } from "./_components/columns"
 
 type User = Schema<'UserInfoDTO'>;
-type Options = GridOptions<User>;
-
-const colDefs: Options['columnDefs'] = [
-  { headerName: 'نام', field: 'firstName' },
-  { headerName: 'نام خانوادگی', field: 'lastName' },
-  { headerName: 'ایمیل', field: 'email' },
-  {
-    headerName: 'actions',
-    maxWidth: 102,
-    cellRenderer: (props: ICellRendererParams) => {
-      const setEditingUser = props.context.setEditingUser;
-      return (
-        <div className="flex gap-2">
-          <button className="btn-circle btn-transparent btn-sm" onClick={() => setEditingUser(props.data)}>
-            <Pen />
-          </button>
-          <button className="btn-circle btn-transparent btn-sm" onClick={() => setEditingUser(props.data)}>
-            <Trash className="text-danger" />
-          </button>
-        </div>
-      );
-    },
-  },
-];
-
-const schema: RJSFSchema = {
-  type: 'object',
-  properties: {
-    globalRoles: {
-      title: 'نقش‌های عمومی کاربر',
-      type: 'array',
-      items: { type: 'number', enum: [1, 2, 3] },
-      uniqueItems: true,
-    },
-    roles: {
-      title: 'نقش‌های کاربر در این حوزه',
-      type: 'array',
-      items: { type: 'number', enum: [1, 2, 3] },
-      uniqueItems: true,
-    },
-  },
-};
-
-const uiSchema: UiSchema = {
-  'ui:title': 'ویرایش اطلاعات کاربر',
-  'ui:classNames': 'my-class',
-  'ui:submitButtonOptions': {
-    submitText: 'ذخیره',
-  },
-};
-
-function transform(user: User) {
-  return {
-    id: user.id,
-    roles: user.roles!.map(prop('id')),
-    globalRoles: user.roles!.map(prop('id')),
-  };
-}
 
 export default function UserManagement({ params }: PageProps<'scopeId' | 'id'>) {
-  const users = useSuspenseQuery(
-    queryService('core:/v1/manager/{page}/users', { params: { path: { page: String(params.scopeId) }, query: {} } }),
-  ).data.content!;
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false)
 
-  const { mutate: mutateUser } = useMutation(mutateService('post', 'core:/v1/manager/{page}/users/{userId}/roles'));
-  const handleEdit = (data: User) => {
-    if (data?.id) {
-      mutateUser(
-        {
-          params: {
-            path: { page: String(params.scopeId), userId: data.id },
-            query: { roleIds: data.roles!.map(prop('id')) as number[] },
-          },
-        },
-        {
-          onSuccess: () => {
-            setEditingUser(null);
-          },
-        },
-      );
-    }
+  const users = useSuspenseQuery(
+    queryService('core:/v1/manager/{page}/users', { params: { path: { page: String(params.scopeId) }, query: { searchDTO: {}, pageable: { page: 0, size: 20 } } } }),
+  );
+
+  const handleRowClick = (user: User) => {
+    console.log("user", user)
+
+    setEditingUser(user)
+    setIsEditModalVisible(true)
+    
   };
 
-  const [editingUser, setEditingUser] = useState<User | null>(null);
+  const table = useReactTable({
+    columns,
+    data: users.data.content!,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+
+  const [editingUser, setEditingUser] = useState<User | null>(users.data.content[0]);
 
   return (
     <>
-      <DataGrid
-        onRowValueChanged={({ data }) => handleEdit(data)}
-        context={{ setEditingUser }}
-        rowData={users}
-        columnDefs={colDefs}
-      />
-      <Dialog open={!!editingUser} onClose={() => setEditingUser(null)}>
-        <Form
-          schema={schema}
-          validator={validator}
-          formData={editingUser ? transform(editingUser) : null}
-          uiSchema={uiSchema}
-          onSubmit={(param) => handleEdit(param.formData)}
-        />
+      <Table onRowClick={handleRowClick} currentScope={params.scopeId} table={table} hasData={!!users.data} isLoading={users.isLoading} />
+
+      <Dialog open={isEditModalVisible} onClose={() => setIsEditModalVisible(false)}>
+        <UserEditForm setIsModalVisible={setIsEditModalVisible} user={editingUser} currentScope={params.scopeId} />
       </Dialog>
     </>
   );

@@ -6,7 +6,7 @@
     },
     "servers": [
         {
-            "url": "http://192.168.59.20:8181/core/api",
+            "url": "http://cogcenter.ir/core/api",
             "description": "Generated server url"
         }
     ],
@@ -1307,15 +1307,15 @@
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
                     "first": {
                         "type": "boolean"
                     },
                     "last": {
                         "type": "boolean"
-                    },
-                    "numberOfElements": {
-                        "type": "integer",
-                        "format": "int32"
                     },
                     "empty": {
                         "type": "boolean"

@@ -35,7 +35,7 @@ export default function LoginDialog(props: PageProps) {
       { body: data },
       {
         onSuccess() {
-          toast.success('با موفقیت وارد شدید.');
+          toast.success('با موفقیت بروز رسانی شد.');
         },
       },
     );
