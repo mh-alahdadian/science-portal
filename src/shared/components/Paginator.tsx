@@ -1,5 +1,5 @@
-import { useScreen } from '@/hooks';
-import clsx from 'clsx';
+import clsx from "clsx";
+import { useScreen } from "@/hooks";
 
 interface Props {
   current: number;
@@ -35,31 +35,45 @@ function pagination(currentPage: number, totalPages: number, delta = 2) {
 
 export function Paginator(props: Props) {
   const { isSmall } = useScreen();
-
   const { current, total, changePage, changePageSize, pageSize } = props;
+
   return (
     <div className="flex gap-4 items-center justify-center my-3">
       <div className="join">
-        <button className={clsx('join-item btn', isSmall && 'btn-sm')}>{Prev}</button>
+        <button className={clsx("join-item btn", isSmall && "btn-sm")}>
+          {Prev}
+        </button>
+
         {pagination(current + 1, total, 2).map((index) =>
           index === Ellipsis ? (
-            <span key={index} className={clsx('join-item btn', isSmall && 'btn-sm')}>
+            <span
+              key={index}
+              className={clsx("join-item btn", isSmall && "btn-sm")}
+            >
               {index}
             </span>
           ) : (
             <button
-              className={clsx('join-item btn', isSmall && 'btn-sm', current === index - 1 && 'btn-active')}
+              className={clsx(
+                "join-item btn",
+                isSmall && "btn-sm",
+                current === index - 1 && "btn-active"
+              )}
               key={index}
               onClick={() => changePage(index - 1)}
             >
               {index}
             </button>
-          ),
+          )
         )}
-        <button className={clsx('join-item btn', isSmall && 'btn-sm')}>{Next}</button>
+
+        <button className={clsx("join-item btn", isSmall && "btn-sm")}>
+          {Next}
+        </button>
       </div>
-      <select
-        className={clsx(isSmall && 'select-sm')}
+
+      {/* <select
+        className={clsx(isSmall && "select-sm")}
         value={pageSize}
         onChange={(e) => changePageSize(Number(e.target.value))}
       >
@@ -69,13 +83,14 @@ export function Paginator(props: Props) {
           </option>
         ))}
       </select>
-      <span>{`صفحه ${current} از ${total}`}</span>
+      */}
+      <span>{`صفحه ${current + 1} از ${total + 1}`}</span>
     </div>
   );
 }
 
-const First = '«';
-const Prev = '‹';
-const Ellipsis = '…';
-const Next = '›';
-const Last = '»';
+const First = "«";
+const Prev = "‹";
+const Ellipsis = "…";
+const Next = "›";
+const Last = "»";
