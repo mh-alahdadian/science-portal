@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { NewsRow } from '../components/NewsRow';
 
+const SLIDER_COUNT = 5;
+
 enum NewsTab {
   TOP = 'TOP',
   CHIEF_CHOICES = 'CHIEF_CHOICES',
@@ -35,7 +37,7 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
       clearTimeout(interval.current);
     }
     interval.current = setTimeout(() => {
-      if (activeHero === 5) {
+      if (activeHero === SLIDER_COUNT) {
         setActiveHero(0);
       } else {
         setActiveHero((value) => value + 1);
@@ -56,7 +58,7 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
         />
 
         <div className="pr-4 mt-6 flex flex-col gap-6">
-          {topNews.slice(0, 5).map((newsItem: any) => (
+          {topNews.slice(0, SLIDER_COUNT).map((newsItem: any) => (
             <NewsRow baseUrl="./news" key={newsItem.id} post={newsItem} />
           ))}
         </div>
@@ -66,15 +68,19 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
 
   return (
     <div className="carousel rounded-lg w-full">
-      <div id={highlightedNews.id?.toString()} className="carousel-item relative w-full" style={{ maxHeight: 700 }}>
-        <Link href={`news/${highlightedNews.id}`} className="w-full h-full w-full">
+      <div
+        key={highlightedNews.id}
+        id={highlightedNews.id?.toString()}
+        className="carousel-item relative w-full h-[700]"
+      >
+        <Link href={`news/${highlightedNews.id}`} className="w-full h-full">
           <img src={createFileUrl(highlightedNews.coverImage, highlightedNews.fileKey)} className="w-full h-full" />
         </Link>
         <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-          <a onClick={() => setActiveHero((idx) => idx - 1)} className="btn btn-circle">
+          <a onClick={() => setActiveHero((idx) => (idx + SLIDER_COUNT - 1) % SLIDER_COUNT)} className="btn btn-circle">
             ❮
           </a>
-          <a onClick={() => setActiveHero((idx) => idx + 1)} className="btn btn-circle">
+          <a onClick={() => setActiveHero((idx) => (idx + 1) % SLIDER_COUNT)} className="btn btn-circle">
             ❯
           </a>
         </div>

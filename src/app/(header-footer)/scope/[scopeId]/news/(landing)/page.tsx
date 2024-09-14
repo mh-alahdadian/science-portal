@@ -1,11 +1,10 @@
 'use client';
 
-import { DateObject } from 'react-multi-date-picker';
-import clsx from 'clsx';
-import Select from 'react-select';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import Recommendations from 'src/app/(header-footer)/(landing)/components/recommendations';
+import clsx from 'clsx';
+import { useState } from 'react';
+import { DateObject } from 'react-multi-date-picker';
+import Select from 'react-select';
 
 import { queryService } from '@/api';
 import { Breadcrumb, DatePickerField, Paginator } from '@/components';
@@ -101,12 +100,17 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
             isLoading={loadingCategories}
             value={filteredCategories}
             options={categories}
-            // styles={{
-            //   control: (baseStyles) => ({
-            //     ...baseStyles,
-            //     maxHeight: 42,
-            //   }),
-            // }}
+            styles={{
+              multiValue: (baseStyles) => ({
+                ...baseStyles,
+                alignItems: 'center',
+              }),
+
+              // control: (baseStyles) => ({
+              //   ...baseStyles,
+              //   maxHeight: 42,
+              // }),
+            }}
             onChange={handleCategoryFilterChange as any}
           />
           <DatePickerField
