@@ -41,7 +41,9 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
           },
         },
       }),
-      queryService('news:/v1/scope/{scopeId}/categories', { params: { path: params } }),
+      queryService('news:/v1/scope/{scopeId}/categories', {
+        params: { path: params },
+      }),
     ],
     combine: combineQueries,
   });
@@ -69,9 +71,14 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
 
   async function handleChangeStatus(e: any, postId: number) {
     await mutateStatus({
-      params: { path: { page: String(params.scopeId!), postId }, query: { statusId: e.target.value } },
+      params: {
+        path: { page: String(params.scopeId!), postId },
+        query: { statusId: e.target.value },
+      },
     });
-    queryClient.invalidateQueries({ queryKey: ['news:/v1/manager/{page}/posts'] });
+    queryClient.invalidateQueries({
+      queryKey: ['news:/v1/manager/{page}/posts'],
+    });
     toast.success('وضعیت با موفقیت تغییر کرد.');
   }
 
@@ -82,7 +89,9 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
         query: { postIds: Object.keys(rowSelection).map(Number), publish },
       },
     });
-    queryClient.invalidateQueries({ queryKey: ['news:/v1/manager/{page}/posts'] });
+    queryClient.invalidateQueries({
+      queryKey: ['news:/v1/manager/{page}/posts'],
+    });
     toast.success('وضعیت‌ها با موفقیت تغییر کردند.');
     setRowSelection({});
   }
@@ -126,10 +135,10 @@ export default function Admin({ params }: PageProps<'scopeId'>) {
 }
 
 const filterStyles = css`
-display: grid;
-grid: repeat(2, auto) / repeat(6, auto);
+  display: grid;
+  grid: repeat(2, auto) / repeat(6, auto);
 
-label:not([class*="col-span"]) {
-  grid-column: span 2 / span 2;
-}
+  label:not([class*="col-span"]) {
+    grid-column: span 2 / span 2;
+  }
 `;

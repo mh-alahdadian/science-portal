@@ -11,7 +11,11 @@ import Recommendations from './components/recommendations';
 import Scopes from './components/scopes';
 
 const sections = [
-  { title: 'حوزه‌های علوم شناختی', element: <Scopes />, showAllLink: '/scopes' },
+  {
+    title: 'حوزه‌های علوم شناختی',
+    element: <Scopes />,
+    showAllLink: '/scopes',
+  },
   { title: 'جدیدترین اخبار', element: <News /> },
   { title: 'تازه‌ترین کتاب‌ها', element: <Books /> },
   { title: 'پیشنهاد میکنیم', element: <Recommendations /> },
