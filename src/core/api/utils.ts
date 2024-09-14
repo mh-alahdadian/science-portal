@@ -21,7 +21,7 @@ let parsedToken: ParsedToken;
 
 export function getParsedToken(): ParsedToken | null {
   const accessToken = getToken().accessToken;
-  if (!accessToken) return null
+  if (!accessToken) return null;
   if (isServer) {
     return jwtDecode<ParsedToken>(getToken().accessToken!);
   } else {

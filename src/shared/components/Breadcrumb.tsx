@@ -19,7 +19,7 @@ export function Breadcrumb(props: Props) {
     { text: 'حوزه پژوهشی ' + scope.title, url: '/scope/' + props.params.scopeId },
   ];
   return (
-    <nav className="breadcrumbs mb-8">
+    <nav className="breadcrumbs">
       <ol>
         {scopeBreads.concat(props.items).map((item, index) => (
           <li key={index}>{item.url ? <Link href={item.url}>{item.text}</Link> : <Fragment>{item.text}</Fragment>}</li>

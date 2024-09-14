@@ -1,5 +1,5 @@
-import { useScreen } from '@/hooks';
 import clsx from 'clsx';
+import { useScreen } from '@/hooks';
 
 interface Props {
   current: number;
@@ -35,8 +35,8 @@ function pagination(currentPage: number, totalPages: number, delta = 2) {
 
 export function Paginator(props: Props) {
   const { isSmall } = useScreen();
-
   const { current, total, changePage, changePageSize, pageSize } = props;
+
   return (
     <div className="flex gap-4 items-center justify-center my-3">
       <div className="join">
