@@ -21,7 +21,7 @@ export default function NewsCard({ post }: Props) {
           src={createFileUrl(post.coverImage, post.fileKey)}
           alt={post.title}
           height={'100%'}
-          className="object-cover rounded-md pointer-events-none rounded-lg"
+          className="object-cover pointer-events-none rounded-lg"
         />
       </div>
       <div className="px-2 flex flex-col gap-2 w-3/5">

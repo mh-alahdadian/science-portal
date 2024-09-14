@@ -48,13 +48,15 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
   // TODO: check the slider arrow buttons works
   // TODO: correct react-select input style
 
-  const latestNews = useSuspenseQuery(
-    queryService('news:/v1/scope/{scopeId}/posts', {
+  const isMostControversial = currSorting === 'commentCount,desc';
+
+  const latestNews = useSuspenseQuery({
+    ...queryService('news:/v1/scope/{scopeId}/posts', {
       params: {
         path: { scopeId: +params.scopeId },
         query: {
           pageable: { page: currentPage, size: perPage },
-          sort: [currSorting],
+          sort: [isMostControversial ? sorts[0].value : currSorting],
 
           // TODO: check 'from' and 'to' format to be correct to send one date for both ?
           ...(filteredDate ? { from: filteredDate, to: filteredDate } : {}),
@@ -62,7 +64,7 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
         } as any,
       },
     }),
-  ).data.content!;
+  }).data.content!;
 
   const mostControversialNews: any[] = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/posts/most-controversial', {
@@ -89,7 +91,7 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
 
       <div
         className="flex items-center justify-between rounded-lg bg-white py-3 px-4 gap-4"
-        style={{ backgroundColor: '#f5f7f8' }}
+        style={{ background: 'darkorange' }}
       >
         <div className="w-full flex gap-3">
           <Select
@@ -106,17 +108,17 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
                 alignItems: 'center',
               }),
 
-              // control: (baseStyles) => ({
-              //   ...baseStyles,
-              //   maxHeight: 42,
-              // }),
+              container: (baseStyles) => ({
+                ...baseStyles,
+                minWidth: 300,
+              }),
             }}
             onChange={handleCategoryFilterChange as any}
           />
           <DatePickerField
             label="تاریخ"
             value={filteredDate}
-            style={{ minWidth: 70 }}
+            style={{ minWidth: 140 }}
             onChange={(date: DateObject) => setFilteredDate(date?.toDate())}
           />
         </div>
@@ -140,7 +142,7 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {(currSorting === 'commentCount,desc' ? mostControversialNews : latestNews).map((item) => (
+        {(isMostControversial ? mostControversialNews : latestNews).map((item) => (
           <NewsCard key={item.id} post={item} />
         ))}
       </div>

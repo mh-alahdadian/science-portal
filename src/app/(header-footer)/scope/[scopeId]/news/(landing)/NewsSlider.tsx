@@ -1,11 +1,11 @@
 import { queryService } from '@/api';
 import { Tabs } from '@/components/Tabs';
 import { useScreen } from '@/hooks';
-import { createFileUrl, formatDateTime } from '@/utils';
-import { Clock } from '@phosphor-icons/react';
+import { createFileUrl, fromNow } from '@/utils';
+import { Eye } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NewsRow } from '../components/NewsRow';
 
 const SLIDER_COUNT = 5;
@@ -15,35 +15,39 @@ enum NewsTab {
   CHIEF_CHOICES = 'CHIEF_CHOICES',
 }
 
+function getFirstParagraph(content: string) {
+  const idx = content.indexOf('</p>');
+  return idx ? content.slice(3, idx) : '';
+}
+
 export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
   const topNews = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/posts', {
       params: {
         path: { scopeId: +params.scopeId },
-        query: { sort: ['id,desc'] } as any,
+        query: { sort: ['id,desc'], pageable: { size: SLIDER_COUNT } } as any,
       },
     }),
   ).data.content!;
 
-  const [activeHero, setActiveHero] = useState(0);
+  // const [activeHero, setActiveHero] = useState(0);
   const [activeTab, setActiveTab] = useState(NewsTab.TOP);
-  const interval = useRef<ReturnType<typeof setTimeout>>(null);
 
   const { isSmall } = useScreen();
-  const highlightedNews = topNews[activeHero];
+
+  function setActiveHero(x: { id?: number }) {
+    document.getElementById(`news-${x.id!}`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }
 
   useEffect(() => {
-    if (interval.current) {
-      clearTimeout(interval.current);
-    }
-    interval.current = setTimeout(() => {
-      if (activeHero === SLIDER_COUNT) {
-        setActiveHero(0);
-      } else {
-        setActiveHero((value) => value + 1);
-      }
+    let index = 0;
+    let interval = setTimeout(() => {
+      setActiveHero(topNews[(index + 1) % SLIDER_COUNT]);
     }, 5000);
-  }, [activeHero]);
+    return () => {
+      clearTimeout(interval);
+    };
+  }, []);
 
   if (isSmall) {
     return (
@@ -66,35 +70,58 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
     );
   }
 
-  return (
-    <div className="carousel rounded-lg w-full">
-      <div
-        key={highlightedNews.id}
-        id={highlightedNews.id?.toString()}
-        className="carousel-item relative w-full h-[700]"
-      >
-        <Link href={`news/${highlightedNews.id}`} className="w-full h-full">
-          <img src={createFileUrl(highlightedNews.coverImage, highlightedNews.fileKey)} className="w-full h-full" />
-        </Link>
-        <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-          <a onClick={() => setActiveHero((idx) => (idx + SLIDER_COUNT - 1) % SLIDER_COUNT)} className="btn btn-circle">
-            ❮
-          </a>
-          <a onClick={() => setActiveHero((idx) => (idx + 1) % SLIDER_COUNT)} className="btn btn-circle">
-            ❯
-          </a>
-        </div>
-        <div
-          className="absolute right-0 bottom-0 transform bg-gray-900 w-full text-white p-2"
-          style={{ backgroundColor: 'rgba(0 , 0 ,0, .5)' }}
+  const sliderButtons = (
+    <div className="mt-auto flex w-full justify-center gap-2 py-2">
+      {topNews.map((post, index) => (
+        <span
+          className="btn btn-xs"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setActiveHero(post);
+          }}
         >
-          <div className="text-lg font-bold">{highlightedNews.title}</div>
-          <div>
-            <Clock size={18} className="ml-1" />
-            {formatDateTime(highlightedNews.createdAt!)}
-          </div>
+          {index + 1}
+        </span>
+      ))}
+    </div>
+  );
+
+  return (
+    <div className="carousel rounded-lg w-full h-60">
+      {topNews.map((post) => (
+        <div key={post.id} id={`news-${post.id}`} className="carousel-item w-full">
+          <Link href={`./news/${post.id}`} className="flex items-start w-full">
+            <div className="h-full w-2/5">
+              <img
+                src={createFileUrl(post.coverImage, post.fileKey)}
+                alt={post.title}
+                height={'100%'}
+                className="object-cover pointer-events-none rounded-lg"
+              />
+            </div>
+            <div className="px-2 flex flex-col gap-2 w-3/5 h-full">
+              <div className="opacity-50 flex gap-3 text-xs font-medium">
+                <span className="flex items-center justify-center">{fromNow(post.createdAt!)}</span>
+
+                <span className="flex items-center justify-center">
+                  <Eye size={18} color="black" className="ml-1" />
+                  {post.viewCount}{' '}
+                </span>
+              </div>
+
+              <div className="font-medium">{post.title}</div>
+
+              {getFirstParagraph(post.content!) && (
+                <div className="w-full h-full opacity-75 text-sm">
+                  {getFirstParagraph(post.content!).slice(0, 80)}...
+                </div>
+              )}
+              {sliderButtons}
+            </div>
+          </Link>
         </div>
-      </div>
+      ))}
     </div>
   );
 }
