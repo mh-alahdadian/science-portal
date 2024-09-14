@@ -7,6 +7,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { NewsRow } from '../components/NewsRow';
+import clsx from 'clsx';
 
 const SLIDER_COUNT = 5;
 
@@ -70,34 +71,35 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
     );
   }
 
-  const sliderButtons = (
-    <div className="mt-auto flex w-full justify-center gap-2 py-2">
-      {topNews.map((post, index) => (
-        <span
-          className="btn btn-xs"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setActiveHero(post);
-          }}
-        >
-          {index + 1}
-        </span>
-      ))}
-    </div>
-  );
+  function sliderButtons(pIndex: number) {
+    return (
+      <div className="mt-auto flex w-full justify-center gap-2 py-2">
+        {topNews.map((post, index) => (
+          <span
+            className={clsx('btn btn-xs', pIndex === index ? 'text-[darkorange]' : '')}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setActiveHero(post);
+            }}
+          >
+            {index + 1}
+          </span>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="carousel rounded-lg w-full h-60">
-      {topNews.map((post) => (
+      {topNews.map((post, index) => (
         <div key={post.id} id={`news-${post.id}`} className="carousel-item w-full">
           <Link href={`./news/${post.id}`} className="flex items-start w-full">
             <div className="h-full w-2/5">
               <img
                 src={createFileUrl(post.coverImage, post.fileKey)}
                 alt={post.title}
-                height={'100%'}
-                className="object-cover pointer-events-none rounded-lg"
+                className="object-cover pointer-events-none rounded-lg h-full"
               />
             </div>
             <div className="px-2 flex flex-col gap-2 w-3/5 h-full">
@@ -117,7 +119,7 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
                   {getFirstParagraph(post.content!).slice(0, 80)}...
                 </div>
               )}
-              {sliderButtons}
+              {sliderButtons(index)}
             </div>
           </Link>
         </div>
