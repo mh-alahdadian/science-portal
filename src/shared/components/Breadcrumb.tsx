@@ -1,6 +1,6 @@
-import { useCurrentScope } from "@/hooks";
-import Link from "next/link";
-import { Fragment } from "react";
+import { useCurrentScope } from '@/hooks';
+import Link from 'next/link';
+import { Fragment } from 'react';
 
 interface Bread {
   text: string;

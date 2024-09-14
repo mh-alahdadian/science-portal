@@ -56,7 +56,7 @@ export function Paginator(props: Props) {
             >
               {index}
             </button>
-          )
+          ),
         )}
         <button className={clsx('join-item btn', isSmall && 'btn-sm')} onClick={() => changePage(current + 1)}>
           {Next}

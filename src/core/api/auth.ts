@@ -62,5 +62,4 @@ export function logout() {
   removeToken();
 }
 
-export { };
-
+export {};

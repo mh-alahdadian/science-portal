@@ -1,69 +1,58 @@
-"use client";
+'use client';
 
-import { mutateService, queryService } from "@/api";
-import { Paginator, Table } from "@/components";
-import { Filter } from "@/components/filter";
-import { defaultPagination } from "@/constants";
-import { combineQueries } from "@/query";
-import {
-  filterStateToQuery,
-  paginationStateToQuery,
-  sortingStateToQuery,
-} from "@/utils";
-import { css } from "@emotion/react";
-import { Plus } from "@phosphor-icons/react";
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQueries,
-} from "@tanstack/react-query";
+import { mutateService, queryService } from '@/api';
+import { Paginator, Table } from '@/components';
+import { Filter } from '@/components/filter';
+import { defaultPagination } from '@/constants';
+import { combineQueries } from '@/query';
+import { filterStateToQuery, paginationStateToQuery, sortingStateToQuery } from '@/utils';
+import { css } from '@emotion/react';
+import { Plus } from '@phosphor-icons/react';
+import { useMutation, useQueryClient, useSuspenseQueries } from '@tanstack/react-query';
 import {
   ColumnFiltersState,
   RowSelectionState,
   SortingState,
   getCoreRowModel,
   useReactTable,
-} from "@tanstack/react-table";
-import Link from "next/link";
-import { indexBy, isEmpty, prop } from "ramda";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import { columns } from "./cols";
+} from '@tanstack/react-table';
+import Link from 'next/link';
+import { indexBy, isEmpty, prop } from 'ramda';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { columns } from './cols';
 
-export default function Admin({ params }: PageProps<"scopeId">) {
+export default function Admin({ params }: PageProps<'scopeId'>) {
   const [pagination, setPagination] = useState(defaultPagination);
   const [filter, setFilter] = useState<ColumnFiltersState>([]);
-  const [sorting, setSorting] = useState<SortingState>([
-    { id: "id", desc: true },
-  ]);
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'id', desc: true }]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const queryClient = useQueryClient();
 
-  const [[posts, categories], { isError, isLoading, refetch }] =
-    useSuspenseQueries({
-      queries: [
-        queryService("news:/v1/manager/{page}/posts", {
-          params: {
-            path: { page: String(params.scopeId) },
-            query: {
-              ...paginationStateToQuery(pagination),
-              ...filterStateToQuery(filter),
-              ...sortingStateToQuery(sorting),
-            },
+  const [[posts, categories], { isError, isLoading, refetch }] = useSuspenseQueries({
+    queries: [
+      queryService('news:/v1/manager/{page}/posts', {
+        params: {
+          path: { page: String(params.scopeId) },
+          query: {
+            ...paginationStateToQuery(pagination),
+            ...filterStateToQuery(filter),
+            ...sortingStateToQuery(sorting),
           },
-        }),
-        queryService("news:/v1/scope/{scopeId}/categories", {
-          params: { path: params },
-        }),
-      ],
-      combine: combineQueries,
-    });
+        },
+      }),
+      queryService('news:/v1/scope/{scopeId}/categories', {
+        params: { path: params },
+      }),
+    ],
+    combine: combineQueries,
+  });
 
   const { mutateAsync: mutateStatus } = useMutation(
-    mutateService("patch", "news:/v1/manager/{page}/posts/{postId}/status")
+    mutateService('patch', 'news:/v1/manager/{page}/posts/{postId}/status'),
   );
   const { mutateAsync: mutateBulkPublish } = useMutation(
-    mutateService("post", "news:/v1/manager/{page}/posts/publish")
+    mutateService('post', 'news:/v1/manager/{page}/posts/publish'),
   );
 
   const table = useReactTable({
@@ -77,7 +66,7 @@ export default function Admin({ params }: PageProps<"scopeId">) {
     onRowSelectionChange: setRowSelection,
     pageCount: posts.totalPages,
     state: { pagination, columnFilters: filter, sorting, rowSelection },
-    meta: { handleChangeStatus, categories: indexBy(prop("id"), categories) },
+    meta: { handleChangeStatus, categories: indexBy(prop('id'), categories) },
   });
 
   async function handleChangeStatus(e: any, postId: number) {
@@ -88,9 +77,9 @@ export default function Admin({ params }: PageProps<"scopeId">) {
       },
     });
     queryClient.invalidateQueries({
-      queryKey: ["news:/v1/manager/{page}/posts"],
+      queryKey: ['news:/v1/manager/{page}/posts'],
     });
-    toast.success("وضعیت با موفقیت تغییر کرد.");
+    toast.success('وضعیت با موفقیت تغییر کرد.');
   }
 
   async function putData(publish: boolean) {
@@ -101,9 +90,9 @@ export default function Admin({ params }: PageProps<"scopeId">) {
       },
     });
     queryClient.invalidateQueries({
-      queryKey: ["news:/v1/manager/{page}/posts"],
+      queryKey: ['news:/v1/manager/{page}/posts'],
     });
-    toast.success("وضعیت‌ها با موفقیت تغییر کردند.");
+    toast.success('وضعیت‌ها با موفقیت تغییر کردند.');
     setRowSelection({});
   }
 
@@ -130,13 +119,7 @@ export default function Admin({ params }: PageProps<"scopeId">) {
         </div>
       )}
 
-      <Table
-        table={table}
-        hasData={!!posts}
-        hasError={isError}
-        isLoading={isLoading}
-        refetch={refetch}
-      />
+      <Table table={table} hasData={!!posts} hasError={isError} isLoading={isLoading} refetch={refetch} />
       <Paginator
         total={table.getPageCount()}
         current={pagination.pageIndex}
@@ -144,11 +127,7 @@ export default function Admin({ params }: PageProps<"scopeId">) {
         pageSize={pagination.pageSize}
         changePageSize={table.setPageSize}
       />
-      <Link
-        role="button"
-        className="btn-lg btn-primary btn-circle fab"
-        href="../write/draft"
-      >
+      <Link role="button" className="btn-lg btn-primary btn-circle fab" href="../write/draft">
         <Plus size={36} />
       </Link>
     </div>

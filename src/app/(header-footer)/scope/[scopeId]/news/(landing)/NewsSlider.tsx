@@ -20,7 +20,7 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
         path: { scopeId: +params.scopeId },
         query: { sort: ['id,desc'] } as any,
       },
-    })
+    }),
   ).data.content!;
 
   const [activeHero, setActiveHero] = useState(0);

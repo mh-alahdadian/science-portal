@@ -62,7 +62,7 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
           categoryIds: filteredCategories.map(({ value }) => value),
         } as any,
       },
-    })
+    }),
   ).data.content!;
 
   const mostControversialNews: any[] = useSuspenseQuery(
@@ -71,7 +71,7 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
         path: { scopeId: +params.scopeId },
         query: { periodLength: 7 },
       },
-    })
+    }),
   ).data! as any;
 
   function handleCategoryFilterChange(newFilter: Filter[]) {
