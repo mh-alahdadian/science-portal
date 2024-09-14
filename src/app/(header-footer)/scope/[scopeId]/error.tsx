@@ -3,7 +3,6 @@
 import { getParsedToken } from '@/api/utils';
 
 export default function ScopeError(props: {}) {
-  console.log(props);
   const token = getParsedToken();
   return (
     <div className="flex justify-center items-center prose-2xl">
