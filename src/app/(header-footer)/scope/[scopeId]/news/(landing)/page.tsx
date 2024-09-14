@@ -49,6 +49,7 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
   // TODO: correct react-select input style
 
   const isMostControversial = currSorting === 'commentCount,desc';
+  const isViewCount = currSorting === 'viewCount,desc';
 
   const latestNews = useSuspenseQuery({
     ...queryService('news:/v1/scope/{scopeId}/posts', {
@@ -56,7 +57,7 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
         path: { scopeId: +params.scopeId },
         query: {
           pageable: { page: currentPage, size: perPage },
-          sort: [isMostControversial ? sorts[0].value : currSorting],
+          sort: [sorts[0].value],
 
           // TODO: check 'from' and 'to' format to be correct to send one date for both ?
           ...(filteredDate ? { from: filteredDate, to: filteredDate } : {}),
@@ -72,8 +73,14 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
         path: { scopeId: +params.scopeId },
         query: { periodLength: 7 },
       },
-    }),
+    })
   ).data! as any;
+
+  const posts = isMostControversial
+    ? mostControversialNews
+    : isViewCount
+    ? Array.from(latestNews).sort((a, b) => a.viewCount! - b.viewCount!)
+    : latestNews;
 
   function handleCategoryFilterChange(newFilter: Filter[]) {
     setFilteredCategories(newFilter);
@@ -142,7 +149,7 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {(isMostControversial ? mostControversialNews : latestNews).map((item) => (
+        {posts.map((item) => (
           <NewsCard key={item.id} post={item} />
         ))}
       </div>
