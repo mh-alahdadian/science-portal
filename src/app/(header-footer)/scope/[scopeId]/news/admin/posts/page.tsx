@@ -11,6 +11,7 @@ import { Plus } from '@phosphor-icons/react';
 import { useMutation, useQueryClient, useSuspenseQueries } from '@tanstack/react-query';
 import {
   ColumnFiltersState,
+  RowData,
   RowSelectionState,
   SortingState,
   getCoreRowModel,
@@ -21,6 +22,13 @@ import { indexBy, isEmpty, prop } from 'ramda';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { columns } from './cols';
+
+declare module '@tanstack/table-core' {
+  export interface TableMeta<TData extends RowData> {
+    categories?: Record<string, SchemaOf<'news', 'CategoryDTO'> | undefined>;
+    handleChangeStatus?: (e: any, postId: number) => void;
+  }
+}
 
 export default function Admin({ params }: PageProps<'scopeId'>) {
   const [pagination, setPagination] = useState(defaultPagination);

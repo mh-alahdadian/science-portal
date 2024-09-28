@@ -1,72 +1,70 @@
-import { DatePickerField, InlineSelectField, InlineTextField } from '@/components';
-import { formatDateTime } from '@/utils';
-import { Reaction } from '@service/components/feedback';
-import { ReactionType } from '@service/constants';
-import { NewsStatusId } from '@service/news/constants';
+import { Pen } from '@phosphor-icons/react';
 import { RowData, createColumnHelper } from '@tanstack/react-table';
-import Link from 'next/link';
-import { DateObject } from 'react-multi-date-picker';
+import { Dispatch, SetStateAction } from 'react';
 
-const columnHelper = createColumnHelper<Schema<'UserInfoDTO'>>();
+type User = Schema<'UserInfoDTO'>;
+
+const columnHelper = createColumnHelper<User>();
 
 declare module '@tanstack/table-core' {
   export interface TableMeta<TData extends RowData> {
-    categories: Record<string, SchemaOf<'news', 'CategoryDTO'> | undefined>;
-    handleChangeStatus: (e: any, postId: number) => void;
+    setEditingUser?: Dispatch<SetStateAction<User | null>>;
+    applyUserRegistration?: (user: User, approvalStatus: boolean) => void;
   }
 }
 
 export const columns = [
   columnHelper.accessor('id', {
     header: 'شناسه',
-    enableSorting: false
+    enableSorting: false,
   }),
 
   columnHelper.accessor('firstName', {
     header: 'نام',
     cell: ({ row }) => {
-      return (
-        <span className="btn-link block max-w-52 overflow-hidden text-ellipsis" href={`../write/${row.original.id}`}>
-          {row.original.firstName}
-        </span>
-      );
+      return <span className="block max-w-52 overflow-hidden text-ellipsis">{row.original.firstName}</span>;
     },
-    enableSorting: false
+    enableSorting: false,
   }),
 
   columnHelper.accessor('lastName', {
     header: 'نام خانوادگی',
     cell: ({ row }) => {
-        return (
-          <span className="btn-link block max-w-52 overflow-hidden text-ellipsis" href={`../write/${row.original.id}`}>
-            {row.original.lastName}
-          </span>
-        );
-      },
+      return <span className="block max-w-52 overflow-hidden text-ellipsis">{row.original.lastName}</span>;
+    },
     enableSorting: false,
   }),
 
   columnHelper.accessor('email', {
     header: 'آدرس ایمیل',
     cell: ({ row }) => {
-        return (
-          <span className="btn-link block max-w-52 overflow-hidden text-ellipsis" href={`../write/${row.original.id}`}>
-            {row.original.email}
-          </span>
-        );
-      },
+      return <span className="block max-w-52 overflow-hidden text-ellipsis">{row.original.email}</span>;
+    },
     enableSorting: false,
   }),
 
   columnHelper.accessor('phoneNumber', {
     header: 'شماره موبایل',
     cell: ({ row }) => {
-        return (
-          <span className="btn-link block max-w-52 overflow-hidden text-ellipsis" href={`../write/${row.original.id}`}>
-            {row.original.phoneNumber}
-          </span>
-        );
-      },
+      return <span className="block max-w-52 overflow-hidden text-ellipsis">{row.original.phoneNumber}</span>;
+    },
     enableSorting: false,
+  }),
+
+  columnHelper.display({
+    header: 'فعالیت‌ها',
+    enableSorting: false,
+
+    cell: (props) => {
+      const { setEditingUser } = props.table.options.meta!;
+
+      return (
+        <div className="flex gap-2">
+          <button className="btn-circle btn-transparent btn-sm" onClick={() => setEditingUser(props.row.original)}>
+            <Pen />
+          </button>
+        </div>
+      );
+    },
   }),
 ];

@@ -11,10 +11,10 @@ type User = Schema<"UserInfoDTO">;
 interface Props {
   user: User;
   currentScope: number;
-  setIsModalVisible: Function;
+  onClose: Function;
 }
 
-const UserEditForm = ({ user, currentScope, setIsModalVisible }: Props) => {
+const UserEditForm = ({ user, currentScope, onClose }: Props) => {
   const newRoleRef = useRef<HTMLSelectElement>(null);
   const [isEnabled, setIsEnabled] = useState(user.enable);
   const [roles, setRoles] = useState<Schema<"Role">[]>(
@@ -56,7 +56,7 @@ const UserEditForm = ({ user, currentScope, setIsModalVisible }: Props) => {
       {
         onSuccess: () => {
           toast.success("بروز رسانی نقش‌ها با موفقیت انجام شد");
-          setIsModalVisible(false);
+          onClose();
         },
       }
     );

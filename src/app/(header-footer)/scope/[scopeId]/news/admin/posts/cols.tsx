@@ -10,8 +10,8 @@ const columnHelper = createColumnHelper<Schema<'PostDTO'>>();
 
 declare module '@tanstack/table-core' {
   export interface TableMeta<TData extends RowData> {
-    categories: Record<string, SchemaOf<'news', 'CategoryDTO'> | undefined>;
-    handleChangeStatus: (e: any, postId: number) => void;
+    categories?: Record<string, SchemaOf<'news', 'CategoryDTO'> | undefined>;
+    handleChangeStatus?: (e: any, postId: number) => void;
   }
 }
 

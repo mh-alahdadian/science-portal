@@ -1,26 +1,28 @@
-"use client";
+'use client';
 
-import { queryService } from "@/api";
-import { Dialog, Table } from "@/components";
-import { Pen, Trash } from "@phosphor-icons/react";
-import { RJSFSchema, UiSchema } from "@rjsf/utils";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { GridOptions, ICellRendererParams } from "ag-grid-community";
-import { prop } from "ramda";
-import { useState } from "react";
-import UserEditForm from "./UserEditForm";
-import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
-import { columns } from "./columns";
+import { queryService } from '@/api';
+import { Dialog, Table } from '@/components';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useState } from 'react';
+import { columns } from './columns';
+import UserEditForm from './UserEditForm';
+import { RowData, createColumnHelper } from '@tanstack/react-table';
+import { Dispatch, SetStateAction } from 'react';
 
-type User = Schema<"UserInfoDTO">;
+type User = Schema<'UserInfoDTO'>;
 
-export default function UserManagement({
-  params,
-}: PageProps<"scopeId" | "id">) {
-  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+declare module '@tanstack/table-core' {
+  export interface TableMeta<TData extends RowData> {
+    setEditingUser?: Dispatch<SetStateAction<User | null>>;
+    applyUserRegistration?: (user: User, approvalStatus: boolean) => void;
+  }
+}
 
+export default function UserManagement({ params }: PageProps<'scopeId' | 'id'>) {
+  const [editingUser, setEditingUser] = useState<User | null>(null);
   const usersQuery = useSuspenseQuery(
-    queryService("core:/v1/manager/{page}/users", {
+    queryService('core:/v1/manager/{page}/users', {
       params: {
         path: { page: String(params.scopeId) },
         query: { searchDTO: {}, pageable: { page: 0, size: 20 } },
@@ -29,41 +31,31 @@ export default function UserManagement({
   );
   const users = usersQuery.data.content!;
 
-  const handleRowClick = (user: User) => {
-    console.log("user", user);
-
-    setEditingUser(user);
-    setIsEditModalVisible(true);
-  };
-
   const table = useReactTable({
     columns,
     data: users,
     getCoreRowModel: getCoreRowModel(),
+    meta: {
+      setEditingUser,
+      applyUserRegistration: (user, approval) => {
+        // TODO: not implemented backend
+      },
+    },
   });
-
-  const [editingUser, setEditingUser] = useState<User | null>(users[0]);
 
   return (
     <>
       <Table
-        onRowClick={handleRowClick}
-        currentScope={params.scopeId}
         table={table}
         hasData={!!users}
+        hasError={usersQuery.isError}
+        refetch={usersQuery.refetch}
         isLoading={usersQuery.isLoading}
       />
 
-      <Dialog
-        open={isEditModalVisible}
-        onClose={() => setIsEditModalVisible(false)}
-      >
+      <Dialog open={!!editingUser} onClose={() => setEditingUser(null)}>
         {editingUser && (
-          <UserEditForm
-            setIsModalVisible={setIsEditModalVisible}
-            user={editingUser}
-            currentScope={params.scopeId}
-          />
+          <UserEditForm onClose={() => setEditingUser(null)} user={editingUser} currentScope={params.scopeId} />
         )}
       </Dialog>
     </>
