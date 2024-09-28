@@ -19,7 +19,7 @@
     "@jsonforms/core": "^3.2.1",
     "@jsonforms/react": "^3.2.1",
     "@jsonforms/vanilla-renderers": "^3.2.1",
-    "@phosphor-icons/react": "2.0.15",
+    "@phosphor-icons/react": "^2.1.7",
     "@rjsf/bootstrap-4": "^5.17.1",
     "@rjsf/core": "^5.17.1",
     "@rjsf/utils": "^5.17.1",

@@ -19,13 +19,13 @@ export default function Header() {
 
   const logo = (
     <Link href="/">
-      <div className="text-2xl ml-2 text-[#f24200]">Cognitive</div>
+      <div className="text-2xl ml-2 text-white">Cognitive</div>
       <Logo />
     </Link>
   );
   const navbar = isSmall ? (
     <Drawer openElement={<List />}>
-      <Link href="/scopes" role="button" className="btn-link text-black">
+      <Link href="/scopes" role="button" className="btn-link text-[aqua]">
         حوزه‌های پژوهشی
       </Link>
       <Services {...params} />
@@ -33,7 +33,7 @@ export default function Header() {
     </Drawer>
   ) : (
     <div className="flex ml-auto">
-      <Link href="/scopes" role="button" className="btn-link text-black">
+      <Link href="/scopes" role="button" className="btn-link text-[aqua]">
         حوزه‌های پژوهشی
       </Link>
       <Services {...params} />
@@ -42,7 +42,7 @@ export default function Header() {
   );
 
   return (
-    <header className="navbar max-md:justify-between sticky px-2 md:px-6 lg:px-12 z-10 bg-accent">
+    <header className="navbar max-md:justify-between sticky px-2 md:px-6 lg:px-12 z-10 bg-[teal]">
       {isSmall ? (
         <>
           {navbar}

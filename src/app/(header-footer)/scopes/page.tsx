@@ -15,9 +15,8 @@ export default function ScopesPage(props: PageProps) {
   const { data } = useSuspenseQuery(queryService('core:/v1/scopes', {}));
   return (
     <div className="flex flex-col gap-5 w-full">
-      Scopes:
       <div className="grid gap-4 grid-cols-3">
-        {data.map((x: any) => (
+        {data.map((x) => (
           <ScopeCard key={x.id} scope={x} />
         ))}
       </div>
