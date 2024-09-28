@@ -10,6 +10,7 @@ interface Props<TData> {
   isLoading: boolean;
   hasData: boolean;
   refetch: VoidFunction;
+  onRowClick: Function;
 }
 
 function renderSortIcon(header: Header<any, unknown>) {
@@ -26,7 +27,7 @@ function renderSortIcon(header: Header<any, unknown>) {
   }
 }
 
-export function Table<TData>({ table, hasError, isLoading, hasData, refetch }: Props<TData>) {
+export function Table<TData>({ table, hasError, isLoading, hasData, refetch, onRowClick }: Props<TData>) {
   const isDataReady = !(hasError || isLoading);
 
   return (
@@ -56,7 +57,11 @@ export function Table<TData>({ table, hasError, isLoading, hasData, refetch }: P
         {isDataReady && (
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
+              <tr key={row.id} onClick={() => {
+                if(onRowClick) {
+                  onRowClick(row.original)
+                }
+              }}>
                 {row.getVisibleCells().map((cell) => (
                   <td className="align-middle text-nowrap" key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}

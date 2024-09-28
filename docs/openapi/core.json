@@ -6,7 +6,7 @@
     },
     "servers": [
         {
-            "url": "http://192.168.59.20:8181/core/api",
+            "url": "http://cogcenter.ir/core/api",
             "description": "Generated server url"
         }
     ],
@@ -672,7 +672,7 @@
                 }
             }
         },
-        "/v1/manager/{page}/users/{userId}/block-unblock": {
+        "/v1/manager/users/{userId}/block-unblock": {
             "patch": {
                 "tags": [
                     "User"
@@ -880,38 +880,15 @@
     },
     "components": {
         "schemas": {
-            "Authority": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "title": {
-                        "type": "string"
-                    },
-                    "description": {
-                        "type": "string"
-                    }
-                }
-            },
             "Role": {
                 "type": "object",
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "format": "int32"
+                        "format": "int64"
                     },
                     "title": {
                         "type": "string"
-                    },
-                    "usageScopeIds": {
-                        "uniqueItems": true,
-                        "type": "array",
-                        "items": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
                     },
                     "description": {
                         "type": "string"
@@ -919,13 +896,29 @@
                     "authorities": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/Authority"
+                            "$ref": "#/components/schemas/RoleAuthority"
                         }
+                    }
+                }
+            },
+            "RoleAuthority": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
                     }
                 }
             },
             "UserInfoDTO": {
                 "required": [
+                    "id",
                     "firstName",
                     "lastName"
                 ],
@@ -987,9 +980,24 @@
                         "type": "boolean",
                         "readOnly": true
                     },
-                    "roles": {
+                    "userRoles": {
                         "type": "array",
                         "readOnly": true,
+                        "items": {
+                            "$ref": "#/components/schemas/UserRoleDTO"
+                        }
+                    }
+                }
+            },
+            "UserRoleDTO": {
+                "type": "object",
+                "properties": {
+                    "scopeId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "roles": {
+                        "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/Role"
                         }
@@ -1307,15 +1315,15 @@
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
                     "first": {
                         "type": "boolean"
                     },
                     "last": {
                         "type": "boolean"
-                    },
-                    "numberOfElements": {
-                        "type": "integer",
-                        "format": "int32"
                     },
                     "empty": {
                         "type": "boolean"
