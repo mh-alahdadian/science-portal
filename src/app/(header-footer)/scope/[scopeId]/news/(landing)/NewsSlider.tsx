@@ -4,10 +4,10 @@ import { useScreen } from '@/hooks';
 import { createFileUrl, fromNow } from '@/utils';
 import { Eye } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
+import clsx from 'clsx';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { NewsRow } from '../components/NewsRow';
-import clsx from 'clsx';
 
 const SLIDER_COUNT = 5;
 
@@ -28,7 +28,7 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
         path: { scopeId: +params.scopeId },
         query: { sort: ['id,desc'], pageable: { size: SLIDER_COUNT } } as any,
       },
-    }),
+    })
   ).data.content!;
 
   // const [activeHero, setActiveHero] = useState(0);
@@ -116,7 +116,7 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
 
               {getFirstParagraph(post.content!) && (
                 <div className="w-full h-full opacity-75 text-sm">
-                  {getFirstParagraph(post.content!).slice(0, 80)}...
+                  {getFirstParagraph(post.content!).slice(0, 500)}...
                 </div>
               )}
               {sliderButtons(index)}
