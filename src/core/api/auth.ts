@@ -9,8 +9,7 @@ import { getParsedToken, getToken, removeToken, setToken } from './utils';
 let refreshingTokenPromise: Promise<void> | undefined;
 
 const config = {
-  refreshPath: 'core:/v1/auth/refresh-token',
-  loginPath: 'core:/v1/auth/login/password',
+  obtainTokenPaths: ['core:/v1/auth/refresh-token', 'core:/v1/auth/login/password', 'core:/v1/auth/register'],
   expDelaySec: 10,
 };
 
@@ -56,7 +55,7 @@ if (!isServer) {
 }
 
 listenApiEvent('data', (data, request) => {
-  if (request.url.startsWith(config.loginPath) || request.url.startsWith(config.refreshPath)) {
+  if (config.obtainTokenPaths.some((path) => request.url.startsWith(path))) {
     setToken(data);
   }
 });

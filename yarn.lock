@@ -3812,7 +3812,7 @@ __metadata:
     react-chartjs-2: "npm:^5.2.0"
     react-dom: "npm:19.0.0-rc-1eaccd82-20240816"
     react-dropzone: "npm:^14.2.3"
-    react-hook-form: "npm:^7.48.2"
+    react-hook-form: "npm:^7.53.0"
     react-multi-date-picker: "npm:^4.5.2"
     react-select: "npm:^5.8.0"
     react-toastify: "npm:^10.0.5"
@@ -5901,12 +5901,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.48.2":
-  version: 7.48.2
-  resolution: "react-hook-form@npm:7.48.2"
+"react-hook-form@npm:^7.53.0":
+  version: 7.53.0
+  resolution: "react-hook-form@npm:7.53.0"
   peerDependencies:
-    react: ^16.8.0 || ^17 || ^18
-  checksum: 77663276288d3e240da76c469612fec2bfb2dd34ed0512adb8554b8567e89a316c3df62266e51639f66a9a9d50ce175e8dc965f94bc31afecb460ed48333dafa
+    react: ^16.8.0 || ^17 || ^18 || ^19
+  checksum: 6d62b150618a833c17d59e669b707661499e2bb516a8d340ca37699f99eb448bbba7b5b78324938c8948014e21efaa32e3510c2ba246fd5e97a96fca0cfa7c98
   languageName: node
   linkType: hard
 
