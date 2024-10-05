@@ -5,31 +5,33 @@ import { TextField } from '@/components';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
 import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
-type FormData = Schema<'RegisterRequestDTO'>;
+type FormData = Schema<'ChangePasswordDTO'>;
 
 export default function SignupDialog(props: PageProps) {
   const [showPassword, setShowPassword] = useState(false);
   const { control, formState, handleSubmit, register, getValues, watch } = useForm<FormData>({});
+  const router = useRouter()
 
-  const { mutate: registerMutate } = useMutation(mutateService('post', 'core:/v1/auth/register'));
+  const { mutate: resetPassword } = useMutation(mutateService('post', 'core:/v1/auth/new-password'));
   const { mutate: sendVerifyCode } = useMutation(
-    mutateService('post', 'core:/v1/auth/register/send-verify-code/{phoneNumber}')
+    mutateService('post', 'core:/v1/auth/forget-password/send-verify-code')
   );
 
   const handleSignup = handleSubmit((data) => {
-    if (!data.verifyCode && data.phoneNumber) {
-      sendVerifyCode({ params: { path: { phoneNumber: data.phoneNumber } } });
+    if (!data.verifyCode && data.username) {
+      sendVerifyCode({ params: { query: { username: data.username } } });
     }
-    registerMutate(
+    resetPassword(
       { body: data },
       {
         onSuccess(data, variables, context) {
-          // Router.push('login');
-          toast.success('ثبت نام با موفقیت انجام شد.');
+          router.push('/login')
+          toast.success('رمز عبور شما با موفقیت تغییر کرد.');
         },
         onError(error: any) {
           toast.error(error.message);
@@ -42,24 +44,17 @@ export default function SignupDialog(props: PageProps) {
     <>
       <h3 className="font-bold text-[26px]">ورود</h3>
       <Controller
-        name="phoneNumber"
+        name="username"
         control={control}
         render={({ field }) => (
           <TextField
             {...field}
-            onChange={(event) => {
-              const value = event.target.value;
-              if (value.match(/^\d*$/)) {
-                field.onChange(value);
-              }
-            }}
-            label="شماره موبایل"
-            type="tel"
+            label="نام کاربری"
             endAdornment={
               <button
                 className="btn-sm btn-accent"
                 disabled={!field.value}
-                onClick={() => sendVerifyCode({ params: { path: { phoneNumber: field.value! } } })}
+                onClick={() => sendVerifyCode({ params: { query: { username: field.value } } })}
               >
                 دریافت کد
               </button>
@@ -67,11 +62,7 @@ export default function SignupDialog(props: PageProps) {
           />
         )}
       />
-      <TextField
-        {...register('username')}
-        label="نام کاربری"
-        helperText="نام کاربری یک عبارتی است یکتا به زبان انگلیسی"
-      />
+      <TextField {...register('verifyCode')} label="کد یکبار مصرف" />
       <TextField
         {...register('password')}
         label="رمز عبور"
@@ -82,7 +73,6 @@ export default function SignupDialog(props: PageProps) {
           </button>
         }
       />
-      {<TextField {...register('verifyCode')} label="کد یکبار مصرف" />}
       <button className="btn-primary" onClick={handleSignup}>
         ثبت نام
       </button>

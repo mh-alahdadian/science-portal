@@ -20,10 +20,10 @@ export default function LoginDialog(props: PageProps) {
   const { control, formState, handleSubmit, register } = useForm<FormData>({});
 
   const { mutate: requestVerifyCodeMutate } = useMutation(
-    mutateService('post', 'core:/v1/auth/login/send-verify-code'),
+    mutateService('post', 'core:/v1/auth/login/send-verify-code')
   );
   const { mutate: loginMutate } = useMutation(
-    mutateService('post', isOtpMode ? 'core:/v1/auth/login/verify-code' : 'core:/v1/auth/login/password'),
+    mutateService('post', isOtpMode ? 'core:/v1/auth/login/verify-code' : 'core:/v1/auth/login/password')
   );
 
   const toggleMethod = () => {
@@ -37,11 +37,11 @@ export default function LoginDialog(props: PageProps) {
         onSuccess() {
           toast.success('با موفقیت بروز رسانی شد.');
         },
-        onError(e) {
+        onError(e: any) {
           console.log(e);
-          toast.error('مام کاربری یا رمز شما صحیح نمیباشد.');
+          toast.error(e.message || 'نام کاربری یا رمز شما صحیح نمیباشد.');
         },
-      },
+      }
     );
   });
 
