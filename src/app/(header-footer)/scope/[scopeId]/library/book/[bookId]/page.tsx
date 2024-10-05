@@ -14,40 +14,30 @@ type BookDTO = Schema<'BookResponseDTO'>;
 
 const mockImage = `https://api.slingacademy.com/public/sample-photos/1.jpeg`;
 
-const mockBook: BookDTO = {
-  id: 2,
-  name: 'عنوان تاپیک که یه تایتل برای تایپک توسط کاربر نوشته شده است',
-  description: `
-  <p>یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.</p>
-  <p>یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.</p>
-  <p>یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.یک پاراگراف از محتوایی که کاربر نوشته است و در آن برای مثال سوال خود را مطرح کرده است.</p>
-`,
-  createAt: new Date().toString(),
-};
-
 const mockRating = { count: 128, score: 3.7, details: { 1: 7, 2: 12, 3: 84, 4: 20, 5: 5 } };
+
 function authorName(a: Schema<'AuthorDTO'>) {
   return (a.firstName + ' ' + a.lastName).toLocaleString();
 }
 export default function BookPage(props: PageProps<'scopeId' | 'bookId'>) {
   const { params } = props;
   const book = useSuspenseQuery(
-    queryService('library:/v1/scope/{scopeId}/books/{bookId}', { params: { path: params } }),
+    queryService('library:/v1/scope/{scopeId}/books/{bookId}', { params: { path: params } })
   ).data;
 
-  const { mutateAsync: voteRating } = useMutation(mutateService('post', 'feedback:/v1/reactions'));
+  const { mutateAsync: voteRating } = useMutation(mutateService('post', 'feedback:/v1/rating'));
   function handleVoteRating() {
-    voteRating({ body: { score: myRating, modelId: book.id!, modelTypeId: ModelType.BOOK } as any });
+    voteRating({ body: { score: myRating, modelId: book.id!, modelTypeId: ModelType.BOOK } });
   }
 
   const [myRating, setMyRating] = useState<number>(0);
 
-  const rating = { ...mockRating, ...(book.feedbackStats as any)?.rating };
+  const rating = (book.feedbackStats || {})!.rating!;
 
   const bookInfo = (
     <div className="card flex-row gap-4">
       <img
-        src={mockImage || createFileUrl(book.coverImage)}
+        src={mockImage || createFileUrl(book.coverImage, book.fileKey)}
         alt={book.name!}
         width={200}
         className="object-contain object-top"
@@ -85,9 +75,9 @@ export default function BookPage(props: PageProps<'scopeId' | 'bookId'>) {
   const bookRating = (
     <div className="flex flex-col gap-4">
       <p>
-        <Star className="text-warning" weight="fill" /> {rating.score} ({rating.count})
+        <Star className="text-warning" weight="fill" /> {rating.average} ({rating.total})
       </p>
-      <RatingChart values={rating.details} total={rating.count} />
+      <RatingChart values={rating.result} total={rating.total} />
     </div>
   );
   const myScore = (

@@ -11,7 +11,6 @@ export default function BlogLandingPage({ params }: PageProps<'scopeId'>) {
   ).data;
   const articles = useSuspenseQuery({
     ...queryService('article:/v1/scope/{scopeId}/articles', { params: { path: pathParams } }),
-    // queryFn: mockPosts,
   }).data?.content!;
 
   return (

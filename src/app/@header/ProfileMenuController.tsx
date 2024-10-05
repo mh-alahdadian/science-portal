@@ -17,7 +17,7 @@ export default function AuthDialogController() {
       </button>
       <ul tabIndex={0} className="dropdown-content menu z-[1] p-2 bg-neutral">
         <li>
-          <span>پروفایل</span>
+          <a href="/profile">پروفایل</a>
         </li>
         <li onClick={logout}>
           <span>خروج</span>

@@ -51,7 +51,7 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
   const isMostControversial = currSorting === 'commentCount,desc';
   const isViewCount = currSorting === 'viewCount,desc';
 
-  const latestNews = useSuspenseQuery({
+  const latestNewsQuery = useSuspenseQuery({
     ...queryService('news:/v1/scope/{scopeId}/posts', {
       params: {
         path: { scopeId: +params.scopeId },
@@ -65,7 +65,8 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
         } as any,
       },
     }),
-  }).data.content!;
+  }).data;
+  const latestNews = latestNewsQuery.content!;
 
   const mostControversialNews: any[] = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/posts/most-controversial', {
@@ -158,7 +159,7 @@ export default function AllNews({ params }: PageProps<'scopeId'>) {
 
       <Paginator
         current={currentPage}
-        total={latestNews.length}
+        total={latestNewsQuery.totalPages!}
         pageSize={perPage}
         changePage={setCurrentPage}
         changePageSize={setPerPage}

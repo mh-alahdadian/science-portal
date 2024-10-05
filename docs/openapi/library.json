@@ -1,13 +1,18 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "OpenAPI definition",
-    "version": "v0"
+    "title": "Library API",
+    "description": "The library service.",
+    "version": "1.0"
   },
   "servers": [
     {
-      "url": "http://192.168.59.20:8686/library/api",
-      "description": "Generated server url"
+      "url": "https://cogcenter.ir/api/library"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
     }
   ],
   "tags": [
@@ -65,12 +70,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       },
       "put": {
         "tags": ["publishers_management"],
@@ -117,12 +117,54 @@
               }
             }
           }
-        },
-        "security": [
+        }
+      }
+    },
+    "/v1/manager/{page}/categories/{categoryId}": {
+      "put": {
+        "tags": ["category_management"],
+        "operationId": "updateCategory",
+        "parameters": [
           {
-            "Bearer Authentication": []
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
           }
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CategoryDTO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseDTO"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v1/manager/{page}/books/{bookId}": {
@@ -161,12 +203,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       },
       "put": {
         "tags": ["book_management"],
@@ -213,12 +250,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     },
     "/v1/manager/{page}/authors/{authorId}": {
@@ -255,12 +287,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       },
       "put": {
         "tags": ["Author_management"],
@@ -307,12 +334,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     },
     "/v1/manager/{page}/publishers": {
@@ -356,12 +378,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": ["publishers_management"],
@@ -394,17 +411,12 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseDTO"
+                  "$ref": "#/components/schemas/PublisherDTO"
                 }
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     },
     "/v1/manager/{page}/categories": {
@@ -486,12 +498,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": ["book_management"],
@@ -523,17 +530,12 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseDTO"
+                  "$ref": "#/components/schemas/BookResponseDTO"
                 }
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     },
     "/v1/manager/{page}/authors": {
@@ -575,12 +577,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": ["Author_management"],
@@ -613,57 +610,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResponseDTO"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
-      }
-    },
-    "/v1/manager/{page}/categories/{categoryId}/enable": {
-      "patch": {
-        "tags": ["category_management"],
-        "operationId": "enableOrDisable",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "categoryId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "enable",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/CategoryDTO"
+                  "$ref": "#/components/schemas/AuthorDTO"
                 }
               }
             }
@@ -745,12 +692,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     },
     "/v1/scope/{scopeId}/books/{bookId}": {
@@ -790,12 +732,164 @@
               }
             }
           }
-        },
-        "security": [
+        }
+      }
+    },
+    "/v1/scope/{scopeId}/books/{bookId}/download": {
+      "get": {
+        "tags": ["book_management"],
+        "operationId": "getBookFile",
+        "parameters": [
           {
-            "Bearer Authentication": []
+            "name": "scopeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "bookId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "format": "byte"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/report/online/today/books": {
+      "get": {
+        "tags": ["report-controller"],
+        "operationId": "dailyReport",
+        "parameters": [
+          {
+            "name": "scopeId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PerDayReport"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/report/monthly/books": {
+      "get": {
+        "tags": ["report-controller"],
+        "operationId": "monthlyReport",
+        "parameters": [
+          {
+            "name": "scopeId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "length",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "maximum": 12,
+              "type": "integer",
+              "format": "int32",
+              "default": 6
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PerMonthReport"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/report/daily/books": {
+      "get": {
+        "tags": ["report-controller"],
+        "operationId": "dailyReport_1",
+        "parameters": [
+          {
+            "name": "scopeId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "length",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "maximum": 30,
+              "type": "integer",
+              "format": "int32",
+              "default": 30
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PerDayReport"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v1/publishers": {
@@ -831,12 +925,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     },
     "/v1/publishers/{publisherId}": {
@@ -867,12 +956,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     },
     "/v1/categories": {
@@ -937,12 +1021,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     },
     "/v1/authors/{authorId}": {
@@ -971,18 +1050,14 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "Bearer Authentication": []
-          }
-        ]
+        }
       }
     }
   },
   "components": {
     "schemas": {
       "PublisherDTO": {
+        "required": ["name"],
         "type": "object",
         "properties": {
           "id": {
@@ -992,15 +1067,22 @@
           "name": {
             "type": "string"
           },
+          "coverImage": {
+            "type": "string"
+          },
+          "fileKey": {
+            "type": "string",
+            "readOnly": true
+          },
           "enable": {
             "type": "boolean"
           },
-          "createAt": {
+          "createdAt": {
             "type": "string",
             "format": "date-time",
             "readOnly": true
           },
-          "updateAt": {
+          "updatedAt": {
             "type": "string",
             "format": "date-time",
             "readOnly": true
@@ -1019,7 +1101,45 @@
           }
         }
       },
+      "CategoryDTO": {
+        "required": ["scopeId", "title"],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "title": {
+            "type": "string"
+          },
+          "coverImage": {
+            "type": "string"
+          },
+          "fileKey": {
+            "type": "string",
+            "readOnly": true
+          },
+          "scopeId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "enable": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        }
+      },
       "BookRequestDTO": {
+        "required": ["categoryId", "coverImage", "file", "name"],
         "type": "object",
         "properties": {
           "id": {
@@ -1029,7 +1149,7 @@
           "name": {
             "type": "string"
           },
-          "coverImageUUID": {
+          "coverImage": {
             "type": "string"
           },
           "description": {
@@ -1050,6 +1170,13 @@
               "format": "int64"
             }
           },
+          "translatorIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
           "publisherId": {
             "type": "integer",
             "format": "int32"
@@ -1062,7 +1189,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "fileUUID": {
+          "file": {
             "type": "string"
           },
           "userId": {
@@ -1079,6 +1206,7 @@
         }
       },
       "AuthorDTO": {
+        "required": ["firstName", "lastName"],
         "type": "object",
         "properties": {
           "id": {
@@ -1091,68 +1219,182 @@
           "lastName": {
             "type": "string"
           },
-          "description": {
+          "coverImage": {
             "type": "string"
           },
-          "type": {
+          "fileKey": {
             "type": "string",
-            "enum": ["WRITER", "TRANSPORTER"]
+            "readOnly": true
+          },
+          "description": {
+            "type": "string"
           },
           "enable": {
             "type": "boolean"
           },
-          "createAt": {
+          "createdAt": {
             "type": "string",
             "format": "date-time",
             "readOnly": true
           },
-          "updateAt": {
+          "updatedAt": {
             "type": "string",
             "format": "date-time",
             "readOnly": true
           }
         }
       },
-      "CategoryDTO": {
-        "required": ["scopeId", "scopeTitle"],
+      "BookResponseDTO": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
             "format": "int64"
           },
-          "title": {
+          "name": {
             "type": "string"
           },
-          "scopeId": {
+          "coverImage": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string"
+          },
+          "fileKey": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "pageNumber": {
             "type": "integer",
             "format": "int32"
           },
-          "scopeTitle": {
-            "type": "string"
+          "publicationYear": {
+            "type": "integer",
+            "format": "int32"
           },
-          "parentId": {
+          "authors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuthorDTO"
+            }
+          },
+          "translators": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuthorDTO"
+            }
+          },
+          "publisher": {
+            "$ref": "#/components/schemas/PublisherDTO"
+          },
+          "category": {
+            "$ref": "#/components/schemas/CategoryDTO"
+          },
+          "feedbackStats": {
+            "$ref": "#/components/schemas/FeedbackStatsDTO"
+          },
+          "downloadCount": {
             "type": "integer",
             "format": "int64"
           },
-          "children": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CategoryDTO"
-            }
-          },
-          "createAt": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
-          },
-          "updateAt": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
-          },
-          "enable": {
+          "publish": {
             "type": "boolean"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "public": {
+            "type": "boolean"
+          }
+        }
+      },
+      "FeedbackStatsDTO": {
+        "type": "object",
+        "properties": {
+          "modelType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "modelId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "commentCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "rating": {
+            "$ref": "#/components/schemas/RatingResponseDTO"
+          },
+          "reaction": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/ReactionResponseDTO"
+            }
+          }
+        }
+      },
+      "RatingResponseDTO": {
+        "type": "object",
+        "properties": {
+          "average": {
+            "type": "number",
+            "format": "double"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userScore": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "result": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/Result"
+            }
+          }
+        },
+        "required": ["average", "total", "userScore"]
+      },
+      "ReactionResponseDTO": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "userReacted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Result": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "percent": {
+            "type": "number",
+            "format": "double"
           }
         }
       },
@@ -1196,6 +1438,14 @@
           },
           "isPublic": {
             "type": "boolean"
+          },
+          "from": {
+            "type": "string",
+            "format": "date"
+          },
+          "to": {
+            "type": "string",
+            "format": "date"
           }
         }
       },
@@ -1220,91 +1470,8 @@
           }
         }
       },
-      "BookResponseDTO": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string"
-          },
-          "coverImage": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "publicationYear": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "authors": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AuthorDTO"
-            }
-          },
-          "publisher": {
-            "$ref": "#/components/schemas/PublisherDTO"
-          },
-          "category": {
-            "$ref": "#/components/schemas/CategoryDTO"
-          },
-          "feedbackStats": {
-            "$ref": "#/components/schemas/FeedbackStatsDTO"
-          },
-          "publish": {
-            "type": "boolean"
-          },
-          "createAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "updateAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "public": {
-            "type": "boolean"
-          }
-        }
-      },
-      "CommentStats": {
-        "type": "object",
-        "properties": {
-          "count": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
-      "FeedbackStatsDTO": {
-        "type": "object",
-        "properties": {
-          "modelId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "comment": {
-            "$ref": "#/components/schemas/CommentStats"
-          },
-          "reaction": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ReactionResponseDTO"
-            }
-          }
-        }
-      },
       "PageBookResponseDTO": {
         "type": "object",
-        "required": ["content"],
         "properties": {
           "totalPages": {
             "type": "integer",
@@ -1334,15 +1501,15 @@
           "pageable": {
             "$ref": "#/components/schemas/PageableObject"
           },
-          "numberOfElements": {
-            "type": "integer",
-            "format": "int32"
-          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
           },
           "empty": {
             "type": "boolean"
@@ -1375,25 +1542,6 @@
           }
         }
       },
-      "ReactionResponseDTO": {
-        "type": "object",
-        "properties": {
-          "reactionTypeId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "reactionType": {
-            "type": "string"
-          },
-          "count": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "userReacted": {
-            "type": "boolean"
-          }
-        }
-      },
       "SortObject": {
         "type": "object",
         "properties": {
@@ -1405,6 +1553,63 @@
           },
           "unsorted": {
             "type": "boolean"
+          }
+        }
+      },
+      "PerDayReport": {
+        "type": "object",
+        "properties": {
+          "createCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "publishCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "downloadCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "commentCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "PerMonthReport": {
+        "type": "object",
+        "properties": {
+          "createCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "publishCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "downloadCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "commentCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "monthTitle": {
+            "type": "string"
           }
         }
       },
@@ -1450,15 +1655,15 @@
           "pageable": {
             "$ref": "#/components/schemas/PageableObject"
           },
-          "numberOfElements": {
-            "type": "integer",
-            "format": "int32"
-          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
           },
           "empty": {
             "type": "boolean"
@@ -1473,10 +1678,6 @@
           },
           "lastName": {
             "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "enum": ["WRITER", "TRANSPORTER"]
           },
           "enable": {
             "type": "boolean"
@@ -1514,15 +1715,15 @@
           "pageable": {
             "$ref": "#/components/schemas/PageableObject"
           },
-          "numberOfElements": {
-            "type": "integer",
-            "format": "int32"
-          },
           "first": {
             "type": "boolean"
           },
           "last": {
             "type": "boolean"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
           },
           "empty": {
             "type": "boolean"
@@ -1531,7 +1732,7 @@
       }
     },
     "securitySchemes": {
-      "Bearer Authentication": {
+      "bearerAuth": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
