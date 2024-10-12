@@ -1,20 +1,12 @@
 import { queryService } from '@/api';
-import { Tabs } from '@/components/Tabs';
-import { useScreen } from '@/hooks';
+import { useScreen, useSlider } from '@/hooks';
 import { createFileUrl, fromNow } from '@/utils';
 import { Eye } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import clsx from 'clsx';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 import { NewsRow } from '../components/NewsRow';
 
 const SLIDER_COUNT = 5;
-
-enum NewsTab {
-  TOP = 'TOP',
-  CHIEF_CHOICES = 'CHIEF_CHOICES',
-}
 
 function getFirstParagraph(content: string) {
   const idx = content.indexOf('</p>');
@@ -31,61 +23,18 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
     })
   ).data.content!;
 
-  // const [activeHero, setActiveHero] = useState(0);
-  const [activeTab, setActiveTab] = useState(NewsTab.TOP);
-
   const { isSmall } = useScreen();
 
-  function setActiveHero(x: { id?: number }) {
-    document.getElementById(`news-${x.id!}`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-  }
-
-  useEffect(() => {
-    let index = 0;
-    let interval = setTimeout(() => {
-      setActiveHero(topNews[(index + 1) % SLIDER_COUNT]);
-    }, 5000);
-    return () => {
-      clearTimeout(interval);
-    };
-  }, []);
+  const { sliderButtons } = useSlider({ ids: topNews.map((n) => n.id!) });
 
   if (isSmall) {
     return (
       <div className="">
-        <Tabs
-          onChange={setActiveTab}
-          active={activeTab}
-          options={[
-            { title: 'برترین اخبار', value: NewsTab.TOP as NewsTab },
-            // { title: 'انتخاب سردبیر', value: NewsTab.CHIEF_CHOICES },
-          ]}
-        />
-
         <div className="pr-4 mt-6 flex flex-col gap-6">
           {topNews.slice(0, SLIDER_COUNT).map((newsItem: any) => (
             <NewsRow baseUrl="./news" key={newsItem.id} post={newsItem} />
           ))}
         </div>
-      </div>
-    );
-  }
-
-  function sliderButtons(pIndex: number) {
-    return (
-      <div className="mt-auto flex w-full justify-center gap-2 py-2">
-        {topNews.map((post, index) => (
-          <span
-            className={clsx('btn btn-xs', pIndex === index ? 'text-[darkorange]' : '')}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setActiveHero(post);
-            }}
-          >
-            {index + 1}
-          </span>
-        ))}
       </div>
     );
   }
@@ -108,7 +57,7 @@ export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
 
                 <span className="flex items-center justify-center">
                   <Eye size={18} color="black" className="ml-1" />
-                  {post.viewCount}{' '}
+                  {post.viewCount}
                 </span>
               </div>
 
