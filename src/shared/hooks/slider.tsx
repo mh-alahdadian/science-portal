@@ -1,12 +1,14 @@
+'use client';
+
 import clsx from 'clsx';
 import { useEffect } from 'react';
 
 interface Props {
-  tags: Schema<'TagEntity'>[];
+  ids: number[];
 }
 const SLIDER_COUNT = 5;
 
-export function useSlider({ ids }: { ids: number[] }) {
+export function useSlider({ ids }: Props) {
   function setActiveHero(id: number) {
     document.getElementById(`slider-item-${id}`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
