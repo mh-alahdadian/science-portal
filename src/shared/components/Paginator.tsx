@@ -1,5 +1,5 @@
-import clsx from 'clsx';
 import { useScreen } from '@/hooks';
+import clsx from 'clsx';
 
 interface Props {
   current: number;
@@ -56,7 +56,7 @@ export function Paginator(props: Props) {
             >
               {index}
             </button>
-          ),
+          )
         )}
         <button className={clsx('join-item btn', isSmall && 'btn-sm')} onClick={() => changePage(current + 1)}>
           {Next}
@@ -69,7 +69,7 @@ export function Paginator(props: Props) {
             value={pageSize}
             onChange={(e) => changePageSize(Number(e.target.value))}
           >
-            {[10, 20, 30, 40, 50].map((pageSize) => (
+            {[10, 15, 20, 30, 40, 50].map((pageSize) => (
               <option key={pageSize} value={pageSize}>
                 {pageSize}
               </option>

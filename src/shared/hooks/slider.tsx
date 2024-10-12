@@ -6,11 +6,15 @@ import { useEffect } from 'react';
 interface Props {
   ids: number[];
 }
-const SLIDER_COUNT = 5;
 
 export function useSlider({ ids }: Props) {
-  function setActiveHero(id: number) {
-    document.getElementById(`slider-item-${id}`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  function setActiveHero(indexOrNext?: number | 'next') {
+    if (indexOrNext === 'next') {
+      const carousel = document.querySelector(`.carousel`)!;
+      const currentIndex = (-carousel.scrollLeft / carousel.scrollWidth) * ids.length;
+      indexOrNext = (currentIndex + 1) % ids.length;
+    }
+    document.getElementById(`slider-item-${indexOrNext}`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
 
   function sliderButtons(pIndex: number) {
@@ -22,7 +26,7 @@ export function useSlider({ ids }: Props) {
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              setActiveHero(id);
+              setActiveHero(index);
             }}
           >
             {index + 1}
@@ -33,12 +37,11 @@ export function useSlider({ ids }: Props) {
   }
 
   useEffect(() => {
-    let index = 0;
-    let interval = setTimeout(() => {
-      setActiveHero(ids[(index + 1) % SLIDER_COUNT]);
+    let interval = setInterval(() => {
+      setActiveHero('next');
     }, 5000);
     return () => {
-      clearTimeout(interval);
+      clearInterval(interval);
     };
   }, []);
 

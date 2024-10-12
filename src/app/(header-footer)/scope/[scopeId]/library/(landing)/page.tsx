@@ -59,7 +59,7 @@ export default function Library({ params }: PageProps<'scopeId'>) {
   }
 
   return (
-    <>
+    <div className="max-w-screen-2xl mx-auto flex flex-col gap-8">
       <Breadcrumb params={params} items={[{ text: 'کتابخانه' }]} />
       <BooksSlider params={params} />
 
@@ -108,10 +108,10 @@ export default function Library({ params }: PageProps<'scopeId'>) {
         {books.map((book, i) => (
           <Link href={`library/book/${book.id}`} key={book.id} className="card card-body bg-white rounded-lg">
             <figure>
-              <img src={createFileUrl(book.coverImage, book.fileKey)} alt={book.name} />
+              <img src={createFileUrl(book.coverImage, book.fileKey)} alt={book.name} className="object-contain h-60" />
             </figure>
             <BookInfo book={book} />
-            <hr />
+            <hr className="mt-auto" />
             <div className="flex justify-between items-center">
               <TextIcon Icon={Download} text={5700 + 'بار دانلود'} />
               <button className="btn-primary btn-link">
@@ -130,6 +130,6 @@ export default function Library({ params }: PageProps<'scopeId'>) {
         changePage={setCurrentPage}
         changePageSize={setPerPage}
       />
-    </>
+    </div>
   );
 }

@@ -22,9 +22,9 @@ export function BooksSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
   return (
     <div className="carousel rounded-lg w-full sm:h-60 max-sm:h-96">
       {items.map((item, index) => (
-        <div key={item.id} id={`news-${item.id}`} className="carousel-item w-full">
-          <Link href={`./news/${item.id}`} className="flex items-start w-full max-sm:flex-col">
-            <div className="h-full w-2/5">
+        <div key={item.id} id={`slider-item-${index}`} className="carousel-item w-full">
+          <Link href={`./book/${item.id}`} className="flex items-start w-full gap-8 max-sm:flex-col">
+            <div className="h-full">
               <img
                 src={createFileUrl(item.coverImage, item.fileKey)}
                 alt={item.name}
@@ -41,9 +41,9 @@ export function BooksSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
                 </span>
               </div>
 
-              <div className="font-medium">{item.name}</div>
+              <div className="font-lg">{item.name}</div>
 
-              <div className="w-full h-full opacity-75 text-sm">{item.description}</div>
+              <div className="w-full h-full opacity-75 text-md">{item.description}</div>
               {sliderButtons(index)}
             </div>
           </Link>
