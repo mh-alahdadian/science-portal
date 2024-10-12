@@ -6,7 +6,7 @@ import { uploadFile } from '@/components/editor/uploader';
 import { ModelType } from '@/constants';
 import { createFileUrl } from '@/utils';
 import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { last } from 'ramda';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -14,8 +14,9 @@ import { NewsStatusId } from '../../constants';
 
 export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) {
   const { data: categories } = useSuspenseQuery(
-    queryService('news:/v1/scope/{scopeId}/categories', { params: { path: params } }),
+    queryService('news:/v1/scope/{scopeId}/categories', { params: { path: params } })
   );
+  const router = useRouter();
   const postIdOrDraft = last(usePathname().split('/'));
   const isDraft = postIdOrDraft === 'draft';
   const postId = !isDraft ? Number(postIdOrDraft) : (undefined as any as number);
@@ -30,7 +31,7 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
     mutationKey: postService.queryKey,
   });
   const { mutateAsync: mutatePostStatus } = useMutation(
-    mutateService('patch', 'news:/v1/manager/{page}/posts/{postId}/status'),
+    mutateService('patch', 'news:/v1/manager/{page}/posts/{postId}/status')
   );
 
   const post = useQuery({
@@ -46,7 +47,7 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
   const [category, setCategory] = useState<string>(post ? String(post.categoryId) : '');
 
   type BodyData = Parameters<typeof mutateCreatePost & typeof mutateEditPost>[0];
-  function createMutateData(overrides?: BodyData['body']): BodyData {
+  function createMutateData(overrides?: Partial<BodyData['body']>): BodyData {
     return {
       params: { path: { page: String(params.scopeId), postId } },
       body: {
@@ -158,6 +159,7 @@ export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) 
           onClick={async () => {
             await submitPost();
             toast.success('تغییرات با موفقیت ذخیره شد.');
+            router.push('../admin/posts');
           }}
         >
           ذخیره تغییرات

@@ -1,6 +1,6 @@
 import { mutateService } from '@/api';
 import { ModelType } from '@/constants';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -18,7 +18,13 @@ export function SubmitComment(props: Props) {
     e.preventDefault();
     mutateAsync({ body: { text: comment, ...props } })
       .then(() => {
+        setComment('');
         toast.success('دیدگاه شما با موفقیت ثبت شد.');
+        // queryClient.invalidateQueries(
+        //   queryService('feedback:/v1/comments', {
+        //     params: { query: { dto: { modelId: props.modelId, modelTypeId: props.modelTypeId } } },
+        //   })
+        // );
       })
       .catch(() => {
         toast.error('دیدگاه شما ثبت نشد.');
