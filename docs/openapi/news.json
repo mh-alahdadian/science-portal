@@ -178,9 +178,15 @@
                         }
                     },
                     {
+                        "name": "searchDTO",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/PostSearchDTO"
+                        }
+                    },
+                    {
                         "name": "pageable",
                         "in": "query",
-                        "required": true,
                         "schema": {
                             "$ref": "#/components/schemas/Pageable"
                         }
@@ -453,9 +459,15 @@
                         }
                     },
                     {
+                        "name": "searchDTO",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/PostSearchDTO"
+                        }
+                    },
+                    {
                         "name": "pageable",
                         "in": "query",
-                        "required": true,
                         "schema": {
                             "$ref": "#/components/schemas/Pageable"
                         }
@@ -532,6 +544,18 @@
                         }
                     },
                     {
+                        "name": "categoryIds",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "format": "int64"
+                            }
+                        }
+                    },
+                    {
                         "name": "periodLength",
                         "in": "query",
                         "required": true,
@@ -539,6 +563,13 @@
                             "maximum": 30,
                             "type": "integer",
                             "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
                         }
                     }
                 ],
@@ -548,10 +579,7 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/PostDTO"
-                                    }
+                                    "$ref": "#/components/schemas/PagePostDTO"
                                 }
                             }
                         }
