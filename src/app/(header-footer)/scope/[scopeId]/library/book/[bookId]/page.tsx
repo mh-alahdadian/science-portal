@@ -35,7 +35,7 @@ export default function BookPage(props: PageProps<'scopeId' | 'bookId'>) {
   const rating = (book.feedbackStats || {})!.rating!;
 
   const bookInfo = (
-    <div className="card flex-row gap-4">
+    <div className="flex-row gap-4">
       <img
         src={mockImage || createFileUrl(book.coverImage, book.fileKey)}
         alt={book.name!}
@@ -71,9 +71,9 @@ export default function BookPage(props: PageProps<'scopeId' | 'bookId'>) {
     </div>
   );
 
-  const bookDescription = <div className="card">{book.description}</div>;
+  const bookDescription = <div className="card card-body bg-white">{book.description}</div>;
   const bookRating = (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 card card-body bg-white">
       <p>
         <Star className="text-warning" weight="fill" /> {rating.average} ({rating.total})
       </p>
@@ -81,7 +81,7 @@ export default function BookPage(props: PageProps<'scopeId' | 'bookId'>) {
     </div>
   );
   const myScore = (
-    <div className="card card-body">
+    <div className="card card-body bg-white">
       <div className="card-title">امتیاز</div>
       <div className="flex justify-between">
         <Rating value={myRating} onChange={setMyRating} />
@@ -100,8 +100,10 @@ export default function BookPage(props: PageProps<'scopeId' | 'bookId'>) {
       />
       <div className="flex gap-6">
         <div className="flex-1 flex flex-col gap-12">
-          {bookInfo}
-          {bookDescription}
+          <div className="card card-body bg-white">
+            {bookInfo}
+            {bookDescription}
+          </div>
           {myScore}
           <SubmitComment modelTypeId={ModelType.BOOK} modelId={params.bookId} scopeId={params.scopeId} />
           <CommentsList modelTypeId={ModelType.BOOK} modelId={props.params.bookId} />

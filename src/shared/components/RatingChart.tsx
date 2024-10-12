@@ -5,7 +5,7 @@ interface Props {
 
 export function RatingChart({ values, total }: Props) {
   if (!values) {
-    values = Array(6).fill({count: 0});
+    return <div className="flex justify-center align-center text-xl">هنوز امتیازی ثبت نشده است.</div>;
   }
   return (
     <>

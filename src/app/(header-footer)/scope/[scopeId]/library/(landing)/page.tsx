@@ -106,7 +106,7 @@ export default function Library({ params }: PageProps<'scopeId'>) {
 
       <div className="grid max-md:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         {books.map((book, i) => (
-          <Link href={`book/${book.id}`} key={book.id} className="card card-body bg-white rounded-lg">
+          <Link href={`library/book/${book.id}`} key={book.id} className="card card-body bg-white rounded-lg">
             <figure>
               <img src={createFileUrl(book.coverImage, book.fileKey)} alt={book.name} />
             </figure>

@@ -1,6 +1,6 @@
 import { mutateService } from '@/api';
 import { ModelType } from '@/constants';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -32,7 +32,7 @@ export function SubmitComment(props: Props) {
   }
 
   return (
-    <form className="p-6 rounded-lg bg-white mt-10 flex flex-col" onSubmit={handleSubmit}>
+    <form className="p-6 rounded-lg bg-white flex flex-col" onSubmit={handleSubmit}>
       <h5 className="font-bold text-xl">دیدگاه من:</h5>
       <textarea
         placeholder="نوشتن دیدگاه"

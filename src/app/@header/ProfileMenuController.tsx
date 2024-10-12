@@ -12,10 +12,12 @@ export default function AuthDialogController() {
       <button tabIndex={0} role="button" className="btn-circle">
         <div className="avatar">
           <User size={24} />
-          {profile.firstName} {profile.lastName}
         </div>
       </button>
       <ul tabIndex={0} className="dropdown-content menu z-[1] p-2 bg-neutral">
+        {/* <li>
+          {profile.firstName} {profile.lastName}
+        </li> */}
         <li>
           <a href="/profile">پروفایل</a>
         </li>

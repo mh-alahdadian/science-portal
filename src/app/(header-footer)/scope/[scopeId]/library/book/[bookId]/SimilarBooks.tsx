@@ -20,7 +20,7 @@ export function SimilarBooks({ params, tags }: Props) {
     })
   ).data.content!;
   return (
-    <div className="mt-10 flex flex-col gap-3">
+    <div className="mt-10 card card-body bg-white flex flex-col gap-3">
       <span className="text-black text-opacity-50">کتاب‌های مشابه</span>
       {similarBooks.map((b) => (
         <Link key={b.id} href={`${b.id}`} className="flex gap-4">

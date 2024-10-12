@@ -14,7 +14,7 @@ export default function NewsPostPage({ params }: PageProps<'scopeId' | 'postId'>
   const news = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/posts/{postId}', {
       params: { path: { scopeId: params.scopeId, postId: params.postId } },
-    }),
+    })
   ).data;
 
   const relatedService = queryService('news:/v1/scope/{scopeId}/posts', {
@@ -26,17 +26,17 @@ export default function NewsPostPage({ params }: PageProps<'scopeId' | 'postId'>
       {/* news path */}
       <Breadcrumb params={params} items={[{ text: 'اخبار', url: './' }, { text: news.title! }]} />
       <div className="text-black flex gap-8">
-        <main className="flex flex-col w-3/4 mb-10 ">
+        <main className="flex flex-col w-3/4 gap-8 mb-10">
           <img src={createFileUrl(news.coverImage, news.fileKey)} className="w-full rounded-md" alt="" />
 
           {/* نویسنده خبر */}
-          <div className="w-full flex justify-between mt-6">
+          <div className="w-full flex justify-between">
             <h5>نویسنده خبر</h5>
             <span>{formatDateTime(news.createdAt!)}</span>
           </div>
 
           {/* جزئیات خبر */}
-          <div className="mt-8">
+          <div className="">
             <h1 className="text-4xl font-bold mb-8">{news.title}</h1>
             <Editor readonly data={news.content} uploadData={{ fileKey: news.fileKey }} />
           </div>
