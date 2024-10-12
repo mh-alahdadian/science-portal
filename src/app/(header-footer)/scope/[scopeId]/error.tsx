@@ -1,12 +1,15 @@
 'use client';
 
 import { getParsedToken } from '@/api/utils';
+import { usePathname } from 'next/navigation';
 
-export default function ScopeError(props: {}) {
+export default function ScopeError(props: PageProps<'scopeId'>) {
   const token = getParsedToken();
+  const [empty, scope, scopeId, service] = usePathname().split('/');
+  const notAccess = !token && scopeId !== '0';
   return (
     <div className="flex justify-center items-center prose-2xl">
-      {!token ? 'شما دسترسی محتوای این صفحه را ندارید' : 'خطایی پیش آمده است'}
+      {notAccess ? 'شما دسترسی محتوای این صفحه را ندارید' : 'خطایی پیش آمده است'}
     </div>
   );
 }
