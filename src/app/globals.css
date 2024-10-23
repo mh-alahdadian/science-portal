@@ -10,6 +10,7 @@ html,
 body {
   height: 100%;
   font-family: Vazirmatn;
+  background: #f0f0f0;
 }
 
 svg {
@@ -25,13 +26,13 @@ time {
 }
 
 @layer base {
-  :is(button, [role='button']):not(:where([class~="not-styled"],[class~="not-styled"] *)) {
+  :is(button, [role='button']):not(:where([class~='not-styled'], [class~='not-styled'] *)) {
     @apply btn;
   }
-  :is(input, [role='input']):not(:where([type="checkbox"], [class~="not-styled"], [class~="not-styled"] *)) {
+  :is(input, [role='input']):not(:where([type='checkbox'], [class~='not-styled'], [class~='not-styled'] *)) {
     @apply input input-bordered;
   }
-  :is(select, [role='select']):not(:where([class~="not-styled"], [class~="not-styled"] *)) {
+  :is(select, [role='select']):not(:where([class~='not-styled'], [class~='not-styled'] *)) {
     @apply select select-bordered;
   }
   :is(select).not-styled {
@@ -43,6 +44,10 @@ time {
 }
 
 @layer components {
+  .breadcrumbs {
+    @apply my-8;
+  }
+
   .modal-backdrop {
     opacity: 0.3;
   }
@@ -61,7 +66,10 @@ time {
   .fab:hover {
     opacity: 1;
   }
-
+  .card {
+    @apply bg-white p-6;
+    --padding-card: 0;
+  }
   .card.image-full:before {
     content: none;
   }

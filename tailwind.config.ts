@@ -3,7 +3,6 @@ import type { Config } from 'tailwindcss';
 import plugin from 'tailwindcss/plugin';
 
 const baseTheme = {
-  '--padding-card': '1rem',
   '.drawer': {
     width: 'auto',
   },
@@ -21,7 +20,8 @@ const themes: CustomTheme = {
     warning: '#E99E0C',
     info: '#256EF6',
 
-    neutral: '#F9F9FB',
+    // neutral: '#F9F9FB',
+    neutral: '#CBD5DF80',
     'neutral-content': '#20222A',
 
     '--neutral-md': '#CBD5DF',
