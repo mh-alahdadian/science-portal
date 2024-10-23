@@ -8,13 +8,13 @@ interface Props {
 }
 
 export function useSlider({ ids }: Props) {
-  function setActiveHero(indexOrNext?: number | 'next') {
+  function setActiveHero(indexOrNext: number | 'next') {
+    const carousel = document.querySelector(`.carousel`)!;
+    const currentIndex = (-carousel.scrollLeft / carousel.scrollWidth) * ids.length;
     if (indexOrNext === 'next') {
-      const carousel = document.querySelector(`.carousel`)!;
-      const currentIndex = (-carousel.scrollLeft / carousel.scrollWidth) * ids.length;
       indexOrNext = (currentIndex + 1) % ids.length;
     }
-    document.getElementById(`slider-item-${indexOrNext}`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    carousel.scrollLeft -= carousel.clientWidth * (indexOrNext - currentIndex);
   }
 
   function sliderButtons(pIndex: number) {
