@@ -5,6 +5,7 @@ import { Tabs } from '@/components/Tabs';
 import { useProfile } from '@/hooks';
 import { useState } from 'react';
 import { PersonalInfo } from './PersonalInfo';
+import SecurityTab from './SecurityTab';
 
 const tabs = [
   { value: 'profile', title: 'اطلاعات کاربری' },
@@ -22,7 +23,8 @@ export default function News({ params }: PageProps<'scopeId' | 'id'>) {
       <div className="flex gap-6">
         <div className="card flex-1">
           <Tabs options={tabs} active={tab} onChange={setTab} className="mb-6" />
-          <PersonalInfo profile={profile!} />
+          {tab === 'profile' && <PersonalInfo profile={profile!} />}
+          {tab === 'security' && <SecurityTab />}
         </div>
         <div className="card flex-1">
           <div className="card-title">حوزه‌های من</div>
