@@ -1,9 +1,8 @@
-import { mutateService } from '@/api';
+import { mutateService, queryService } from '@/api';
 import { User } from '@phosphor-icons/react';
 import { TextField } from '@service/components';
 import { createFileUrl, formatDateTime } from '@service/utils';
-import { useMutation } from '@tanstack/react-query';
-import { pick } from 'ramda';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 
 interface Props {
@@ -13,6 +12,7 @@ interface Props {
 export function PersonalInfo(props: Props) {
   const { profile } = props;
 
+  const queryClient = useQueryClient();
   const { mutateAsync: mutateProfile } = useMutation(mutateService('put', 'core:/v1/users/profile'));
   const {
     register,
@@ -24,39 +24,26 @@ export function PersonalInfo(props: Props) {
   });
 
   const submit = handleSubmit((data) => {
-    mutateProfile({
-      body: pick(
-        [
-          'firstName',
-          'lastName',
-          'coverImage',
-          'birthDay',
-          'email',
-          'verifyEmailCode',
-          'job',
-          'education',
-          'orientation',
-        ],
-        data
-      ),
-    });
+    return mutateProfile({
+      body: data,
+    }).then((x) => queryClient.invalidateQueries(queryService('core:/v1/users/profile', {})));
   });
   const isSaveDisabled = !isDirty;
 
   const image = profile.coverImage ? (
-    <img width={120} height={120} src={createFileUrl(profile.coverImage, profile.fileKey)} className="object-fill" />
+    <img src={createFileUrl(profile.coverImage, profile.fileKey)} />
   ) : (
-    <User size={120} />
+    <User size={128} />
   );
   return (
     <form className="flex flex-col gap-6" onSubmit={submit}>
       <div className="flex items-center gap-6">
-        <div className="avatar border-2 overflow-hidden rounded-full">{image}</div>
+        <div className="avatar w-32 h-32 border-2 overflow-hidden rounded-full">{image}</div>
         <div className="flex flex-col gap-4">
           <span className="font-extrabold text-2xl">نام کاربری</span>
           <div>
             <span className="text-black text-opacity-50 me-2">تاریخ عضویت</span>
-            {formatDateTime(Date.now())}
+            {formatDateTime((profile as any).createdAt || Date.now())}
           </div>
         </div>
       </div>

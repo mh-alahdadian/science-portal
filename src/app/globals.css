@@ -52,6 +52,12 @@ time {
     opacity: 0.3;
   }
 
+  .tag{
+    padding: 0.25rem 0.375rem;
+    border: 1px solid #D1D6DB;
+    border-radius: 1rem;
+  }
+
   .btn.btn-transparent {
     background: transparent;
     border: none;

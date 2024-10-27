@@ -45,12 +45,12 @@ Object.entries(themes).forEach(([name, th]) => {
 const gridTemplate = plugin(({ matchUtilities, theme }) => {
   matchUtilities(
     { 'grid-area': (value) => ({ gridArea: `area-${value}` }) },
-    { values: { '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6 } },
+    { values: { '1': 1, '2': 2, '3': 3, '4': 4, '5': 5, '6': 6 } }
   );
 });
 
 const tagComponent = plugin(({ addComponents, matchComponents }) => {
-  addComponents({ '.tag': { padding: '0.75rem', background: '#CBD5DF7f' } }, {});
+  addComponents({ '.tag': {  background: '#CBD5DF7f' } }, {});
   // matchComponents({ tag: (values) => ({ padding: '0.75rem', background: '#CBD5DF7f' }) }, {  });
 });
 
