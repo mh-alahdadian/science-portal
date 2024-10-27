@@ -2,6 +2,7 @@ import { Permission } from '@/constants';
 import { isServer } from '@tanstack/react-query';
 import Cookies from 'js-cookie';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
+import type { UnsafeUnwrappedCookies } from 'next/headers';
 import { queryClient, queryService } from './api';
 
 const TOKEN_STORAGE_KEY = 'TOKEN_STORAGE_KEY';
@@ -34,11 +35,11 @@ export function getParsedToken(): ParsedToken | null {
 export function getToken(): Tokens {
   if (isServer) {
     const { cookies } = require('next/headers');
-    return { accessToken: cookies().get(ACCESS_TOKEN_KEY)?.value };
+    return { accessToken: (cookies() as unknown as UnsafeUnwrappedCookies).get(ACCESS_TOKEN_KEY)?.value };
   } else {
     if (cachedToken) return cachedToken;
     const x = localStorage.getItem(TOKEN_STORAGE_KEY);
-    cachedToken = x ? JSON.parse(x) : {};
+    cachedToken = x ? (JSON.parse(x) as Tokens) : {};
     return cachedToken;
   }
 }

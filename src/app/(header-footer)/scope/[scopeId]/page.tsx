@@ -1,10 +1,12 @@
-'use client';
+'use client';;
+import { use } from "react";
 
 import { useCurrentScope } from '@/hooks';
 // import { Books, Megaphone } from '@phosphor-icons/react/dist/ssr';
 import Link from 'next/link';
 
-export default function HomePage({ params }: PageProps<'scopeId'>) {
+export default function HomePage(props: PageProps<'scopeId'>) {
+  const params = use(props.params);
   const scope = useCurrentScope();
   return (
     <div className="flex flex-col items-center gap-5 h-full w-full">

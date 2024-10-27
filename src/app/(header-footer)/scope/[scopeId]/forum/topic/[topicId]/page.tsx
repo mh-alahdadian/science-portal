@@ -1,4 +1,5 @@
-'use client';
+'use client';;
+import { use } from "react";
 
 import { queryService } from '@/api';
 import { Breadcrumb } from '@/components';
@@ -22,7 +23,8 @@ const mockPost: PostDTO = {
   userName: 'نام کاربری',
 };
 
-export default function TopicPage({ params }: PageProps<'scopeId' | 'topicId'>) {
+export default function TopicPage(props: PageProps<'scopeId' | 'topicId'>) {
+  const params = use(props.params);
   const topic = useSuspenseQuery(
     queryService('forum:/v1/scope/{scopeId}/topics/{topicId}', { params: { path: params } }),
   ).data;

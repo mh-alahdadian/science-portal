@@ -1,11 +1,18 @@
-'use client';
+'use client';;
+import { use } from "react";
 
 import { ChartLine, ChatsCircle, NewspaperClipping } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useSelectedLayoutSegment } from 'next/navigation';
 
-export default function NewsAdminLayout({ children, params }: LayoutProps & PageProps<'scopeId'>) {
+export default function NewsAdminLayout(props: LayoutProps & PageProps<'scopeId'>) {
+  const params = use(props.params);
+
+  const {
+    children
+  } = props;
+
   const selectedSegment = useSelectedLayoutSegment();
   const prefixRoute = selectedSegment === null ? 'admin/' : '';
 

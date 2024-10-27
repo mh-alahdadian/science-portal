@@ -19,7 +19,7 @@ import {
 } from '@tanstack/react-table';
 import Link from 'next/link';
 import { indexBy, isEmpty, prop } from 'ramda';
-import { useState } from 'react';
+import { useState, use } from 'react';
 import { toast } from 'react-toastify';
 import { columns } from './cols';
 
@@ -30,7 +30,8 @@ declare module '@tanstack/table-core' {
   }
 }
 
-export default function Admin({ params }: PageProps<'scopeId'>) {
+export default function Admin(props: PageProps<'scopeId'>) {
+  const params = use(props.params);
   const [pagination, setPagination] = useState(defaultPagination);
   const [filter, setFilter] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([{ id: 'id', desc: true }]);

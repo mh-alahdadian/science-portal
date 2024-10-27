@@ -3,7 +3,7 @@
 import { Breadcrumb } from '@/components';
 import { Tabs } from '@/components/Tabs';
 import { useProfile } from '@/hooks';
-import { useState } from 'react';
+import { use, useState } from 'react';
 import { PersonalInfo } from './PersonalInfo';
 import SecurityTab from './SecurityTab';
 
@@ -13,7 +13,8 @@ const tabs = [
   { value: 'roles', title: 'نقش' },
 ];
 
-export default function News({ params }: PageProps<'scopeId' | 'id'>) {
+export default function Profile(props: PageProps<'scopeId' | 'id'>) {
+  const params = use(props.params);
   const [tab, setTab] = useState(tabs[0].value);
   const profile = useProfile();
 

@@ -1,4 +1,5 @@
-'use client';
+'use client';;
+import { use } from "react";
 
 import { queryService } from '@/api';
 import { TextIcon } from '@/components';
@@ -9,7 +10,8 @@ import { mockTags } from '../../mocks';
 import { AuthorsList } from '../components/AuthorsList';
 import { PostRows } from '../components/PostRows';
 
-export default function BlogLandingSidebar({ params }: PageProps<'scopeId'>) {
+export default function BlogLandingSidebar(props: PageProps<'scopeId'>) {
+  const params = use(props.params);
   const [{ data: tags }] = useSuspenseQueries({
     queries: [{ ...queryService('blog:/v1/scope/{scopeId}/popular-tags' as any, {}), queryFn: mockTags }],
   });

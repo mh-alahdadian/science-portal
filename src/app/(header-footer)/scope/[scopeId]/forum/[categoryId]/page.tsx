@@ -10,7 +10,7 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import { createColumnHelper, getCoreRowModel, getPaginationRowModel, useReactTable } from '@tanstack/react-table';
 import { GridOptions } from 'ag-grid-community';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, use } from 'react';
 import Community from '../../assets/Community.svg';
 
 type Topic = Schema<'TopicResponseDTO'>;
@@ -55,7 +55,8 @@ const schema = {
   },
 } as const;
 
-export default function Forum({ params }: PageProps<'scopeId' | 'categoryId'>) {
+export default function Forum(props: PageProps<'scopeId' | 'categoryId'>) {
+  const params = use(props.params);
   const scope = useCurrentScope();
   const [pagination, setPagination] = useState(defaultPagination);
 

@@ -1,4 +1,5 @@
-'use client';
+'use client';;
+import { use } from "react";
 
 import { queryService } from '@/api';
 import { Editor, TextIcon } from '@/components';
@@ -12,7 +13,8 @@ import { AuthorInfo } from '../../(landing)/components/AuthorInfo';
 import { BlogPostMock, mockPosts } from '../../mocks';
 import { PostCard } from './components/PostCard';
 
-export default function BlogPostPage({ params }: PageProps<'scopeId' | 'postId'>) {
+export default function BlogPostPage(props: PageProps<'scopeId' | 'postId'>) {
+  const params = use(props.params);
   const post: BlogPostMock = useSuspenseQuery({
     ...queryService('article:/v1/scope/{scopeId}/post/{postId}' as any, { params: { path: params } }),
     queryFn: () => mockPosts().content![0],

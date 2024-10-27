@@ -8,11 +8,12 @@ import { createFileUrl } from '@/utils';
 import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
 import { last } from 'ramda';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { toast } from 'react-toastify';
 import { NewsStatusId } from '../../constants';
 
-export default function WriteNews({ params }: PageProps<'scopeId' | 'postId?'>) {
+export default function WriteNews(props: PageProps<'scopeId' | 'postId?'>) {
+  const params = use(props.params);
   const { data: categories } = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/categories', { params: { path: params } })
   );

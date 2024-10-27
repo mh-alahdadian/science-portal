@@ -38,60 +38,58 @@ export default function SignupDialog(props: PageProps) {
     );
   });
 
-  return (
-    <>
-      <h3 className="font-bold text-[26px]">ورود</h3>
-      <Controller
-        name="phoneNumber"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            onChange={(event) => {
-              const value = event.target.value;
-              if (value.match(/^\d*$/)) {
-                field.onChange(value);
-              }
-            }}
-            label="شماره موبایل"
-            type="tel"
-            endAdornment={
-              <button
-                className="btn-sm btn-accent"
-                disabled={!field.value}
-                onClick={() => sendVerifyCode({ params: { path: { phoneNumber: field.value! } } })}
-              >
-                دریافت کد
-              </button>
+  return (<>
+    <h3 className="font-bold text-[26px]">ورود</h3>
+    <Controller
+      name="phoneNumber"
+      control={control}
+      render={({ field }) => (
+        <TextField
+          {...field}
+          onChange={(event) => {
+            const value = event.target.value;
+            if (value.match(/^\d*$/)) {
+              field.onChange(value);
             }
-          />
-        )}
-      />
-      <TextField
-        {...register('username')}
-        label="نام کاربری"
-        helperText="نام کاربری یک عبارتی است یکتا به زبان انگلیسی"
-      />
-      <TextField
-        {...register('password')}
-        label="رمز عبور"
-        type={showPassword ? undefined : 'password'}
-        endAdornment={
-          <button className="btn-circle btn-sm btn-transparent" onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? <EyeSlash size={24} /> : <Eye size={24} />}
-          </button>
-        }
-      />
-      {<TextField {...register('verifyCode')} label="کد یکبار مصرف" />}
-      <button className="btn-primary" onClick={handleSignup}>
-        ثبت نام
-      </button>
-      <div className="flex justify-between text-sm">
-        <span>حساب کاربری دارم</span>
-        <Link href="/login" className="link">
-          ورود
-        </Link>
-      </div>
-    </>
-  );
+          }}
+          label="شماره موبایل"
+          type="tel"
+          endAdornment={
+            <button
+              className="btn-sm btn-accent"
+              disabled={!field.value}
+              onClick={() => sendVerifyCode({ params: { path: { phoneNumber: field.value! } } })}
+            >
+              دریافت کد
+            </button>
+          }
+        />
+      )}
+    />
+    <TextField
+      {...register('username')}
+      label="نام کاربری"
+      helperText="نام کاربری یک عبارتی است یکتا به زبان انگلیسی"
+    />
+    <TextField
+      {...register('password')}
+      label="رمز عبور"
+      type={showPassword ? undefined : 'password'}
+      endAdornment={
+        <button className="btn-circle btn-sm btn-transparent" onClick={() => setShowPassword(!showPassword)}>
+          {showPassword ? <EyeSlash size={24} /> : <Eye size={24} />}
+        </button>
+      }
+    />
+    {<TextField {...register('verifyCode')} label="کد یکبار مصرف" />}
+    <button className="btn-primary" onClick={handleSignup}>
+      ثبت نام
+    </button>
+    <div className="flex justify-between text-sm">
+      <span>حساب کاربری دارم</span>
+      <Link href="/login" className="link">
+        ورود
+      </Link>
+    </div>
+  </>);
 }

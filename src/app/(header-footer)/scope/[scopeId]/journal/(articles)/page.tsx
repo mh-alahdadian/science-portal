@@ -1,4 +1,5 @@
-'use client';
+'use client';;
+import { use } from "react";
 
 import { queryService } from '@/api';
 import { Breadcrumb, DataFilter } from '@/components';
@@ -15,7 +16,8 @@ const schema = {
   },
 } as const;
 
-export default function Categories({ params }: PageProps<'scopeId'>) {
+export default function Categories(props: PageProps<'scopeId'>) {
+  const params = use(props.params);
   const scope = useCurrentScope();
   const categories = useSuspenseQuery(
     queryService('article:/v1/scope/{scopeId}/categories', {

@@ -7,7 +7,7 @@ import { ModelType } from '@/constants';
 import { createFileUrl } from '@/utils';
 import { Download, Share, Star } from '@phosphor-icons/react';
 import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { use, useState } from 'react';
 import { SimilarBooks } from './SimilarBooks';
 
 type BookDTO = Schema<'BookResponseDTO'>;
@@ -20,7 +20,7 @@ function authorName(a: Schema<'AuthorDTO'>) {
   return (a.firstName + ' ' + a.lastName).toLocaleString();
 }
 export default function BookPage(props: PageProps<'scopeId' | 'bookId'>) {
-  const { params } = props;
+  const params = use(props.params);
   const book = useSuspenseQuery(
     queryService('library:/v1/scope/{scopeId}/books/{bookId}', { params: { path: params } })
   ).data;
@@ -103,11 +103,11 @@ export default function BookPage(props: PageProps<'scopeId' | 'bookId'>) {
           </div>
           {myScore}
           <SubmitComment modelTypeId={ModelType.BOOK} modelId={params.bookId} scopeId={params.scopeId} />
-          <CommentsList modelTypeId={ModelType.BOOK} modelId={props.params.bookId} />
+          <CommentsList modelTypeId={ModelType.BOOK} modelId={params.bookId} />
         </div>
         <aside className="max-w-xs flex-1 text-sm">
           {bookRating}
-          <SimilarBooks {...props} tags={(book as any).tags?.map((t: any) => t.id)} />
+          <SimilarBooks params={use(props.params)} tags={(book as any).tags?.map((t: any) => t.id)} />
         </aside>
       </div>
     </div>
