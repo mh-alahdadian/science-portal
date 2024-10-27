@@ -16,7 +16,7 @@ export function Tabs<T extends string | number>(props: Props<T>) {
           key={o.value}
           role="tab"
           onClick={() => props.onChange(o.value)}
-          className={clsx(`tab border-primary`, props.active === o.value && 'tab-active [--bc:var(--p)]')}
+          className={clsx(`tab sm:text-sm border-primary`, props.active === o.value && 'tab-active [--bc:var(--p)]')}
         >
           {o.title}
         </button>

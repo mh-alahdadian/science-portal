@@ -8,32 +8,38 @@ import { PersonalInfo } from './PersonalInfo';
 import { Roles } from './Roles';
 import SecurityTab from './SecurityTab';
 
-const tabs = [
+const scopesTab = { value: 'scopes', title: 'حوزه‌های من' };
+const desktopTabs = [
   { value: 'profile', title: 'اطلاعات کاربری' },
   { value: 'security', title: 'امنیت' },
-  // { value: 'roles', title: 'نقش' },
 ];
+const mobileTabs = [...desktopTabs, scopesTab];
 
 export default function Profile(props: PageProps<'scopeId' | 'id'>) {
   const params = use(props.params);
-  const [tab, setTab] = useState(tabs[0].value);
+  const [tab, setTab] = useState(desktopTabs[0].value);
   const profile = useProfile();
 
-  const { isMedium } = useScreen();
+  const { isSmall } = useScreen();
+
+  const activeTab = tab === scopesTab.value && !isSmall ? desktopTabs[0].value : tab;
 
   return (
     <>
       <Breadcrumb items={[{ text: 'پروفایل' }]} params={params} />
       <div className="flex gap-6">
         <div className="card flex-1">
-          <Tabs options={tabs} active={tab} onChange={setTab} className="mb-6" />
-          {tab === 'profile' && <PersonalInfo profile={profile!} />}
-          {tab === 'security' && <SecurityTab />}
+          <Tabs options={isSmall ? mobileTabs : desktopTabs} active={activeTab} onChange={setTab} className="mb-6" />
+          {activeTab === 'profile' && <PersonalInfo profile={profile!} />}
+          {activeTab === 'security' && <SecurityTab />}
+          {activeTab === 'scopes' && <Roles profile={profile!} />}
         </div>
-        <div className="card flex-1">
-          <div className="card-title mb-6">حوزه‌های من</div>
-          <Roles profile={profile!} />
-        </div>
+        {!isSmall && (
+          <div className="card flex-1">
+            <div className="card-title mb-6">{scopesTab.title}</div>
+            <Roles profile={profile!} />
+          </div>
+        )}
       </div>
     </>
   );
