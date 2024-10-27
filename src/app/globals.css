@@ -6,8 +6,8 @@ html {
   scrollbar-gutter: unset !important;
 }
 
-html,
 body {
+  min-height: 100vh;
   height: 100%;
   font-family: Vazirmatn;
   background: #f0f0f0;

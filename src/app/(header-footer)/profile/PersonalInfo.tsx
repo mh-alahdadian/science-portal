@@ -14,7 +14,12 @@ export function PersonalInfo(props: Props) {
   const { profile } = props;
 
   const { mutateAsync: mutateProfile } = useMutation(mutateService('put', 'core:/v1/users/profile'));
-  const { register, handleSubmit, reset, formState: { isDirty } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isDirty },
+  } = useForm({
     defaultValues: profile,
   });
 
@@ -46,9 +51,9 @@ export function PersonalInfo(props: Props) {
   return (
     <form className="flex flex-col gap-6" onSubmit={submit}>
       <div className="flex items-center gap-6">
-        <div className="avatar w-64 h-64 border-2 overflow-hidden rounded-full">{image}</div>
+        <div className="avatar border-2 overflow-hidden rounded-full">{image}</div>
         <div className="flex flex-col gap-4">
-          <span className='font-extrabold text-2xl'>نام کاربری</span>
+          <span className="font-extrabold text-2xl">نام کاربری</span>
           <div>
             <span className="text-black text-opacity-50 me-2">تاریخ عضویت</span>
             {formatDateTime(Date.now())}
@@ -56,16 +61,20 @@ export function PersonalInfo(props: Props) {
         </div>
       </div>
       <div className="grid grid-cols-2 gap-6">
-        <TextField  {...register('firstName')} label="نام" />
-        <TextField  {...register('lastName')} label="نام نام خانوادگی" />
-        <TextField  {...register('birthDay')} label="تاریخ تولد" />
-        <TextField  {...register('education')} label="تحصیلات" />
-        <TextField  {...register('job')} label="شماره موبایل" />
-        <TextField  {...register('email')} label="ایمیل" />
+        <TextField {...register('firstName')} label="نام" />
+        <TextField {...register('lastName')} label="نام نام خانوادگی" />
+        <TextField {...register('birthDay')} label="تاریخ تولد" />
+        <TextField {...register('education')} label="تحصیلات" />
+        <TextField {...register('job')} label="شماره موبایل" />
+        <TextField {...register('email')} label="ایمیل" />
       </div>
       <div className="card-actions w-full gap-6">
-        <button className="btn-neutral flex-1" onClick={() => reset(profile)}>انصراف</button>
-        <button className="btn-primary flex-1" disabled={isSaveDisabled}>ذخیره</button>
+        <button className="btn-neutral flex-1" onClick={() => reset(profile)}>
+          انصراف
+        </button>
+        <button className="btn-primary flex-1" disabled={isSaveDisabled}>
+          ذخیره
+        </button>
       </div>
     </form>
   );
