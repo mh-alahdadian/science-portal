@@ -2,7 +2,7 @@
 import StatisticCard from './_components/StatisticCard';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { queryService } from '@/api';
-import { useMemo } from 'react';
+import { useMemo, use } from 'react';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts/highstock';
 import { formatDateTime } from '@service/utils';
@@ -21,7 +21,8 @@ const commonChartData = {
 
 const statisticColors = ['7BDFF2', 'B2F7EF', 'EFF7F6', 'F7D6E0', 'F2B5D4', 'ffa69e', 'b2ff9e', 'fcd29f'];
 
-export default function NewsDashboard({ params }: PageProps<'scopeId'>) {
+export default function NewsDashboard(props: PageProps<'scopeId'>) {
+  const params = use(props.params);
   const dailyPostsReport = useSuspenseQuery(
     queryService('news:/v1/report/daily/posts', { params: { query: { scopeId: +params.scopeId } } }),
   ).data;

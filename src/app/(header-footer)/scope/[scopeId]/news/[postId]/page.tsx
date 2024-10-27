@@ -1,4 +1,5 @@
-'use client';
+'use client';;
+import { use } from "react";
 
 import { queryService } from '@/api';
 import { Breadcrumb, Editor } from '@/components';
@@ -9,7 +10,8 @@ import { createFileUrl, formatDateTime } from '@/utils';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import NewsList from './NewsList';
 
-export default function NewsPostPage({ params }: PageProps<'scopeId' | 'postId'>) {
+export default function NewsPostPage(props: PageProps<'scopeId' | 'postId'>) {
+  const params = use(props.params);
   const scope = useCurrentScope();
   const news = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/posts/{postId}', {

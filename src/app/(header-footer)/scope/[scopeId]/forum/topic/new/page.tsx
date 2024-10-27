@@ -1,4 +1,5 @@
-'use client';
+'use client';;
+import { use } from "react";
 
 import { mutateService, queryService } from '@/api';
 import { EntityForm } from '@/components';
@@ -55,7 +56,8 @@ const uiSchema: UiSchema<Pick<Topic, 'title' | 'content' | 'tags'>, JsonSchema> 
 };
 
 export default function NewTopicPage(props: PageProps<'scopeId', 'categoryId'>) {
-  if (!props.searchParams.categoryId) notFound();
+  const searchParams = use(props.searchParams);
+  if (!searchParams.categoryId) notFound();
 
   const router = useRouter();
   const { mutate } = useMutation({
@@ -67,17 +69,17 @@ export default function NewTopicPage(props: PageProps<'scopeId', 'categoryId'>) 
   });
 
   return (
-    <div>
+    (<div>
       <EntityForm
         schema={schema}
         uiSchema={uiSchema}
         onSubmit={({ formData }) =>
           mutate({
-            params: { path: props.params },
-            body: { categoryId: +props.searchParams.categoryId, enable: true, ...formData! },
+            params: { path: params },
+            body: { categoryId: +searchParams.categoryId, enable: true, ...formData! },
           })
         }
       />
-    </div>
+    </div>)
   );
 }

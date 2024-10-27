@@ -7,7 +7,7 @@ import { createFileUrl } from '@/utils';
 import { CaretLeft, Download } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, use } from 'react';
 import { DateObject } from 'react-multi-date-picker';
 import Select from 'react-select';
 import { BookInfo } from '../components/BookInfo';
@@ -20,7 +20,8 @@ interface Filter {
   label: string;
 }
 
-export default function Library({ params }: PageProps<'scopeId'>) {
+export default function Library(props: PageProps<'scopeId'>) {
+  const params = use(props.params);
   const [currentPage, setCurrentPage] = useState(0);
   const [perPage, setPerPage] = useState(15);
   const [filteredTitle, setFilteredTitle] = useState<string>();

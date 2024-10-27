@@ -6,7 +6,8 @@ import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { BookInfo } from '../../components/BookInfo';
 
-interface Props extends PageProps<'scopeId' | 'bookId'> {
+interface Props {
+  params: Awaited<PageProps<'scopeId' | 'bookId'>['params']>;
   tags: number[];
 }
 

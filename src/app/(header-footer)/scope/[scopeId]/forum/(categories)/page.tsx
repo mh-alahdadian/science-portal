@@ -1,4 +1,5 @@
-'use client';
+'use client';;
+import { use } from "react";
 
 import { queryService } from '@/api';
 import { useCurrentScope } from '@/hooks';
@@ -10,7 +11,8 @@ import Community from '../../assets/Community.svg';
 
 const mockImage = `https://api.slingacademy.com/public/sample-photos/{}.jpeg`;
 
-export default function Categories({ params }: PageProps<'scopeId' | 'categoryId'>) {
+export default function Categories(props: PageProps<'scopeId' | 'categoryId'>) {
+  const params = use(props.params);
   const scope = useCurrentScope();
   const categories = useSuspenseQuery(
     queryService('forum:/v1/scope/{scopeId}/categories', {

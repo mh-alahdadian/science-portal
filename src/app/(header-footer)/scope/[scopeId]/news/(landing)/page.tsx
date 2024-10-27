@@ -2,7 +2,7 @@
 
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useState, use } from 'react';
 import { DateObject } from 'react-multi-date-picker';
 import Select from 'react-select';
 
@@ -31,7 +31,8 @@ interface Filter {
   label: string;
 }
 
-export default function AllNews({ params }: PageProps<'scopeId'>) {
+export default function AllNews(props: PageProps<'scopeId'>) {
+  const params = use(props.params);
   const { data: categories, isLoading: loadingCategories } = useSuspenseQuery({
     ...queryService('news:/v1/scope/{scopeId}/categories', {
       params: { path: { scopeId: params.scopeId } },

@@ -31,9 +31,7 @@ export function FieldWrapper(props: Props) {
           <span className="label-text-alt">{labelAlt}</span>
         </div>
       )}
-
       {children}
-
       {(helperText || helperAltText) && (
         // in design this texts has line-height:18px
         <div className="label pb-0">

@@ -4,7 +4,7 @@ import { queryService } from '@/api';
 import { Dialog, Table } from '@/components';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import { useState } from 'react';
+import { useState, use } from 'react';
 import { columns } from './columns';
 import UserEditForm from './UserEditForm';
 import { RowData, createColumnHelper } from '@tanstack/react-table';
@@ -19,7 +19,8 @@ declare module '@tanstack/table-core' {
   }
 }
 
-export default function UserManagement({ params }: PageProps<'scopeId' | 'id'>) {
+export default function UserManagement(props: PageProps<'scopeId' | 'id'>) {
+  const params = use(props.params);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const usersQuery = useSuspenseQuery(
     queryService('core:/v1/manager/{page}/users', {

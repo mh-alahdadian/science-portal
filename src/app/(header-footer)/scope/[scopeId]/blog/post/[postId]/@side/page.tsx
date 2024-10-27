@@ -1,4 +1,5 @@
-'use client';
+'use client';;
+import { use } from "react";
 
 import { queryService } from '@/api';
 import { TextIcon } from '@/components';
@@ -6,7 +7,8 @@ import { ChatTeardropDots, ReadCvLogo, ThumbsUp, User, UserPlus } from '@phospho
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { BlogPostMock, mockPosts } from '../../../mocks';
 
-export default function BlogPostSidebar({ params }: PageProps<'scopeId'>) {
+export default function BlogPostSidebar(props: PageProps<'scopeId'>) {
+  const params = use(props.params);
   const post: BlogPostMock = useSuspenseQuery({
     ...queryService('article:/v1/scope/{scopeId}/post/{postId}' as any, { params: { path: params } }),
     queryFn: () => mockPosts().content![0],
