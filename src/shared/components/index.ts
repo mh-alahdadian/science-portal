@@ -21,4 +21,5 @@ export * from './RatingChart';
 export * from './Table';
 export * from './Tags';
 export * from './TextIcon';
+export * from './Loading';
 export const Editor = dynamic(() => import('./editor/Editor'), { ssr: false });

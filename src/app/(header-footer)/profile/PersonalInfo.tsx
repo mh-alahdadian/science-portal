@@ -49,7 +49,7 @@ export function PersonalInfo(props: Props) {
       </div>
       <div className="grid grid-cols-2 gap-6">
         <TextField {...register('firstName')} label="نام" />
-        <TextField {...register('lastName')} label="نام نام خانوادگی" />
+        <TextField {...register('lastName')} label="نام خانوادگی" />
         <TextField {...register('birthDay')} label="تاریخ تولد" />
         <TextField {...register('education')} label="تحصیلات" />
         <TextField {...register('job')} label="شماره موبایل" />

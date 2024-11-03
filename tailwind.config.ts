@@ -50,7 +50,7 @@ const gridTemplate = plugin(({ matchUtilities, theme }) => {
 });
 
 const tagComponent = plugin(({ addComponents, matchComponents }) => {
-  addComponents({ '.tag': {  background: '#CBD5DF7f' } }, {});
+  addComponents({ '.tag': { background: '#CBD5DF7f' } }, {});
   // matchComponents({ tag: (values) => ({ padding: '0.75rem', background: '#CBD5DF7f' }) }, {  });
 });
 
@@ -63,6 +63,9 @@ const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     extend: {
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',

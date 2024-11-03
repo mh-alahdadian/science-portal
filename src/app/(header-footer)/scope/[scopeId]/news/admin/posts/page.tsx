@@ -1,7 +1,7 @@
 'use client';
 
 import { mutateService, queryService } from '@/api';
-import { Paginator, Table } from '@/components';
+import { dynamicWithLoading, Paginator, Table } from '@/components';
 import { Filter } from '@/components/filter';
 import { defaultPagination } from '@/constants';
 import { combineQueries } from '@/query';
@@ -11,15 +11,15 @@ import { Plus } from '@phosphor-icons/react';
 import { useMutation, useQueryClient, useSuspenseQueries } from '@tanstack/react-query';
 import {
   ColumnFiltersState,
+  getCoreRowModel,
   RowData,
   RowSelectionState,
   SortingState,
-  getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 import Link from 'next/link';
 import { indexBy, isEmpty, prop } from 'ramda';
-import { useState, use } from 'react';
+import { use, useState } from 'react';
 import { toast } from 'react-toastify';
 import { columns } from './cols';
 
@@ -30,7 +30,7 @@ declare module '@tanstack/table-core' {
   }
 }
 
-export default function Admin(props: PageProps<'scopeId'>) {
+function Admin(props: PageProps<'scopeId'>) {
   const params = use(props.params);
   const [pagination, setPagination] = useState(defaultPagination);
   const [filter, setFilter] = useState<ColumnFiltersState>([]);
@@ -58,10 +58,10 @@ export default function Admin(props: PageProps<'scopeId'>) {
   });
 
   const { mutateAsync: mutateStatus } = useMutation(
-    mutateService('patch', 'news:/v1/manager/{page}/posts/{postId}/status'),
+    mutateService('patch', 'news:/v1/manager/{page}/posts/{postId}/status')
   );
   const { mutateAsync: mutateBulkPublish } = useMutation(
-    mutateService('post', 'news:/v1/manager/{page}/posts/publish'),
+    mutateService('post', 'news:/v1/manager/{page}/posts/publish')
   );
 
   const table = useReactTable({
@@ -147,7 +147,9 @@ const filterStyles = css`
   display: grid;
   grid: repeat(2, auto) / repeat(6, auto);
 
-  label:not([class*="col-span"]) {
+  label:not([class*='col-span']) {
     grid-column: span 2 / span 2;
   }
 `;
+
+export default dynamicWithLoading(Admin);
