@@ -14,5 +14,5 @@ export function useScreen() {
   const isLarge = size.width >= breakpoint.lg;
   const isMedium = !(isLarge || isSmall);
 
-  return { isSmall, isMedium, isLarge, isLandscape: size.width > size.height };
+  return { isSmall, isMedium, isLarge, isLandscape: size.width > size.height, size, breakpoint };
 }
