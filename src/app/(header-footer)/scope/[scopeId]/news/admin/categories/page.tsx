@@ -1,15 +1,15 @@
 'use client';
 
 import { queryService } from '@/api';
-import { Dialog, Table } from '@/components';
+import { Dialog, dynamicWithLoading, Table } from '@/components';
 import { defaultPagination } from '@/constants';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { getCoreRowModel, getPaginationRowModel, useReactTable } from '@tanstack/react-table';
-import { useState, use } from 'react';
+import { use, useState } from 'react';
 import { columns } from './cols';
 import { Form } from './form';
 
-export default function TopicsTab(props: PageProps<'scopeId'>) {
+function TopicsTab(props: PageProps<'scopeId'>) {
   const params = use(props.params);
   const [selectedCategory, setSelectedCategory] = useState<SchemaOf<'news', 'CategoryDTO'> | null>(null);
 
@@ -52,3 +52,5 @@ export default function TopicsTab(props: PageProps<'scopeId'>) {
     </div>
   );
 }
+
+export default dynamicWithLoading(TopicsTab);
