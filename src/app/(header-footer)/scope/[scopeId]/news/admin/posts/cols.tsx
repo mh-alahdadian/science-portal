@@ -16,7 +16,8 @@ declare module '@tanstack/table-core' {
 }
 
 export const columns = [
-  columnHelper.accessor('id', {
+  columnHelper.display({
+    id: 'ckeckbox',
     header: '',
     size: 10,
     cell: (props) => {
@@ -26,7 +27,7 @@ export const columns = [
           type="checkbox"
           className="checkbox checkbox-sm rounded-full"
           checked={isSelected}
-          onClick={() => props.row.toggleSelected()}
+          onChange={() => props.row.toggleSelected()}
         />
       );
     },
@@ -82,7 +83,7 @@ export const columns = [
 
   columnHelper.accessor('isPublic', {
     header: 'سطح دسترسی',
-    cell: ({ getValue }) => ({ true: 'عمومی', false: 'خصوصی' })[String(getValue()!)],
+    cell: ({ getValue }) => ({ true: 'عمومی', false: 'خصوصی' }[String(getValue()!)]),
     filter: ({ column, table }) => {
       return (
         <InlineSelectField
