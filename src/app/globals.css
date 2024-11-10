@@ -52,9 +52,14 @@ time {
     opacity: 0.3;
   }
 
-  .tag{
+  .table-zebra tbody tr:nth-child(2n + 1) {
+    --tw-bg-opacity: 1;
+    background-color: white;
+  }
+
+  .tag {
     padding: 0.25rem 0.375rem;
-    border: 1px solid #D1D6DB;
+    border: 1px solid #d1d6db;
     border-radius: 1rem;
   }
 

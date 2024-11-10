@@ -1,7 +1,7 @@
 import { getParsedToken } from '@/api';
+import { Permission } from '@/constants';
+import { createFileUrl } from '@/utils';
 import { LockKey } from '@phosphor-icons/react';
-import { Permission } from '@service/constants';
-import { createFileUrl } from '@service/utils';
 import clsx from 'clsx';
 import Link from 'next/link';
 

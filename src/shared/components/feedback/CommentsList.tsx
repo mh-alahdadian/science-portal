@@ -1,6 +1,6 @@
 import { queryService } from '@/api';
 import { ModelType, ReactionType } from '@/constants';
-import { createFileUrl, formatDateTime } from '@service/utils';
+import { createFileUrl, formatDateTime } from '@/utils';
 import { useQuery } from '@tanstack/react-query';
 import { Reaction } from './Reaction';
 

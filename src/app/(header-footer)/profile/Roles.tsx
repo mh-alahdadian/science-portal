@@ -1,5 +1,5 @@
 import { queryService } from '@/api';
-import { createFileUrl } from '@service/utils';
+import { createFileUrl } from '@/utils';
 import { useQuery } from '@tanstack/react-query';
 import { indexBy, prop } from 'ramda';
 

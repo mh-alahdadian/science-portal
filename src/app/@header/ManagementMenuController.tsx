@@ -23,7 +23,7 @@ export default function AuthDialogController(props: HeaderProps) {
   if (!serviceInfo || !authorities || !authorities.includes(serviceInfo.permission)) return null;
 
   return (
-    <Link role="button" className="btn-link text-[aqua]" href={url}>
+    <Link role="button" className="btn-ghost text-white" href={url}>
       مدیریت {serviceInfo.title}
     </Link>
   );

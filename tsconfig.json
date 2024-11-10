@@ -16,8 +16,8 @@
     "incremental": true,
     "plugins": [{ "name": "next" }],
     "paths": {
-      "@service/*": ["./src/app/(header-footer)/scope/[scopeId]/*", "./src/shared/*"],
-      "@/*": ["./src/core/*", "./src/shared/*"],
+      "@service/*": ["./src/app/(header-footer)/scope/[scopeId]/*"],
+      "@/*": ["./src/core/*", "./src/shared/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

@@ -1,5 +1,5 @@
 import { mutateService } from '@/api';
-import { TextField } from '@service/components';
+import { TextField } from '@/components';
 import { useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 

@@ -1,6 +1,7 @@
 import { Pen } from '@phosphor-icons/react';
-import { RowData, createColumnHelper } from '@tanstack/react-table';
+import { AccessorKeyColumnDef, RowData, createColumnHelper } from '@tanstack/react-table';
 import { Dispatch, SetStateAction } from 'react';
+import { TextCell } from 'src/shared/components';
 
 type User = Schema<'UserInfoDTO'>;
 
@@ -13,7 +14,7 @@ declare module '@tanstack/table-core' {
   }
 }
 
-export const columns = [
+export const userInfoColumns = [
   columnHelper.accessor('id', {
     header: 'شناسه',
     enableSorting: false,
@@ -21,37 +22,33 @@ export const columns = [
 
   columnHelper.accessor('firstName', {
     header: 'نام',
-    cell: ({ row }) => {
-      return <span className="block max-w-52 overflow-hidden text-ellipsis">{row.original.firstName}</span>;
-    },
+    cell: TextCell,
     enableSorting: false,
   }),
 
   columnHelper.accessor('lastName', {
     header: 'نام خانوادگی',
-    cell: ({ row }) => {
-      return <span className="block max-w-52 overflow-hidden text-ellipsis">{row.original.lastName}</span>;
-    },
+    cell: TextCell,
     enableSorting: false,
   }),
 
   columnHelper.accessor('email', {
     header: 'آدرس ایمیل',
-    cell: ({ row }) => {
-      return <span className="block max-w-52 overflow-hidden text-ellipsis">{row.original.email}</span>;
-    },
+    cell: TextCell,
     enableSorting: false,
   }),
 
   columnHelper.accessor('phoneNumber', {
     header: 'شماره موبایل',
-    cell: ({ row }) => {
-      return <span className="block max-w-52 overflow-hidden text-ellipsis">{row.original.phoneNumber}</span>;
-    },
+    cell: TextCell,
     enableSorting: false,
   }),
+] as AccessorKeyColumnDef<User, any>[];
 
+export const columns = [
+  ...userInfoColumns,
   columnHelper.display({
+    id: 'actions',
     header: 'فعالیت‌ها',
     enableSorting: false,
 

@@ -1,12 +1,12 @@
 'use client';
-import StatisticCard from './_components/StatisticCard';
-import { useSuspenseQuery } from '@tanstack/react-query';
 import { queryService } from '@/api';
-import { useMemo, use } from 'react';
+import { dynamicWithLoading } from '@/components';
+import { formatDateTime } from '@/utils';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import HighchartsReact from 'highcharts-react-official';
 import Highcharts from 'highcharts/highstock';
-import { formatDateTime } from '@service/utils';
-import { dynamicWithLoading } from '@service/components';
+import { use, useMemo } from 'react';
+import StatisticCard from './_components/StatisticCard';
 
 const commonChartData = {
   yAxis: {
@@ -25,15 +25,15 @@ const statisticColors = ['7BDFF2', 'B2F7EF', 'EFF7F6', 'F7D6E0', 'F2B5D4', 'ffa6
 function NewsDashboard(props: PageProps<'scopeId'>) {
   const params = use(props.params);
   const dailyPostsReport = useSuspenseQuery(
-    queryService('news:/v1/report/daily/posts', { params: { query: { scopeId: +params.scopeId } } }),
+    queryService('news:/v1/report/daily/posts', { params: { query: { scopeId: +params.scopeId } } })
   ).data;
 
   const monthlyPostsReport = useSuspenseQuery(
-    queryService('news:/v1/report/monthly/posts', { params: { query: { scopeId: +params.scopeId } } }),
+    queryService('news:/v1/report/monthly/posts', { params: { query: { scopeId: +params.scopeId } } })
   ).data;
 
   const todayNewsReport = useSuspenseQuery(
-    queryService('news:/v1/report/online/today/posts', { params: { query: { scopeId: +params.scopeId } } }),
+    queryService('news:/v1/report/online/today/posts', { params: { query: { scopeId: +params.scopeId } } })
   ).data;
 
   const { allNewsPerMonth, allCommentsPerMonth, monthTitles } = useMemo(() => {
