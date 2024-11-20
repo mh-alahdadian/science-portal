@@ -16,7 +16,7 @@ declare module '@tanstack/table-core' {
 export default function MembershipAdmin(props: PageProps<'scopeId' | 'id'>) {
   const params = use(props.params);
 
-  const { mutateAsync } = useMutation(mutateService('' as any, 'core:/v1/manager/membership' as any));
+  const { mutateAsync } = useMutation(mutateService('post', 'core:/v1/manager/{page}/membership-requests'));
   const membershipsQuery = useSuspenseQuery(
     queryService('core:/v1/manager/{page}/membership-requests', {
       params: {
@@ -25,7 +25,7 @@ export default function MembershipAdmin(props: PageProps<'scopeId' | 'id'>) {
       },
     })
   );
-  const memberships = membershipsQuery.data.content!
+  const memberships = membershipsQuery.data.content!;
 
   const table = useReactTable({
     columns,
@@ -33,7 +33,10 @@ export default function MembershipAdmin(props: PageProps<'scopeId' | 'id'>) {
     getCoreRowModel: getCoreRowModel(),
     meta: {
       applyMembershipApproval: (id, approval) => {
-        mutateAsync({ body: { id, approval } });
+        mutateAsync({
+          params: { path: { page: String(params.scopeId) } },
+          body: { id, accepted: approval },
+        });
       },
     },
   });
