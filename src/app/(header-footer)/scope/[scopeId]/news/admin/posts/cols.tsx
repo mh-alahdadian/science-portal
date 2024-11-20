@@ -61,7 +61,7 @@ export const columns = [
 
   columnHelper.accessor('categoryId', {
     header: 'دسته‌بندی',
-    cell: ({ getValue, table }) => table.options.meta!.categories[getValue()!]?.title,
+    cell: ({ getValue, table }) => table.options.meta!.categories![getValue()!]?.title,
     filter: ({ column, table }) => {
       return (
         <InlineSelectField
@@ -70,7 +70,7 @@ export const columns = [
           onChange={(e) => column.setFilterValue(e.target.value)}
         >
           <option value="">همه</option>
-          {Object.values(table.options.meta!.categories).map((cat) => (
+          {Object.values(table.options.meta!.categories!).map((cat) => (
             <option key={cat!.id} value={cat!.id} className="menu-item">
               {cat!.title}
             </option>
@@ -169,7 +169,7 @@ export const columns = [
           className="select-sm"
           value={row.original.statusId}
           onChange={(e) => {
-            handleChangeStatus(e, row.original.id!);
+            handleChangeStatus!(e, row.original.id!);
           }}
         >
           <option value={NewsStatusId.DRAFT}>پیش‌نویس</option>

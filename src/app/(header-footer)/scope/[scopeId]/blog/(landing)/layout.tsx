@@ -5,6 +5,7 @@ import { Breadcrumb } from '@/components';
 
 export default function BlogLandingSidebar(props: LayoutProps<'side'> & PageProps<'scopeId'>) {
   const params = use(props.params);
+  const { children, side } = props
   return (<>
     <Breadcrumb params={params} items={[{ text: 'بلاگ' }]} />
     <div className="flex gap-6">

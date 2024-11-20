@@ -3,19 +3,9 @@ import { Check, X } from '@phosphor-icons/react';
 import { AccessorKeyColumnDef, RowData, createColumnHelper } from '@tanstack/react-table';
 import { userInfoColumns } from '../users/columns';
 
-type User = Schema<'UserInfoDTO'>;
+type MembershipResponseDTO = Schema<'MembershipResponseDTO'>;
 
-interface MembershipRequestDTO {
-  id: number;
-  user: Schema<'UserInfoDTO'>;
-  scopeId: number;
-  status: 'accepted' | 'rejected' | 'pending';
-  reason?: string;
-  requestedAt: string;
-  respondAt?: string;
-}
-
-const columnHelper = createColumnHelper<MembershipRequestDTO>();
+const columnHelper = createColumnHelper<MembershipResponseDTO>();
 
 declare module '@tanstack/table-core' {
   export interface TableMeta<TData extends RowData> {
@@ -26,7 +16,7 @@ declare module '@tanstack/table-core' {
 export const columns = [
   ...userInfoColumns
     .filter((c) => c.id !== 'actions')
-    .map((c) => ({ ...c, accessorKey: 'user.' + c.accessorKey } as AccessorKeyColumnDef<MembershipRequestDTO, any>)),
+    .map((c) => ({ ...c, accessorKey: 'user.' + c.accessorKey } as AccessorKeyColumnDef<MembershipResponseDTO, any>)),
   columnHelper.accessor('requestedAt', {
     header: 'زمان درخواست',
     enableSorting: false,
@@ -44,7 +34,7 @@ export const columns = [
   columnHelper.display({
     id: 'actions',
     cell({ row }) {
-      if (row.original.status !== 'pending') return;
+      if (row.original.status !== 'PENDING') return;
       return (
         <div className="flex gap-4">
           <button className="btn-sm btn-circle btn-success">

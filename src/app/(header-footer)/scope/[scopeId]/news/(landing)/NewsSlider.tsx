@@ -13,7 +13,7 @@ function getFirstParagraph(content: string) {
   return idx ? content.slice(3, idx) : '';
 }
 
-export function NewsSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
+export function NewsSlider({ params }: { params: Awaited<PageProps<'scopeId'>['params']> }) {
   const topNews = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/posts', {
       params: {

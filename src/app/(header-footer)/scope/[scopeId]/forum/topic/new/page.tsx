@@ -1,5 +1,5 @@
-'use client';;
-import { use } from "react";
+'use client';
+import { use } from 'react';
 
 import { mutateService, queryService } from '@/api';
 import { EntityForm } from '@/components';
@@ -57,6 +57,7 @@ const uiSchema: UiSchema<Pick<Topic, 'title' | 'content' | 'tags'>, JsonSchema> 
 
 export default function NewTopicPage(props: PageProps<'scopeId', 'categoryId'>) {
   const searchParams = use(props.searchParams);
+  const params = use(props.params);
   if (!searchParams.categoryId) notFound();
 
   const router = useRouter();
@@ -69,7 +70,7 @@ export default function NewTopicPage(props: PageProps<'scopeId', 'categoryId'>) 
   });
 
   return (
-    (<div>
+    <div>
       <EntityForm
         schema={schema}
         uiSchema={uiSchema}
@@ -80,6 +81,6 @@ export default function NewTopicPage(props: PageProps<'scopeId', 'categoryId'>) 
           })
         }
       />
-    </div>)
+    </div>
   );
 }

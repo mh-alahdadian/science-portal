@@ -27,7 +27,7 @@ const uiSchema: UiSchema<Pick<PostDTO, 'content'>, JsonSchema> = {
   },
 };
 
-export function NewPost({ params }: Pick<PageProps<'scopeId' | 'topicId'>, 'params'>) {
+export function NewPost({ params }: { params: Params<'scopeId' | 'topicId'> }) {
   const router = useRouter();
   const { mutate } = useMutation({
     ...mutateService('post', 'forum:/v1/scope/{scopeId}/topic/posts'),

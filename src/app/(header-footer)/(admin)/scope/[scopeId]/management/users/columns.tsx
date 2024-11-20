@@ -53,7 +53,7 @@ export const columns = [
     enableSorting: false,
 
     cell: (props) => {
-      const { setEditingUser } = props.table.options.meta!;
+      const setEditingUser = props.table.options.meta!.setEditingUser!;
 
       return (
         <div className="flex gap-2">

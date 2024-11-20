@@ -7,6 +7,7 @@ dayjs.extend(jalaliday);
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
 
+// @ts-ignore
 dayjs.calendar('jalali');
 
 export function formatDateTime(time: number | string) {

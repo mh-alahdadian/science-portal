@@ -7,7 +7,11 @@ import Link from 'next/link';
 
 const SLIDER_COUNT = 5;
 
-export function BooksSlider({ params }: Pick<PageProps<'scopeId'>, 'params'>) {
+interface Props {
+  params: Awaited<PageProps<'scopeId'>['params']>
+}
+
+export function BooksSlider({ params }: Props) {
   const items = useSuspenseQuery(
     queryService('library:/v1/scope/{scopeId}/books', {
       params: {

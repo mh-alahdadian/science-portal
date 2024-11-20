@@ -1,5 +1,12 @@
 import { Pen } from '@phosphor-icons/react';
-import { createColumnHelper } from '@tanstack/react-table';
+import { createColumnHelper, RowData } from '@tanstack/react-table';
+import { Dispatch, SetStateAction } from 'react';
+
+declare module '@tanstack/table-core' {
+  export interface TableMeta<TData extends RowData> {
+    setEditingItem?: Dispatch<SetStateAction<SchemaOf<'news', 'CategoryDTO'> | null>>;
+  }
+}
 
 const columnHelper = createColumnHelper<SchemaOf<'news', 'CategoryDTO'>>();
 
@@ -24,7 +31,7 @@ export const columns = [
     enableSorting: false,
 
     cell: (props) => {
-      const { setEditingItem } = props.table.options.meta as { setEditingItem: Function };
+      const setEditingItem = props.table.options.meta!.setEditingItem!;
       return (
         <div className="flex gap-2">
           <button className="btn-circle btn-transparent btn-sm" onClick={() => setEditingItem(props.row.original)}>

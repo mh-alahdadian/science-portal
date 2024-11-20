@@ -10,7 +10,7 @@ interface Props {
 
 export function BookInfo(props: Props) {
   const { book } = props;
-  const rating = book.feedbackStats!.rating || {};
+  const rating = book.feedbackStats!.rating! || {};
   return (
     <div className="w-full">
       <p className="card-title">{book.name}</p>

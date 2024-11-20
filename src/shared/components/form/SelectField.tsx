@@ -9,7 +9,7 @@ interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
   labelAlt?: ReactNode;
   helperText?: ReactNode;
   helperAltText?: ReactNode;
-  placeholder?: ReactNode;
+  placeholder?: string;
 
   children: ReactNode;
 
