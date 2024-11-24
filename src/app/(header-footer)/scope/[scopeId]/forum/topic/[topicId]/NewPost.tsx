@@ -8,6 +8,11 @@ import { useRouter } from 'next/navigation';
 
 type PostDTO = Schema<'PostDTO'>;
 
+interface Props {
+  params: Params<'scopeId' | 'topicId'>;
+  topic: Schema<'TopicResponseDTO'>;
+}
+
 const schema: JsonSchema = {
   type: 'object',
   properties: {
@@ -27,7 +32,7 @@ const uiSchema: UiSchema<Pick<PostDTO, 'content'>, JsonSchema> = {
   },
 };
 
-export function NewPost({ params }: { params: Params<'scopeId' | 'topicId'> }) {
+export function NewPost({ params, topic }: Props) {
   const router = useRouter();
   const { mutate } = useMutation({
     ...mutateService('post', 'forum:/v1/scope/{scopeId}/topic/posts'),
@@ -42,7 +47,7 @@ export function NewPost({ params }: { params: Params<'scopeId' | 'topicId'> }) {
         onSubmit={({ formData }) =>
           mutate({
             params: { path: { scopeId: params.scopeId } },
-            body: { topicId: params.topicId, ...formData! },
+            body: { topicId: params.topicId, title: topic.title, ...formData! },
           })
         }
       />

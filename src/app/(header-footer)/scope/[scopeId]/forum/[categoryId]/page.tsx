@@ -4,13 +4,13 @@ import { queryService } from '@/api';
 import { DataFilter, Table, Tags } from '@/components';
 import { defaultPagination } from '@/constants';
 import { useCurrentScope } from '@/hooks';
-import { formatDateTime, paginationStateToQuery } from '@/utils';
+import { formatDateTime, getFirstParagraph, paginationStateToQuery } from '@/utils';
 import { Plus } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createColumnHelper, getCoreRowModel, getPaginationRowModel, useReactTable } from '@tanstack/react-table';
 import { GridOptions } from 'ag-grid-community';
 import Link from 'next/link';
-import { useState, use } from 'react';
+import { use, useState } from 'react';
 import Community from '../../assets/Community.svg';
 
 type Topic = Schema<'TopicResponseDTO'>;
@@ -27,7 +27,9 @@ const colDefs = [
       return (
         <Link href={`topic/${topic.id}`}>
           <p className="text-base">{topic.title}</p>
-          <p className="text-sm text-opacity-50 whitespace-pre-wrap line-clamp-4 mt-2">{topic.content}</p>
+          <p className="text-sm text-opacity-50 whitespace-pre-wrap line-clamp-4 mt-2">
+            {getFirstParagraph(topic.content, 300)}
+          </p>
           <Tags tags={topic.tags!} />
         </Link>
       );
@@ -73,7 +75,7 @@ export default function Forum(props: PageProps<'scopeId' | 'categoryId'>) {
           ...paginationStateToQuery(pagination),
         },
       },
-    }),
+    })
   );
 
   const table = useReactTable({

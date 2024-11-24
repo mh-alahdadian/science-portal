@@ -6,7 +6,7 @@
     },
     "servers": [
         {
-            "url": "http://192.168.59.20:8585/forum/api",
+            "url": "http://cogcenter.ir/forum/api",
             "description": "Generated server url"
         }
     ],
@@ -59,6 +59,100 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            }
+        },
+        "/v1/scope/{scopeId}/topics": {
+            "get": {
+                "tags": [
+                    "topic-controller"
+                ],
+                "operationId": "getTopics",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "searchDTO",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/TopicSearchDTO"
+                        }
+                    },
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageTopicResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "topic-controller"
+                ],
+                "operationId": "createTopic",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TopicRequestDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TopicResponseDTO"
                                 }
                             }
                         }
@@ -431,100 +525,6 @@
                 ]
             }
         },
-        "/v1/scope/{scopeId}/topics": {
-            "get": {
-                "tags": [
-                    "topic-controller"
-                ],
-                "operationId": "getTopics",
-                "parameters": [
-                    {
-                        "name": "scopeId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    },
-                    {
-                        "name": "searchDTO",
-                        "in": "query",
-                        "schema": {
-                            "$ref": "#/components/schemas/TopicSearchDTO"
-                        }
-                    },
-                    {
-                        "name": "pageable",
-                        "in": "query",
-                        "schema": {
-                            "$ref": "#/components/schemas/Pageable"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/PageTopicResponseDTO"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "topic-controller"
-                ],
-                "operationId": "createTopic",
-                "parameters": [
-                    {
-                        "name": "scopeId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TopicRequestDTO"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/TopicResponseDTO"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            }
-        },
         "/v1/scope/{scopeId}/topics/{topicId}": {
             "get": {
                 "tags": [
@@ -818,6 +818,58 @@
                     }
                 }
             },
+            "TagEntity": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "TopicResponseDTO": {
+                "required": [
+                    "categoryId",
+                    "enable",
+                    "title"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "content": {
+                        "type": "string"
+                    },
+                    "categoryId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "enable": {
+                        "type": "boolean"
+                    },
+                    "lastActivityDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TagEntity"
+                        }
+                    },
+                    "public": {
+                        "type": "boolean"
+                    }
+                }
+            },
             "PostDTO": {
                 "type": "object",
                 "properties": {
@@ -847,18 +899,6 @@
                     "userName": {
                         "type": "string",
                         "readOnly": true
-                    }
-                }
-            },
-            "TagEntity": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "name": {
-                        "type": "string"
                     }
                 }
             },
@@ -966,13 +1006,13 @@
             "PageTopicResponseDTO": {
                 "type": "object",
                 "properties": {
-                    "totalPages": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "totalElements": {
                         "type": "integer",
                         "format": "int64"
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
                     },
                     "size": {
                         "type": "integer",
@@ -1045,46 +1085,6 @@
                         "type": "boolean"
                     },
                     "unsorted": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "TopicResponseDTO": {
-                "required": [
-                    "categoryId",
-                    "enable",
-                    "title"
-                ],
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "title": {
-                        "type": "string"
-                    },
-                    "content": {
-                        "type": "string"
-                    },
-                    "categoryId": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "enable": {
-                        "type": "boolean"
-                    },
-                    "lastActivityDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
-                    "tags": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/TagEntity"
-                        }
-                    },
-                    "public": {
                         "type": "boolean"
                     }
                 }

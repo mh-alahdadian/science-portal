@@ -1,6 +1,7 @@
 'use client';
 
 import { Editor } from '@/components';
+import { formatDateTime } from '@/utils';
 import { ThumbsDown, ThumbsUp } from '@phosphor-icons/react';
 
 interface Props {
@@ -14,7 +15,6 @@ const reactionIcon = {
 
 export function Post(props: Props) {
   let { post } = props;
-  const c = new Date(post.createdAt!).toLocaleString('fa-IR');
 
   const reaction = post.feedbackStats?.reaction || [
     {
@@ -30,12 +30,14 @@ export function Post(props: Props) {
 
   return (
     <div className="flex gap-2">
-      <div className="avatar w-10 h-10">MH</div>
+      <div className="avatar rounded-full placeholder bg-neutral text-neutral-content justify-center items-center w-10 h-10">
+        <span>{post.userName}</span>
+      </div>
       <div className="flex-1 flex flex-col gap-4">
         <div className="flex justify-between text-sm">
           <p className="font-bold">{post.userName}</p>
           <time className="text-black text-opacity-50" dateTime={post.createdAt}>
-            {c}
+            {formatDateTime(post.createdAt!)}
           </time>
         </div>
         {/* <div>
