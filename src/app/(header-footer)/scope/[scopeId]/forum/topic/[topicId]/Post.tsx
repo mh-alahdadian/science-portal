@@ -2,7 +2,7 @@
 
 import { Editor } from '@/components';
 import { formatDateTime } from '@/utils';
-import { ThumbsDown, ThumbsUp } from '@phosphor-icons/react';
+import { ThumbsDown, ThumbsUp, User } from '@phosphor-icons/react';
 
 interface Props {
   post: Schema<'PostResponseDTO'>;
@@ -12,6 +12,12 @@ const reactionIcon = {
   ThumbsUp: ThumbsUp,
   ThumbsDown: ThumbsDown,
 };
+
+function getAvatarPlaceholder(name: string) {
+  const words = name.split(' ');
+  const letters = words.length > 1 ? [words[0][0], words[1][1]] : [words[0][0], words[0][1]];
+  return letters;
+}
 
 export function Post(props: Props) {
   let { post } = props;
@@ -31,10 +37,10 @@ export function Post(props: Props) {
   return (
     <div className="flex gap-2">
       <div className="avatar rounded-full placeholder bg-neutral text-neutral-content justify-center items-center w-10 h-10">
-        <span>{post.userName}</span>
+        {post.userName ? getAvatarPlaceholder(post.userName).map((l) => <span>{l}</span>) : <User size={32} />}
       </div>
       <div className="flex-1 flex flex-col gap-4">
-        <div className="flex justify-between text-sm">
+        <div className="flex justify-between text-sm mt-2">
           <p className="font-bold">{post.userName}</p>
           <time className="text-black text-opacity-50" dateTime={post.createdAt}>
             {formatDateTime(post.createdAt!)}
