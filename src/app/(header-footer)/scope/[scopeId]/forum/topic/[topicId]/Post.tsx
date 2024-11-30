@@ -5,7 +5,8 @@ import { formatDateTime } from '@/utils';
 import { ThumbsDown, ThumbsUp, User } from '@phosphor-icons/react';
 
 interface Props {
-  post: Schema<'PostResponseDTO'>;
+  topic: Schema<'TopicResponseDTO'>;
+  post: Schema<'MessageResponseDTO'>;
 }
 
 const reactionIcon = {
@@ -20,19 +21,9 @@ function getAvatarPlaceholder(name: string) {
 }
 
 export function Post(props: Props) {
-  let { post } = props;
+  let { post, topic } = props;
 
-  const reaction = post.feedbackStats?.reaction || [
-    {
-      reactionType: 'ThumbsUp',
-      count: '5',
-      userReacted: true,
-    },
-    {
-      reactionType: 'ThumbsDown',
-      count: '9',
-    },
-  ];
+  const reaction = post.feedbackStats?.reaction || {};
 
   return (
     <div className="flex gap-2">
@@ -40,8 +31,8 @@ export function Post(props: Props) {
         {post.userName ? getAvatarPlaceholder(post.userName).map((l) => <span>{l}</span>) : <User size={32} />}
       </div>
       <div className="flex-1 flex flex-col gap-4">
-        <div className="flex justify-between text-sm mt-2">
-          <p className="font-bold">{post.userName}</p>
+        <div className="flex justify-between items-center text-sm h-10">
+          <p className="font-bold">{post.userName || 'ناشناس'}</p>
           <time className="text-black text-opacity-50" dateTime={post.createdAt}>
             {formatDateTime(post.createdAt!)}
           </time>
@@ -49,7 +40,7 @@ export function Post(props: Props) {
         {/* <div>
             {post.tags}
         </div> */}
-        <div className="font-bold">{post.title}</div>
+        <div className="font-bold">{topic.title}</div>
         <Editor
           className="text-black text-opacity-50"
           data={post.content}
@@ -57,12 +48,12 @@ export function Post(props: Props) {
           readonly
         />
         <div className="flex gap-6 ">
-          {reaction.map((r) => {
-            const Icon = reactionIcon[r.reactionType! as keyof typeof reactionIcon];
+          {Object.entries(reaction)?.map(([key, r]) => {
+            const Icon = reactionIcon[key as keyof typeof reactionIcon];
             return (
-              <button key={r.reactionType} className="flex items-center gap-2">
-                {r.count}
-                <Icon size={20} weight={r.userReacted ? 'fill' : 'regular'} />
+              <button key={key} className="flex items-center gap-2">
+                {r!.count}
+                <Icon size={20} weight={r!.userReacted ? 'fill' : 'regular'} />
               </button>
             );
           })}

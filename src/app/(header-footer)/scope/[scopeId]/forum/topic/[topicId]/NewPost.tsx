@@ -35,7 +35,7 @@ const uiSchema: UiSchema<Pick<PostDTO, 'content'>, JsonSchema> = {
 export function NewPost({ params, topic }: Props) {
   const router = useRouter();
   const { mutate } = useMutation({
-    ...mutateService('post', 'forum:/v1/scope/{scopeId}/topic/posts'),
+    ...mutateService('post', 'forum:/v1/scope/{scopeId}/topic/messages'),
   });
 
   return (
@@ -47,7 +47,7 @@ export function NewPost({ params, topic }: Props) {
         onSubmit={({ formData }) =>
           mutate({
             params: { path: { scopeId: params.scopeId } },
-            body: { topicId: params.topicId, title: topic.title, ...formData! },
+            body: { topicId: params.topicId, ...formData! },
           })
         }
       />

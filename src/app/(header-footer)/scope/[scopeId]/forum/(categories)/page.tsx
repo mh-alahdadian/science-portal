@@ -1,5 +1,5 @@
-'use client';;
-import { use } from "react";
+'use client';
+import { use } from 'react';
 
 import { queryService } from '@/api';
 import { useCurrentScope } from '@/hooks';
@@ -17,7 +17,7 @@ export default function Categories(props: PageProps<'scopeId' | 'categoryId'>) {
   const categories = useSuspenseQuery(
     queryService('forum:/v1/scope/{scopeId}/categories', {
       params: { path: { scopeId: +params.scopeId } },
-    }),
+    })
   ).data;
 
   return (
@@ -31,9 +31,14 @@ export default function Categories(props: PageProps<'scopeId' | 'categoryId'>) {
       </div>
       <div className="grid gap-6" css={styles}>
         {categories.map((cat, i) => (
-          <Link href={`forum/${cat.id}`} key={cat.id} className="card rounded-lg">
+          <Link href={`forum/${cat.id}`} key={cat.id} className="card p-0 rounded-lg">
             <figure>
-              <img src={createFileUrl(cat.coverImage) || mockImage.replace('{}', String(i + 1))} alt={cat.title} />
+              <img
+                src={
+                  cat.coverImage ? createFileUrl(cat.coverImage, cat.fileKey) : mockImage.replace('{}', String(i + 1))
+                }
+                alt={cat.title}
+              />
             </figure>
             <div className="card-body w-full text-center self-end">
               <p className="card-title justify-center">{cat.title}</p>

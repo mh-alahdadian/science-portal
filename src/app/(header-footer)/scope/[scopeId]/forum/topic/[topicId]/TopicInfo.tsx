@@ -15,7 +15,7 @@ export function TopicInfo(props: Props) {
   const relatedTopics = useSuspenseQuery(
     queryService('forum:/v1/scope/{scopeId}/topics', {
       params: { path: { scopeId }, query: { pageable: { size: 4 }, tags: topic.tags?.map((t) => t.id) } as any },
-    }),
+    })
   ).data.content!;
 
   return (
@@ -25,7 +25,7 @@ export function TopicInfo(props: Props) {
           { key: 'دسته بندی', value: topic.categoryId },
           { key: 'پاسخ‌ها', value: 106 },
           // { key: 'بازدید', value: '' },
-          { key: 'آخرین تاریخ فعالیت', value: topic.lastActivityDate },
+          { key: 'آخرین تاریخ فعالیت', value: topic.lastActivity || topic.createdAt },
         ].map((row, i) => (
           <div key={i} className="flex justify-between">
             <span>{row.key}</span>

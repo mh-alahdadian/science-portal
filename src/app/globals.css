@@ -78,8 +78,11 @@ time {
     opacity: 1;
   }
   .card {
-    @apply bg-white p-6;
+    @apply bg-white;
     --padding-card: 0;
+  }
+  .card:not(.image-full, [class*='p-']) {
+    @apply p-6;
   }
   .card.image-full:before {
     content: none;

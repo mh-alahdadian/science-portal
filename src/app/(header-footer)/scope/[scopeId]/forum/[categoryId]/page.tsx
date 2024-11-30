@@ -8,15 +8,11 @@ import { formatDateTime, getFirstParagraph, paginationStateToQuery } from '@/uti
 import { Plus } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createColumnHelper, getCoreRowModel, getPaginationRowModel, useReactTable } from '@tanstack/react-table';
-import { GridOptions } from 'ag-grid-community';
 import Link from 'next/link';
 import { use, useState } from 'react';
 import Community from '../../assets/Community.svg';
 
-type Topic = Schema<'TopicResponseDTO'>;
-type Options = GridOptions<Topic>;
-
-const columnHelper = createColumnHelper<SchemaOf<'forum', 'CategoryDTO'>>();
+const columnHelper = createColumnHelper<SchemaOf<'forum', 'TopicResponseDTO'>>();
 
 const colDefs = [
   columnHelper.display({
@@ -40,12 +36,12 @@ const colDefs = [
     header: 'پاسخ‌ها',
     cell: () => (Math.random() * 100).toFixed(),
   }),
-  columnHelper.accessor('updateAt', {
+  columnHelper.accessor('lastActivity', {
     maxSize: 200,
     header: 'آخرین تاریخ فعالیت',
     // field: 'title',
     // cellDataType: 'string',
-    cell: () => formatDateTime(Date.now() - Math.random() * 1000_000_000),
+    cell: ({ row, cell }) => (cell.getValue() ? formatDateTime(cell.getValue()!) : '-'),
   }),
 ];
 
@@ -63,7 +59,7 @@ export default function Forum(props: PageProps<'scopeId' | 'categoryId'>) {
   const [pagination, setPagination] = useState(defaultPagination);
 
   const {
-    data: { content: posts },
+    data: { content: topics },
     isError,
     isLoading,
     refetch,
@@ -80,7 +76,7 @@ export default function Forum(props: PageProps<'scopeId' | 'categoryId'>) {
 
   const table = useReactTable({
     columns: colDefs,
-    data: posts!,
+    data: topics!,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
@@ -112,7 +108,7 @@ export default function Forum(props: PageProps<'scopeId' | 'categoryId'>) {
           سوال جدید
         </Link>
       </div>
-      <Table table={table} hasData={!!posts} hasError={isError} isLoading={isLoading} refetch={refetch} />
+      <Table table={table} hasData={!!topics} hasError={isError} isLoading={isLoading} refetch={refetch} />
     </>
   );
 }

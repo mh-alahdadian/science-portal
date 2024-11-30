@@ -1,13 +1,18 @@
 {
     "openapi": "3.0.1",
     "info": {
-        "title": "OpenAPI definition",
-        "version": "v0"
+        "title": "forum API",
+        "description": "The forum service.",
+        "version": "1.0"
     },
     "servers": [
         {
-            "url": "http://cogcenter.ir/forum/api",
-            "description": "Generated server url"
+            "url": "https://cogcenter.ir/forum/api"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
         }
     ],
     "tags": [
@@ -63,12 +68,56 @@
                             }
                         }
                     }
-                },
-                "security": [
+                }
+            }
+        },
+        "/v1/manager/{page}/categories/{categoryId}": {
+            "put": {
+                "tags": [
+                    "category_management"
+                ],
+                "operationId": "updateCategory",
+                "parameters": [
                     {
-                        "Bearer Authentication": []
+                        "name": "page",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
                     }
-                ]
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CategoryDTO"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/v1/scope/{scopeId}/topics": {
@@ -113,12 +162,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             },
             "post": {
                 "tags": [
@@ -157,20 +201,15 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             }
         },
-        "/v1/scope/{scopeId}/topic/posts": {
+        "/v1/scope/{scopeId}/topic/messages": {
             "post": {
                 "tags": [
-                    "post-controller"
+                    "message-controller"
                 ],
-                "operationId": "setPublicPost",
+                "operationId": "setPublicMessages",
                 "parameters": [
                     {
                         "name": "scopeId",
@@ -186,7 +225,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/PostDTO"
+                                "$ref": "#/components/schemas/MessageDTO"
                             }
                         }
                     },
@@ -203,12 +242,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             }
         },
         "/v1/manager/{page}/topics": {
@@ -252,12 +286,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             },
             "post": {
                 "tags": [
@@ -295,12 +324,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             }
         },
         "/v1/manager/{page}/tags": {
@@ -340,12 +364,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             }
         },
         "/v1/manager/{page}/categories": {
@@ -385,20 +404,15 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             }
         },
-        "/v1/manager/{page}/topic/posts/{postId}/publish": {
+        "/v1/manager/{page}/topic/messages/{messageId}/publish": {
             "patch": {
                 "tags": [
-                    "post-controller"
+                    "message-controller"
                 ],
-                "operationId": "getPost",
+                "operationId": "getMessage",
                 "parameters": [
                     {
                         "name": "page",
@@ -409,7 +423,7 @@
                         }
                     },
                     {
-                        "name": "postId",
+                        "name": "messageId",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -437,64 +451,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
-            }
-        },
-        "/v1/manager/{page}/categories/{categoryId}/enable": {
-            "patch": {
-                "tags": [
-                    "category_management"
-                ],
-                "operationId": "enableOrDisable",
-                "parameters": [
-                    {
-                        "name": "page",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "categoryId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int32"
-                        }
-                    },
-                    {
-                        "name": "enable",
-                        "in": "query",
-                        "required": true,
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "*/*": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CategoryDTO"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             }
         },
         "/v1/tags": {
@@ -517,12 +474,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             }
         },
         "/v1/scope/{scopeId}/topics/{topicId}": {
@@ -562,20 +514,15 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             }
         },
-        "/v1/scope/{scopeId}/topic/{topicId}/posts": {
+        "/v1/scope/{scopeId}/topic/{topicId}/messages": {
             "get": {
                 "tags": [
-                    "post-controller"
+                    "message-controller"
                 ],
-                "operationId": "getPublicPost",
+                "operationId": "getPublicMessages",
                 "parameters": [
                     {
                         "name": "scopeId",
@@ -609,17 +556,12 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PagePostResponseDTO"
+                                    "$ref": "#/components/schemas/PageMessageResponseDTO"
                                 }
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             }
         },
         "/v1/scope/{scopeId}/categories": {
@@ -653,20 +595,15 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             }
         },
-        "/v1/manager/{page}/topic/{topicId}/posts": {
+        "/v1/manager/{page}/topic/{topicId}/messages": {
             "get": {
                 "tags": [
-                    "post-controller"
+                    "message-controller"
                 ],
-                "operationId": "getPost_1",
+                "operationId": "getMessage_1",
                 "parameters": [
                     {
                         "name": "page",
@@ -686,14 +623,6 @@
                         }
                     },
                     {
-                        "name": "isPublish",
-                        "in": "query",
-                        "required": false,
-                        "schema": {
-                            "type": "boolean"
-                        }
-                    },
-                    {
                         "name": "pageable",
                         "in": "query",
                         "schema": {
@@ -707,17 +636,12 @@
                         "content": {
                             "*/*": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PagePostResponseDTO"
+                                    "$ref": "#/components/schemas/PageMessageResponseDTO"
                                 }
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             }
         },
         "/v1/categories": {
@@ -750,12 +674,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "Bearer Authentication": []
-                    }
-                ]
+                }
             }
         }
     },
@@ -786,20 +705,12 @@
                     "enable": {
                         "type": "boolean"
                     },
-                    "lastActivityDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
                     "tags": {
                         "type": "array",
                         "items": {
                             "type": "integer",
                             "format": "int64"
                         }
-                    },
-                    "view": {
-                        "type": "integer",
-                        "format": "int64"
                     },
                     "public": {
                         "type": "boolean"
@@ -815,6 +726,126 @@
                     },
                     "message": {
                         "type": "string"
+                    }
+                }
+            },
+            "CategoryDTO": {
+                "required": [
+                    "coverImage",
+                    "scopeId",
+                    "title"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "coverImage": {
+                        "type": "string"
+                    },
+                    "fileKey": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "scopeId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "enable": {
+                        "type": "boolean"
+                    },
+                    "topicCount": {
+                        "type": "integer",
+                        "format": "int64",
+                        "readOnly": true
+                    },
+                    "createAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "updateAt": {
+                        "type": "string",
+                        "format": "date-time",
+                        "readOnly": true
+                    }
+                }
+            },
+            "FeedbackStatsDTO": {
+                "type": "object",
+                "properties": {
+                    "modelType": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "modelId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "commentCount": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "rating": {
+                        "$ref": "#/components/schemas/RatingResponseDTO"
+                    },
+                    "reaction": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/ReactionResponseDTO"
+                        }
+                    }
+                }
+            },
+            "RatingResponseDTO": {
+                "type": "object",
+                "properties": {
+                    "average": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "total": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "userScore": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "result": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/Result"
+                        }
+                    }
+                }
+            },
+            "ReactionResponseDTO": {
+                "type": "object",
+                "properties": {
+                    "count": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "userReacted": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Result": {
+                "type": "object",
+                "properties": {
+                    "count": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "percent": {
+                        "type": "number",
+                        "format": "double"
                     }
                 }
             },
@@ -855,30 +886,38 @@
                     "enable": {
                         "type": "boolean"
                     },
-                    "lastActivityDate": {
-                        "type": "string",
-                        "format": "date-time"
-                    },
                     "tags": {
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/TagEntity"
                         }
                     },
+                    "feedbackStats": {
+                        "$ref": "#/components/schemas/FeedbackStatsDTO"
+                    },
+                    "view": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "lastActivity": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
                     "public": {
                         "type": "boolean"
                     }
                 }
             },
-            "PostDTO": {
+            "MessageDTO": {
                 "type": "object",
                 "properties": {
                     "id": {
                         "type": "integer",
                         "format": "int64"
-                    },
-                    "title": {
-                        "type": "string"
                     },
                     "content": {
                         "type": "string"
@@ -899,60 +938,10 @@
                     "userName": {
                         "type": "string",
                         "readOnly": true
-                    }
-                }
-            },
-            "CategoryDTO": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64"
                     },
-                    "title": {
-                        "type": "string"
-                    },
-                    "coverImage": {
-                        "type": "string"
-                    },
-                    "scopeId": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "scopeTitle": {
-                        "type": "string"
-                    },
-                    "topicCount": {
-                        "type": "integer",
-                        "format": "int64",
-                        "readOnly": true
-                    },
-                    "parentId": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "children": {
-                        "type": "array",
-                        "readOnly": true,
-                        "items": {
-                            "$ref": "#/components/schemas/CategoryDTO"
-                        }
-                    },
-                    "createAt": {
+                    "userImage": {
                         "type": "string",
-                        "format": "date-time",
                         "readOnly": true
-                    },
-                    "updateAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "readOnly": true
-                    },
-                    "lastLayer": {
-                        "type": "boolean"
-                    },
-                    "enable": {
-                        "type": "boolean"
                     }
                 }
             },
@@ -1034,15 +1023,15 @@
                     "pageable": {
                         "$ref": "#/components/schemas/PageableObject"
                     },
-                    "numberOfElements": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
                     "first": {
                         "type": "boolean"
                     },
                     "last": {
                         "type": "boolean"
+                    },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
                     },
                     "empty": {
                         "type": "boolean"
@@ -1089,88 +1078,12 @@
                     }
                 }
             },
-            "CommentStats": {
-                "type": "object",
-                "properties": {
-                    "count": {
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                }
-            },
-            "FeedbackStatsDTO": {
-                "type": "object",
-                "properties": {
-                    "modelId": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "comment": {
-                        "$ref": "#/components/schemas/CommentStats"
-                    },
-                    "reaction": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ReactionResponseDTO"
-                        }
-                    }
-                }
-            },
-            "PagePostResponseDTO": {
-                "type": "object",
-                "properties": {
-                    "totalElements": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "totalPages": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "size": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "content": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/PostResponseDTO"
-                        }
-                    },
-                    "number": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "sort": {
-                        "$ref": "#/components/schemas/SortObject"
-                    },
-                    "pageable": {
-                        "$ref": "#/components/schemas/PageableObject"
-                    },
-                    "numberOfElements": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "first": {
-                        "type": "boolean"
-                    },
-                    "last": {
-                        "type": "boolean"
-                    },
-                    "empty": {
-                        "type": "boolean"
-                    }
-                }
-            },
-            "PostResponseDTO": {
+            "MessageResponseDTO": {
                 "type": "object",
                 "properties": {
                     "id": {
                         "type": "integer",
                         "format": "int64"
-                    },
-                    "title": {
-                        "type": "string"
                     },
                     "content": {
                         "type": "string"
@@ -1192,6 +1105,13 @@
                         "type": "string",
                         "readOnly": true
                     },
+                    "userImage": {
+                        "type": "string",
+                        "readOnly": true
+                    },
+                    "fileKey": {
+                        "type": "string"
+                    },
                     "feedbackStats": {
                         "$ref": "#/components/schemas/FeedbackStatsDTO"
                     },
@@ -1201,28 +1121,55 @@
                     }
                 }
             },
-            "ReactionResponseDTO": {
+            "PageMessageResponseDTO": {
                 "type": "object",
                 "properties": {
-                    "reactionTypeId": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "reactionType": {
-                        "type": "string"
-                    },
-                    "count": {
+                    "totalElements": {
                         "type": "integer",
                         "format": "int64"
                     },
-                    "userReacted": {
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "content": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MessageResponseDTO"
+                        }
+                    },
+                    "number": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "sort": {
+                        "$ref": "#/components/schemas/SortObject"
+                    },
+                    "pageable": {
+                        "$ref": "#/components/schemas/PageableObject"
+                    },
+                    "first": {
+                        "type": "boolean"
+                    },
+                    "last": {
+                        "type": "boolean"
+                    },
+                    "numberOfElements": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "empty": {
                         "type": "boolean"
                     }
                 }
             }
         },
         "securitySchemes": {
-            "Bearer Authentication": {
+            "bearerAuth": {
                 "type": "http",
                 "scheme": "bearer",
                 "bearerFormat": "JWT"

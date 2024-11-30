@@ -2,6 +2,7 @@
 
 import { queryService } from '@/api';
 import { Breadcrumb } from '@/components';
+import { getScopeUrl } from '@/utils';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { use } from 'react';
 import { NewPost } from './NewPost';
@@ -14,21 +15,24 @@ export default function TopicPage(props: PageProps<'scopeId' | 'topicId'>) {
     queryService('forum:/v1/scope/{scopeId}/topics/{topicId}', { params: { path: params } })
   ).data;
   const posts = useSuspenseQuery({
-    ...queryService('forum:/v1/scope/{scopeId}/topic/{topicId}/posts', { params: { path: params } }),
+    ...queryService('forum:/v1/scope/{scopeId}/topic/{topicId}/messages', { params: { path: params } }),
   }).data.content;
 
   return (
     <div className="">
-      <Breadcrumb params={params} items={[{ text: 'فروم' }, { text: topic.title }]} />
+      <Breadcrumb
+        params={params}
+        items={[{ text: 'فروم', url: `${getScopeUrl(params.scopeId)}/forum` }, { text: topic.title }]}
+      />
 
       <div className="flex gap-6">
         <ol className="flex-1 flex flex-col gap-12">
           <li>
-            <Post post={topic} />
+            <Post topic={topic} post={topic} />
           </li>
           {posts?.map((post) => (
             <li key={post.id}>
-              <Post post={post} />
+              <Post topic={topic} post={post} />
             </li>
           ))}
           <hr />
