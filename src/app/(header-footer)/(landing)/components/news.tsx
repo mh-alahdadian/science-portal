@@ -11,23 +11,15 @@ export default function News() {
   let { data: posts } = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/posts', {
       params: { path: { scopeId: 0 }, query: { pageable: { size: 5 } } },
-    }),
+    })
   );
 
-  const content: (Schema<'PostDTO'> & { scopeId: number })[] = posts.content?.length
-    ? (posts.content as any)
-    : [
-        { id: '1', title: 'title 1', coverImage: 'https://api.slingacademy.com/public/sample-photos/1.jpeg' },
-        { id: '2', title: 'title 2', coverImage: 'https://api.slingacademy.com/public/sample-photos/2.jpeg' },
-        { id: '3', title: 'title 3', coverImage: 'https://api.slingacademy.com/public/sample-photos/3.jpeg' },
-        { id: '4', title: 'title 4', coverImage: 'https://api.slingacademy.com/public/sample-photos/4.jpeg' },
-        { id: '5', title: 'title 5', coverImage: 'https://api.slingacademy.com/public/sample-photos/5.jpeg' },
-      ];
+  const content = posts.content!;
 
   return (
     <div className="grid gap-6" css={styles}>
       {content.map((x) => (
-        <Link href={`${getScopeUrl(x.scopeId)}/news/${x.id}`} key={x.id} className="card image-full rounded-lg">
+        <Link href={`${getScopeUrl(x.scopeId!)}/news/${x.id}`} key={x.id} className="card p-0 image-full rounded-lg">
           <figure>
             <img src={createFileUrl(x.coverImage, x.fileKey)} alt={x.title} />
           </figure>

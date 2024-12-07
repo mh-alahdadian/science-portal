@@ -41,6 +41,18 @@ time {
     outline: none !important;
     border: none;
   }
+
+  main {
+    @screen lg {
+      --screen-padding: 3rem;
+    }
+    @screen md {
+      --screen-padding: 1.5rem;
+    }
+    --screen-padding: 0.5rem;
+    padding-left: var(--screen-padding);
+    padding-right: var(--screen-padding);
+  }
 }
 
 @layer components {

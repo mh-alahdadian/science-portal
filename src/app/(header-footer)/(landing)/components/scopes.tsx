@@ -1,17 +1,18 @@
 // 'use client';
 
 import { queryService } from '@/api';
+import { createFileUrl } from '@/utils';
 import { getScopeUrl } from '@/utils/scope';
 import { BookOpenText, Users } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
-import IdeaIllustration from '../assets/Idea.svg';
 
 function Scope(props: { scope: Schema<'ScopeDTO'> }) {
   const { scope } = props;
   return (
     <Link href={getScopeUrl(scope.id!)} className="card items-center p-4 gap-4">
-      <IdeaIllustration />
+      {/* <IdeaIllustration /> */}
+      <img src={createFileUrl(scope.coverImage, scope.fileKey)} className="w-20 h-20 object-cover rounded-full" />
       <p>{scope.title}</p>
 
       <div className="flex justify-between w-full">
