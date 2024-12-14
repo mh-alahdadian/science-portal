@@ -1,8 +1,10 @@
 'use client';
 
+import { mutateService } from '@/api';
 import { Editor } from '@/components';
 import { formatDateTime } from '@/utils';
-import { ThumbsDown, ThumbsUp, User } from '@phosphor-icons/react';
+import { PaperPlaneTilt, ThumbsDown, ThumbsUp, User } from '@phosphor-icons/react';
+import { useMutation } from '@tanstack/react-query';
 
 interface Props {
   topic: Schema<'TopicResponseDTO'>;
@@ -23,8 +25,20 @@ function getAvatarPlaceholder(name: string) {
 export function Post(props: Props) {
   let { post, topic } = props;
 
-  const reaction = post.feedbackStats?.reaction || {};
+  post.messages = [post];
 
+  const reaction = post.feedbackStats?.reaction || {};
+  const { mutate } = useMutation(mutateService('post', 'forum:/v1/scope/{scopeId}/topic/messages'));
+
+  const reactions = Object.entries(reaction)?.map(([key, r]) => {
+    const Icon = reactionIcon[key as keyof typeof reactionIcon];
+    return (
+      <button key={key} className="flex items-center gap-2">
+        {r!.count}
+        <Icon size={20} weight={r!.userReacted ? 'fill' : 'regular'} />
+      </button>
+    );
+  });
   return (
     <div className="flex gap-2">
       <div className="avatar rounded-full placeholder bg-neutral text-neutral-content justify-center items-center w-10 h-10">
@@ -47,17 +61,32 @@ export function Post(props: Props) {
           uploadData={{ fileKey: (post as any).fileKey }}
           readonly
         />
-        <div className="flex gap-6 ">
-          {Object.entries(reaction)?.map(([key, r]) => {
-            const Icon = reactionIcon[key as keyof typeof reactionIcon];
-            return (
-              <button key={key} className="flex items-center gap-2">
-                {r!.count}
-                <Icon size={20} weight={r!.userReacted ? 'fill' : 'regular'} />
-              </button>
-            );
-          })}
+        {reactions?.length && <div className="flex gap-6 ">{reactions}</div>}
+        <div>
+          {post.messages.map((m: typeof post) => (
+            <div>
+              <span>{m.content}</span>
+              <span>{formatDateTime(m.createdAt!)}</span>
+              <span>{m.userName}</span>
+            </div>
+          ))}
         </div>
+        <form
+          className="relative"
+          onSubmit={(event) => {
+            event.preventDefault();
+            const content = new FormData(event.currentTarget!).get('content') as string;
+            mutate({
+              params: { path: { scopeId: topic.scopeId } },
+              body: { topicId: topic.id, parentId: post.id, content },
+            });
+          }}
+        >
+          <textarea name="content" className="textarea pe-8 w-full h-full" placeholder="نوشتن کامنت جدید" />
+          <button className="absolute bottom-4 left-4 btn-circle btn-sm">
+            <PaperPlaneTilt mirrored />
+          </button>
+        </form>
       </div>
     </div>
   );

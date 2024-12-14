@@ -22,7 +22,7 @@ const colDefs = [
     cell: (props) => {
       const topic: any = props.row.original!;
       return (
-        <Link href={`topic/${topic.id}`}>
+        <Link href={`forum/topic/${topic.id}`}>
           <p className="text-base">{topic.title}</p>
           <p className="text-sm text-opacity-50 whitespace-pre-wrap line-clamp-4 mt-2">
             {getFirstParagraph(topic.content, 300)}

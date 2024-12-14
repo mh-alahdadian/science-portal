@@ -1,4 +1,5 @@
 import { queryService } from '@/api';
+import { formatDateTime } from '@/utils';
 import { CaretLeft } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import Link from 'next/link';
@@ -25,7 +26,7 @@ export function TopicInfo(props: Props) {
           { key: 'دسته بندی', value: topic.categoryId },
           { key: 'پاسخ‌ها', value: 106 },
           // { key: 'بازدید', value: '' },
-          { key: 'آخرین تاریخ فعالیت', value: topic.lastActivity || topic.createdAt },
+          { key: 'آخرین تاریخ فعالیت', value: formatDateTime(topic.lastActivity || topic.createdAt!) },
         ].map((row, i) => (
           <div key={i} className="flex justify-between">
             <span>{row.key}</span>
