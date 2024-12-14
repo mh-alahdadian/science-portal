@@ -128,7 +128,7 @@ export default function Forum(props: PageProps<'scopeId'>) {
             <option>تاریخ فعالیت</option>
           </InlineSelectField>
         </div>
-        <Link href={{ pathname: 'forum/topic/new' }} role="button" className="btn-primary">
+        <Link href={{ pathname: 'forum/write/new' }} role="button" className="btn-primary">
           <Plus />
           سوال جدید
         </Link>

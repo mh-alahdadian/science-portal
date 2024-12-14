@@ -50,7 +50,7 @@ export function uploadFile(file: File, uploadData: UploadData) {
   const form = new FormData();
   form.append('file', file);
   for (const [key, val] of Object.entries(uploadData)) {
-    form.append(key, String(val));
+    if (val) form.append(key, String(val));
   }
 
   const { promise, resolve, reject } = Promise.withResolvers<Schema<'FileResponseDTO'>>();

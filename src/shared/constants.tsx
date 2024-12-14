@@ -4,6 +4,7 @@ export enum Service {
 
 export enum ModelType {
   COMMENT = 1,
+  TOPIC = 5,
   BOOK = 2,
   NEWS = 4,
   BlogPost = 8,
