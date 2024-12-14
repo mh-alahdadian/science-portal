@@ -1,9 +1,10 @@
-'use client';;
-import { use } from "react";
+'use client';
+
+import Link from 'next/link';
+import { use } from 'react';
 
 import { useCurrentScope } from '@/hooks';
-// import { Books, Megaphone } from '@phosphor-icons/react/dist/ssr';
-import Link from 'next/link';
+import { Book, ChatsCircle, Rss } from '@phosphor-icons/react';
 
 export default function HomePage(props: PageProps<'scopeId'>) {
   const params = use(props.params);
@@ -15,16 +16,17 @@ export default function HomePage(props: PageProps<'scopeId'>) {
 
       <div className="flex gap-6">
         <Link href={params.scopeId + '/news'} className="card card-body bg-accent">
-          {/* <Megaphone /> */}
+          <Rss size={48} />
           خبرگزاری
         </Link>
-        <div
-          // href={params.scopeId + '/library'}
-          className="card card-body bg-accent opacity-50 disabled cursor-not-allowed"
-        >
-          {/* <Books /> */}
+        <Link href={params.scopeId + '/forum'} className="card card-body bg-accent">
+          <ChatsCircle size={48} />
+          انجمن
+        </Link>
+        <Link href={params.scopeId + '/library'} className="card card-body bg-accent">
+          <Book size={48} />
           کتابخانه
-        </div>
+        </Link>
       </div>
     </div>
   );

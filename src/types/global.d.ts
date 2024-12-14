@@ -18,6 +18,9 @@ interface PageProps<T extends string = never, U extends string = never> {
   searchParams: Promise<SearchParams<U>>;
 }
 
-type A = Awaited<PageProps<'A', 'scopeId'>['params']>['scopeId'];
-
 type LayoutProps<T extends string = void> = Record<T | 'children', ReactNode>;
+
+interface Filter {
+  value?: string;
+  label: string;
+}

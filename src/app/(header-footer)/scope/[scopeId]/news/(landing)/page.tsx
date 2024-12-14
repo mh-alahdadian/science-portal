@@ -26,11 +26,6 @@ const sorts: { value: string; label: string }[] = [
   },
 ];
 
-interface Filter {
-  value?: string;
-  label: string;
-}
-
 export default function AllNews(props: PageProps<'scopeId'>) {
   const params = use(props.params);
   const { data: categories, isLoading: loadingCategories } = useSuspenseQuery({
@@ -84,10 +79,6 @@ export default function AllNews(props: PageProps<'scopeId'>) {
     ? Array.from(latestNews).sort((a, b) => a.viewCount! - b.viewCount!)
     : latestNews;
 
-  function handleCategoryFilterChange(newFilter: Filter[]) {
-    setFilteredCategories(newFilter);
-  }
-
   function removeFilters() {
     setFilteredCategories([]);
     setFilteredDate(null);
@@ -122,7 +113,7 @@ export default function AllNews(props: PageProps<'scopeId'>) {
                 minWidth: 300,
               }),
             }}
-            onChange={handleCategoryFilterChange as any}
+            onChange={setFilteredCategories as any}
           />
           <DatePickerField
             label="تاریخ"

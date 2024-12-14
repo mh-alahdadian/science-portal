@@ -5,7 +5,7 @@ import { mutateService, queryService } from '@/api';
 import { EntityForm } from '@/components';
 import { UiSchema } from '@rjsf/utils';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { notFound, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 type Topic = Schema<'TopicRequestDTO'>;
 
@@ -15,6 +15,10 @@ const schema: JsonSchema = {
     title: {
       type: 'string',
       title: 'موضوع',
+    },
+    category: {
+      type: 'string',
+      title: 'دسته بندی',
     },
     content: {
       type: 'string',
@@ -36,6 +40,18 @@ const uiSchema: UiSchema<Pick<Topic, 'title' | 'content' | 'tags'>, JsonSchema> 
   content: {
     'ui:widget': 'editor',
   },
+  category: {
+    'ui:widget': 'autocomplete',
+    'ui:options': {
+      useOptions: (search: string) =>
+        useQuery({
+          ...queryService('forum:/v1/scope/{scopeId}/categories', {
+            params: { path: { scopeId: 1 /* +window?.location.pathname.split('/')[1] */ } },
+          }),
+          select: (data) => data.map(({ id, title }) => ({ id: id?.toString(), name: title })),
+        }),
+    },
+  },
   tags: {
     'ui:widget': 'autocomplete',
     'ui:options': {
@@ -55,10 +71,9 @@ const uiSchema: UiSchema<Pick<Topic, 'title' | 'content' | 'tags'>, JsonSchema> 
   },
 };
 
-export default function NewTopicPage(props: PageProps<'scopeId', 'categoryId'>) {
+export default function NewTopicPage(props: PageProps<'scopeId'>) {
   const searchParams = use(props.searchParams);
   const params = use(props.params);
-  if (!searchParams.categoryId) notFound();
 
   const router = useRouter();
   const { mutate } = useMutation({
