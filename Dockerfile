@@ -19,7 +19,7 @@ WORKDIR /app
 ENV NODE_ENV production
 
 RUN mkdir .next
-# COPY --from=BUILDER /app/public ./public
+COPY --from=BUILDER /app/public ./public
 COPY --from=BUILDER /app/.next/standalone ./
 COPY --from=BUILDER /app/.next/static ./.next/static
 
