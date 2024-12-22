@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import 'vazirmatn/Vazirmatn-font-face.css';
 // import './bootstrap.scss';
 import './globals.css';
+import { Footer } from './Footer';
 
 export default function RootLayout({ children, header }: LayoutProps<'header'>) {
   const myTheme = useThemeName();
@@ -16,7 +17,7 @@ export default function RootLayout({ children, header }: LayoutProps<'header'>) 
         <Providers>
           {header}
           <main className="flex-1">{children}</main>
-          <footer></footer>
+          <Footer/>
         </Providers>
       </body>
     </html>

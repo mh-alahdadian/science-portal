@@ -28,6 +28,7 @@ time {
 @layer base {
   :is(button, [role='button']):not(:where([class~='not-styled'], [class~='not-styled'] *)) {
     @apply btn;
+    --fallback-bc: #000a;
   }
   :is(input, [role='input']):not(:where([type='checkbox'], [class~='not-styled'], [class~='not-styled'] *)) {
     @apply input input-bordered;
