@@ -1,45 +1,20 @@
 'use client';
 
-import { BoundingBox, CaretLeft } from '@phosphor-icons/react';
-import Link from 'next/link';
+import Article from '@service/journal/(articles)/Article';
 
-const scopeArticlesData = {
-  scope: { id: 1, title: 'my scope' },
-  articles: [
-    { id: 1, title: 'Article Title 1' },
-    { id: 2, title: 'Article Title 2' },
-    { id: 3, title: 'Article Title 3' },
-    { id: 4, title: 'Article Title 4' },
-  ],
-};
+const scopeArticlesData: Schema<'ArticleResponseDTO'>[] = [
+  { id: 1, title: 'Article Title 1', authorId: 1, authorName: 'فلانی' },
+  { id: 2, title: 'Article Title 2', authorId: 2, authorName: 'فلانی' },
+  { id: 3, title: 'Article Title 3', authorId: 3, authorName: 'فلانی' },
+  { id: 4, title: 'Article Title 4', authorId: 4, authorName: 'فلانی' },
+];
 
 export default function Articles() {
-  const data = [scopeArticlesData, scopeArticlesData, scopeArticlesData, scopeArticlesData];
+  const articles = scopeArticlesData;
   return (
     <div className="grid max-md:grid-cols-1 md:grid-cols-2 gap-6">
-      {data.map((d, index) => (
-        <div className="card card-body gap-10" key={index}>
-          <div className="flex items-center">
-            <BoundingBox />
-            {d.scope.title}
-            <Link href={`/scope/${d.scope.id}/articles`} role="button" className="ms-auto">
-              نمایش همه
-              <CaretLeft />
-            </Link>
-          </div>
-          <div className="flex flex-col gap-6">
-            {d.articles.map((article) => (
-              <Link
-                className="flex justify-between"
-                href={`/scope/${d.scope.id}/article/${article.id}`}
-                key={article.id}
-              >
-                {article.title}
-                <CaretLeft />
-              </Link>
-            ))}
-          </div>
-        </div>
+      {articles.map((article) => (
+        <Article article={article} />
       ))}
     </div>
   );

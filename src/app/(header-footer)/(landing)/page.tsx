@@ -29,7 +29,7 @@ const sections = [
 export default function LandingPage(props: PageProps) {
   const token = getParsedToken();
   return (
-    <div className="flex flex-col gap-20 w-full">
+    <div className="flex flex-col gap-8 w-full">
       <section className="flex w-full" css={heroSection}>
         <div className="flex flex-col gap-6 my-auto max-w-xl text-white">
           <h1 className="text-[40px] font-medium">سامانه جامع علوم شناختی</h1>
@@ -41,15 +41,15 @@ export default function LandingPage(props: PageProps) {
               مشاهده حوزه‌های پژوهشی
               <CaretLeft />
             </button>
-            {!token && <button className="btn-outline flex-1 max-w-60">ثبت‌نام</button>}
+            {!token && <button className="btn-outline text-white flex-1 max-w-60">ثبت‌نام</button>}
           </div>
         </div>
         {/* <BrainIllustration /> */}
       </section>
       {sections.map((section, index) => (
-        <section key={index} {...section.props}>
+        <section key={index} {...section.props} className="p-8 bg-[#13225F] rounded-2xl">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-base font-bold">{section.title}</h3>
+            <h3 className="text-2xl font-bold text-white">{section.title}</h3>
             {section.showAllLink && (
               <Link href={section.showAllLink} role="button">
                 نمایش همه

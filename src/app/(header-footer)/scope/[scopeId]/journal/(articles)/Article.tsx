@@ -9,7 +9,7 @@ interface Props {
 
 export default function Article({ article }: Props) {
   return (
-    <div className="card w-1/2 rounded-lg card-body">
+    <div className="card rounded-lg card-body" /* w-1/2 */>
       <p className="card-title">{article.title}</p>
       <p>
         <span>نویسندگان:</span>
