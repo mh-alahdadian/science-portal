@@ -1,5 +1,5 @@
 import { mutateService, queryService } from '@/api';
-import { TextField } from '@/components';
+import { SelectField, TextField } from '@/components';
 import { createFileUrl, formatDateTime } from '@/utils';
 import { User } from '@phosphor-icons/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -51,8 +51,14 @@ export function PersonalInfo(props: Props) {
         <TextField {...register('firstName')} label="نام" />
         <TextField {...register('lastName')} label="نام خانوادگی" />
         <TextField {...register('birthDay')} label="تاریخ تولد" />
-        <TextField {...register('education')} label="تحصیلات" />
-        <TextField {...register('job')} label="شماره موبایل" />
+        <SelectField {...register('education')} label="تحصیلات">
+          <option value={1}>زیر دیپلم</option>
+          <option value={2}>دیپلم</option>
+          <option value={3}>لیسانس</option>
+          <option value={4}>فوق لیسانس</option>
+          <option value={5}>دکتری</option>
+        </SelectField>
+        <TextField {...register('job')} label="شغل" />
         <TextField {...register('email')} label="ایمیل" />
       </div>
       <div className="card-actions w-full gap-6">
