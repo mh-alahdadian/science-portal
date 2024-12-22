@@ -4134,6 +4134,7 @@ __metadata:
     react-hook-form: "npm:^7.53.0"
     react-multi-date-picker: "npm:^4.5.2"
     react-select: "npm:^5.8.0"
+    react-timer-hook: "npm:^3.0.8"
     react-toastify: "npm:^10.0.5"
     react-use: "npm:^17.5.0"
     sass: "npm:^1.72.0"
@@ -7200,6 +7201,15 @@ __metadata:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: b4b98aaf117ee5cc4642871b7bd51fd0e2697988d0b880f30b21e933ca90258959147117d8aada36713b622e0e4cb06bd18ec02069f3f108896e0d31e69e3c16
+  languageName: node
+  linkType: hard
+
+"react-timer-hook@npm:^3.0.8":
+  version: 3.0.8
+  resolution: "react-timer-hook@npm:3.0.8"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 3ee67def88bbe5d848ac02c9a795e49bc2bd248357e6119b26ad5ee1d98d66e5be21431d33e0e457da8bf2919c7cc5a3438f792e4fb5e44e8b80664f309af93e
   languageName: node
   linkType: hard
 

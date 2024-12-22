@@ -20,19 +20,15 @@ export default function AuthLayout({ children }: Props) {
   }, [profile]);
 
   return (
-    <div className="container w-full h-full justify-between">
-      <style jsx>{`
-        .container {
-          display: grid;
-          grid-template: auto 1fr / 35% auto;
-        }
-      `}</style>
+    <div className="w-full h-full flex-col">
       <Link href="/" role="button" className="btn-transparent my-8 col-span-full justify-self-start">
         <CaretRight />
         <span className="text-lg font-medium">بازگشت به خانه</span>
       </Link>
-      <div className="gap-6 w-full h-fit bg-white card-body ">{children}</div>
-      <LoginIllustration className="" />
+      <div className="flex items-center gap-12">
+        <div className="gap-6 md:w-full md:max-w-xl h-fit bg-white card-body ">{children}</div>
+        <LoginIllustration className="w-full max-md:hidden" />
+      </div>
     </div>
   );
 }
