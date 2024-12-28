@@ -5,7 +5,7 @@ import { Drawer } from '@/components';
 import { useCurrentScope, useProfile } from '@/hooks';
 import { useScreen } from '@/hooks/screen';
 import { getScopeUrl } from '@/utils';
-import { List } from '@phosphor-icons/react';
+import { CaretDown, List } from '@phosphor-icons/react';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -40,6 +40,7 @@ export default function Header() {
     <div className="dropdown">
       <div tabIndex={0} role="button" className="bg-accent text-black m-1">
         حوزه پژوهشی : {scope.title}
+        <CaretDown />
       </div>
       <ul tabIndex={0} className="dropdown-content menu bg-gray-100 text-black rounded-box w-full z-[1] p-2 shadow">
         {scopes?.filter(myScopes())?.map((s) => (

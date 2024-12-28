@@ -8,6 +8,8 @@ const baseTheme = {
   },
 };
 
+// const colorConvertor = import('daisyui/src/theming/functions.js');
+
 const themes: CustomTheme = {
   light: {
     ...require('daisyui/src/theming/themes')['light'],
@@ -58,11 +60,22 @@ const textUtility = plugin(({ addUtilities }) => {
   addUtilities({ '.text-bidi': { unicodeBidi: 'plaintext' } }, {});
 });
 
+const colors = require('tailwindcss/colors')
+
 const config: Config = {
   daisyui: { logs: false, themes: [themes], utils: true } as DaisyConfig,
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+  safelist: [
+    { pattern: /bg-custom/ },
+    // { pattern: /bg-custom2-?/ },
+  ],
   theme: {
     extend: {
+      colors: {
+        custom1: colors.emerald,
+        custom2: colors.teal,
+        custom3: colors.cyan,
+      },
       animation: {
         'spin-slow': 'spin 3s linear infinite',
       },

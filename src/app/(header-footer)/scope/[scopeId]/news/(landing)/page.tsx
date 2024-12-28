@@ -2,7 +2,7 @@
 
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { useState, use } from 'react';
+import { use, useState } from 'react';
 import { DateObject } from 'react-multi-date-picker';
 import Select from 'react-select';
 
@@ -89,10 +89,7 @@ export default function AllNews(props: PageProps<'scopeId'>) {
       <Breadcrumb params={params} items={[{ text: 'اخبار' }]} />
       <NewsSlider params={params} />
 
-      <div
-        className="flex items-center justify-between rounded-lg bg-white py-3 px-4 gap-4"
-        style={{ background: 'darkorange' }}
-      >
+      <div className="flex items-center justify-between rounded-lg bg-custom2-600 py-3 px-4 gap-4">
         <div className="w-full flex gap-3">
           <Select
             isMulti
@@ -128,25 +125,26 @@ export default function AllNews(props: PageProps<'scopeId'>) {
         </button>
       </div>
 
-      <div role="tablist" className="tabs tabs-bordered w-20 mb-4">
-        {sorts.map((tab) => (
-          <a
-            role="tab"
-            key={tab.value}
-            className={clsx('tab', currSorting === tab.value && 'tab-active')}
-            onClick={() => setCurrSorting(tab.value)}
-          >
-            {tab.label}
-          </a>
-        ))}
-      </div>
+      <div className="flex flex-col gap-8 bg-custom1-50 p-8 rounded-3xl">
+        <div role="tablist" className="tabs tabs-bordered w-20 mb-4">
+          {sorts.map((tab) => (
+            <a
+              role="tab"
+              key={tab.value}
+              className={clsx('tab', currSorting === tab.value && 'tab-active')}
+              onClick={() => setCurrSorting(tab.value)}
+            >
+              {tab.label}
+            </a>
+          ))}
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {posts.map((item) => (
-          <NewsCard key={item.id} post={item} />
-        ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {posts.map((item) => (
+            <NewsCard key={item.id} post={item} />
+          ))}
+        </div>
       </div>
-
       {/* <Recommendations /> */}
 
       <Paginator

@@ -40,10 +40,10 @@ export function NewsSlider({ params }: { params: Awaited<PageProps<'scopeId'>['p
   }
 
   return (
-    <div className="carousel rounded-lg w-full h-60">
+    <div className="carousel rounded-lg bg-custom3-600 text-white space-x-4 w-full h-4/6">
       {topNews.map((post, index) => (
         <div key={post.id} id={`slider-item-${index}`} className="carousel-item w-full">
-          <Link href={`./news/${post.id}`} className="flex items-start w-full gap-8">
+          <Link href={`./news/${post.id}`} className="flex items-start w-full p-12 gap-8">
             <div className="h-full">
               <img
                 src={createFileUrl(post.coverImage, post.fileKey)}
