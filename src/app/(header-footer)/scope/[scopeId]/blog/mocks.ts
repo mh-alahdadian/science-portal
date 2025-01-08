@@ -1,10 +1,10 @@
 export function mockTags(): Schema<'TagEntity'>[] {
   return [
     {
-      name: 'تگ خیلی بلند',
+      title: 'تگ خیلی بلند',
     },
     {
-      name: 'تگ شماره 4',
+      title: 'تگ شماره 4',
     },
   ];
 }

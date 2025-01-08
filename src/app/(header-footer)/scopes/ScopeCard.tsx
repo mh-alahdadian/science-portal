@@ -21,6 +21,7 @@ function hasAccess(scopeId: number, permission?: Permission) {
 }
 
 export default function ScopeCard({ scope }: Props) {
+  const isLoggedIn = getParsedToken();
   const _hasAccess = hasAccess(scope.id!);
   const { mutate: mutateMembershipRequest } = useMutation(mutateService('post', 'core:/v1/membership-requests'));
   const Component = _hasAccess ? Link : 'div';
@@ -28,7 +29,7 @@ export default function ScopeCard({ scope }: Props) {
   return (
     <Component
       href={`/scope/${scope.id}`}
-      className="card card-body flex flex-col justify-evenly items-center gap-5 max-w-sm"
+      className="card card-body flex flex-col justify-evenly items-center gap-5 max-w-sm pb-4"
     >
       <img
         src={createFileUrl(scope.coverImage, scope.fileKey)}
@@ -36,9 +37,9 @@ export default function ScopeCard({ scope }: Props) {
       />
       <div className="text-2xl mb-auto">{scope.title}</div>
       {!_hasAccess && <LockKey weight="fill" className="absolute top-32" size={80} />}
-      {!_hasAccess && (
+      {isLoggedIn && !_hasAccess && (
         <button
-          className="btn-primary"
+          className="btn-primary min-w-40"
           onClick={() => {
             mutateMembershipRequest(
               { body: { scopeId: scope.id } },

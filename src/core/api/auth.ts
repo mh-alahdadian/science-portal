@@ -25,7 +25,7 @@ if (!isServer) {
   listenApiEvent('request', (request) => {
     const { refreshToken } = getToken();
     if (
-      request.url.endsWith('core/auth/refresh-token') &&
+      !request.url.endsWith('core:/v1/auth/refresh-token') &&
       refreshToken &&
       !refreshingTokenPromise &&
       Date.now() > (getParsedToken()!.exp - config.expDelaySec) * 1000

@@ -17,7 +17,9 @@ const content = [
   },
   {
     banner: Recommendation2,
-    // styles: { color: 'white', width: '30%', margin: 'auto auto auto 0' },
+    styles: {
+      // color: 'white', width: '30%', margin: 'auto auto auto 0'
+    },
     title: 'کتاب‌خانه روان‌شناسی ارتقا یافت',
   },
 ];

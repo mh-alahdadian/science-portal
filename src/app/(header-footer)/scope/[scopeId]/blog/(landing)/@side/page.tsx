@@ -43,7 +43,7 @@ export default function BlogLandingSidebar(props: PageProps<'scopeId'>) {
       </div>
       <div className="flex flex-wrap gap-4">
         {tags.map((tag) => (
-          <TextIcon key={tag.name} className="tag" Icon={Tag} text={tag.name} />
+          <TextIcon key={tag.title} className="tag" Icon={Tag} text={tag.title} />
         ))}
       </div>
     </div>

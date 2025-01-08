@@ -85,7 +85,7 @@ export default function AllNews(props: PageProps<'scopeId'>) {
   }
 
   return (
-    <div className="max-w-screen-2xl mx-auto flex flex-col gap-8">
+    <div className="mx-auto flex flex-col gap-8">
       <Breadcrumb params={params} items={[{ text: 'اخبار' }]} />
       <NewsSlider params={params} />
 

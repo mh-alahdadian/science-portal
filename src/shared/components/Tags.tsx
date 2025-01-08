@@ -7,7 +7,7 @@ export function Tags({ tags }: Props) {
     <div className="mt-4 flex gap-6">
       {tags.map((tag) => (
         <div className="badge" key={tag.id}>
-          {tag.name}
+          {tag.title}
         </div>
       ))}
     </div>

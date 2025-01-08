@@ -27,8 +27,8 @@ export default function NewTopicPage(props: PageProps<'scopeId', 'topicId?'>) {
     }),
   });
   const { data: tags } = useSuspenseQuery({
-    ...queryService('forum:/v1/tags', { params: {} }),
-    select: (data) => data.map(({ id, name }) => ({ value: id?.toString(), label: name })),
+    ...queryService('forum:/v1/scope/{scopeId}/tags', { params: { path: params } }),
+    select: (data) => data.map(({ id, title }) => ({ value: id?.toString(), label: title })),
   });
 
   const topicService = queryService('forum:/v1/scope/{scopeId}/topics/{topicId}', {
@@ -42,9 +42,7 @@ export default function NewTopicPage(props: PageProps<'scopeId', 'topicId?'>) {
   const router = useRouter();
   const x = mutateService('post', 'forum:/v1/scope/{scopeId}/topics');
   const { mutate: mutateCreateTopic } = useMutation(x);
-  const { mutate: mutateEditTopic } = useMutation(
-    mutateService('put', 'forum:/v1/scope/{scopeId}/topics/{topicId}' as any) as typeof x
-  );
+  const { mutate: mutateEditTopic } = useMutation(mutateService('put', 'forum:/v1/scope/{scopeId}/topics/{topicId}'));
 
   const { control, handleSubmit, register } = useForm<Partial<Topic>>({
     defaultValues: {
@@ -140,7 +138,7 @@ export default function NewTopicPage(props: PageProps<'scopeId', 'topicId?'>) {
               { body, params: { path: { scopeId: params.scopeId, topicId: topicId } } },
               {
                 onSuccess(data, variables, context) {
-                  router.push(String(data.id));
+                  router.push('../topic/' + String('id' in data ? data.id : topicId));
                 },
               }
             );
