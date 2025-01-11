@@ -42,7 +42,7 @@ const colDefs = [
     header: 'آخرین تاریخ فعالیت',
     // field: 'title',
     // cellDataType: 'string',
-    cell: ({ row, cell }) => (cell.getValue() ? formatDateTime(cell.getValue()!) : '-'),
+    cell: ({ row, cell }) => (cell.getValue() ? formatDateTime(cell.getValue() || row.original.createdAt!) : '-'),
   }),
 ];
 
