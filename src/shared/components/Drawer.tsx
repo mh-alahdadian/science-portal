@@ -16,7 +16,7 @@ export function Drawer({ children, openElement }: Props) {
       </div>
       <div className="drawer-side">
         <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
-        <ul className="menu bg-base-200 text-base-content min-h-full w-60 p-4">{children}</ul>
+        <ul className="menu bg-base-200 text-base-content min-h-full w-64 p-4">{children}</ul>
       </div>
     </div>
   );

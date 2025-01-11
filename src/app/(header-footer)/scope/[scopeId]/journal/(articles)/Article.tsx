@@ -15,7 +15,7 @@ export default function Article({ article }: Props) {
         <span>نویسندگان:</span>
         <span className="ms-2">{article.authorName}</span>
       </p>
-      <div className="flex gap-20">
+      <div className="flex gap-20 max-sm:flex-col">
         {[
           ['سال انتشار', article.publishAt || '۱۴۰۲'],
           ['تعداد صفحات', article.pagesCount || '۱۴'],

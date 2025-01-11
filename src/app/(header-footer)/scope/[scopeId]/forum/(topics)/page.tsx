@@ -97,43 +97,50 @@ export default function Forum(props: PageProps<'scopeId'>) {
 
   return (
     <>
-      <div className="flex gap-20 items-center bg-nغثeutral-300">
+      <div className="flex gap-20 items-center">
         <Community />
         <div className="flex flex-col gap-6">
           <p>به فروم حوزه پژوهشی {scope.title} خوش آمدید</p>
           <p>در اینجا شما می‌توانید سوالات و دانش خود را با دیگران به اشتراک بگذارید</p>
         </div>
       </div>
-      <div className="flex justify-between mb-2">
-        <div className="flex gap-4">
-          <InlineTextField label="جست‌و‌جو در عنوان" />
-          <Select
-            isMulti
-            isClearable
-            isSearchable
-            placeholder="موضوعات"
-            isLoading={loadingCategories}
-            value={filteredCategories}
-            options={categories}
-            styles={{
-              multiValue: (baseStyles) => ({ ...baseStyles, alignItems: 'center' }),
-              // control: (baseStyles) => ({ ...baseStyles, height: '48px' }),
-              valueContainer: (baseStyles) => ({ ...baseStyles, height: '48px' }),
-              container: (baseStyles) => ({ ...baseStyles, minWidth: 300 }),
-            }}
-            onChange={setFilteredCategories as any}
-          />
-          <InlineSelectField label="ترتیب نمایش">
-            <option>تازه‌ترین</option>
-            <option>تاریخ فعالیت</option>
-          </InlineSelectField>
+      <div className="flex gap-8">
+        <div className="flex flex-col flex-1">
+          <div className="flex justify-between mb-2">
+            <div className="flex gap-4">
+              <InlineTextField label="جست‌و‌جو در عنوان" />
+              <Select
+                isMulti
+                isClearable
+                isSearchable
+                placeholder="موضوعات"
+                isLoading={loadingCategories}
+                value={filteredCategories}
+                options={categories}
+                styles={{
+                  multiValue: (baseStyles) => ({ ...baseStyles, alignItems: 'center' }),
+                  // control: (baseStyles) => ({ ...baseStyles, height: '48px' }),
+                  valueContainer: (baseStyles) => ({ ...baseStyles, height: '48px' }),
+                  container: (baseStyles) => ({ ...baseStyles, minWidth: 300 }),
+                }}
+                onChange={setFilteredCategories as any}
+              />
+              <InlineSelectField label="ترتیب نمایش">
+                <option>تازه‌ترین</option>
+                <option>تاریخ فعالیت</option>
+              </InlineSelectField>
+            </div>
+            <Link href={{ pathname: 'forum/write/new' }} role="button" className="btn-primary">
+              <Plus />
+              سوال جدید
+            </Link>
+          </div>
+          <Table table={table} hasData={!!topics} hasError={isError} isLoading={isLoading} refetch={refetch} />
         </div>
-        <Link href={{ pathname: 'forum/write/new' }} role="button" className="btn-primary">
-          <Plus />
-          سوال جدید
-        </Link>
+        <aside className="max-w-sm flex flex-col items-center gap-5 p-8 bg-custom2-50 box">
+          برترین محتوا های این فروم رو در اینده اینجا ببینید
+        </aside>
       </div>
-      <Table table={table} hasData={!!topics} hasError={isError} isLoading={isLoading} refetch={refetch} />
     </>
   );
 }

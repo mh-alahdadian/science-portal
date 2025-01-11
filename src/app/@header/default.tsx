@@ -38,7 +38,7 @@ export default function Header() {
   );
   const scopeMenu = (
     <div className="dropdown">
-      <div tabIndex={0} role="button" className="bg-accent text-black m-1">
+      <div tabIndex={0} role="button" className="bg-accent text-black mx-2">
         حوزه پژوهشی : {scope.title}
         <CaretDown />
       </div>
@@ -64,6 +64,7 @@ export default function Header() {
       <ManagementMenu {...params} />
     </Drawer>
   ) : (
+    /* 
     <div className="flex ml-auto mr-4">
       {scopeMenu}
       <div className="h-2">
@@ -71,6 +72,16 @@ export default function Header() {
         <ManagementMenu {...params} />
       </div>
     </div>
+    */
+    <>
+      <div className="flex ml-auto mr-4">
+        <div className="h-2">
+          <Services {...params} />
+        </div>
+      </div>
+      <ManagementMenu {...params} />
+      {scopeMenu}
+    </>
   );
 
   return (

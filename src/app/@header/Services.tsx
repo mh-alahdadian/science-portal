@@ -21,7 +21,12 @@ export default function Services({ scopeId }: { scopeId: number }) {
   return (
     <>
       {services.map((page) => (
-        <Link key={page.path} role="button" className="btn-sm btn-ghost text-white" href={`${prefix}/${page.path}`}>
+        <Link
+          key={page.path}
+          role="button"
+          className="btn-sm btn-ghost text-white max-sm:text-black"
+          href={`${prefix}/${page.path}`}
+        >
           {page.title}
         </Link>
       ))}

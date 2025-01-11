@@ -26,7 +26,7 @@ export default function TopicPage(props: PageProps<'scopeId' | 'topicId'>) {
       />
 
       <div className="flex gap-6">
-        <ol className="flex-1 flex flex-col gap-12">
+        <ol className="flex-1 flex flex-col gap-12 p-8 bg-custom3-50 box">
           <li>
             <Post topic={topic} post={topic} />
           </li>

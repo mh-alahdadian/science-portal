@@ -65,9 +65,10 @@ export default function LandingPage(props: PageProps) {
 }
 
 const heroSection = css`
-  width: calc(100vw - 15px);
+  width: calc(100% + 2 * var(--screen-padding));
   margin-left: calc(var(--screen-padding) * -1);
-  padding-left: var(--screen-padding);
+  padding-left: calc(var(--screen-padding) + 2rem);
+  padding-right: calc(var(--screen-padding) + 2rem);
   height: 50rem;
 
   background-image: url('/static/hero.png');

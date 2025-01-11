@@ -11,16 +11,16 @@ interface Props {
 
 export function TopicInfo(props: Props) {
   const { topic, scopeId } = props;
-  const x = topic.tags?.map((t) => t.id);
+  const tagIds = topic.tags?.map((t) => t.id);
 
   const relatedTopics = useSuspenseQuery(
     queryService('forum:/v1/scope/{scopeId}/topics', {
-      params: { path: { scopeId }, query: { pageable: { size: 4 }, tags: topic.tags?.map((t) => t.id) } as any },
+      params: { path: { scopeId }, query: { pageable: { size: 4 }, tags: tagIds } as any },
     })
   ).data.content!;
 
   return (
-    <aside className="max-w-xs flex-1 text-sm">
+    <aside className="max-w-xs flex-1 flex flex-col gap-5 text-sm p-8 bg-custom2-50 box">
       <div className="text-black text-opacity-50">
         {[
           { key: 'دسته بندی', value: topic.categoryId },
@@ -34,7 +34,8 @@ export function TopicInfo(props: Props) {
           </div>
         ))}
       </div>
-      <div className="mt-10 flex flex-col gap-3">
+      <hr />
+      <div className="flex flex-col gap-3">
         <span className="text-black text-opacity-50">تایپک های مرتبط</span>
         {relatedTopics.map((t) => (
           <Link key={t.id} href={`${topic.id}`} className="flex justify-between">
