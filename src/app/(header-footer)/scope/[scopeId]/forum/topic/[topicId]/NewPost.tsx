@@ -1,10 +1,9 @@
 'use client';
 
-import { mutateService } from '@/api';
+import { mutateService, queryService } from '@/api';
 import { EntityForm } from '@/components';
 import { UiSchema } from '@rjsf/utils';
-import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 type PostDTO = Schema<'PostDTO'>;
 
@@ -33,9 +32,14 @@ const uiSchema: UiSchema<Pick<PostDTO, 'content'>, JsonSchema> = {
 };
 
 export function NewPost({ params, topic }: Props) {
-  const router = useRouter();
+  const queryClient = useQueryClient();
   const { mutate } = useMutation({
     ...mutateService('post', 'forum:/v1/scope/{scopeId}/topic/messages'),
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries({
+        queryKey: queryService('forum:/v1/scope/{scopeId}/topic/{topicId}/messages', {} as any).queryKey,
+      });
+    },
   });
 
   return (

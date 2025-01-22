@@ -1,10 +1,11 @@
 'use client';
 
-import { mutateService } from '@/api';
+import { mutateService, queryService } from '@/api';
 import { Editor } from '@/components';
 import { createFileUrl, formatDateTime } from '@/utils';
 import { PaperPlaneTilt, ThumbsDown, ThumbsUp, User } from '@phosphor-icons/react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 
 interface Props {
   topic: Schema<'TopicResponseDTO'>;
@@ -26,7 +27,9 @@ export function Post(props: Props) {
   let { post, topic } = props;
 
   const reaction = post.feedbackStats?.reaction || {};
+  const queryClient = useQueryClient();
   const { mutate } = useMutation(mutateService('post', 'forum:/v1/scope/{scopeId}/topic/messages'));
+  const [text, setText] = useState('');
 
   const reactions = Object.entries(reaction)?.map(([key, r]) => {
     const Icon = reactionIcon[key as keyof typeof reactionIcon];
@@ -84,8 +87,8 @@ export function Post(props: Props) {
         {reactions?.length ? <div className="flex gap-6 ">{reactions}</div> : null}
         <div>
           {post.replies?.map((m: typeof post) => (
-            <div className="flex gap-4">
-              <span>{m.content}</span>
+            <div className="space-x-4 space-x-reverse">
+              <span className="whitespace-pre-wrap [unicode-bidi:plaintext]">{m.content}</span>
               <span className="text-blue-500">{getUserInfo(m).name}</span>
               <span className="text-opacity-50" dir="ltr">
                 {formatDateTime(m.createdAt!)}
@@ -97,14 +100,29 @@ export function Post(props: Props) {
           className="relative"
           onSubmit={(event) => {
             event.preventDefault();
-            const content = new FormData(event.currentTarget!).get('content') as string;
-            mutate({
-              params: { path: { scopeId: topic.scopeId! } },
-              body: { topicId: topic.id, parentId: post.id, content },
-            });
+            mutate(
+              {
+                params: { path: { scopeId: topic.scopeId! } },
+                body: { topicId: topic.id, parentId: post.id, content: text },
+              },
+              {
+                onSuccess(data, variables, context) {
+                  setText('');
+                  queryClient.invalidateQueries({
+                    queryKey: queryService('forum:/v1/scope/{scopeId}/topic/{topicId}/messages', {} as any).queryKey,
+                  });
+                },
+              }
+            );
           }}
         >
-          <textarea name="content" className="textarea pe-8 w-full h-full" placeholder="نوشتن کامنت جدید" />
+          <textarea
+            name="content"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            className="textarea pe-8 w-full h-full"
+            placeholder="نوشتن کامنت جدید"
+          />
           <button className="absolute bottom-4 left-4 btn-circle btn-sm">
             <PaperPlaneTilt mirrored />
           </button>
