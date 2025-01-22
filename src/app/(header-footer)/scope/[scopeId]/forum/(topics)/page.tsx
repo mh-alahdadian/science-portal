@@ -9,9 +9,11 @@ import { Plus } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createColumnHelper, getCoreRowModel, getPaginationRowModel, useReactTable } from '@tanstack/react-table';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { use, useState } from 'react';
 import Select from 'react-select';
 import Community from '../../assets/Community.svg';
+import TopicList from '../components/TopicList';
 
 const columnHelper = createColumnHelper<SchemaOf<'forum', 'TopicResponseDTO'>>();
 
@@ -67,6 +69,15 @@ export default function Forum(props: PageProps<'scopeId'>) {
   });
   const [filteredCategories, setFilteredCategories] = useState<Filter[]>([]);
 
+  if (+params.scopeId && !categories.length) notFound();
+
+  const mostViewService = queryService('forum:/v1/scope/{scopeId}/topics/view', {
+    params: { path: { scopeId: +params.scopeId } },
+  });
+  const mostControversialService = queryService('forum:/v1/scope/{scopeId}/topics/controversial', {
+    params: { path: { scopeId: +params.scopeId } },
+  });
+
   const {
     data: { content: topics },
     isError,
@@ -76,9 +87,7 @@ export default function Forum(props: PageProps<'scopeId'>) {
     queryService('forum:/v1/scope/{scopeId}/topics', {
       params: {
         path: { scopeId: +params.scopeId },
-        query: {
-          ...paginationStateToQuery(pagination),
-        },
+        query: { ...paginationStateToQuery(pagination) },
       },
     })
   );
@@ -89,9 +98,7 @@ export default function Forum(props: PageProps<'scopeId'>) {
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
-    state: {
-      pagination,
-    },
+    state: { pagination },
     meta: {},
   });
 
@@ -137,8 +144,9 @@ export default function Forum(props: PageProps<'scopeId'>) {
           </div>
           <Table table={table} hasData={!!topics} hasError={isError} isLoading={isLoading} refetch={refetch} />
         </div>
-        <aside className="max-w-sm flex flex-col items-center gap-5 p-8 bg-custom2-50 box">
-          برترین محتوا های این فروم رو در اینده اینجا ببینید
+        <aside className="max-w-sm w-full flex flex-col items-center gap-5 p-8 bg-custom2-50 box">
+          <TopicList title="پرمشاهده‌ترین تاپیک‌ها" service={mostViewService} />
+          <TopicList title="پربحث‌ترین تاپیک‌ها" service={mostControversialService} />
         </aside>
       </div>
     </>

@@ -8,6 +8,7 @@ import Select from 'react-select';
 
 import { queryService } from '@/api';
 import { Breadcrumb, DatePickerField, Paginator } from '@/components';
+import { notFound } from 'next/navigation';
 import NewsCard from './NewsCard';
 import { NewsSlider } from './NewsSlider';
 
@@ -34,6 +35,8 @@ export default function AllNews(props: PageProps<'scopeId'>) {
     }),
     select: (data) => data.map(({ id, title }) => ({ value: id?.toString(), label: title })),
   });
+
+  if (+params.scopeId && !categories.length) notFound();
 
   const [currentPage, setCurrentPage] = useState(0);
   const [perPage, setPerPage] = useState(15);

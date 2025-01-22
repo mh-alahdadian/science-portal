@@ -716,6 +716,129 @@
                 }
             }
         },
+        "/v1/scope/{scopeId}/topics/{topicId}/related": {
+            "get": {
+                "tags": [
+                    "topic-controller"
+                ],
+                "operationId": "getRelateTopics",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "topicId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageTopicResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/scope/{scopeId}/topics/view": {
+            "get": {
+                "tags": [
+                    "topic-controller"
+                ],
+                "operationId": "getMostViewTopics",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageTopicResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/scope/{scopeId}/topics/controversial": {
+            "get": {
+                "tags": [
+                    "topic-controller"
+                ],
+                "operationId": "getControversialTopics",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageTopicResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/scope/{scopeId}/topic/{topicId}/messages": {
             "get": {
                 "tags": [
@@ -892,6 +1015,53 @@
                 }
             }
         },
+        "/v1/manager/topic/messages": {
+            "get": {
+                "tags": [
+                    "message-controller"
+                ],
+                "operationId": "getMessage_2",
+                "parameters": [
+                    {
+                        "name": "scopeId",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    {
+                        "name": "searchDTO",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/MessageSearchDTO"
+                        }
+                    },
+                    {
+                        "name": "pageable",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Pageable"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageMessageResponseDTO"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v1/categories": {
             "get": {
                 "tags": [
@@ -1037,40 +1207,10 @@
                         "type": "integer",
                         "format": "int64"
                     },
-                    "commentCount": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "rating": {
-                        "$ref": "#/components/schemas/RatingResponseDTO"
-                    },
                     "reaction": {
                         "type": "object",
                         "additionalProperties": {
                             "$ref": "#/components/schemas/ReactionResponseDTO"
-                        }
-                    }
-                }
-            },
-            "RatingResponseDTO": {
-                "type": "object",
-                "properties": {
-                    "average": {
-                        "type": "number",
-                        "format": "double"
-                    },
-                    "total": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "userScore": {
-                        "type": "integer",
-                        "format": "int32"
-                    },
-                    "result": {
-                        "type": "object",
-                        "additionalProperties": {
-                            "$ref": "#/components/schemas/Result"
                         }
                     }
                 }
@@ -1084,19 +1224,6 @@
                     },
                     "userReacted": {
                         "type": "boolean"
-                    }
-                }
-            },
-            "Result": {
-                "type": "object",
-                "properties": {
-                    "count": {
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    "percent": {
-                        "type": "number",
-                        "format": "double"
                     }
                 }
             },
@@ -1426,9 +1553,7 @@
                     },
                     "replies": {
                         "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/MessageResponseDTO"
-                        }
+                        "items": { "$ref": "#/components/schemas/MessageResponseDTO" }
                     }
                 }
             },
@@ -1475,6 +1600,34 @@
                     },
                     "empty": {
                         "type": "boolean"
+                    }
+                }
+            },
+            "MessageSearchDTO": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "userId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "topicId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "scopeId": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "publish": {
+                        "type": "boolean"
+                    },
+                    "parentId": {
+                        "type": "integer",
+                        "format": "int64"
                     }
                 }
             },

@@ -8,7 +8,7 @@ export default function ScopeError(props: PageProps<'scopeId'>) {
   const [empty, scope, scopeId, service] = usePathname().split('/');
   const notAccess = !token && scopeId !== '0';
   return (
-    <div className="flex justify-center items-center prose-2xl">
+    <div className="place-self-center text-2xl prose-2xl">
       {notAccess ? 'شما دسترسی محتوای این صفحه را ندارید' : 'خطایی پیش آمده است'}
     </div>
   );

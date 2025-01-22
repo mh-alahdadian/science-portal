@@ -5,8 +5,8 @@ import { useThemeName } from '@/utils/scope';
 import clsx from 'clsx';
 import 'vazirmatn/Vazirmatn-font-face.css';
 // import './bootstrap.scss';
-import './globals.css';
 import { Footer } from './Footer';
+import './globals.css';
 
 export default function RootLayout({ children, header }: LayoutProps<'header'>) {
   const myTheme = useThemeName();
@@ -16,8 +16,8 @@ export default function RootLayout({ children, header }: LayoutProps<'header'>) 
       <body className={clsx('flex flex-col')}>
         <Providers>
           {header}
-          <main className="flex-1">{children}</main>
-          <Footer/>
+          <main className="flex-1 grid">{children}</main>
+          <Footer />
         </Providers>
       </body>
     </html>
