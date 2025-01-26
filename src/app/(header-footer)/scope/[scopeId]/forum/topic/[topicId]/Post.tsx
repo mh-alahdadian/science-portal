@@ -69,7 +69,7 @@ export function Post(props: Props) {
           <Reaction modelTypeId={modelTypeId} modelId={post.id!} reactions={reaction} type={ReactionType.DISLIKE} />
         </div>
 
-        <div>
+        <div className="flex flex-col gap-4">
           {post.replies?.map((m: typeof post) => (
             <div className="space-x-4 space-x-reverse">
               <span className="whitespace-pre-wrap [unicode-bidi:plaintext]">{m.content}</span>
