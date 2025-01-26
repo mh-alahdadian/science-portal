@@ -28,7 +28,7 @@ export default function NewTopicPage(props: PageProps<'scopeId', 'topicId?'>) {
   });
   const { data: tags } = useSuspenseQuery({
     ...queryService('forum:/v1/scope/{scopeId}/tags', { params: { path: params } }),
-    select: (data) => data.map(({ id, title }) => ({ value: id?.toString(), label: title })),
+    select: (data) => data.map(({ id, title }) => ({ value: id!.toString(), label: title! })),
   });
 
   const topicService = queryService('forum:/v1/scope/{scopeId}/topics/{topicId}', {
@@ -99,32 +99,37 @@ export default function NewTopicPage(props: PageProps<'scopeId', 'topicId?'>) {
                 data={field.value}
                 className="mt-2"
                 onChange={(event, editor) => field.onChange(editor.getData())}
-                // disabled={isDraft}
               />
             )}
           />
         </div>
         <FieldWrapper label="تگ‌ها">
-          {/* @ts-ignore */}
-          <Select
-            {...register('tags')}
-            isMulti
-            isClearable
-            isSearchable
-            placeholder="تگ‌ها"
-            // isLoading={loadingTags}
-            options={tags}
-            styles={{
-              multiValue: (baseStyles) => ({
-                ...baseStyles,
-                alignItems: 'center',
-              }),
+          <Controller
+            name="tags"
+            control={control}
+            render={({ field }) => (
+              <Select
+                name="tags"
+                value={field.value}
+                onChange={(newValue) => field.onChange(newValue)}
+                isMulti
+                isClearable
+                isSearchable
+                placeholder="تگ‌ها"
+                options={tags as any}
+                styles={{
+                  multiValue: (baseStyles) => ({
+                    ...baseStyles,
+                    alignItems: 'center',
+                  }),
 
-              container: (baseStyles) => ({
-                ...baseStyles,
-                minWidth: 300,
-              }),
-            }}
+                  container: (baseStyles) => ({
+                    ...baseStyles,
+                    minWidth: 300,
+                  }),
+                }}
+              />
+            )}
           />
         </FieldWrapper>
       </div>
@@ -133,6 +138,7 @@ export default function NewTopicPage(props: PageProps<'scopeId', 'topicId?'>) {
           className="btn-primary mr-auto my-8"
           onClick={handleSubmit((formData) => {
             const body = formData! as Required<typeof formData>;
+            body.tags = body.tags.map((x: any) => Number(x.value));
             const mutate = isDraft ? mutateCreateTopic : mutateEditTopic;
             return mutate(
               { body, params: { path: { scopeId: params.scopeId, topicId: topicId } } },

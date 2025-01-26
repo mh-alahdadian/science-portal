@@ -2,13 +2,17 @@ import { useScreen } from '@/hooks';
 import clsx from 'clsx';
 
 interface Props {
-  current: number;
+  current: number; // doc: should be started from 1
   total: number;
   pageSize: number;
   changePage: (page: number) => void;
   changePageSize?: (page: number) => void;
 }
 
+/**
+ * @example pagination(0, 3) => [1, 2, 3]
+ * @param currentPage : starting from 1
+ */
 function pagination(currentPage: number, totalPages: number, delta = 2) {
   if (totalPages <= 1) {
     return [1];
@@ -40,25 +44,33 @@ export function Paginator(props: Props) {
   return (
     <div className="flex gap-4 items-center justify-center my-3">
       <div className="join">
-        <button className={clsx('join-item btn', isSmall && 'btn-sm')} onClick={() => changePage(current - 1)}>
+        <button
+          disabled={current === 1}
+          className={clsx('join-item btn', isSmall && 'btn-sm')}
+          onClick={() => changePage(current - 1)}
+        >
           {Prev}
         </button>
-        {pagination(current + 1, total, 2).map((index) =>
+        {pagination(current, total).map((index) =>
           index === Ellipsis ? (
             <span key={index} className={clsx('join-item btn', isSmall && 'btn-sm')}>
               {index}
             </span>
           ) : (
             <button
-              className={clsx('join-item btn', isSmall && 'btn-sm', current === index - 1 && 'btn-active')}
+              className={clsx('join-item btn', isSmall && 'btn-sm', current === index && 'btn-active')}
               key={index}
-              onClick={() => changePage(index - 1)}
+              onClick={() => changePage(index)}
             >
               {index}
             </button>
           )
         )}
-        <button className={clsx('join-item btn', isSmall && 'btn-sm')} onClick={() => changePage(current + 1)}>
+        <button
+          disabled={current === total}
+          className={clsx('join-item btn', isSmall && 'btn-sm')}
+          onClick={() => changePage(current + 1)}
+        >
           {Next}
         </button>
       </div>

@@ -151,10 +151,10 @@ export default function AllNews(props: PageProps<'scopeId'>) {
       {/* <Recommendations /> */}
 
       <Paginator
-        current={currentPage}
         total={latestNewsQuery.totalPages!}
+        current={currentPage + 1}
+        changePage={(value) => setCurrentPage(value - 1)}
         pageSize={perPage}
-        changePage={setCurrentPage}
         changePageSize={setPerPage}
       />
     </div>

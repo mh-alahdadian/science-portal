@@ -1,13 +1,13 @@
 'use client';
 
 import { queryService } from '@/api';
-import { InlineSelectField, InlineTextField, Table, Tags } from '@/components';
+import { InlineSelectField, InlineTextField, Paginator, Table, Tags } from '@/components';
 import { defaultPagination } from '@/constants';
 import { useCurrentScope } from '@/hooks';
 import { formatDateTime, getFirstParagraph, paginationStateToQuery } from '@/utils';
 import { Plus } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { createColumnHelper, getCoreRowModel, getPaginationRowModel, useReactTable } from '@tanstack/react-table';
+import { createColumnHelper, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { use, useState } from 'react';
@@ -22,29 +22,29 @@ const colDefs = [
     header: 'تاپیک',
     size: Number.MAX_SAFE_INTEGER,
     cell: (props) => {
-      const topic: any = props.row.original!;
+      const topic: Schema<'TopicResponseDTO'> = props.row.original!;
       return (
         <Link href={`forum/topic/${topic.id}`}>
           <p className="text-base">{topic.title}</p>
           <p className="text-sm text-opacity-50 whitespace-pre-wrap line-clamp-4 mt-2">
-            {getFirstParagraph(topic.content, 300)}
+            {getFirstParagraph(topic.content!, 300)}
           </p>
           <Tags tags={topic.tags!} />
+          <p className="mt-4">نویسنده: {topic.user?.name}</p>
         </Link>
       );
     },
   }),
-  columnHelper.accessor('title', {
+  columnHelper.accessor('messageCount', {
     maxSize: 80,
     header: 'پاسخ‌ها',
-    cell: () => (Math.random() * 100).toFixed(),
+    enableSorting: false,
   }),
   columnHelper.accessor('lastActivity', {
     maxSize: 200,
     header: 'آخرین تاریخ فعالیت',
-    // field: 'title',
-    // cellDataType: 'string',
     cell: ({ row, cell }) => (cell.getValue() ? formatDateTime(cell.getValue() || row.original.createdAt!) : '-'),
+    enableSorting: false,
   }),
 ];
 
@@ -55,6 +55,8 @@ const schema = {
     y: { type: 'string' },
   },
 } as const;
+
+const sorts = ['lastActivity,desc', 'createdAt,desc'] as const;
 
 export default function Forum(props: PageProps<'scopeId'>) {
   const params = use(props.params);
@@ -68,6 +70,8 @@ export default function Forum(props: PageProps<'scopeId'>) {
     select: (data) => data.map(({ id, title }) => ({ value: id?.toString(), label: title })),
   });
   const [filteredCategories, setFilteredCategories] = useState<Filter[]>([]);
+  const [searchText, setSearchText] = useState<string>();
+  const [selectedSort, setSelectedSort] = useState<(typeof sorts)[number]>(sorts[0]);
 
   if (+params.scopeId && !categories.length) notFound();
 
@@ -79,7 +83,7 @@ export default function Forum(props: PageProps<'scopeId'>) {
   });
 
   const {
-    data: { content: topics },
+    data: { content: topics, totalPages },
     isError,
     isLoading,
     refetch,
@@ -87,7 +91,11 @@ export default function Forum(props: PageProps<'scopeId'>) {
     queryService('forum:/v1/scope/{scopeId}/topics', {
       params: {
         path: { scopeId: +params.scopeId },
-        query: { ...paginationStateToQuery(pagination) },
+        query: {
+          ...paginationStateToQuery(pagination),
+          ['sort' as any]: selectedSort,
+          searchDTO: { title: searchText },
+        },
       },
     })
   );
@@ -96,9 +104,6 @@ export default function Forum(props: PageProps<'scopeId'>) {
     columns: colDefs,
     data: topics!,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: setPagination,
-    state: { pagination },
     meta: {},
   });
 
@@ -115,7 +120,12 @@ export default function Forum(props: PageProps<'scopeId'>) {
         <div className="flex flex-col flex-1">
           <div className="flex justify-between mb-2">
             <div className="flex gap-4">
-              <InlineTextField label="جست‌و‌جو در عنوان" />
+              <InlineTextField
+                className="w-48"
+                label="جست‌و‌جو در عنوان"
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+              />
               <Select
                 isMulti
                 isClearable
@@ -132,9 +142,14 @@ export default function Forum(props: PageProps<'scopeId'>) {
                 }}
                 onChange={setFilteredCategories as any}
               />
-              <InlineSelectField label="ترتیب نمایش">
-                <option>تازه‌ترین</option>
-                <option>تاریخ فعالیت</option>
+              <InlineSelectField
+                className="w-48"
+                label="ترتیب نمایش"
+                value={selectedSort}
+                onChange={(e) => setSelectedSort(e.target.value as any)}
+              >
+                <option value={sorts[0]}>تاریخ فعالیت</option>
+                <option value={sorts[1]}>تازه‌ترین</option>
               </InlineSelectField>
             </div>
             <Link href={{ pathname: 'forum/write/new' }} role="button" className="btn-primary">
@@ -143,6 +158,13 @@ export default function Forum(props: PageProps<'scopeId'>) {
             </Link>
           </div>
           <Table table={table} hasData={!!topics} hasError={isError} isLoading={isLoading} refetch={refetch} />
+          <Paginator
+            total={totalPages!}
+            current={pagination.pageIndex + 1}
+            pageSize={pagination.pageSize}
+            changePage={(value) => setPagination({ ...pagination, pageIndex: value - 1 })}
+            changePageSize={(value) => setPagination({ ...pagination, pageSize: value })}
+          />
         </div>
         <aside className="max-w-sm w-full flex flex-col items-center gap-5 p-8 bg-custom2-50 box">
           <TopicList title="پرمشاهده‌ترین تاپیک‌ها" service={mostViewService} />

@@ -1,9 +1,10 @@
 import { ColumnFiltersState, PaginationState, SortingState } from '@tanstack/react-table';
 import { is } from 'ramda';
 
-export function paginationStateToQuery(state: PaginationState) {
+export function paginationStateToQuery(state: PaginationState, defaultValue?: Partial<Schema<'Pageable'>>) {
   return {
     pageable: {
+      ...defaultValue,
       page: state.pageIndex,
       size: state.pageSize,
     },
