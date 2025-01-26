@@ -1,9 +1,11 @@
 'use client';
 
 import { mutateService, queryService } from '@/api';
-import { Editor } from '@/components';
+import { Editor, Tags } from '@/components';
+import { Reaction } from '@/components/feedback';
+import { ModelType, ReactionType } from '@/constants';
 import { createFileUrl, formatDateTime } from '@/utils';
-import { PaperPlaneTilt, ThumbsDown, ThumbsUp, User } from '@phosphor-icons/react';
+import { PaperPlaneTilt, User } from '@phosphor-icons/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 
@@ -11,11 +13,6 @@ interface Props {
   topic: Schema<'TopicResponseDTO'>;
   post: Schema<'MessageResponseDTO'>;
 }
-
-const reactionIcon = {
-  ThumbsUp: ThumbsUp,
-  ThumbsDown: ThumbsDown,
-};
 
 function getAvatarPlaceholder(name: string) {
   const words = name.split(' ');
@@ -25,21 +22,11 @@ function getAvatarPlaceholder(name: string) {
 
 export function Post(props: Props) {
   let { post, topic } = props;
-
-  const reaction = post.feedbackStats?.reaction || {};
+  const modelTypeId = !!post.topicId ? ModelType.MESSAGE : ModelType.TOPIC;
+  const reaction = post.feedbackStats!.reaction as any;
   const queryClient = useQueryClient();
   const { mutate } = useMutation(mutateService('post', 'forum:/v1/scope/{scopeId}/topic/messages'));
   const [text, setText] = useState('');
-
-  const reactions = Object.entries(reaction)?.map(([key, r]) => {
-    const Icon = reactionIcon[key as keyof typeof reactionIcon];
-    return (
-      <button key={key} className="flex items-center gap-2">
-        {r!.count}
-        <Icon size={20} weight={r!.userReacted ? 'fill' : 'regular'} />
-      </button>
-    );
-  });
 
   function getUserInfo(post: Schema<'MessageResponseDTO'>) {
     const userAvatar = post.user ? (
@@ -74,17 +61,14 @@ export function Post(props: Props) {
             {formatDateTime(post.createdAt!)}
           </time>
         </div>
-        {/* <div>
-            {post.tags}
-        </div> */}
         <div className="font-bold">{topic.title}</div>
-        <Editor
-          className="text-black text-opacity-50"
-          data={post.content}
-          uploadData={{ fileKey: (post as any).fileKey }}
-          readonly
-        />
-        {reactions?.length ? <div className="flex gap-6 ">{reactions}</div> : null}
+        <Editor className="text-black" data={post.content} uploadData={{ fileKey: (post as any).fileKey }} readonly />
+        <Tags tags={topic.tags!} />
+        <div className="flex gap-6 ">
+          <Reaction modelTypeId={modelTypeId} modelId={post.id!} reactions={reaction} type={ReactionType.LIKE} />
+          <Reaction modelTypeId={modelTypeId} modelId={post.id!} reactions={reaction} type={ReactionType.DISLIKE} />
+        </div>
+
         <div>
           {post.replies?.map((m: typeof post) => (
             <div className="space-x-4 space-x-reverse">
