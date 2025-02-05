@@ -1,0 +1,76 @@
+import { ShareFat } from "@phosphor-icons/react";
+import PropTypes from "prop-types";
+import { FilterCard } from "./FilterCard.jsx";
+import { Checkbox } from "../../ui/Checkbox.jsx";
+import useSearchStore from "store/searchStore.js";
+
+export const FilterReshare = ({ hasInfo = false, className = "" }) => {
+  const {
+    filters,
+    setFilters,
+    isFilterListOpen,
+    toggleOpenClose,
+    saveState,
+    checkIsFilterActive,
+  } = useSearchStore();
+
+  const reshareOptions = [
+    { label: "بازنشر", id: "republish", name: "republish" },
+    { label: "تولیدی", id: "publish", name: "publish" },
+    { label: "همه", id: "all", name: "all" },
+  ];
+
+  const handleChange = (selectedItem) => {
+    const { id, isChecked } = selectedItem;
+    let newItems = [];
+
+    if (id === "all") {
+      newItems = isChecked ? ["republish", "publish"] : [];
+    } else {
+      newItems = isChecked
+        ? [...filters.reshare.filter((lang) => lang !== "all"), id]
+        : filters.reshare.filter((lang) => lang !== id);
+    }
+
+    setFilters({ reshare: newItems });
+    saveState();
+  };
+
+  return (
+    <FilterCard
+      onClick={!isFilterListOpen ? toggleOpenClose : undefined}
+      icon={ShareFat}
+      hasInfo={hasInfo}
+      hasBullet={checkIsFilterActive("reshare")}
+      title={"اصالت محتوا"}
+      isOpen={isFilterListOpen}
+      className={className}
+    >
+      {
+        <div
+          className={
+            isFilterListOpen ? "flex flex-row justify-between gap-4" : "hidden"
+          }
+        >
+          {reshareOptions.map((option) => (
+            <Checkbox
+              key={option.id}
+              onChange={handleChange}
+              label={option.label}
+              id={option.id}
+              name={option.name}
+              checked={filters?.reshare?.includes(option?.name)}
+              className={"flex-1"}
+            />
+          ))}
+        </div>
+      }
+    </FilterCard>
+  );
+};
+
+FilterReshare.propTypes = {
+  hasInfo: PropTypes.bool,
+  hasBullet: PropTypes.bool,
+  className: PropTypes.string,
+};

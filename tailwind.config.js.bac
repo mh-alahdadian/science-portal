@@ -1,0 +1,500 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        dark: {
+          "primary-background-rest": "var(--dark-primary-background-rest)",
+          "primary-background-hover": "var(--dark-primary-background-hover)",
+          "primary-background-press": "var(--dark-primary-background-press)",
+          "primary-background-highlight":
+            "var(--dark-primary-background-highlight)",
+          "primary-background-tag": "var(--dark-primary-background-tag)",
+          "primary-border-rest": "var(--dark-primary-border-rest)",
+          "primary-border-hover": "var(--dark-primary-border-hover)",
+          "primary-text-rest": "var(--dark-primary-text-rest)",
+          "primary-text-hover": "var(--dark-primary-text-hover)",
+          "success-background-rest": "var(--dark-success-background-rest)",
+          "success-background-hover": "var(--dark-success-background-hover)",
+          "success-background-press": "var(--dark-success-background-press)",
+          "success-background-highlight":
+            "var(--dark-success-background-highlight)",
+          "success-background-tag": "var(--dark-success-background-tag)",
+          "success-border-rest": "var(--dark-success-border-rest)",
+          "success-border-hover": "var(--dark-success-border-hover)",
+          "success-text-rest": "var(--dark-success-text-rest)",
+          "success-text-hover": "var(--dark-success-text-hover)",
+          "error-background-rest": "var(--dark-error-background-rest)",
+          "error-background-hover": "var(--dark-error-background-hover)",
+          "error-background-press": "var(--dark-error-background-press)",
+          "error-background-highlight":
+            "var(--dark-error-background-highlight)",
+          "error-background-tag": "var(--dark-error-background-tag)",
+          "error-border-rest": "var(--dark-error-border-rest)",
+          "error-border-hover": "var(--dark-error-border-hover)",
+          "error-text-rest": "var(--dark-error-text-rest)",
+          "error-text-hover": "var(--dark-error-text-hover)",
+          "warning-background-rest": "var(--dark-warning-background-rest)",
+          "warning-background-hover": "var(--dark-warning-background-hover)",
+          "warning-background-press": "var(--dark-warning-background-press)",
+          "warning-background-highlight":
+            "var(--dark-warning-background-highlight)",
+          "warning-background-tag": "var(--dark-warning-background-tag)",
+          "warning-border-rest": "var(--dark-warning-border-rest)",
+          "warning-border-hover": "var(--dark-warning-border-hover)",
+          "warning-text-rest": "var(--dark-warning-text-rest)",
+          "warning-text-hover": "var(--dark-warning-text-hover)",
+          "inform-background-rest": "var(--dark-inform-background-rest)",
+          "inform-background-hover": "var(--dark-inform-background-hover)",
+          "inform-background-press": "var(--dark-inform-background-press)",
+          "inform-background-highlight":
+            "var(--dark-inform-background-highlight)",
+          "inform-background-tag": "var(--dark-inform-background-tag)",
+          "inform-border-rest": "var(--dark-inform-border-rest)",
+          "inform-border-hover": "var(--dark-inform-border-hover)",
+          "inform-text-rest": "var(--dark-inform-text-rest)",
+          "inform-text-hover": "var(--dark-inform-text-hover)",
+          "spectrum-brand-10": "var(--dark-spectrum-brand-10)",
+          "spectrum-brand-20": "var(--dark-spectrum-brand-20)",
+          "spectrum-brand-30": "var(--dark-spectrum-brand-30)",
+          "spectrum-brand-40": "var(--dark-spectrum-brand-40)",
+          "spectrum-brand-50": "var(--dark-spectrum-brand-50)",
+          "spectrum-brand-60": "var(--dark-spectrum-brand-60)",
+          "spectrum-brand-70": "var(--dark-spectrum-brand-70)",
+          "spectrum-brand-80": "var(--dark-spectrum-brand-80)",
+          "spectrum-brand-90": "var(--dark-spectrum-brand-90)",
+          "spectrum-green-10": "var(--dark-spectrum-green-10)",
+          "spectrum-green-20": "var(--dark-spectrum-green-20)",
+          "spectrum-green-30": "var(--dark-spectrum-green-30)",
+          "spectrum-green-40": "var(--dark-spectrum-green-40)",
+          "spectrum-green-50": "var(--dark-spectrum-green-50)",
+          "spectrum-red-10": "var(--dark-spectrum-red-10)",
+          "spectrum-red-20": "var(--dark-spectrum-red-20)",
+          "spectrum-red-30": "var(--dark-spectrum-red-30)",
+          "spectrum-red-40": "var(--dark-spectrum-red-40)",
+          "spectrum-red-50": "var(--dark-spectrum-red-50)",
+          "spectrum-amber-10": "var(--dark-spectrum-amber-10)",
+          "spectrum-amber-20": "var(--dark-spectrum-amber-20)",
+          "spectrum-amber-30": "var(--dark-spectrum-amber-30)",
+          "spectrum-amber-40": "var(--dark-spectrum-amber-40)",
+          "spectrum-amber-50": "var(--dark-spectrum-amber-50)",
+          "spectrum-blue-10": "var(--dark-spectrum-blue-10)",
+          "spectrum-blue-20": "var(--dark-spectrum-blue-20)",
+          "spectrum-blue-30": "var(--dark-spectrum-blue-30)",
+          "spectrum-blue-40": "var(--dark-spectrum-blue-40)",
+          "spectrum-blue-50": "var(--dark-spectrum-blue-50)",
+          "spectrum-gray-10": "var(--dark-spectrum-gray-10)",
+          "spectrum-gray-20": "var(--dark-spectrum-gray-20)",
+          "spectrum-gray-30": "var(--dark-spectrum-gray-30)",
+          "spectrum-gray-40": "var(--dark-spectrum-gray-40)",
+          "spectrum-gray-50": "var(--dark-spectrum-gray-50)",
+          "spectrum-gray-60": "var(--dark-spectrum-gray-60)",
+          "spectrum-gray-70": "var(--dark-spectrum-gray-70)",
+          "spectrum-gray-80": "var(--dark-spectrum-gray-80)",
+          "spectrum-gray-90": "var(--dark-spectrum-gray-90)",
+          "neutral-surface-zero": "var(--dark-neutral-surface-zero)",
+          "neutral-surface-low": "var(--dark-neutral-surface-low)",
+          "neutral-surface-card": "var(--dark-neutral-surface-card)",
+          "neutral-surface-highlight": "var(--dark-neutral-surface-highlight)",
+          "neutral-surface-backdrop": "var(--dark-neutral-surface-backdrop)",
+          "neutral-text-zero": "var(--dark-neutral-text-zero)",
+          "neutral-text-disable": "var(--dark-neutral-text-disable)",
+          "neutral-text-low": "var(--dark-neutral-text-low)",
+          "neutral-text-medium": "var(--dark-neutral-text-medium)",
+          "neutral-text-high": "var(--dark-neutral-text-high)",
+          "neutral-text-white": "var(--dark-neutral-text-white)",
+          "neutral-text-black": "var(--dark-neutral-text-black)",
+          "neutral-background-disable":
+            "var(--dark-neutral-background-disable)",
+          "neutral-background-low": "var(--dark-neutral-background-low)",
+          "neutral-background-medium": "var(--dark-neutral-background-medium)",
+          "neutral-background-high": "var(--dark-neutral-background-high)",
+          "neutral-border-disable": "var(--dark-neutral-border-disable)",
+          "neutral-border-low-rest": "var(--dark-neutral-border-low-rest)",
+          "neutral-border-low-hover": "var(--dark-neutral-border-low-hover)",
+          "neutral-border-medium-rest":
+            "var(--dark-neutral-border-medium-rest)",
+          "neutral-border-medium-hover":
+            "var(--dark-neutral-border-medium-hover)",
+          "neutral-border-high-rest": "var(--dark-neutral-border-high-rest)",
+          "neutral-border-high-hover": "var(--dark-neutral-border-high-hover)",
+          "neutral-divider-low": "var(--dark-neutral-divider-low)",
+          "neutral-divider-medium": "var(--dark-neutral-divider-medium)",
+          "neutral-divider-high": "var(--dark-neutral-divider-high)",
+        },
+        light: {
+          "primary-background-rest": "var(--light-primary-background-rest)",
+          "primary-background-hover": "var(--light-primary-background-hover)",
+          "primary-background-press": "var(--light-primary-background-press)",
+          "primary-background-highlight":
+            "var(--light-primary-background-highlight)",
+          "primary-background-tag": "var(--light-primary-background-tag)",
+          "primary-border-rest": "var(--light-primary-border-rest)",
+          "primary-border-hover": "var(--light-primary-border-hover)",
+          "primary-text-rest": "var(--light-primary-text-rest)",
+          "primary-text-hover": "var(--light-primary-text-hover)",
+          "success-background-rest": "var(--light-success-background-rest)",
+          "success-background-hover": "var(--light-success-background-hover)",
+          "success-background-press": "var(--light-success-background-press)",
+          "success-background-highlight":
+            "var(--light-success-background-highlight)",
+          "success-background-tag": "var(--light-success-background-tag)",
+          "success-border-rest": "var(--light-success-border-rest)",
+          "success-border-hover": "var(--light-success-border-hover)",
+          "success-text-rest": "var(--light-success-text-rest)",
+          "success-text-hover": "var(--light-success-text-hover)",
+          "error-background-rest": "var(--light-error-background-rest)",
+          "error-background-hover": "var(--light-error-background-hover)",
+          "error-background-press": "var(--light-error-background-press)",
+          "error-background-highlight":
+            "var(--light-error-background-highlight)",
+          "error-background-tag": "var(--light-error-background-tag)",
+          "error-border-rest": "var(--light-error-border-rest)",
+          "error-border-hover": "var(--light-error-border-hover)",
+          "error-text-rest": "var(--light-error-text-rest)",
+          "error-text-hover": "var(--light-error-text-hover)",
+          "warning-background-rest": "var(--light-warning-background-rest)",
+          "warning-background-hover": "var(--light-warning-background-hover)",
+          "warning-background-press": "var(--light-warning-background-press)",
+          "warning-background-highlight":
+            "var(--light-warning-background-highlight)",
+          "warning-background-tag": "var(--light-warning-background-tag)",
+          "warning-border-rest": "var(--light-warning-border-rest)",
+          "warning-border-hover": "var(--light-warning-border-hover)",
+          "warning-text-rest": "var(--light-warning-text-rest)",
+          "warning-text-hover": "var(--light-warning-text-hover)",
+          "inform-background-rest": "var(--light-inform-background-rest)",
+          "inform-background-hover": "var(--light-inform-background-hover)",
+          "inform-background-press": "var(--light-inform-background-press)",
+          "inform-background-highlight":
+            "var(--light-inform-background-highlight)",
+          "inform-background-tag": "var(--light-inform-background-tag)",
+          "inform-border-rest": "var(--light-inform-border-rest)",
+          "inform-border-hover": "var(--light-inform-border-hover)",
+          "inform-text-rest": "var(--light-inform-text-rest)",
+          "inform-text-hover": "var(--light-inform-text-hover)",
+          "spectrum-brand-10": "var(--light-spectrum-brand-10)",
+          "spectrum-brand-20": "var(--light-spectrum-brand-20)",
+          "spectrum-brand-30": "var(--light-spectrum-brand-30)",
+          "spectrum-brand-40": "var(--light-spectrum-brand-40)",
+          "spectrum-brand-50": "var(--light-spectrum-brand-50)",
+          "spectrum-brand-60": "var(--light-spectrum-brand-60)",
+          "spectrum-brand-70": "var(--light-spectrum-brand-70)",
+          "spectrum-brand-80": "var(--light-spectrum-brand-80)",
+          "spectrum-brand-90": "var(--light-spectrum-brand-90)",
+          "spectrum-green-10": "var(--light-spectrum-green-10)",
+          "spectrum-green-20": "var(--light-spectrum-green-20)",
+          "spectrum-green-30": "var(--light-spectrum-green-30)",
+          "spectrum-green-40": "var(--light-spectrum-green-40)",
+          "spectrum-green-50": "var(--light-spectrum-green-50)",
+          "spectrum-red-10": "var(--light-spectrum-red-10)",
+          "spectrum-red-20": "var(--light-spectrum-red-20)",
+          "spectrum-red-30": "var(--light-spectrum-red-30)",
+          "spectrum-red-40": "var(--light-spectrum-red-40)",
+          "spectrum-red-50": "var(--light-spectrum-red-50)",
+          "spectrum-amber-10": "var(--light-spectrum-amber-10)",
+          "spectrum-amber-20": "var(--light-spectrum-amber-20)",
+          "spectrum-amber-30": "var(--light-spectrum-amber-30)",
+          "spectrum-amber-40": "var(--light-spectrum-amber-40)",
+          "spectrum-amber-50": "var(--light-spectrum-amber-50)",
+          "spectrum-blue-10": "var(--light-spectrum-blue-10)",
+          "spectrum-blue-20": "var(--light-spectrum-blue-20)",
+          "spectrum-blue-30": "var(--light-spectrum-blue-30)",
+          "spectrum-blue-40": "var(--light-spectrum-blue-40)",
+          "spectrum-blue-50": "var(--light-spectrum-blue-50)",
+          "spectrum-gray-10": "var(--light-spectrum-gray-10)",
+          "spectrum-gray-20": "var(--light-spectrum-gray-20)",
+          "spectrum-gray-30": "var(--light-spectrum-gray-30)",
+          "spectrum-gray-40": "var(--light-spectrum-gray-40)",
+          "spectrum-gray-50": "var(--light-spectrum-gray-50)",
+          "spectrum-gray-60": "var(--light-spectrum-gray-60)",
+          "spectrum-gray-70": "var(--light-spectrum-gray-70)",
+          "spectrum-gray-80": "var(--light-spectrum-gray-80)",
+          "spectrum-gray-90": "var(--light-spectrum-gray-90)",
+          "neutral-surface-zero": "var(--light-neutral-surface-zero)",
+          "neutral-surface-low": "var(--light-neutral-surface-low)",
+          "neutral-surface-card": "var(--light-neutral-surface-card)",
+          "neutral-surface-highlight": "var(--light-neutral-surface-highlight)",
+          "neutral-surface-backdrop": "var(--light-neutral-surface-backdrop)",
+          "neutral-text-zero": "var(--light-neutral-text-zero)",
+          "neutral-text-disable": "var(--light-neutral-text-disable)",
+          "neutral-text-low": "var(--light-neutral-text-low)",
+          "neutral-text-medium": "var(--light-neutral-text-medium)",
+          "neutral-text-high": "var(--light-neutral-text-high)",
+          "neutral-text-white": "var(--light-neutral-text-white)",
+          "neutral-text-black": "var(--light-neutral-text-black)",
+          "neutral-background-disable":
+            "var(--light-neutral-background-disable)",
+          "neutral-background-low": "var(--light-neutral-background-low)",
+          "neutral-background-medium": "var(--light-neutral-background-medium)",
+          "neutral-background-high": "var(--light-neutral-background-high)",
+          "neutral-border-disable": "var(--light-neutral-border-disable)",
+          "neutral-border-low-rest": "var(--light-neutral-border-low-rest)",
+          "neutral-border-low-hover": "var(--light-neutral-border-low-hover)",
+          "neutral-border-medium-rest":
+            "var(--light-neutral-border-medium-rest)",
+          "neutral-border-medium-hover":
+            "var(--light-neutral-border-medium-hover)",
+          "neutral-border-high-rest": "var(--light-neutral-border-high-rest)",
+          "neutral-border-high-hover": "var(--light-neutral-border-high-hover)",
+          "neutral-divider-low": "var(--light-neutral-divider-low)",
+          "neutral-divider-medium": "var(--light-neutral-divider-medium)",
+          "neutral-divider-high": "var(--light-neutral-divider-high)",
+        },
+      },
+    },
+    fontFamily: {
+      "body-bold-large": "var(--body-bold-large-font-family)",
+      "body-bold-medium": "var(--body-bold-medium-font-family)",
+      "body-bold-small": "var(--body-bold-small-font-family)",
+      "body-large": "var(--body-large-font-family)",
+      "body-medium": "var(--body-medium-font-family)",
+      "body-small": "var(--body-small-font-family)",
+      "button-large": "var(--button-large-font-family)",
+      "button-medium": "var(--button-medium-font-family)",
+      "button-small": "var(--button-small-font-family)",
+      "headline-large": "var(--headline-large-font-family)",
+      "headline-medium": "var(--headline-medium-font-family)",
+      "headline-small": "var(--headline-small-font-family)",
+      "overline-large": "var(--overline-large-font-family)",
+      "overline-medium": "var(--overline-medium-font-family)",
+      "overline-small": "var(--overline-small-font-family)",
+      "paragraph-bold-large": "var(--paragraph-bold-large-font-family)",
+      "paragraph-bold-medium": "var(--paragraph-bold-medium-font-family)",
+      "paragraph-bold-small": "var(--paragraph-bold-small-font-family)",
+      "paragraph-large": "var(--paragraph-large-font-family)",
+      "paragraph-medium": "var(--paragraph-medium-font-family)",
+      "paragraph-small": "var(--paragraph-small-font-family)",
+      "subtitle-large": "var(--subtitle-large-font-family)",
+      "subtitle-medium": "var(--subtitle-medium-font-family)",
+      "subtitle-small": "var(--subtitle-small-font-family)",
+      "title-large": "var(--title-large-font-family)",
+      "title-medium": "var(--title-medium-font-family)",
+      "title-small": "var(--title-small-font-family)",
+    },
+    fontSize: {
+      "body-bold-large": [
+        "var(--body-bold-large-font-size)",
+        {
+          letterSpacing: "var(--body-bold-large-letter-spacing)",
+          lineHeight: "var(--body-bold-large-line-height)",
+        },
+      ],
+      "body-bold-medium": [
+        "var(--body-bold-medium-font-size)",
+        {
+          letterSpacing: "var(--body-bold-medium-letter-spacing)",
+          lineHeight: "var(--body-bold-medium-line-height)",
+        },
+      ],
+      "body-bold-small": [
+        "var(--body-bold-small-font-size)",
+        {
+          letterSpacing: "var(--body-bold-small-letter-spacing)",
+          lineHeight: "var(--body-bold-small-line-height)",
+        },
+      ],
+      "body-large": [
+        "var(--body-large-font-size)",
+        {
+          letterSpacing: "var(--body-large-letter-spacing)",
+          lineHeight: "var(--body-large-line-height)",
+        },
+      ],
+      "body-medium": [
+        "var(--body-medium-font-size)",
+        {
+          letterSpacing: "var(--body-medium-letter-spacing)",
+          lineHeight: "var(--body-medium-line-height)",
+        },
+      ],
+      "body-small": [
+        "var(--body-small-font-size)",
+        {
+          letterSpacing: "var(--body-small-letter-spacing)",
+          lineHeight: "var(--body-small-line-height)",
+        },
+      ],
+      "button-large": [
+        "var(--button-large-font-size)",
+        {
+          letterSpacing: "var(--button-large-letter-spacing)",
+          lineHeight: "var(--button-large-line-height)",
+        },
+      ],
+      "button-medium": [
+        "var(--button-medium-font-size)",
+        {
+          letterSpacing: "var(--button-medium-letter-spacing)",
+          lineHeight: "var(--button-medium-line-height)",
+        },
+      ],
+      "button-small": [
+        "var(--button-small-font-size)",
+        {
+          letterSpacing: "var(--button-small-letter-spacing)",
+          lineHeight: "var(--button-small-line-height)",
+        },
+      ],
+      "headline-large": [
+        "var(--headline-large-font-size)",
+        {
+          letterSpacing: "var(--headline-large-letter-spacing)",
+          lineHeight: "var(--headline-large-line-height)",
+        },
+      ],
+      "headline-medium": [
+        "var(--headline-medium-font-size)",
+        {
+          letterSpacing: "var(--headline-medium-letter-spacing)",
+          lineHeight: "var(--headline-medium-line-height)",
+        },
+      ],
+      "headline-small": [
+        "var(--headline-small-font-size)",
+        {
+          letterSpacing: "var(--headline-small-letter-spacing)",
+          lineHeight: "var(--headline-small-line-height)",
+        },
+      ],
+      "overline-large": [
+        "var(--overline-large-font-size)",
+        {
+          letterSpacing: "var(--overline-large-letter-spacing)",
+          lineHeight: "var(--overline-large-line-height)",
+        },
+      ],
+      "overline-medium": [
+        "var(--overline-medium-font-size)",
+        {
+          letterSpacing: "var(--overline-medium-letter-spacing)",
+          lineHeight: "var(--overline-medium-line-height)",
+        },
+      ],
+      "overline-small": [
+        "var(--overline-small-font-size)",
+        {
+          letterSpacing: "var(--overline-small-letter-spacing)",
+          lineHeight: "var(--overline-small-line-height)",
+        },
+      ],
+      "paragraph-bold-large": [
+        "var(--paragraph-bold-large-font-size)",
+        {
+          letterSpacing: "var(--paragraph-bold-large-letter-spacing)",
+          lineHeight: "var(--paragraph-bold-large-line-height)",
+        },
+      ],
+      "paragraph-bold-medium": [
+        "var(--paragraph-bold-medium-font-size)",
+        {
+          letterSpacing: "var(--paragraph-bold-medium-letter-spacing)",
+          lineHeight: "var(--paragraph-bold-medium-line-height)",
+        },
+      ],
+      "paragraph-bold-small": [
+        "var(--paragraph-bold-small-font-size)",
+        {
+          letterSpacing: "var(--paragraph-bold-small-letter-spacing)",
+          lineHeight: "var(--paragraph-bold-small-line-height)",
+        },
+      ],
+      "paragraph-large": [
+        "var(--paragraph-large-font-size)",
+        {
+          letterSpacing: "var(--paragraph-large-letter-spacing)",
+          lineHeight: "var(--paragraph-large-line-height)",
+        },
+      ],
+      "paragraph-medium": [
+        "var(--paragraph-medium-font-size)",
+        {
+          letterSpacing: "var(--paragraph-medium-letter-spacing)",
+          lineHeight: "var(--paragraph-medium-line-height)",
+        },
+      ],
+      "paragraph-small": [
+        "var(--paragraph-small-font-size)",
+        {
+          letterSpacing: "var(--paragraph-small-letter-spacing)",
+          lineHeight: "var(--paragraph-small-line-height)",
+        },
+      ],
+      "subtitle-large": [
+        "var(--subtitle-large-font-size)",
+        {
+          letterSpacing: "var(--subtitle-large-letter-spacing)",
+          lineHeight: "var(--subtitle-large-line-height)",
+        },
+      ],
+      "subtitle-medium": [
+        "var(--subtitle-medium-font-size)",
+        {
+          letterSpacing: "var(--subtitle-medium-letter-spacing)",
+          lineHeight: "var(--subtitle-medium-line-height)",
+        },
+      ],
+      "subtitle-small": [
+        "var(--subtitle-small-font-size)",
+        {
+          letterSpacing: "var(--subtitle-small-letter-spacing)",
+          lineHeight: "var(--subtitle-small-line-height)",
+        },
+      ],
+      "title-large": [
+        "var(--title-large-font-size)",
+        {
+          letterSpacing: "var(--title-large-letter-spacing)",
+          lineHeight: "var(--title-large-line-height)",
+        },
+      ],
+      "title-medium": [
+        "var(--title-medium-font-size)",
+        {
+          letterSpacing: "var(--title-medium-letter-spacing)",
+          lineHeight: "var(--title-medium-line-height)",
+        },
+      ],
+      "title-small": [
+        "var(--title-small-font-size)",
+        {
+          letterSpacing: "var(--title-small-letter-spacing)",
+          lineHeight: "var(--title-small-line-height)",
+        },
+      ],
+    },
+  },
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.scrollbar-thin': {
+
+          '&::-webkit-scrollbar': {
+            width: '4px',
+            borderRadius: '50px'
+          },
+          '&::-webkit-scrollbar-track': {
+            background: '#d3d3d3', /* lightgray */
+            borderRadius: '50px'
+          },
+          '&::-webkit-scrollbar-thumb': {
+            background: '#a9a9a9', /* darkgray */
+            borderRadius: '50px'
+          },
+          '&::-webkit-scrollbar-thumb:hover': {
+            background: '#8c8c8c', /* slightly darker gray on hover */
+          },
+        },
+        ".no-scrollbar::-webkit-scrollbar": {
+          display: "none",
+        },
+        ".no-scrollbar":{
+          "-ms-overflow-style":"none",
+          "scrollbar-width":"none"
+        }
+      };
+      addUtilities(newUtilities)
+    },
+  ],
+};

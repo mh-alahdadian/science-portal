@@ -1,0 +1,19 @@
+.hover\:text-gold:hover {
+  color: #ffd700;
+}
+
+@keyframes fire {
+  0% {
+    box-shadow: 0 0 5px rgba(255, 140, 0, 0.5), 0 0 10px rgba(255, 140, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 140, 0, 0.6), 0 0 30px rgba(255, 140, 0, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 140, 0, 0.5), 0 0 10px rgba(255, 140, 0, 0.5);
+  }
+}
+
+.hover\:fire-effect:hover {
+  animation: fire 1s infinite;
+}

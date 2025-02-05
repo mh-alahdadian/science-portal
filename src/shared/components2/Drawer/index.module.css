@@ -1,0 +1,12 @@
+.animation {
+    animation: move 0.5s;
+}
+
+@keyframes move {
+  from {
+    transform: translate(-3000px);
+  }
+  to {
+    transform: translate(0);
+  }
+}

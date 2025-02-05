@@ -1,0 +1,273 @@
+:root {
+  /* Dark Mode */
+  --dark-primary-background-rest: #39ADC5;
+  --dark-primary-background-hover: #3299AE;
+  --dark-primary-background-press: #61BED1;
+  --dark-primary-background-highlight: #325B6480;
+  --dark-primary-background-tag: #07677B;
+
+  --dark-primary-border-rest: #39ADC5;
+  --dark-primary-border-hover: #6CC3D5;
+
+  --dark-primary-text-rest: #4DB6CB;
+  --dark-primary-text-hover: #75C6D7;
+
+  --dark-success-background-rest: #12BAAE;
+  --dark-success-background-hover: #10A398;
+  --dark-success-background-press: #14D1C4;
+  --dark-success-background-highlight: #25464380;
+  --dark-success-background-tag: #095D58;
+
+  --dark-success-border-rest: #14D1C4;
+  --dark-success-border-hover: #45EDE2;
+
+  --dark-success-text-rest: #12C9BC;
+  --dark-success-text-hover: #14E1D2;
+
+  --dark-error-background-rest: #D04D63;
+  --dark-error-background-hover: #BA3148;
+  --dark-error-background-press: #DB7687;
+  --dark-error-background-highlight: #6A2D3780;
+  --dark-error-background-tag: #6A2A32;
+
+  --dark-error-border-rest: #DA7283;
+  --dark-error-border-hover: #DF8695;
+
+  --dark-error-text-rest: #DA7283;
+  --dark-error-text-hover: #EA8495;
+
+  --dark-warning-background-rest: #E99B02;
+  --dark-warning-background-hover: #CA8602;
+  --dark-warning-background-press: #FDAF16;
+  --dark-warning-background-highlight: #41382580;
+  --dark-warning-background-tag: #9D6801;
+
+  --dark-warning-border-rest: #FDAF16;
+  --dark-warning-border-hover: #FEC658;
+
+  --dark-warning-text-rest: #FEB320;
+  --dark-warning-text-hover: #FFCC6A;
+
+  --dark-inform-background-rest: #1F6AF5;
+  --dark-inform-background-hover: #0A56E0;
+  --dark-inform-background-press: #4181F6;
+  --dark-inform-background-highlight: #3852818C;
+  --dark-inform-background-tag: #0D3785;
+
+  --dark-inform-border-rest: #78A6F9;
+  --dark-inform-border-hover: #A2C2FB;
+
+  --dark-inform-text-rest: #6398F8;
+  --dark-inform-text-hover: #95BAFD;
+
+  --dark-spectrum-brand-10: #216573;
+  --dark-spectrum-brand-20: #277686;
+  --dark-spectrum-brand-30: #2E8B9E;
+  --dark-spectrum-brand-40: #3299AE;
+  --dark-spectrum-brand-50: #39ADC5;
+  --dark-spectrum-brand-60: #61BED1;
+  --dark-spectrum-brand-70: #88CEDD;
+  --dark-spectrum-brand-80: #A8DBE6;
+  --dark-spectrum-brand-90: #CBEAF0;
+
+  --dark-spectrum-green-10: #095D57;
+  --dark-spectrum-green-20: #0D8B82;
+  --dark-spectrum-green-30: #12BAAE;
+  --dark-spectrum-green-40: #16E9DA;
+  --dark-spectrum-green-50: #45EDE1;
+
+  --dark-spectrum-red-10: #912638;
+  --dark-spectrum-red-20: #BA3148;
+  --dark-spectrum-red-30: #D04D63;
+  --dark-spectrum-red-40: #DB7687;
+  --dark-spectrum-red-50: #E59EAA;
+
+  --dark-spectrum-amber-10: #986501;
+  --dark-spectrum-amber-20: #CB8701;
+  --dark-spectrum-amber-30: #FDA802;
+  --dark-spectrum-amber-40: #FEBA34;
+  --dark-spectrum-amber-50: #FECB67;
+
+  --dark-spectrum-blue-10: #0A52D7;
+  --dark-spectrum-blue-20: #1F6AF5;
+  --dark-spectrum-blue-30: #508BF7;
+  --dark-spectrum-blue-40: #80ABF9;
+  --dark-spectrum-blue-50: #B1CBFB;
+
+  --dark-spectrum-gray-10: #141619;
+  --dark-spectrum-gray-20: #1E2125;
+  --dark-spectrum-gray-30: #2B2C34;
+  --dark-spectrum-gray-40: #404148;
+  --dark-spectrum-gray-50: #60626B;
+  --dark-spectrum-gray-60: #888B96;
+  --dark-spectrum-gray-70: #C0C3D2;
+  --dark-spectrum-gray-80: #DDE0E9;
+  --dark-spectrum-gray-90: #FFFFFF;
+
+  --dark-neutral-surface-zero: #141519;
+  --dark-neutral-surface-low: #1E2129;
+  --dark-neutral-surface-card: #252832;
+  --dark-neutral-surface-highlight: #2C313A;
+  --dark-neutral-surface-backdrop: #14161999;
+
+  --dark-neutral-text-zero: #141619;
+  --dark-neutral-text-disable: #FFFFFF40;
+  --dark-neutral-text-low: #FFFFFF80;
+  --dark-neutral-text-medium: #FFFFFFBF;
+  --dark-neutral-text-high: #FFFFFF;
+  --dark-neutral-text-white: #FFFFFF;
+  --dark-neutral-text-black: #000000;
+
+  --dark-neutral-background-disable: #1C202459;
+  --dark-neutral-background-low: #2B2C3466;
+  --dark-neutral-background-medium: #2B2C34BF;
+  --dark-neutral-background-high: #2B2C34;
+
+  --dark-neutral-border-disable: #40424EB2;
+  --dark-neutral-border-low-rest: #555768;
+  --dark-neutral-border-low-hover: #6D7088;
+  --dark-neutral-border-medium-rest: #A3A4B0;
+  --dark-neutral-border-medium-hover: #BABBC4;
+  --dark-neutral-border-high-rest: #FAFAFA;
+  --dark-neutral-border-high-hover: #FAFAFA;
+
+  --dark-neutral-divider-low: #60626B4D;
+  --dark-neutral-divider-medium: #60626B80;
+  --dark-neutral-divider-high: #60626BCC;
+
+  /* Light Mode */
+  --light-primary-background-rest: #432FA7;
+  --light-primary-background-hover: #3F2C9B;
+  --light-primary-background-press: #7E6CD5;
+  --light-primary-background-highlight: #B4ABE34D;
+  --light-primary-background-tag: #5133E44D;
+
+  --light-primary-border-rest: #4D36BF;
+  --light-primary-border-hover: #38278B;
+
+  --light-primary-text-rest: #6F5CD1;
+  --light-primary-text-hover: #9688DD;
+
+  --light-success-background-rest: #1CB0A5;
+  --light-success-background-hover: #189A90;
+  --light-success-background-press: #1FC6BA;
+  --light-success-background-highlight: #A6F0EA4D;
+  --light-success-background-tag: #73EBE24D;
+
+  --light-success-border-rest: #19A399;
+  --light-success-border-hover: #168D84;
+
+  --light-success-text-rest: #17968C;
+  --light-success-text-hover: #1CB0A5;
+
+  --light-error-background-rest: #E0526A;
+  --light-error-background-hover: #D82744;
+  --light-error-background-press: #E87D8F;
+  --light-error-background-highlight: #FCF4F5;
+  --light-error-background-tag: #FAE1E5;
+
+  --light-error-border-rest: #E7798B;
+  --light-error-border-hover: #DE4962;
+
+  --light-error-text-rest: #BE223C;
+  --light-error-text-hover: #ED5C74;
+
+  --light-warning-background-rest: #E99E0C;
+  --light-warning-background-hover: #CB8A0B;
+  --light-warning-background-press: #F4AF2A;
+  --light-warning-background-highlight: #FBE2B180;
+  --light-warning-background-tag: #FEDE9F;
+
+  --light-warning-border-rest: #CB8A0B;
+  --light-warning-border-hover: #A57009;
+
+  --light-warning-text-rest: #DB9100;
+  --light-warning-text-hover: #FFA902;
+
+  --light-inform-background-rest: #256EF6;
+  --light-inform-background-hover: #0A55E1;
+  --light-inform-background-press: #4584F7;
+  --light-inform-background-highlight: #8FB5FC5C;
+  --light-inform-background-tag: #A0C2FF;
+
+  --light-inform-border-rest: #084ED0;
+  --light-inform-border-hover: #063DA2;
+
+  --light-inform-text-rest: #0A55E1;
+  --light-inform-text-hover: #548EFA;
+
+  --light-spectrum-brand-10: #E7F5F8;
+  --light-spectrum-brand-20: #C7E8EF;
+  --light-spectrum-brand-30: #98D5E2;
+  --light-spectrum-brand-40: #6CC3D5;
+  --light-spectrum-brand-50: #36A7BF;
+  --light-spectrum-brand-60: #2C889B;
+  --light-spectrum-brand-70: #277A8B;
+  --light-spectrum-brand-80: #216573;
+  --light-spectrum-brand-90: #194D57;
+
+  --light-spectrum-green-10: #4FE3D8;
+  --light-spectrum-green-20: #23DCCE;
+  --light-spectrum-green-30: #1CB0A5;
+  --light-spectrum-green-40: #15847C;
+  --light-spectrum-green-50: #0E5852;
+
+  --light-spectrum-red-10: #EFA9B4;
+  --light-spectrum-red-20: #E87D8F;
+  --light-spectrum-red-30: #E0526A;
+  --light-spectrum-red-40: #D82744;
+  --light-spectrum-red-50: #AD1F36;
+
+  --light-spectrum-amber-10: #F7C564;
+  --light-spectrum-amber-20: #F4B334;
+  --light-spectrum-amber-30: #E99E0C;
+  --light-spectrum-amber-40: #B87D0A;
+  --light-spectrum-amber-50: #885C07;
+
+  --light-spectrum-blue-10: #85AEFA;
+  --light-spectrum-blue-20: #548EF8;
+  --light-spectrum-blue-30: #256EF6;
+  --light-spectrum-blue-40: #0A54DC;
+  --light-spectrum-blue-50: #0841AB;
+
+  --light-spectrum-gray-10: #FFFFFF;
+  --light-spectrum-gray-20: #F9FAFD;
+  --light-spectrum-gray-30: #F1F2F9;
+  --light-spectrum-gray-40: #E5E7F0;
+  --light-spectrum-gray-50: #D1D4DD;
+  --light-spectrum-gray-60: #9DA0AF;
+  --light-spectrum-gray-70: #676B7E;
+  --light-spectrum-gray-80: #3E4151;
+  --light-spectrum-gray-90: #141619;
+
+  --light-neutral-surface-zero: #F3F3F7;
+  --light-neutral-surface-low: #FCFCFD;
+  --light-neutral-surface-card: #FFFFFF;
+  --light-neutral-surface-highlight: #EDEDF3;
+  --light-neutral-surface-backdrop: #14161933;
+
+  --light-neutral-text-zero: #FFFFFF;
+  --light-neutral-text-disable: #00000040;
+  --light-neutral-text-low: #00000080;
+  --light-neutral-text-medium: #000000BF;
+  --light-neutral-text-high: #000000;
+  --light-neutral-text-white: #FFFFFF;
+  --light-neutral-text-black: #000000;
+
+  --light-neutral-background-disable: #BABABA26;
+  --light-neutral-background-low: #E1E8EF40;
+  --light-neutral-background-medium: #E1E8EF80;
+  --light-neutral-background-high: #E1E8EFCC;
+
+  --light-neutral-border-disable: #D1D6DB;
+  --light-neutral-border-low-rest: #BAC2C9;
+  --light-neutral-border-low-hover: #B7BBC980;
+  --light-neutral-border-medium-rest: #9198AD;
+  --light-neutral-border-medium-hover: #596178;
+  --light-neutral-border-high-rest: #000000;
+  --light-neutral-border-high-hover: #000000;
+
+  --light-neutral-divider-low: #D1D4DD4D;
+  --light-neutral-divider-medium: #D1D4DD80;
+  --light-neutral-divider-high: #D1D4DDCC;
+}
