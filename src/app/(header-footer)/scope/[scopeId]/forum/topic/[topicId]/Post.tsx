@@ -1,12 +1,13 @@
 'use client';
 
 import { mutateService, queryService } from '@/api';
-import { Editor, Tags } from '@/components';
+import { Tags } from '@/components';
 import { Reaction } from '@/components/feedback';
 import { ModelType, ReactionType } from '@/constants';
 import { createFileUrl, formatDateTime } from '@/utils';
 import { PaperPlaneTilt, User } from '@phosphor-icons/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import DOMPurify from 'dompurify';
 import { useState } from 'react';
 
 interface Props {
@@ -62,7 +63,8 @@ export function Post(props: Props) {
           </time>
         </div>
         <div className="font-bold">{topic.title}</div>
-        <Editor className="text-black" data={post.content} uploadData={{ fileKey: (post as any).fileKey }} readonly />
+        {/* <Editor className="text-black" data={post.content} uploadData={{ fileKey: (post as any).fileKey }} readonly /> */}
+        <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content!, { RETURN_TRUSTED_TYPE: true }) }} />
         <Tags tags={topic.tags!} />
         <div className="flex gap-6 ">
           <Reaction modelTypeId={modelTypeId} modelId={post.id!} reactions={reaction} type={ReactionType.LIKE} />
