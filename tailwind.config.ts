@@ -75,6 +75,21 @@ const config: Config = {
         custom1: colors.emerald,
         custom2: colors.teal,
         custom3: colors.cyan,
+
+        // src/app/(header-footer)/block/page.tsx costum colors
+        blockBtn: '#1b76d0',
+        blockBtnHover: '#155ca2',
+        blockBtnAct: '#0c3b6a',
+        blockBtnTextHover: '#1a6fc5',
+        blockFilterBtn: '#e3e6e8',
+        blockFilterBtnHover: '#d6e8fa',
+        blockFilterBtnText: '#f1f2f3',
+        blockFilterBtnTextAct: '#3b4045',
+        blockAnswers: '#18864b',
+        blockBcQ1: '#fdf7e7',
+        blockTitle: '#5193d5',
+        blockCogborder: '#f4d27b',
+        blockCogBc: '#fdf783',
       },
       animation: {
         'spin-slow': 'spin 3s linear infinite',
