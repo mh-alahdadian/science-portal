@@ -10,7 +10,7 @@ body {
   min-height: 100vh;
   height: 100%;
   font-family: Vazirmatn;
-  background: #f0f0f0;
+  /* background: #f0f0f0; */
 }
 
 svg {
@@ -23,6 +23,13 @@ button svg {
 
 time {
   @apply text-black text-opacity-50;
+}
+
+.hero-section {
+  width: calc(100% + 2 * var(--screen-padding));
+  margin-right: calc(-1 * var(--screen-padding));
+  padding-left: calc(var(--screen-padding) + 2rem);
+  padding-right: calc(var(--screen-padding) + 2rem);
 }
 
 @layer base {
@@ -45,10 +52,10 @@ time {
 
   main {
     @screen lg {
-      --screen-padding: 3rem;
+      --screen-padding: 1.5rem;
     }
     @screen md {
-      --screen-padding: 1.5rem;
+      --screen-padding: 1rem;
     }
     --screen-padding: 0.5rem;
     padding-left: var(--screen-padding);

@@ -1,6 +1,6 @@
 import { useCurrentScope } from '@/hooks';
+import clsx from 'clsx';
 import Link from 'next/link';
-import { Fragment } from 'react';
 
 interface Bread {
   text: string;
@@ -8,6 +8,7 @@ interface Bread {
 }
 
 interface Props {
+  className?: string;
   items: Bread[];
   params: { scopeId: number };
 }
@@ -18,11 +19,20 @@ export function Breadcrumb(props: Props) {
     { text: 'صفحه اصلی', url: '/' },
     { text: 'حوزه پژوهشی ' + scope.title, url: '/scope/' + props.params.scopeId },
   ];
+  const className = 'max-w-sm overflow-hidden text-ellipsis';
   return (
-    <nav className="breadcrumbs">
+    <nav className={clsx('breadcrumbs', props.className)}>
       <ol>
         {scopeBreads.concat(props.items).map((item, index) => (
-          <li key={index}>{item.url ? <Link href={item.url}>{item.text}</Link> : <Fragment>{item.text}</Fragment>}</li>
+          <li key={index}>
+            {item.url ? (
+              <Link className={className} href={item.url}>
+                {item.text}
+              </Link>
+            ) : (
+              <span className={className}>{item.text}</span>
+            )}
+          </li>
         ))}
       </ol>
     </nav>

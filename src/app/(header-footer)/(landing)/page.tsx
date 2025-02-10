@@ -30,7 +30,7 @@ export default function LandingPage(props: PageProps) {
   const token = getParsedToken();
   return (
     <div className="flex flex-col gap-8 w-full">
-      <section className="flex w-full" css={heroSection}>
+      <section className="flex w-full hero-section" css={heroSection}>
         <div className="flex flex-col gap-6 my-auto max-w-xl text-white">
           <h1 className="text-[40px] font-medium">سامانه جامع علوم شناختی</h1>
           <p className="text-2xl font-semibold">
@@ -65,10 +65,6 @@ export default function LandingPage(props: PageProps) {
 }
 
 const heroSection = css`
-  width: calc(100% + 2 * var(--screen-padding));
-  margin-left: calc(var(--screen-padding) * -1);
-  padding-left: calc(var(--screen-padding) + 2rem);
-  padding-right: calc(var(--screen-padding) + 2rem);
   height: 50rem;
 
   background-image: url('/static/hero.png');
