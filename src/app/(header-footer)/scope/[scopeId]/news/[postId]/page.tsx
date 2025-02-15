@@ -2,9 +2,7 @@
 import { use } from 'react';
 
 import { queryService } from '@/api';
-import { Breadcrumb, Editor, Tags } from '@/components';
-import { CommentsList, Reaction, SubmitComment } from '@/components/feedback';
-import ShareButton from '@/components/Share';
+import { Breadcrumb, CommentsList, Editor, Reaction, ShareButton, SubmitComment, Tags } from '@/components';
 import { ModelType, ReactionType } from '@/constants';
 import { useCurrentScope } from '@/hooks';
 import { createFileUrl, formatDateTime, getFirstParagraph } from '@/utils';
@@ -21,8 +19,15 @@ export default function NewsPostPage(props: PageProps<'scopeId' | 'postId'>) {
     })
   ).data;
 
-  const relatedService = queryService('news:/v1/scope/{scopeId}/posts', {
+  const latestNewsService = queryService('news:/v1/scope/{scopeId}/posts', {
     params: { path: { scopeId: params.scopeId }, query: { searchDTO: {}, pageable: { size: 4 } /* tags: {} */ } },
+  });
+
+  const mostCommentedService = queryService('news:/v1/scope/{scopeId}/posts', {
+    params: {
+      path: { scopeId: params.scopeId },
+      query: { searchDTO: {}, pageable: { size: 4, sort: ['commentCount'] } },
+    },
   });
 
   return (
@@ -75,7 +80,8 @@ export default function NewsPostPage(props: PageProps<'scopeId' | 'postId'>) {
 
         {/* بخش کناری که اخبار منتخب رو به صورت لیستی نشون میده */}
         <aside className="flex flex-col gap-4 flex-5 w-1/4">
-          <NewsList title="اخبار منتخب" service={relatedService} />
+          <NewsList title="آخرین اخبار" service={latestNewsService} />
+          <NewsList title="پربحث ترین اخبار" service={mostCommentedService} />
           {/* <NewsList title="انتخاب سردبیر" service={null} /> */}
         </aside>
       </div>

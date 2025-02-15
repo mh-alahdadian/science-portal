@@ -2,7 +2,7 @@ import { ShareNetwork } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import { useState } from 'react';
 
-export default function ShareButton() {
+export function ShareButton() {
   // const [showPopover, setShowPopover] = useState(false);
   const [popoverMessage, setPopoverMessage] = useState<string>();
   const showPopover = !!popoverMessage;

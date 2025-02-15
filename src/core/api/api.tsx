@@ -35,6 +35,10 @@ export async function request(method: Methods, url: string, payload: any) {
   emitApiEvent('request', request);
 
   if (request.waitForPromise) await request.waitForPromise;
+  if (payload.params.query) {
+    const { searchDTO, pageable, ...rest } = payload.params.query;
+    payload.params.query = { ...rest, ...searchDTO, ...pageable };
+  }
   // @ts-ignore
   const { data, error } = await api[method.toUpperCase()](url, payload);
   if (error) {

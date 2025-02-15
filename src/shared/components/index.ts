@@ -22,5 +22,7 @@ export * from './RatingChart';
 export * from './Table';
 export * from './table/Cell';
 export * from './Tags';
+export * from './Share';
+export * from './feedback';
 export * from './TextIcon';
 export const Editor = dynamic(() => import('./editor/Editor'), { ssr: false });

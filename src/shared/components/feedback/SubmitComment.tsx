@@ -1,13 +1,18 @@
 import { mutateService, queryService } from '@/api';
 import { ModelType } from '@/constants';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
 
 interface Props {
+  className?: string;
+
   scopeId: number;
   modelTypeId: ModelType;
   modelId: number;
+
+  small?: boolean;
 }
 
 export function SubmitComment(props: Props) {
@@ -33,19 +38,16 @@ export function SubmitComment(props: Props) {
   }
 
   return (
-    <form className="p-6 rounded-lg bg-white flex flex-col" onSubmit={handleSubmit}>
+    <form className={clsx('p-6 rounded-lg bg-white flex flex-col', props.className)} onSubmit={handleSubmit}>
       {/* <h5 className="font-bold text-xl">دیدگاه من:</h5> */}
-      <p>لطفا قبل از ارسال دیدگاه خود حتما "قوانین و مقررات" را مطالعه فرمایید.</p>
+      {!props.small && <p>لطفا قبل از ارسال دیدگاه خود حتما "قوانین و مقررات" را مطالعه فرمایید.</p>}
       <textarea
         placeholder="نوشتن دیدگاه"
         value={comment}
         onChange={(e) => setComment(e.target.value)}
         className="rounded-md outline-none w-full min-h-32 mt-6 resize-none p-4 border-[#e0e0e0] border-solid border-1 pl-20"
       />
-      <button
-        style={{ transform: 'translate(0, -100%)' }}
-        className="bg-varz rounded-md btn-sm text-white -mt-2 ml-2 -translate-y-full self-end"
-      >
+      <button disabled={!comment} className="bg-varz rounded-md btn-sm text-white -mt-10 ml-2 self-end ">
         ارسال
       </button>
     </form>
