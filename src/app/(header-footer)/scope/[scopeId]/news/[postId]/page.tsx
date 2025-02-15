@@ -2,9 +2,10 @@
 import { use } from 'react';
 
 import { queryService } from '@/api';
-import { Breadcrumb, Editor } from '@/components';
-import { CommentsList, SubmitComment } from '@/components/feedback';
-import { ModelType } from '@/constants';
+import { Breadcrumb, Editor, Tags } from '@/components';
+import { CommentsList, Reaction, SubmitComment } from '@/components/feedback';
+import ShareButton from '@/components/Share';
+import { ModelType, ReactionType } from '@/constants';
 import { useCurrentScope } from '@/hooks';
 import { createFileUrl, formatDateTime, getFirstParagraph } from '@/utils';
 import { useSuspenseQuery } from '@tanstack/react-query';
@@ -45,7 +46,29 @@ export default function NewsPostPage(props: PageProps<'scopeId' | 'postId'>) {
 
           <div className="">
             <Editor readonly data={news.content} uploadData={{ fileKey: news.fileKey }} />
+            <Tags
+              variant="varzesh3"
+              tags={
+                news.tags || [
+                  { title: 'پرسپولیس' },
+                  { title: 'گل گهرسیرجان' },
+                  { title: 'مهدی تیکدری' },
+                  { title: 'لیگ برتر ایران' },
+                  { title: 'فوتبال ' },
+                ]
+              }
+            />
+            <div className={'flex gap-2 mt-8'}>
+              <Reaction
+                type={ReactionType.HEART}
+                modelTypeId={ModelType.NEWS}
+                modelId={news.id!}
+                reactions={news.feedbackStats?.reaction! as any}
+              />
+              <ShareButton />
+            </div>
           </div>
+          <hr />
           <SubmitComment scopeId={params.scopeId} modelTypeId={ModelType.NEWS} modelId={params.postId} />
           <CommentsList modelTypeId={ModelType.NEWS} modelId={params.postId} />
         </main>

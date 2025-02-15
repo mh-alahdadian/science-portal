@@ -1,5 +1,7 @@
 import type { CustomTheme, Config as DaisyConfig } from 'daisyui';
 import type { Config } from 'tailwindcss';
+// import type { Config } from '@tailwindcss/typography';
+
 import plugin from 'tailwindcss/plugin';
 
 const baseTheme = {
@@ -60,21 +62,22 @@ const textUtility = plugin(({ addUtilities }) => {
   addUtilities({ '.text-bidi': { unicodeBidi: 'plaintext' } }, {});
 });
 
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 
 const config: Config = {
   daisyui: { logs: false, themes: [themes], utils: true } as DaisyConfig,
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
-  safelist: [
-    { pattern: /bg-custom/ },
-    // { pattern: /bg-custom2-?/ },
-  ],
+  safelist: [{ pattern: /bg-custom/ }],
   theme: {
     extend: {
+      borderWidth: {
+        1: '1px',
+      },
       colors: {
         custom1: colors.emerald,
         custom2: colors.teal,
         custom3: colors.cyan,
+        varz: '#0a97b3',
 
         // src/app/(header-footer)/block/page.tsx costum colors
         blockBtn: '#1b76d0',

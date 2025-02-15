@@ -3,7 +3,6 @@
 import Providers from '@/Providers';
 import { useThemeName } from '@/utils/scope';
 import clsx from 'clsx';
-import 'vazirmatn/Vazirmatn-font-face.css';
 // import './bootstrap.scss';
 import { Footer } from './Footer';
 import './globals.css';

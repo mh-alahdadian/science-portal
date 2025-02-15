@@ -12,7 +12,7 @@ interface Props extends Omit<ComponentPropsWithoutRef<typeof CKEditor>, 'editor'
 
 export default function Editor(props: Props) {
   return (
-    <div className={clsx('contents prose', props.className)}>
+    <div className={clsx('contents prose prose-neutral', props.className)}>
       <CKEditor
         config={{
           toolbar: {

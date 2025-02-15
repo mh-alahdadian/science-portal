@@ -12,6 +12,7 @@ export enum ModelType {
 }
 
 export enum ReactionType {
+  HEART = 'LOVE',
   LIKE = 'LIKE',
   DISLIKE = 'DISLIKE',
 }

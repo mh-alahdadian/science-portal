@@ -47,7 +47,7 @@ export class BuildedEditor extends ClassicEditor {
     ImageStyle,
     ImageToolbar,
     ImageUpload,
-    ImageResizeEditing, 
+    ImageResizeEditing,
     ImageResizeHandles,
     CustomUploadAdapter,
     Indent,
