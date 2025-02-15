@@ -18,7 +18,9 @@ listenApiEvent('request', (request) => {
   // if(!accessToken) redirect('/login')
   request.payload.headers ??= {};
   // if (request.url.startsWith('core')) return;
-  request.payload.headers['Authorization'] = 'Bearer ' + accessToken;
+  if (accessToken) {
+    request.payload.headers['Authorization'] = 'Bearer ' + accessToken;
+  }
 });
 
 if (!isServer) {

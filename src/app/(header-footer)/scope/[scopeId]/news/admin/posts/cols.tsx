@@ -173,7 +173,6 @@ export const columns = [
           }}
         >
           <option value={NewsStatusId.DRAFT}>پیش‌نویس</option>
-          {/* <option value={NewsStatusId.AWAITING_CORRECTION}>در انتظار اصلاح</option> */}
           <option value={NewsStatusId.AWAITING_PUBLISHED}>در انتظار انتشار</option>
           <option value={NewsStatusId.PUBLISHED}>منتشر شده</option>
           <option value={NewsStatusId.UN_PUBLISH}>عدم انتشار</option>

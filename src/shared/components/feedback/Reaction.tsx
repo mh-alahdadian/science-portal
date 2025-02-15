@@ -15,21 +15,41 @@ const IconMap = {
   [ReactionType.LIKE]: ThumbsUp,
   [ReactionType.DISLIKE]: ThumbsDown,
 };
+
+const serverTypeNames = {
+  [ReactionType.HEART]: 'LIKE',
+  [ReactionType.LIKE]: 'LIKE',
+  [ReactionType.DISLIKE]: 'DISLIKE',
+} as const;
+
+const serviceNames = {
+  [ModelType.NEWS]: 'news',
+};
+
 export function Reaction(props: Props) {
   const { reactions, type } = props;
+  const serverName = serverTypeNames[type];
   const Icon = IconMap[type];
 
-  const [reactionData, setReactionData] = useState(reactions?.[type] || { userReacted: false, count: 0 });
+  const [reactionData, setReactionData] = useState(reactions?.[serverName] || { userReacted: false, count: 0 });
 
   const isAction = !!props.modelTypeId;
-  const { mutateAsync: mutateReaction } = useMutation(mutateService('post', 'feedback:/v1/reactions'));
+  const isNewServiceModel = props.modelTypeId! in serviceNames;
+  const { mutateAsync: mutateReaction } = useMutation(
+    // mutateService('post', 'feedback:/v1/reactions')
+    // // TODO: check me
+    props.modelTypeId! in serviceNames
+      ? (mutateService('post', 'news:/v1/scope/{scopeId}/reactions') )
+      : (mutateService('post', 'feedback:/v1/reactions') )
+  );
+
   function handleToggleReaction() {
     if (!isAction) return;
     mutateReaction({
       body: {
         modelId: props.modelId,
         modelTypeId: props.modelTypeId,
-        type: props.type as any,
+        type: serverName,
         delete: reactionData.userReacted,
       },
     }).then(() => {

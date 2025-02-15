@@ -40,10 +40,11 @@ function Admin(props: PageProps<'scopeId'>) {
 
   const [[posts, categories], { isError, isLoading, refetch }] = useSuspenseQueries({
     queries: [
-      queryService('news:/v1/manager/{page}/posts', {
+      queryService('news:/v1/manager/posts', {
         params: {
-          path: { page: String(params.scopeId) },
+          // path: {  },
           query: {
+            scopeId: params.scopeId,
             ...paginationStateToQuery(pagination),
             ...filterStateToQuery(filter),
             ...sortingStateToQuery(sorting),
@@ -58,10 +59,10 @@ function Admin(props: PageProps<'scopeId'>) {
   });
 
   const { mutateAsync: mutateStatus } = useMutation(
-    mutateService('patch', 'news:/v1/manager/{page}/posts/{postId}/status')
+    mutateService('patch', 'news:/v1/manager/posts/{postId}/status')
   );
   const { mutateAsync: mutateBulkPublish } = useMutation(
-    mutateService('post', 'news:/v1/manager/{page}/posts/publish')
+    mutateService('post', 'news:/v1/manager/posts/publish')
   );
 
   const table = useReactTable({
@@ -81,8 +82,8 @@ function Admin(props: PageProps<'scopeId'>) {
   async function handleChangeStatus(e: any, postId: number) {
     await mutateStatus({
       params: {
-        path: { page: String(params.scopeId!), postId },
-        query: { statusId: e.target.value },
+        path: {  postId },
+        query: { scopeId: (params.scopeId!), statusId: e.target.value },
       },
     });
     queryClient.invalidateQueries({

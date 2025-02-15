@@ -14,12 +14,13 @@ interface Props {
 
 type Comment = Schema<'CommentResponseDTO'> & { userImage: string; feedbackStats?: Schema<'FeedbackStatsDTO'> };
 
-const sortOptions = ['popular,desc', 'createdAt,desc', 'createdAt'] as const;
+const sortOptions = [/* 'popular,desc',  */ 'createdAt', 'createdAt,desc'] as const;
 
 export function CommentsList(props: Props) {
+  const [sort, setSort] = useState<string>(sortOptions[0]);
   const commentsData = useQuery(
     queryService('feedback:/v1/comments', {
-      params: { query: { dto: { modelId: props.modelId, modelTypeId: props.modelTypeId }, ...{ sort: [] } } },
+      params: { query: { dto: { modelId: props.modelId, modelTypeId: props.modelTypeId }, ...{ sort: [sort] } } },
     })
   ).data;
   const comments = commentsData?.content!;
@@ -29,10 +30,10 @@ export function CommentsList(props: Props) {
       <h5 className="font-bold text-xl mb-4">دیدگاه ها</h5>
       <div className="flex items-center gap-1 text-xs font-semibold ">
         <p className="ml-auto">{count} دیدگاه برای این موضوع</p>
-        <select className="not-styled cursor-pointer px-2 py-1">
-          <option value={sortOptions[0]}>بر اساس محبوب ترین</option>
-          <option value={sortOptions[1]}>بر اساس قدیمی ترین</option>
-          <option value={sortOptions[2]}>بر اساس جدیدترین</option>
+        <select className="not-styled cursor-pointer px-2 py-1" value={sort} onChange={(e) => setSort(e.target.value)}>
+          {/* <option value={sortOptions[0]}>بر اساس محبوب ترین</option> */}
+          <option value={sortOptions[0]}>بر اساس قدیمی ترین</option>
+          <option value={sortOptions[1]}>بر اساس جدیدترین</option>
         </select>
         <FunnelSimple />
       </div>

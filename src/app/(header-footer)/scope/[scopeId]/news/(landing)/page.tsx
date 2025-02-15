@@ -49,13 +49,13 @@ export default function AllNews(props: PageProps<'scopeId'>) {
   const isMostControversial = currSorting === 'commentCount,desc';
   const isViewCount = currSorting === 'viewCount,desc';
 
-  const latestNewsQuery = useSuspenseQuery({
+  const newsQuery = useSuspenseQuery({
     ...queryService('news:/v1/scope/{scopeId}/posts', {
       params: {
         path: { scopeId: +params.scopeId },
         query: {
           pageable: { page: currentPage, size: perPage },
-          sort: [sorts[0].value],
+          sort: [currSorting],
 
           // TODO: check 'from' and 'to' format to be correct to send one date for both ?
           ...(filteredDate ? { from: filteredDate, to: filteredDate } : {}),
@@ -64,22 +64,7 @@ export default function AllNews(props: PageProps<'scopeId'>) {
       },
     }),
   }).data;
-  const latestNews = latestNewsQuery.content!;
-
-  const mostControversialNews: any[] = useSuspenseQuery(
-    queryService('news:/v1/scope/{scopeId}/posts/most-controversial', {
-      params: {
-        path: { scopeId: +params.scopeId },
-        query: { periodLength: 7 },
-      },
-    })
-  ).data! as any;
-
-  const posts = isMostControversial
-    ? mostControversialNews
-    : isViewCount
-    ? Array.from(latestNews).sort((a, b) => a.viewCount! - b.viewCount!)
-    : latestNews;
+  const posts = newsQuery.content!;
 
   function removeFilters() {
     setFilteredCategories([]);
@@ -158,7 +143,7 @@ export default function AllNews(props: PageProps<'scopeId'>) {
       {/* <Recommendations /> */}
 
       <Paginator
-        total={latestNewsQuery.totalPages!}
+        total={newsQuery.totalPages!}
         current={currentPage + 1}
         changePage={(value) => setCurrentPage(value - 1)}
         pageSize={perPage}

@@ -8,7 +8,7 @@ import { createFileUrl } from '@/utils';
 import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
 import { last } from 'ramda';
-import { useEffect, useState, use } from 'react';
+import { use, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { NewsStatusId } from '../../constants';
 
@@ -22,17 +22,17 @@ export default function WriteNews(props: PageProps<'scopeId' | 'postId?'>) {
   const isDraft = postIdOrDraft === 'draft';
   const postId = !isDraft ? Number(postIdOrDraft) : (undefined as any as number);
 
-  const postService = queryService('news:/v1/manager/{page}/posts/{postId}', {
-    params: { path: { page: String(params.scopeId), postId } },
+  const postService = queryService('news:/v1/manager/posts/{postId}', {
+    params: { query: { scopeId: params.scopeId }, path: { postId } },
   });
 
-  const { mutateAsync: mutateCreatePost } = useMutation(mutateService('post', 'news:/v1/manager/{page}/posts'));
+  const { mutateAsync: mutateCreatePost } = useMutation(mutateService('post', 'news:/v1/manager/posts'));
   const { mutateAsync: mutateEditPost } = useMutation({
-    ...mutateService('put', 'news:/v1/manager/{page}/posts/{postId}'),
+    ...mutateService('put', 'news:/v1/manager/posts/{postId}'),
     mutationKey: postService.queryKey,
   });
   const { mutateAsync: mutatePostStatus } = useMutation(
-    mutateService('patch', 'news:/v1/manager/{page}/posts/{postId}/status')
+    mutateService('post', 'news:/v1/manager/posts/{postId}/publish')
   );
 
   const post = useQuery({
@@ -50,7 +50,7 @@ export default function WriteNews(props: PageProps<'scopeId' | 'postId?'>) {
   type BodyData = Parameters<typeof mutateCreatePost & typeof mutateEditPost>[0];
   function createMutateData(overrides?: Partial<BodyData['body']>): BodyData {
     return {
-      params: { path: { page: String(params.scopeId), postId } },
+      params: { query: { scopeId: params.scopeId }, path: { postId } },
       body: {
         title: title,
         categoryId: Number(category),
@@ -66,7 +66,8 @@ export default function WriteNews(props: PageProps<'scopeId' | 'postId?'>) {
   function submitPost() {
     if (title && category) {
       if (isDraft) {
-        return mutateCreatePost(createMutateData()).then((post) => {
+        // TODO: check me
+        return mutateCreatePost(createMutateData() as any ).then((post) => {
           history.replaceState(null, '', './' + post.id);
         });
       } else {

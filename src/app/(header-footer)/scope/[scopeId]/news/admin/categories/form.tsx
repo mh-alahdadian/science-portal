@@ -14,7 +14,7 @@ export function Form(props: Props) {
 
   const [category, setCategory] = useState(selectedCategory);
 
-  const { mutate } = useMutation(mutateService('put', 'news:/v1/manager/{page}/categories/{categoryId}'));
+  const { mutate } = useMutation(mutateService('put', 'news:/v1/manager/categories/{categoryId}'));
 
   function onSubmit() {
     // bayad check beshe
