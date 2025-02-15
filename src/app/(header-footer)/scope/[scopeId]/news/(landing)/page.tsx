@@ -2,12 +2,12 @@
 
 import { useSuspenseQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { use, useState } from 'react';
+import { use, useDeferredValue, useState } from 'react';
 import { DateObject } from 'react-multi-date-picker';
 import Select from 'react-select';
 
 import { queryService } from '@/api';
-import { Breadcrumb, DatePickerField, Paginator } from '@/components';
+import { Breadcrumb, DatePickerField, InlineTextField, Paginator } from '@/components';
 import { useCurrentScope } from '@/hooks';
 import { ArrowCounterClockwise } from '@phosphor-icons/react';
 import { notFound } from 'next/navigation';
@@ -42,33 +42,36 @@ export default function AllNews(props: PageProps<'scopeId'>) {
   const scope = useCurrentScope();
   const [currentPage, setCurrentPage] = useState(0);
   const [perPage, setPerPage] = useState(15);
+  const [searchText, setSearchText] = useState('');
   const [filteredCategories, setFilteredCategories] = useState<Filter[]>([]);
-  const [filteredDate, setFilteredDate] = useState<Date | null>(null);
+  const [fromDate, setFromDate] = useState<Date | null>(null);
+  const [toDate, setToDate] = useState<Date | null>(null);
   const [currSorting, setCurrSorting] = useState(sorts[0].value);
-
-  const isMostControversial = currSorting === 'commentCount,desc';
-  const isViewCount = currSorting === 'viewCount,desc';
 
   const newsQuery = useSuspenseQuery({
     ...queryService('news:/v1/scope/{scopeId}/posts', {
       params: {
         path: { scopeId: +params.scopeId },
         query: {
-          pageable: { page: currentPage, size: perPage },
-          sort: [currSorting],
-
-          // TODO: check 'from' and 'to' format to be correct to send one date for both ?
-          ...(filteredDate ? { from: filteredDate, to: filteredDate } : {}),
-          categoryIds: filteredCategories.map(({ value }) => value),
-        } as any,
+          pageable: { page: currentPage, size: perPage, sort: [currSorting] },
+          searchDTO: {
+            title: useDeferredValue(searchText) || undefined,
+            categoryIds: filteredCategories.map(({ value }) => +value!),
+            // TODO: check 'from' and 'to' format to be correct to send one date for both ?
+            from: (fromDate as any) || undefined,
+            to: (toDate as any) || undefined,
+          },
+        },
       },
     }),
   }).data;
   const posts = newsQuery.content!;
 
   function removeFilters() {
+    setSearchText('');
     setFilteredCategories([]);
-    setFilteredDate(null);
+    setFromDate(null);
+    setToDate(null);
   }
 
   return (
@@ -84,6 +87,14 @@ export default function AllNews(props: PageProps<'scopeId'>) {
 
       <div className="flex items-center justify-between rounded-lg bg-[#f5f7f8] -mt-16 p-4 gap-4">
         <div className="w-full flex gap-3">
+          <InlineTextField
+            containerClassName="input-lg"
+            className="w-40"
+            label="جست‌و‌جو در عنوان"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+
           <Select
             isMulti
             isClearable
@@ -108,9 +119,15 @@ export default function AllNews(props: PageProps<'scopeId'>) {
           />
           <DatePickerField
             label="از تاریخ"
-            value={filteredDate}
+            value={fromDate}
             style={{ minWidth: 140 }}
-            onChange={(date: DateObject) => setFilteredDate(date?.toDate())}
+            onChange={(date: DateObject) => setFromDate(date?.toDate())}
+          />
+          <DatePickerField
+            label="تا تاریخ"
+            value={toDate}
+            style={{ minWidth: 140 }}
+            onChange={(date: DateObject) => setToDate(date?.toDate())}
           />
         </div>
 
