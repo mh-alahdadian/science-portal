@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import {
   House,
   ChatCircleText,
@@ -9,41 +9,60 @@ import {
   Chat,
   Info,
   Plus,
-  CaretDown,
-  FunnelSimple,
-  Check,
-} from '@phosphor-icons/react';
+ 
+} from "@phosphor-icons/react";
+import { ComponentName } from "../page"; // Import the shared type
 
-export default function RightSideNav() {
+// Define the type for the props
+interface RightSideNavProps {
+  onNavClick: (componentName: ComponentName) => void;
+}
+
+const RightSideNav: React.FC<RightSideNavProps> = ({ onNavClick }) => {
   return (
-    <div className="flex flex-col border-gray-300 border-l">
+    <div className="flex flex-col border-gray-300 border-l h-screen fixed right-0 top-0 overflow-y-auto">
       <ul className="min-w-52 flex flex-col gap-y-2 mt-10">
         <li>
-          <div className="w-full flex p-2 gap-x-1 cursor-pointer hover:bg-gray-200 rounded-r-md">
+          <div
+            className="w-full flex p-2 gap-x-1 cursor-pointer hover:bg-gray-200 rounded-r-md"
+            onClick={() => onNavClick("userOverview")} // Call onNavClick with 'userOverview'
+          >
             <House size={18} />
             <span>خانه</span>
           </div>
         </li>
         <li>
-          <div className="w-full flex p-2 gap-x-1 cursor-pointer hover:bg-gray-200 rounded-r-md">
+          <div
+            className="w-full flex p-2 gap-x-1 cursor-pointer hover:bg-gray-200 rounded-r-md"
+            onClick={() => onNavClick("questions")} // Call onNavClick with 'questions'
+          >
             <ChatCircleText size={18} />
             <span>سوالات</span>
           </div>
         </li>
         <li>
-          <div className="w-full flex p-2 gap-x-1 cursor-pointer hover:bg-gray-200 rounded-r-md">
+          <div
+            className="w-full flex p-2 gap-x-1 cursor-pointer hover:bg-gray-200 rounded-r-md"
+            onClick={() => onNavClick("tags")} // Call onNavClick with 'tags'
+          >
             <Palette size={18} />
             <span>تگ ها</span>
           </div>
         </li>
         <li className="mt-9">
-          <div className="w-full flex p-2 gap-x-1 cursor-pointer hover:bg-gray-200 rounded-r-md">
+          <div
+            className="w-full flex p-2 gap-x-1 cursor-pointer hover:bg-gray-200 rounded-r-md"
+            onClick={() => onNavClick("users")} // Call onNavClick with 'users'
+          >
             <Users size={18} />
             <span>کاربران</span>
           </div>
         </li>
         <li>
-          <div className="w-full flex p-2 gap-x-1 cursor-pointer hover:bg-gray-200 rounded-r-md">
+          <div
+            className="w-full flex p-2 gap-x-1 cursor-pointer hover:bg-gray-200 rounded-r-md"
+            onClick={() => onNavClick("companies")} // Call onNavClick with 'companies'
+          >
             <Buildings size={18} />
             <span>شرکت ها</span>
           </div>
@@ -52,7 +71,10 @@ export default function RightSideNav() {
       <div className="flex flex-col mt-5">
         <div className="group flex w-full justify-between">
           <span className="text-lg">آزمایشگاه ها</span>
-          <Info size={14} className="text-gray-500 group-hover:text-black ml-4" />
+          <Info
+            size={14}
+            className="text-gray-500 group-hover:text-black ml-4"
+          />
         </div>
         <ul>
           <li className="mt-6">
@@ -77,7 +99,10 @@ export default function RightSideNav() {
           <div className="flex flex-col w-full justify-between">
             <div className="group flex w-full justify-between mb-3">
               <span className="text-lg">عمومی</span>
-              <Plus size={14} className="text-gray-500 group-hover:text-black ml-4" />
+              <Plus
+                size={14}
+                className="text-gray-500 group-hover:text-black ml-4"
+              />
             </div>
             <span className="max-w-28 text-xs">
               مجامع برای تمامی تکنولوژی های مورد علاقه شما
@@ -90,4 +115,6 @@ export default function RightSideNav() {
       </div>
     </div>
   );
-}
+};
+
+export default RightSideNav;
