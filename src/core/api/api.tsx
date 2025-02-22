@@ -40,9 +40,10 @@ export async function request(method: Methods, url: string, payload: any) {
     payload.params.query = { ...rest, ...searchDTO, ...pageable };
   }
   // @ts-ignore
-  const { data, error } = await api[method.toUpperCase()](url, payload);
+  const { data, error, response } = await api[method.toUpperCase()](url, payload);
   if (error) {
     emitApiEvent('error', error, request);
+    error.response = response
     throw error;
   }
   emitApiEvent('data', data, request);
@@ -73,7 +74,20 @@ export const queryClient = new QueryClient({
     queries: {
       suspense: true,
       throwOnError: false,
-      retry: isServer ? false : undefined,
+      retry: isServer
+        ? false
+        // : undefined,
+        : (_, error) => {
+            if (
+              'response' in error &&
+              error.response instanceof Response &&
+              error.response.status >= 400 &&
+              error.response.status < 500
+            ) {
+              return false;
+            }
+            return true;
+          },
       queryFn: async (context) => {
         // TODO: support non get services
         // TODO: assert if queryKey is what we want
