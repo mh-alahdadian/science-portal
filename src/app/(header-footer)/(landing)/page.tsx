@@ -23,7 +23,7 @@ const sections = [
     element: <Recommendations />,
     props: { css: { padding: '2rem', color: 'white', background: "#13225F url('/static/mid-hero.svg')}" } },
   },
-  { title: 'مقالات روز', element: <Articles /> },
+  { title: 'جدیدترین مقالات', element: <Articles /> },
 ];
 
 export default function LandingPage(props: PageProps) {
