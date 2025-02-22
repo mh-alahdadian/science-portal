@@ -110,7 +110,7 @@ const tagsData = [
 ];
 export default function Tags() {
   return (
-    <div className="mr-56 flex  w-full border-l border-b border-gray-300 pt-6 pb-2">
+    <div className="flex w-full border-l border-b border-gray-300 pt-6 pb-2">
       <div className="w-10/12 mr-5 flex flex-col gap-x-4">
         <div className="flex flex-col">
           <span className="text-3xl leading-8">تگ ها</span>

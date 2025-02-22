@@ -34,7 +34,7 @@ export default function UserOverView() {
   };
 
   return (
-    <div className="mr-36 w-full border-l border-b border-gray-300 pt-6 pb-2">
+    <div className="w-full border-l border-b border-gray-300 pt-6 pb-2">
       <div className="w-10/12 mx-auto flex flex-col gap-x-4">
         <div className="flex w-full justify-between">
           <div className="flex gap-x-3">
