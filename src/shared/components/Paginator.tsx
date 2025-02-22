@@ -2,6 +2,7 @@ import { useScreen } from '@/hooks';
 import clsx from 'clsx';
 
 interface Props {
+  className?: string;
   current: number; // doc: should be started from 1
   total: number;
   pageSize: number;
@@ -42,7 +43,7 @@ export function Paginator(props: Props) {
   const { current, total, changePage, changePageSize, pageSize } = props;
 
   return (
-    <div className="flex gap-4 items-center justify-center my-3">
+    <div className={clsx('flex gap-4 items-center justify-center my-3', props.className)}>
       <div className="join">
         <button
           disabled={current === 1}
