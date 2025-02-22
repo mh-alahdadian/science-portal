@@ -1,16 +1,15 @@
 'use client';
 
-import { useSuspenseQuery } from '@tanstack/react-query';
-import clsx from 'clsx';
-import { use, useDeferredValue, useState } from 'react';
-import { DateObject } from 'react-multi-date-picker';
-import Select from 'react-select';
-
 import { queryService } from '@/api';
 import { Breadcrumb, DatePickerField, InlineTextField, Paginator } from '@/components';
 import { useCurrentScope } from '@/hooks';
 import { ArrowCounterClockwise } from '@phosphor-icons/react';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import clsx from 'clsx';
 import { notFound } from 'next/navigation';
+import { use, useDeferredValue, useState } from 'react';
+import { DateObject } from 'react-multi-date-picker';
+import Select from 'react-select';
 import BackGround from '../assets/news-bg.png';
 import NewsCard from './NewsCard';
 
@@ -88,7 +87,6 @@ export default function AllNews(props: PageProps<'scopeId'>) {
       <div className="flex items-center justify-between rounded-lg bg-[#f5f7f8] -mt-16 p-4 gap-4">
         <div className="w-full flex gap-3">
           <InlineTextField
-            containerClassName="input-lg"
             className="w-40"
             label="جست‌و‌جو در عنوان"
             value={searchText}
@@ -103,16 +101,20 @@ export default function AllNews(props: PageProps<'scopeId'>) {
             isLoading={loadingCategories}
             value={filteredCategories}
             options={categories}
+            className="not-styled"
             styles={{
-              multiValue: (baseStyles) => ({
+              control: (baseStyles) => ({
                 ...baseStyles,
-                alignItems: 'center',
+                borderRadius: '8px',
               }),
 
+              input: (baseStyles) => ({
+                ...baseStyles,
+                height: '38px',
+              }),
               container: (baseStyles) => ({
                 ...baseStyles,
                 minWidth: 300,
-                background: '#ccc',
               }),
             }}
             onChange={setFilteredCategories as any}
