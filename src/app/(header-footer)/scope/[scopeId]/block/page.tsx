@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { use, useState } from "react";
 import RightSideNav from "./components/RightSideNav";
 import UserOverView from "./components/UserOverView";
 import Tags from "./components/Tags";
@@ -14,7 +14,9 @@ export type ComponentName =
   | "companies";
 
 
-export default function Page() {
+export default function Page(props: PageProps<'scopeId'>) {
+  const params = use(props.params);
+
   const [selectedComponent, setSelectedComponent] =
     useState<ComponentName>("userOverview");
 
@@ -25,7 +27,7 @@ export default function Page() {
   const renderComponent = () => {
     switch (selectedComponent) {
       case "questions":
-        return <Questions />;
+        return <Questions params={params} />;
 
       case "users":
         return <UserOverView />;

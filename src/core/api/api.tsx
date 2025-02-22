@@ -35,7 +35,7 @@ export async function request(method: Methods, url: string, payload: any) {
   emitApiEvent('request', request);
 
   if (request.waitForPromise) await request.waitForPromise;
-  if (payload.params.query) {
+  if (payload.params?.query) {
     const { searchDTO, pageable, ...rest } = payload.params.query;
     payload.params.query = { ...rest, ...searchDTO, ...pageable };
   }

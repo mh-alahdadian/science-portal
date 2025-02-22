@@ -57,7 +57,7 @@ const questionsData = [
     }
 ]
 
-export default function Questions() {
+export default function Questions(props: {params: any}) {
     return (
         <div className="h-screen overflow-auto min-w-[768px] flex flex-col   border-l border-b border-gray-300 pt-6 pb-2">
             <div className="flex w-full justify-between items-center mb-3 px-2">
