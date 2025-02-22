@@ -1,6 +1,7 @@
 'use client';
 import { use } from 'react';
 
+import { Breadcrumb } from '@/components';
 import { ChartLine, ChatsCircle, NewspaperClipping } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -43,8 +44,9 @@ export default function NewsAdminLayout(props: LayoutProps & PageProps<'scopeId'
       </div>
 
       {/* main */}
-      <div className="w-full">
-        <div className="pr-10 py-8">{children}</div>
+      <div className="w-full pr-20">
+        <Breadcrumb items={[{ text: 'مدیریت خبرگزاری' }]} params={params} />
+        <div>{children}</div>
       </div>
     </div>
   );
