@@ -44,7 +44,7 @@ export default function Header() {
       </div>
       <ul tabIndex={0} className="dropdown-content menu bg-gray-100 text-black rounded-box w-full z-[1] p-2 shadow">
         {scopes?.filter(myScopes())?.map((s) => (
-          <li>
+          <li key={s.id}>
             <Link href={`${getScopeUrl(s.id!)}/${service}`}>{s.title}</Link>
           </li>
         ))}
