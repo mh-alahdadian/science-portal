@@ -20,7 +20,7 @@ export default function SignupDialog(props: PageProps) {
 
   const { mutate: registerMutate } = useMutation(mutateService('post', 'core:/v1/auth/register'));
   const { mutate: sendVerifyCode } = useMutation(
-    mutateService('post', 'core:/v1/auth/register/send-verify-code/{phoneNumber}'),
+    mutateService('post', 'core:/v1/auth/register/send-verify-code/{phoneNumber}')
   );
 
   const handleSignup = handleSubmit((data) => {
@@ -37,7 +37,7 @@ export default function SignupDialog(props: PageProps) {
         onError(error: any) {
           toast.error(error.message);
         },
-      },
+      }
     );
   });
 

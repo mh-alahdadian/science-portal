@@ -15,7 +15,7 @@ import { NewsStatusId } from '../../constants';
 export default function WriteNews(props: PageProps<'scopeId' | 'postId?'>) {
   const params = use(props.params);
   const { data: categories } = useSuspenseQuery(
-    queryService('news:/v1/scope/{scopeId}/categories', { params: { path: params } }),
+    queryService('news:/v1/scope/{scopeId}/categories', { params: { path: params } })
   );
   const router = useRouter();
   const postIdOrDraft = last(usePathname().split('/'));
@@ -32,7 +32,7 @@ export default function WriteNews(props: PageProps<'scopeId' | 'postId?'>) {
     mutationKey: postService.queryKey,
   });
   const { mutateAsync: mutatePostStatus } = useMutation(
-    mutateService('post', 'news:/v1/manager/posts/{postId}/publish'),
+    mutateService('post', 'news:/v1/manager/posts/{postId}/publish')
   );
 
   const post = useQuery({
@@ -67,7 +67,7 @@ export default function WriteNews(props: PageProps<'scopeId' | 'postId?'>) {
     if (title && category) {
       if (isDraft) {
         // TODO: check me
-        return mutateCreatePost(createMutateData() as any).then((post) => {
+        return mutateCreatePost(createMutateData() as any ).then((post) => {
           history.replaceState(null, '', './' + post.id);
         });
       } else {

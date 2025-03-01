@@ -26,15 +26,15 @@ function NewsDashboard(props: PageProps<'scopeId'>) {
   return 'no dashboard for forum';
   const params = use(props.params);
   const dailyPostsReport = useSuspenseQuery(
-    queryService('news:/v1/report/daily/posts', { params: { query: { scopeId: +params.scopeId } } }),
+    queryService('news:/v1/report/daily/posts', { params: { query: { scopeId: +params.scopeId } } })
   ).data;
 
   const monthlyPostsReport = useSuspenseQuery(
-    queryService('news:/v1/report/monthly/posts', { params: { query: { scopeId: +params.scopeId } } }),
+    queryService('news:/v1/report/monthly/posts', { params: { query: { scopeId: +params.scopeId } } })
   ).data;
 
   const todayNewsReport = useSuspenseQuery(
-    queryService('news:/v1/report/online/today/posts', { params: { query: { scopeId: +params.scopeId } } }),
+    queryService('news:/v1/report/online/today/posts', { params: { query: { scopeId: +params.scopeId } } })
   ).data;
 
   const { allNewsPerMonth, allCommentsPerMonth, monthTitles } = useMemo(() => {

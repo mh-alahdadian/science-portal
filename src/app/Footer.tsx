@@ -55,8 +55,8 @@ export const Footer = () => {
           </div>
 
           <div className="flex flex-col gap-8">
-            {/* Services Section */}
-            <div className="space-y-4">
+          {/* Services Section */}
+          <div className="space-y-4">
               <h2 className="text-xl font-bold mb-6 border-b-2 border-blue-400 pb-2">سرویس‌ها</h2>
               <ul className="space-y-3">
                 <li>

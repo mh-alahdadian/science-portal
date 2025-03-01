@@ -1,13 +1,14 @@
-'use client';
-import { useState } from 'react';
-import RightSideNav from './components/RightSideNav';
-import UserOverView from './components/UserOverView';
-import Tags from './components/Tags';
-import { ComponentName } from './components/types/Type'; // Import the shared type
-import Questions from './components/Questions';
+"use client";
+import { useState } from "react";
+import RightSideNav from "./components/RightSideNav";
+import UserOverView from "./components/UserOverView";
+import Tags from "./components/Tags";
+import { ComponentName } from "./components/types/Type"; // Import the shared type
+import Questions from "./components/Questions";
 
 export default function Page() {
-  const [selectedComponent, setSelectedComponent] = useState<ComponentName>('userOverview');
+  const [selectedComponent, setSelectedComponent] =
+    useState<ComponentName>("userOverview");
 
   const handleNavClick = (componentName: ComponentName) => {
     setSelectedComponent(componentName);
@@ -15,12 +16,12 @@ export default function Page() {
 
   const renderComponent = () => {
     switch (selectedComponent) {
-      case 'questions':
+      case "questions":
         return <Questions />;
 
-      case 'users':
+      case "users":
         return <UserOverView />;
-      case 'tags':
+      case "tags":
         return <Tags />;
 
       default:

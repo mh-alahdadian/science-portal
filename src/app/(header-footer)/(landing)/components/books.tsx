@@ -15,7 +15,7 @@ export default function Books() {
   let { data: books } = useSuspenseQuery(
     queryService('library:/v1/scope/{scopeId}/books', {
       params: { path: { scopeId: 0 }, query: { pageable: { size: 5 } } },
-    }),
+    })
   );
   // const books = { content: [] };
 

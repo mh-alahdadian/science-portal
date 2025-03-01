@@ -16,7 +16,7 @@ export function TopicInfo(props: Props) {
   const relatedTopics = useSuspenseQuery(
     queryService('forum:/v1/scope/{scopeId}/topics', {
       params: { path: { scopeId }, query: { pageable: { size: 4 }, tags: tagIds } as any },
-    }),
+    })
   ).data.content!;
 
   return (

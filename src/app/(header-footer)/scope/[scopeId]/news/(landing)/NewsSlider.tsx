@@ -20,7 +20,7 @@ export function NewsSlider({ params }: { params: Awaited<PageProps<'scopeId'>['p
         path: { scopeId: +params.scopeId },
         query: { sort: ['id,desc'], pageable: { size: SLIDER_COUNT } } as any,
       },
-    }),
+    })
   ).data.content!;
 
   const { isSmall } = useScreen();

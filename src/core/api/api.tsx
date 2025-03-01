@@ -43,7 +43,7 @@ export async function request(method: Methods, url: string, payload: any) {
   const { data, error, response } = await api[method.toUpperCase()](url, payload);
   if (error) {
     emitApiEvent('error', error, request);
-    error.response = response;
+    error.response = response
     throw error;
   }
   emitApiEvent('data', data, request);
@@ -76,8 +76,8 @@ export const queryClient = new QueryClient({
       throwOnError: false,
       retry: isServer
         ? false
-        : // : undefined,
-          (_, error) => {
+        // : undefined,
+        : (_, error) => {
             if (
               'response' in error &&
               error.response instanceof Response &&

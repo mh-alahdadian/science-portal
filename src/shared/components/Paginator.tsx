@@ -65,7 +65,7 @@ export function Paginator(props: Props) {
             >
               {index}
             </button>
-          ),
+          )
         )}
         <button
           disabled={current === total}

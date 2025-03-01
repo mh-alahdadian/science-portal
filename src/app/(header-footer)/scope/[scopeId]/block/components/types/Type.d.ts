@@ -1,1 +1,7 @@
-export type ComponentName = 'userOverview' | 'tags' | 'questions' | 'users' | 'companies';
+
+export type ComponentName =
+  | "userOverview"
+  | "tags"
+  | "questions"
+  | "users"
+  | "companies";

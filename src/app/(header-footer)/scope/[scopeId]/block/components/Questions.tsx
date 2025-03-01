@@ -1,6 +1,6 @@
-import LeftSideNav from './LeftSideNav';
-import { Plus, CaretDown, FunnelSimple, Check } from '@phosphor-icons/react';
-import CommentCart from './CommentCart';
+import LeftSideNav from "./LeftSideNav";
+import { Plus, CaretDown, FunnelSimple, Check } from "@phosphor-icons/react";
+import CommentCart from "./CommentCart";
 
 const questionsData = [
   {
@@ -8,38 +8,40 @@ const questionsData = [
     voteCount: 1,
     replyCount: 4,
     viewCount: 33,
-    date: '۱۴۰۳/۱۱/۲۱',
+    date: "۱۴۰۳/۱۱/۲۱",
     fields: [
       {
         id: 1,
-        title: 'پایتون',
+        title: "پایتون",
       },
       {
         id: 2,
-        title: 'آژور',
+        title: "آژور",
       },
     ],
     title: "Can't add libraries to function_app.py in azure Function",
-    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, eum.',
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, eum.",
   },
   {
     id: 2,
     voteCount: 6,
     replyCount: 12,
     viewCount: 30,
-    date: '۱۴۰۳/۱۱/۲۱',
+    date: "۱۴۰۳/۱۱/۲۱",
     fields: [
       {
         id: 1,
-        title: 'پایتون',
+        title: "پایتون",
       },
       {
         id: 2,
-        title: 'آژور',
+        title: "آژور",
       },
     ],
     title: "Can't add libraries to function_app.py in azure Function",
-    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, eum.',
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, eum.",
   },
 ];
 
@@ -68,7 +70,9 @@ export default function Questions() {
               </button>
               <button className="rounded-md px-2 py-1 gap-x-2 items-center flex border-none hover:border-black bg-white hover:bg-blockFilterBtn font-normal active:text-blockFilterBtnTextAct active:font-bold !text-[14px]">
                 جایزه دار
-                <span className=" flex items-center text-white px-2 py-1 bg-blockBtn rounded-md ">۸۳</span>
+                <span className=" flex items-center text-white px-2 py-1 bg-blockBtn rounded-md ">
+                  ۸۳
+                </span>
               </button>
               <button className="rounded-md px-2 py-1 items-center border-none hover:border-black bg-white hover:bg-blockFilterBtn font-normal active:text-blockFilterBtnTextAct active:font-bold !text-[14px]">
                 بی پاسخ
@@ -89,7 +93,7 @@ export default function Questions() {
             {questionsData &&
               questionsData.map((item, index) => (
                 <CommentCart
-                  className={`${index % 2 === 0 ? 'bg-blockBcQ1' : 'bg-white'}`}
+                  className={`${index % 2 === 0 ? "bg-blockBcQ1" : "bg-white"}`}
                   title={item.title}
                   description={item.description}
                   fields={item.fields}
@@ -114,8 +118,13 @@ export default function Questions() {
               </div>
               <div className="flex flex-col justify-between">
                 <div className="flex flex-col">
-                  <h2 className="text-lg text-blockTitle">Can't add libraries to function_app.py in azure Function</h2>
-                  <p className="text-xs">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rerum, eum.</p>
+                  <h2 className="text-lg text-blockTitle">
+                    Can't add libraries to function_app.py in azure Function
+                  </h2>
+                  <p className="text-xs">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    Rerum, eum.
+                  </p>
                 </div>
                 <div className="flex justify-between">
                   <div className="flex gap-x-3">
@@ -136,7 +145,7 @@ export default function Questions() {
           </div>
         </div>
       </div>
-      <LeftSideNav />
+      <LeftSideNav/>
     </div>
   );
 }

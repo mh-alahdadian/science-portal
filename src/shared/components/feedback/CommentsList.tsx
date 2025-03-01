@@ -23,7 +23,7 @@ export function CommentsList(props: Props) {
   const commentsData = useQuery(
     queryService('feedback:/v1/comments', {
       params: { query: { dto: { modelId: props.modelId, modelTypeId: props.modelTypeId }, ...{ sort: [sort] } } },
-    }),
+    })
   ).data;
   const comments = commentsData?.content!;
   const count = commentsData?.totalElements;

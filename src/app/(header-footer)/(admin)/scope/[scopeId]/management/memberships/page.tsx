@@ -23,7 +23,7 @@ export default function MembershipAdmin(props: PageProps<'scopeId' | 'id'>) {
         path: { page: String(params.scopeId) },
         query: { searchDTO: {}, pageable: { page: 0, size: 20 } },
       },
-    }),
+    })
   );
   const memberships = membershipsQuery.data.content!;
 

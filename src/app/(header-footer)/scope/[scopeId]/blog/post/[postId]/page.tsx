@@ -1,5 +1,5 @@
-'use client';
-import { use } from 'react';
+'use client';;
+import { use } from "react";
 
 import { queryService } from '@/api';
 import { Editor, TextIcon } from '@/components';

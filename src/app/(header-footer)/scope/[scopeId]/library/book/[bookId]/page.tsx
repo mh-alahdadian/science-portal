@@ -22,7 +22,7 @@ function authorName(a: Schema<'AuthorDTO'>) {
 export default function BookPage(props: PageProps<'scopeId' | 'bookId'>) {
   const params = use(props.params);
   const book = useSuspenseQuery(
-    queryService('library:/v1/scope/{scopeId}/books/{bookId}', { params: { path: params } }),
+    queryService('library:/v1/scope/{scopeId}/books/{bookId}', { params: { path: params } })
   ).data;
 
   const { mutateAsync: voteRating } = useMutation(mutateService('post', 'feedback:/v1/rating'));

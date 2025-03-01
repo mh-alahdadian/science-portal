@@ -28,7 +28,7 @@ export default function UserManagement(props: PageProps<'scopeId' | 'id'>) {
         path: { page: String(params.scopeId) },
         query: { searchDTO: {}, pageable: { page: 0, size: 20 } },
       },
-    }),
+    })
   );
   const users = usersQuery.data.content!;
 

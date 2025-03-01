@@ -11,7 +11,7 @@ export default function News() {
   let { data: posts } = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/posts', {
       params: { path: { scopeId: 0 }, query: { pageable: { size: 5 } } },
-    }),
+    })
   );
 
   const content = posts.content!;

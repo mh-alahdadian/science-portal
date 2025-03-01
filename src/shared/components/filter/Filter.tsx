@@ -15,7 +15,7 @@ export function Filter<TData>({ table, ...props }: Props<TData>) {
         .flatMap((headerGroup) =>
           headerGroup.headers.map((header) => (
             <Fragment key={header.id}>{flexRender(header.column.columnDef.filter, header.getContext())}</Fragment>
-          )),
+          ))
         )}
     </div>
   );

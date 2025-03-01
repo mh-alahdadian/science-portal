@@ -16,16 +16,17 @@ export default function SecurityTab() {
     handleSubmit,
     getValues,
     reset,
-    formState: { isDirty, errors },
+    formState: { isDirty, errors }
   } = useForm<SecurityFormInputs>();
 
   const submit = handleSubmit(async (data) => {
     // await mutatePassword({
     //   body: {
     //     password: data.newPassword,
-    //     username:
+    //     username: 
     //   }
     // });
+
     // reset();
   });
 
@@ -35,9 +36,7 @@ export default function SecurityTab() {
     <form className="flex flex-col gap-6" onSubmit={submit}>
       <div className="grid gap-6">
         <div>
-          <label htmlFor="previousPassword" className="label">
-            رمز عبور قبلی
-          </label>
+          <label htmlFor="previousPassword" className="label">رمز عبور قبلی</label>
           <TextField
             type="password"
             id="previousPassword"
@@ -48,9 +47,7 @@ export default function SecurityTab() {
         </div>
 
         <div>
-          <label htmlFor="newPassword" className="label">
-            رمز عبور جدید
-          </label>
+          <label htmlFor="newPassword" className="label">رمز عبور جدید</label>
           <TextField
             type="password"
             id="newPassword"
@@ -58,8 +55,8 @@ export default function SecurityTab() {
               required: 'این فیلد الزامی است',
               minLength: {
                 value: 6,
-                message: 'رمز عبور باید حداقل 6 کاراکتر باشد',
-              },
+                message: 'رمز عبور باید حداقل 6 کاراکتر باشد'
+              }
             })}
             className={`input ${errors.newPassword ? 'is-invalid' : ''}`}
           />
@@ -67,15 +64,14 @@ export default function SecurityTab() {
         </div>
 
         <div>
-          <label htmlFor="repeatNewPassword" className="label">
-            تکرار رمز عبور جدید
-          </label>
+          <label htmlFor="repeatNewPassword" className="label">تکرار رمز عبور جدید</label>
           <TextField
             type="password"
             id="repeatNewPassword"
             {...register('repeatNewPassword', {
               required: 'این فیلد الزامی است',
-              validate: (value) => value === getValues('newPassword') || 'رمز عبور جدید و تکرار آن مطابقت ندارند',
+              validate: (value) =>
+                value === getValues('newPassword') || 'رمز عبور جدید و تکرار آن مطابقت ندارند'
             })}
             className={`input ${errors.repeatNewPassword ? 'is-invalid' : ''}`}
           />
@@ -84,12 +80,8 @@ export default function SecurityTab() {
       </div>
 
       <div className="card-actions w-full gap-6">
-        <button type="button" className="btn-neutral flex-1" onClick={() => reset()}>
-          انصراف
-        </button>
-        <button type="submit" className="btn-primary flex-1" disabled={!!isSaveDisabled}>
-          ذخیره
-        </button>
+        <button type="button" className="btn-neutral flex-1" onClick={() => reset()}>انصراف</button>
+        <button type="submit" className="btn-primary flex-1" disabled={!!isSaveDisabled}>ذخیره</button>
       </div>
     </form>
   );
