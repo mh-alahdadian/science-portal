@@ -58,13 +58,7 @@ export default function UserActivity() {
         </div>
         <div className="w-8/12 mx-auto">
           <div className="min-h-96 min-w-2xl flex items-center justify-center rounded-md flex-col">
-            <svg
-              aria-hidden="true"
-              className="mb-10"
-              width="196"
-              height="196"
-              viewBox="0 0 196 196"
-            >
+            <svg aria-hidden="true" className="mb-10" width="196" height="196" viewBox="0 0 196 196">
               <path
                 d="M35 177.5c-19.5-9-29.35-26.54-26-82s14.8-66.9 32.5-73S127.72.55 161.5 28s37.46 52.67 23 96.5c-14.46 43.84-22.26 63.24-60 61-11.4-.68-22.3-.85-32.5-1.02-23.56-.38-43.4-.7-57-6.98M33 42v26a7 7 0 0 0 7 7h113a7 7 0 0 0 7-7V42a7 7 0 0 0-7-7H40a7 7 0 0 0-7 7m7 39a7 7 0 0 0-7 7v27a7 7 0 0 0 7 7h113a7 7 0 0 0 7-7V88a7 7 0 0 0-7-7z"
                 opacity=".07"
