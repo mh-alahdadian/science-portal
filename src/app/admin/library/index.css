@@ -1,0 +1,129 @@
+body {
+  height: 100vh;
+  background-color: #f3f3f3;
+  padding: 6rem 16rem 4rem 3rem;
+  font-family: vazir;
+}
+
+.rs-calendar {
+  direction: ltr !important;
+}
+
+.rs-picker-date > .rs-input-group.rs-input-group-inside .rs-input {
+  padding: 10px 15px 10px 5px !important;
+}
+
+.rs-calendar-header-has-month:not(.rs-calendar-header-has-time) .rs-calendar-header-month-toolbar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-direction: row-reverse !important;
+}
+
+html,
+:host {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Optional: show position indicator in red */
+  ::-webkit-scrollbar-thumb {
+    display: none;
+  }
+}
+
+@font-face {
+  font-family: vazir;
+  src: url('/fonts/vazir-font-v16.1.0/Vazir.ttf');
+}
+
+@font-face {
+  font-family: vazirBold;
+  src: url('/fonts/vazir-font-v16.1.0/Vazir-Bold.ttf');
+}
+
+@font-face {
+  font-family: vazirMedium;
+  src: url('/fonts/vazir-font-v16.1.0/Vazir-Medium.ttf');
+}
+
+.font-bold {
+  font-family: vazirBold;
+}
+
+.font-semibold {
+  font-family: vazirMedium;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.categoryContainer:hover .moreBtn {
+  opacity: 1;
+  bottom: -1rem;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table tbody tr:hover {
+  background-color: #ddd;
+}
+
+th {
+  background-color: #c3dee2;
+}
+
+.form-group {
+  --pad: 0.4rem;
+  position: relative;
+}
+
+.searchInput {
+  padding: var(--pad);
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  outline: none;
+  width: 100%;
+}
+
+.searchLabel {
+  position: absolute;
+  right: var(--pad);
+  top: var(--pad);
+  background: transparent;
+  padding-inline: 0.4em;
+  transition: transform 200ms;
+  pointer-events: none;
+  transform-origin: right;
+  font-size: 15px;
+  opacity: 0.5;
+}
+
+.searchInput::placeholder {
+  opacity: 0;
+}
+
+.searchInput:focus + .searchLabel,
+.searchInput:not(:placeholder-shown) + .searchLabel {
+  transform: translateY(calc(-100% - var(--pad))) scale(0.9) translateX(0.7rem);
+  opacity: 0.7;
+}
+
+select {
+  background-color: white;
+  padding: 0.4rem;
+}
