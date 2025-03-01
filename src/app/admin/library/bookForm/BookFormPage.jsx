@@ -1,20 +1,20 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import AuthorsInput from '../../Modals/AuthorsInput/AuthorsInput';
-import AddDoneBtn from '../../Modals/Btns/AddDoneBtn';
-import CancelBtn from '../../Modals/Btns/CancelBtn';
-import EditDoneBtn from '../../Modals/Btns/EditDoneBtn';
-import CategoryInput from '../../Modals/CategoryInput/CategoryInput';
-import CheckBox from '../../Modals/Checkbox/CheckBox';
-import FileInput from '../../Modals/FileInput';
-import PublishersInput from '../../Modals/PublishersInput/PublishersInput';
-import TranslatorsInput from '../../Modals/TranslatorsInput/TranslatorsInput';
+import AuthorsInput from '@/admin-components/Modals/AuthorsInput/AuthorsInput';
+import AddDoneBtn from '@/admin-components/Modals/Btns/AddDoneBtn';
+import CancelBtn from '@/admin-components/Modals/Btns/CancelBtn';
+import EditDoneBtn from '@/admin-components/Modals/Btns/EditDoneBtn';
+import CategoryInput from '@/admin-components/Modals/CategoryInput/CategoryInput';
+import CheckBox from '@/admin-components/Modals/Checkbox/CheckBox';
+import FileInput from '@/admin-components/Modals/FileInput';
+import PublishersInput from '@/admin-components/Modals/PublishersInput/PublishersInput';
+import TranslatorsInput from '@/admin-components/Modals/TranslatorsInput/TranslatorsInput';
 
 import { mutateService } from '@/api';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useLocation } from 'react-use';
-import ModalHeader from '../../Modals/ModalHeader/ModalHeader';
+import ModalHeader from '@/admin-components/Modals/ModalHeader/ModalHeader';
 import { uploadFile } from '@/components/editor/uploader';
 
 function BookFormPage() {

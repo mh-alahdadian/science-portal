@@ -1,2 +1,2 @@
 'use client';
-export { /* AuthorPage */ default } from '../components/Pages/AuthorPage/AuthorPage';
+export { default } from './AuthorPage';

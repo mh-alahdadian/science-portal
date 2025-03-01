@@ -1,95 +1,87 @@
-import Highcharts from 'highcharts';
-import HighchartsReact from "highcharts-react-official";
-import { useEffect, useState } from "react";
-import useFetch from "../../../hooks/useFetch";
-import LineChartYear from "./LineChartYear";
-import TodayReport from "./TodayReport";
+import { queryService } from '@/api';
 import { formatDateTime } from '@/utils';
-
-
-
-
+import { useQuery } from '@tanstack/react-query';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import LineChartYear from './LineChartYear';
+import TodayReport from './TodayReport';
 
 function Dashboard() {
+  const { data } = useQuery({
+    ...queryService('library:/v1/report/daily/books', { scopeId: 0, length: 5 }),
+    initialData: [],
+  });
 
-    const [data, setData] = useState([])
-    const dailyReport = useFetch('https://cogcenter.ir/library/api/v1/report/daily/books?scopeId=0&length=5')
+  const opt = {
+    series: [
+      {
+        name: 'تعداد کامنت‌ها',
+        data: data.map((item) => item.commentCount),
+      },
+      {
+        name: 'کتاب‌های منتشر شده',
+        data: data.map((item) => item.publishCount),
+      },
+      {
+        name: 'کتاب‌های ثبت شده',
+        data: data.map((item) => item.createCount),
+      },
+      {
+        name: 'تعداد دانلود‌ها',
+        data: data.map((item) => item.downloadCount),
+      },
+    ],
+    colors: ['#2c2c2c', '#ef7729', '#806c60', '#a1ced6'],
+    title: {
+      text: 'گزارش روزانه',
+      align: 'right',
+      style: {
+        fontFamily: 'vazirBold',
+      },
+    },
 
-    useEffect(() => {
-        setData(dailyReport)
-    }, [dailyReport])
+    chart: {
+      type: 'column',
+      scrollablePlotArea: {
+        minWidth: 600,
+        scrollPositionX: 1,
+      },
+      height: '280px',
+      style: {
+        fontFamily: 'vazir',
+      },
+    },
+    xAxis: {
+      categories: data?.map((item) => {
+        return formatDateTime(date);
+      }),
+      labels: {
+        overflow: 'justify',
+      },
+    },
 
-
-    const opt = {
-        series: [
-            {
-                name: "تعداد کامنت‌ها",
-                data: data.map(item => item.commentCount),
-            },
-            {
-                name: "کتاب‌های منتشر شده",
-                data: data.map(item => item.publishCount),
-            },
-            {
-                name: "کتاب‌های ثبت شده",
-                data: data.map(item => item.createCount),
-            },
-            {
-                name: "تعداد دانلود‌ها",
-                data: data.map(item => item.downloadCount),
-            }
-        ],
-        colors: ['#2c2c2c', "#ef7729", "#806c60", "#a1ced6"],
-        title: {
-            text: "گزارش روزانه",
-            align: "right",
-            style: {
-                fontFamily: "vazirBold"
-            }
+    plotOptions: {
+      spline: {
+        lineWidth: 4,
+        states: {
+          hover: {
+            lineWidth: 5,
+          },
         },
-
-        chart: {
-            type: 'column',
-            scrollablePlotArea: {
-                minWidth: 600,
-                scrollPositionX: 1
-            },
-            height: "280px",
-            style: {
-                fontFamily: 'vazir'
-            },
+        marker: {
+          enabled: false,
         },
-        xAxis: {
-            categories: data?.map(item => { return formatDateTime(date) }),
-            labels: {
-                overflow: 'justify'
-            }
-        },
+      },
+    },
+  };
 
-        plotOptions: {
-            spline: {
-                lineWidth: 4,
-                states: {
-                    hover: {
-                        lineWidth: 5
-                    }
-                },
-                marker: {
-                    enabled: false
-                },
-
-            }
-        },
-    }
-
-    return (
-
-        <div className="flex flex-col gap-7">
-            <div className="w-full h-80 flex gap-7">
-                <TodayReport />
-                <div className="w-3/4 h-80 bg-sand rounded-xl shadow-md p-5 px-20">
-                    <HighchartsReact highcharts={Highcharts} options={opt} />
-                    {/* 
+  return (
+    <div className="flex flex-col gap-7">
+      <div className="w-full h-80 flex gap-7">
+        <TodayReport />
+        <div className="w-3/4 h-80 bg-sand rounded-xl shadow-md p-5 px-20">
+          <HighchartsReact highcharts={Highcharts} options={opt} />
+          {/* 
                     <Bar data={{
                         labels: data?.map(item => item.date),
                         datasets: [
@@ -140,16 +132,14 @@ function Dashboard() {
                                 }
                             }
                         }} /> */}
-                </div>
-
-            </div>
-
-            <div className="w-full h-96 bg-sand rounded-xl shadow-md p-7 px-20" >
-                <LineChartYear />
-            </div>
-
         </div>
-    )
+      </div>
+
+      <div className="w-full h-96 bg-sand rounded-xl shadow-md p-7 px-20">
+        <LineChartYear />
+      </div>
+    </div>
+  );
 }
 
-export default Dashboard
+export default Dashboard;
