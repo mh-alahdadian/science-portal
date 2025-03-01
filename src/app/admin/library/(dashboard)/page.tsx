@@ -1,2 +1,2 @@
 'use client';
-export { /* Dashboard */ default } from '../components/Pages/Dashboard/Dashboard';
+export { default } from './Dashboard';

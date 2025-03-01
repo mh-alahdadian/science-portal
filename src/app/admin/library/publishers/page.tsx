@@ -1,3 +1,3 @@
 'use client';
 
-export { /* PublisherPage */ default } from '../components/Pages/PublisherPage/PublisherPage';
+export { default } from './PublisherPage';
