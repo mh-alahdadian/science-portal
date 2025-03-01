@@ -1,22 +1,12 @@
 "use client";
-import { use, useState } from "react";
+import { useState } from "react";
 import RightSideNav from "./components/RightSideNav";
 import UserOverView from "./components/UserOverView";
 import Tags from "./components/Tags";
+import { ComponentName } from "./components/types/Type"; // Import the shared type
 import Questions from "./components/Questions";
 
-
-export type ComponentName =
-  | "userOverview"
-  | "tags"
-  | "questions"
-  | "users"
-  | "companies";
-
-
-export default function Page(props: PageProps<'scopeId'>) {
-  const params = use(props.params);
-
+export default function Page() {
   const [selectedComponent, setSelectedComponent] =
     useState<ComponentName>("userOverview");
 
@@ -27,7 +17,7 @@ export default function Page(props: PageProps<'scopeId'>) {
   const renderComponent = () => {
     switch (selectedComponent) {
       case "questions":
-        return <Questions params={params} />;
+        return <Questions />;
 
       case "users":
         return <UserOverView />;
