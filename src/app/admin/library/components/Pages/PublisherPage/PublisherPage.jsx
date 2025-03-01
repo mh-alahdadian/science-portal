@@ -14,16 +14,17 @@ import TableHeader from "../../TableHeader/TableHeader"
 import TableHeaderItem from "../../TableHeaderItem/TableHeaderItem"
 import TableRow from "../../TableRow/TableRow"
 import CategoryTitleTd from "../CategoryPage/CategoryTitleTd"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { mutateService, queryService } from "@/api"
+import { formatDateTime } from "@/utils"
 
 
 
 function PublisherPage() {
-    const [data, setData] = useState([])
     const [filtering, setFiltering] = useState("")
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editModal, setEditModal] = useState({})
     const [currentPage, setCurrentPage] = useState(0)
-    const [pages, setPages] = useState(0)
     const [selectedItems, setSelectedItems] = useState([])
     const { register, handleSubmit , setValue } = useForm()
     const [isEnableFloat, setIsEnableFloat] = useState(false)
@@ -33,67 +34,20 @@ function PublisherPage() {
         "enable": "",
     })
 
+    const { data: publishers } = useQuery(queryService('library:/v1/authors', { params: { query: filteredList } }));
+    const { content: data = [], totalPages: pages = 0 } = publishers || {};
 
-    const publishers = useFetch(`https://cogcenter.ir/library/api/v1/publishers${properties}`)
-
-
+    const { mutateAsync: updatePublisher } = useMutation(mutateService('put', 'library:/v1/manager/{page}/publishers/{publisherId}'));
     async function putData(data, enableState) {
         const { id, name, coverImage } = data
 
         let newData = { coverImage, id, name, enable: enableState }
 
-        fetch(`https://cogcenter.ir/library/api/v1/manager/0/publishers/${data.id}`, {
-            method: 'PUT',
-            headers: {
-                'accept': '*/*',
-                'Authorization': TOKEN,
-                'content-type': "application/json",
-                'scope': [
-                    "SUPER_ADMIN"
-                ],
-                "expiresIn": 1724266116069,
-                "refreshToken": "3eb183b8-340f-4452-af97-55015dd105b8",
-            },
-            body: JSON.stringify(newData)
-        });
-        await setSelectedItems([])
+        await updatePublisher({ params: { path: { page: '0', publisherId: data.id } }, body: newData });
+        setSelectedItems([])
         setTimeout(() => { window.location.reload() }, 300)
 
     }
-
-    useEffect(() => {
-        setData(publishers.content)
-        setPages(publishers.totalPages)
-
-    }, [publishers])
-
-
-
-    useEffect(() => {
-        fetch(`https://cogcenter.ir/library/api/v1/publishers${properties}`, {
-            headers: {
-                'accept': '*/*',
-                'Authorization': TOKEN,
-                'scope': [
-                    "SUPER_ADMIN"
-                ],
-                "expiresIn": 1724266116069,
-                "refreshToken": "3eb183b8-340f-4452-af97-55015dd105b8",
-            }
-
-        })
-            .then(res => res.json())
-            .then(result => { setData(result.content); setPages(result.totalPages) })
-
-    }, [properties])
-
-
-
-    useEffect(() => {
-        setProperties(`?name=${filteredList.name}&enable=${(filteredList.enable === undefined)? "" : filteredList.enable}&page=${currentPage}&size=10`)
-    }, [filteredList, currentPage])
-
-
 
     const columns = [
         {
@@ -120,7 +74,7 @@ function PublisherPage() {
             accessorKey: "name",
             header: "نام",
             size: 300,
-            cell: (props) => <CategoryTitleTd props={props}/>
+            cell: CategoryTitleTd
         },
         {
             accessorKey: "createdAt",

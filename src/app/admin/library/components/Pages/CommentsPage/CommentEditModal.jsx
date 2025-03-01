@@ -1,3 +1,5 @@
+import { mutateService } from "@/api"
+import { useMutation } from "@tanstack/react-query"
 import { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import CancelBtn from "../../Modals/Btns/CancelBtn"
@@ -43,38 +45,19 @@ function CommentEditModal({ setIsModalOpen, modalData, setEditModal, currentPage
         unregister("reason")
     }
 
+    const { mutateAsync: unpublishComment } = useMutation(
+      mutateService('post', 'feedback:/v1/manager/{page}/un-publish/{id}')
+    );
+    const { mutateAsync: publishComment } = useMutation(
+      mutateService('post', 'feedback:/v1/manager/{page}/comments/publish/{id}')
+    );
     async function submit(data) {
-        if (data.reason) {
-            fetch(`https://cogcenter.ir/feedback/api/v1/manager/${currentPage}/un-publish/${modalData.id}`, {
-                method: 'POST',
-                headers: {
-                    'accept': '*/*',
-                    'Authorization': TOKEN,
-                    'scope': [
-                        "SUPER_ADMIN"
-                    ],
-                    "expiresIn": 1724266116069,
-                    "refreshToken": "3eb183b8-340f-4452-af97-55015dd105b8",
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-        }
-        else {
-            fetch(`https://cogcenter.ir/feedback/api/v1/manager/${currentPage}/comments/publish/${modalData.id}`, {
-                method: 'POST',
-                headers: {
-                    'accept': '*/*',
-                    'Authorization': TOKEN,
-                    'scope': [
-                        "SUPER_ADMIN"
-                    ],
-                    "expiresIn": 1724266116069,
-                    "refreshToken": "3eb183b8-340f-4452-af97-55015dd105b8",
-                },
-            });
-        }
-        await setIsModalOpen(false)
+      if (data.reason) {
+        await unpublishComment({ params: { path: { page: currentPage, id: modalData.id } }, body: data });
+      } else {
+        await publishComment({ params: { path: { page: currentPage, id: modalData.id } } });
+      }
+      setIsModalOpen(false);
     }
 
     return (

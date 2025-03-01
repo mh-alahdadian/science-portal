@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form"
 import CancelBtn from "../../Modals/Btns/CancelBtn"
 import EditDoneBtn from "../../Modals/Btns/EditDoneBtn"
 import ModalHeader from "../../Modals/ModalHeader/ModalHeader"
+import { useMutation } from "@tanstack/react-query"
+import { mutateService } from "@/api"
 
 
 
@@ -33,22 +35,10 @@ function CommentsReplyModal({ setIsReplyOpen, modalData, setEditModal }) {
         setEditModal({})
     }
 
+    const { mutateAsync: replyComment } = useMutation(mutateService('post', 'feedback:/v1/comments/{commentId}/reply'));
     async function submit(data) {
-        fetch(`https://cogcenter.ir/feedback/api/v1/comments/${modalData.id}/reply`, {
-            method: 'POST',
-            headers: {
-                'accept': '*/*',
-                'Authorization': TOKEN,
-                'scope': [
-                    "SUPER_ADMIN"
-                ],
-                "expiresIn": 1724266116069,
-                "refreshToken": "3eb183b8-340f-4452-af97-55015dd105b8",
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        await setIsReplyOpen(false)
+        await replyComment({ params: { path: { commentId: modalData.id } }, body: data });
+        setIsReplyOpen(false)
     }
 
 

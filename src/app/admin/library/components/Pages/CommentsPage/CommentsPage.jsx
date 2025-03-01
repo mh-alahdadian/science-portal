@@ -16,6 +16,9 @@ import TableHeader from "../../TableHeader/TableHeader"
 import TableHeaderItem from "../../TableHeaderItem/TableHeaderItem"
 import CommentTextTd from "./CommentTextTd"
 import { useRouter } from "next/navigation"
+import { useQuery } from "@tanstack/react-query"
+import { queryService } from "@/api"
+import { formatDateTime } from "@/utils"
 
 
 
@@ -23,17 +26,14 @@ import { useRouter } from "next/navigation"
 
 function CommentsPage() {
     const router = useRouter()
-    const [data, setData] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [isReplyOpen, setIsReplyOpen] = useState(false)
     const [editModal, setEditModal] = useState({})
     const { register, handleSubmit, setValue } = useForm()
-    const [pages, setPages] = useState(0)
     const [currentPage, setCurrentPage] = useState(0)
     const [fromDateFloat, setFromDateFloat] = useState(false)
     const [toDateFloat, setToDateFloat] = useState(false)
     const [isPublishFloat, setIsPublishFloat] = useState(false)
-    const [properties, setProperties] = useState(`?page=${currentPage}&size=10`)
     const [filteredList, setFilteredList] = useState({
         "publish": "",
         "id": "",
@@ -42,42 +42,8 @@ function CommentsPage() {
         "page": currentPage
     })
 
-
-    const comments = useFetch(`https://cogcenter.ir/feedback/api/v1/manager/0/comments${properties}`)
-
-    useEffect(() => {
-        setData(comments.content)
-
-        return () => {
-
-        }
-    }, [comments])
-
-    useEffect(() => {
-        fetch(`https://cogcenter.ir/feedback/api/v1/manager/0/comments${properties}`, {
-            headers: {
-                'accept': '*/*',
-                'Authorization': TOKEN,
-                'scope': [
-                    "SUPER_ADMIN"
-                ],
-                "expiresIn": 1724266116069,
-                "refreshToken": "3eb183b8-340f-4452-af97-55015dd105b8",
-            }
-
-        })
-            .then(res => res.json())
-            .then(result => { setData(result.content); setPages(result.totalPages) })
-
-    }, [properties])
-
-
-
-    useEffect(() => {
-        setProperties(`?modelTypeId=${filteredList.id}&publish=${filteredList.publish}&from=${filteredList.from || ""}&to=${filteredList.to || ""}&page=${currentPage}&size=10`)
-    }, [filteredList, currentPage])
-
-
+    const { data: comments } = useQuery(queryService('feedback:/v1/comments', { params: { query: filteredList } }));
+    const { content: data = [], totalPages: pages = 0 } = comments || {};
 
     function goToBookData(id) {
 

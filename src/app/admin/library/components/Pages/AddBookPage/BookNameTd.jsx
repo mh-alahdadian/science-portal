@@ -1,7 +1,7 @@
 import { useState } from "react"
 
 
-function BookNameTd({ props }) {
+function BookNameTd(props) {
     const [showFullName, setShowFullName] = useState(false)
     return (
         <div className="relative flex items-center">

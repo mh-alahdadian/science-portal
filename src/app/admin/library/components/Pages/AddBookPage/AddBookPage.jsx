@@ -1,11 +1,12 @@
 
+import { mutateService, queryService } from "@/api"
 import { formatDateTime } from "@/utils"
+import { useMutation, useQuery } from "@tanstack/react-query"
 import { flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from "@tanstack/react-table"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import Select from 'react-select'
 import { DatePicker } from "zaman"
-import useFetch from "../../../hooks/useFetch"
 import AddBtn from "../../Buttons/AddBtn"
 import EditBtn from "../../Buttons/EditBtn"
 import SelectBtn from "../../Buttons/SelectBtn"
@@ -23,10 +24,8 @@ import BookNameTd from "./BookNameTd"
 import PublisherTd from "./PublisherTd"
 
 function AddBookPage() {
-    const [data, setData] = useState([])
     const [isFilter, setIsFilter] = useState(false)
     const [editModal, setEditModal] = useState({})
-    const [pages, setPages] = useState(0)
     const [categories, setCategories] = useState([])
     const [publisher, setPublisher] = useState([])
     const [authors, setAuthors] = useState([])
@@ -34,7 +33,6 @@ function AddBookPage() {
     const [currentPage, setCurrentPage] = useState(0)
     const [fromDateFloat, setFromDateFloat] = useState(false)
     const [toDateFloat, setToDateFloat] = useState(false)
-    const [properties, setProperties] = useState(`?page=${currentPage}&size=10`)
     const [selectedItems, setSelectedItems] = useState([])
     const [isPublishFloat, setIsPublishFloat] = useState(false)
     const [isPublicFloat, setIsPublicFloat] = useState(false)
@@ -49,87 +47,24 @@ function AddBookPage() {
         "to": "",
     })
 
+    const { data: books } = useQuery(queryService('library:/v1/manager/{page}/books', { params: { query: filteredList, path: {page: currentPage} } }));
+    const { content: data = [], totalPages: pages = 0 } = books || {};
 
-
-    const books = useFetch(`https://cogcenter.ir/library/api/v1/manager/0/books${properties}`)
-
-
+    const { mutateAsync: updateBook } = useMutation(mutateService('put', 'library:/v1/manager/{page}/books/{bookId}'));
     async function putData(data, publishState) {
-        const { authors, category, coverImage, description, file, id, name, pageNumber, publicationYear, publisher, scopeId, translators, isPublic
-        } = data
+        const { authors, category, description, publisher, translators, ...rest } = data
+        const authorIds = authors.map(author => author.id)
+        const translatorIds = translators.map(translator => translator.id)
+        let newData = { authorIds, categoryId: category.id, publisherId: publisher.id, publish: publishState, translatorIds, ...rest }
 
-        let authorIds = []
-        let translatorIds = []
-
-        authors.map(author => {
-            authorIds.push(author.id)
-        })
-        translators.map(translator => {
-            translatorIds.push(translator.id)
-        })
-        let newData = { authorIds, categoryId: category.id, coverImage, file, id, name, pageNumber, publicationYear, publish: publishState, isPublic, publisherId: publisher.id, scopeId, translatorIds }
-
-        fetch(`https://cogcenter.ir/library/api/v1/manager/0/books/${data.id}`, {
-            method: 'PUT',
-            headers: {
-                'accept': '*/*',
-                'Authorization': TOKEN,
-                'content-type': "application/json",
-                'scope': [
-                    "SUPER_ADMIN"
-                ],
-                "expiresIn": 1724266116069,
-                "refreshToken": "3eb183b8-340f-4452-af97-55015dd105b8",
-            },
-            body: JSON.stringify(newData)
-        });
-        await setSelectedItems([])
+        await updateBook({ params: { path: { page: String(0), bookId: data.id } }, body: newData });
+        setSelectedItems([])
         setTimeout(() => { window.location.reload() }, 300)
-
-
     }
-
-    useEffect(() => {
-        setData(books.content)
-        setPages(books.totalPages)
-
-        return () => {
-
-        }
-
-    }, [books])
-
-
-    useEffect(() => {
-        fetch(`https://cogcenter.ir/library/api/v1/manager/0/books${properties}`, {
-            headers: {
-                'accept': '*/*',
-                'Authorization': TOKEN,
-                'scope': [
-                    "SUPER_ADMIN"
-                ],
-                "expiresIn": 1724266116069,
-                "refreshToken": "3eb183b8-340f-4452-af97-55015dd105b8",
-            }
-
-        })
-            .then(res => res.json())
-            .then(result => { setData(result.content); setPages(result.totalPages) })
-
-    }, [properties])
-
-
-
-    useEffect(() => {
-        setProperties(`?categoryIds=${filteredList.categoryIds || []}&publish=${(filteredList.publish !== undefined) ? filteredList.publish : ""}&name=${filteredList.name || ""}&authorIds=${filteredList.authorIds || []}&publisherIds=${filteredList.publisherIds || []}&isPublic=${(filteredList.isPublic !== undefined) ? filteredList.isPublic : ""}&from=${filteredList.from || ""}&to=${filteredList.to || ""}&page=${currentPage}&size=10`)
-    }, [filteredList, currentPage])
-
-
 
     function openModal(modalData) {
         router.push("/bookForm" , {state: modalData.original})
     }
-
 
     const columns = [
         {
@@ -155,7 +90,7 @@ function AddBookPage() {
         {
             accessorKey: "name",
             header: "نام کتاب",
-            cell: (props) => <BookNameTd props={props} />
+            cell: BookNameTd
         },
         {
             accessorKey: "authors",

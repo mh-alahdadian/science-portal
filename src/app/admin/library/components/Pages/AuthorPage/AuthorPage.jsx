@@ -14,6 +14,9 @@ import EditBtn from "../../Buttons/EditBtn"
 import SelectBtn from "../../Buttons/SelectBtn"
 import SelectedCounter from "../../SelectedCounter/SelectedCounter"
 import AuthorNameTd from "./AuthorNameTd"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { mutateService, queryService } from "@/api"
+import { formatDateTime } from "@/utils"
 
 
 
@@ -21,16 +24,13 @@ import AuthorNameTd from "./AuthorNameTd"
 
 function AuthorPage() {
 
-    const [data, setData] = useState([])
     const [filtering, setFiltering] = useState("")
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editModal, setEditModal] = useState({})
-    const [pages, setPages] = useState(0)
     const [currentPage, setCurrentPage] = useState(0)
     const { register, handleSubmit, setValue } = useForm()
     const [selectedItems, setSelectedItems] = useState([])
     const [isEnableFloat, setIsEnableFloat] = useState(false)
-    const [properties, setProperties] = useState(`?page=${currentPage}&size=10`)
     const [filteredList, setFilteredList] = useState({
         "firstName": "",
         "lastName": "",
@@ -39,69 +39,18 @@ function AuthorPage() {
     })
 
 
-    const authors = useFetch(`https://cogcenter.ir/library/api/v1/authors${properties}`)
+    const { data: authors } = useQuery(queryService('library:/v1/authors', { params: { query: filteredList } }));
+    const { content: data = [], totalPages: pages = 0 } = authors || {};
 
-
+    const { mutateAsync: updateAuthor } = useMutation(mutateService('put', 'library:/v1/manager/{page}/authors/{authorId}'));
     async function putData(data, enableState) {
         const { id, firstName, lastName, description, coverImage } = data
         let newData = { coverImage, description, id, firstName, lastName, enable: enableState }
-
-        fetch(`https://cogcenter.ir/library/api/v1/manager/0/authors/${data.id}`, {
-            method: 'PUT',
-            headers: {
-                'accept': '*/*',
-                'Authorization': TOKEN,
-                'content-type': "application/json",
-                'scope': [
-                    "SUPER_ADMIN"
-                ],
-                "expiresIn": 1724266116069,
-                "refreshToken": "3eb183b8-340f-4452-af97-55015dd105b8",
-            },
-            body: JSON.stringify(newData)
-        });
-        await setSelectedItems([])
+        await updateAuthor({ params: { path: { page: String(0), authorId: data.id } }, body: newData });
+        setSelectedItems([])
         setTimeout(() => { window.location.reload() }, 300)
 
     }
-
-
-    useEffect(() => {
-        setData(authors.content)
-        setPages(authors.totalPages)
-
-        return () => {
-        }
-
-    }, [authors])
-
-
-
-
-    useEffect(() => {
-        fetch(`https://cogcenter.ir/library/api/v1/authors${properties}`, {
-            headers: {
-                'accept': '*/*',
-                'Authorization': TOKEN,
-                'scope': [
-                    "SUPER_ADMIN"
-                ],
-                "expiresIn": 1724266116069,
-                "refreshToken": "3eb183b8-340f-4452-af97-55015dd105b8",
-            }
-
-        })
-            .then(res => res.json())
-            .then(result => { setData(result.content); setPages(result.totalPages) })
-
-    }, [properties])
-
-
-
-    useEffect(() => {
-        setProperties(`?firstName=${filteredList.firstName}&lastName=${filteredList.lastName}&enable=${filteredList.enable}&page=${currentPage}&size=10`)
-    }, [filteredList, currentPage])
-
 
 
     const columns = [

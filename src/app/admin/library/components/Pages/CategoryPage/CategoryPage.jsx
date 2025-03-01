@@ -14,84 +14,34 @@ import EditBtn from "../../Buttons/EditBtn"
 import SelectBtn from "../../Buttons/SelectBtn"
 import SelectedCounter from "../../SelectedCounter/SelectedCounter"
 import CategoryTitleTd from "./CategoryTitleTd"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { mutateService, queryService } from "@/api"
+import { formatDateTime } from "@/utils"
 
 
 
 function CategoryPage() {
-    const [data, setData] = useState([])
     const [filtering, setFiltering] = useState("")
     const [isModalOpen, setIsModalOpen] = useState(false)
     const { register, handleSubmit, setValue } = useForm()
     const [editModal, setEditModal] = useState({})
-    const [properties, setProperties] = useState('')
     const [selectedItems, setSelectedItems] = useState([])
     const [isEnableFloat, setIsEnableFloat] = useState(false)
     const [filteredList, setFilteredList] = useState({
         "isEnable": "",
     })
+    const { data } = useQuery(queryService('library:/v1/categories', { params: { query: filteredList } }));
 
-
-    const categoryData = useFetch('https://cogcenter.ir/library/api/v1/categories')
-
-
+    const { mutateAsync: updateCategory } = useMutation(mutateService('put', 'library:/v1/manager/{page}/categories/{categoryId}'));
     async function putData(data, enableState) {
         const { coverImage, scopeId, id, title } = data
 
         let newData = { coverImage, enable: enableState, scopeId, id, title }
-
-        fetch(`https://cogcenter.ir/library/api/v1/manager/0/categories/${data.id}`, {
-            method: 'PUT',
-            headers: {
-                'accept': '*/*',
-                'Authorization': TOKEN,
-                'content-type': "application/json",
-                'scope': [
-                    "SUPER_ADMIN"
-                ],
-                "expiresIn": 1724266116069,
-                "refreshToken": "3eb183b8-340f-4452-af97-55015dd105b8",
-            },
-            body: JSON.stringify(newData)
-        });
-        await setSelectedItems([])
+        await updateCategory({ params: { path: { page: String(0), categoryId: data.id } }, body: newData });
+        setSelectedItems([])
         setTimeout(() => { window.location.reload() }, 300)
 
     }
-
-    useEffect(() => {
-
-        setData(categoryData)
-
-        return () => {
-
-        }
-    }, [categoryData])
-
-    useEffect(() => {
-        fetch(`https://cogcenter.ir/library/api/v1/categories${properties}`, {
-            headers: {
-                'accept': '*/*',
-                'Authorization': TOKEN,
-                'scope': [
-                    "SUPER_ADMIN"
-                ],
-                "expiresIn": 1724266116069,
-                "refreshToken": "3eb183b8-340f-4452-af97-55015dd105b8",
-            }
-
-        })
-            .then(res => res.json())
-            .then(result => setData(result))
-
-    }, [properties])
-
-
-
-    useEffect(() => {
-        setProperties(`?isEnable=${filteredList.isEnable}`)
-    }, [filteredList])
-
-
 
     const columns = [
         {
@@ -118,7 +68,7 @@ function CategoryPage() {
             accessorKey: "title",
             header: "عنوان",
             size: 300,
-            cell: (props) => <CategoryTitleTd props={props} />
+            cell: CategoryTitleTd
         },
         {
             accessorKey: "createdAt",
