@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import { CaretDown, CaretLeft } from "@phosphor-icons/react";
 import PropTypes from "prop-types";
 import ToolTip from "../ui/ToolTip";
@@ -15,13 +15,13 @@ export const SidebarMenuItem = ({
   disabled = false,
 }) => {
   const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
-  const navigate = useNavigate();
+  const router = useRouter()
   // Toggle the visibility of the submenu
   const handleClick = () => {
     if (!!children) {
       setIsSubmenuOpen(!isSubmenuOpen);
     } else if (!disabled) {
-      navigate(path);
+      router.push(path);
       onClick();
     }
   };

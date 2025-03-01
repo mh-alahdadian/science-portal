@@ -1,8 +1,8 @@
-import { Link, useLocation } from "react-router-dom";
 import { parseTimeToPersian } from "../utils/helper";
 import TextSlicer from "./TextSlicer";
 import MediaBadge from "./ui/MediaBadge";
 import DropdownWithAddOption from "./DropdownWithAddOption";
+import { useLocation } from "react-use";
 const NotesPopUp = ({
   noteValue,
   setNoteValue,

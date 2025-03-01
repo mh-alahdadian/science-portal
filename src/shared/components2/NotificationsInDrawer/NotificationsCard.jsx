@@ -1,6 +1,6 @@
 import { CaretLeft } from "@phosphor-icons/react";
 import { parseTimeToPersian } from "../../utils/helper";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import { useLayoutContext } from "../../context/layout-context";
 import notification from "../../service/api/notification";
 
@@ -12,7 +12,7 @@ const NotificationsCard = ({
   id,
 }) => {
   const { setOpenDrawer } = useLayoutContext();
-  const navigate = useNavigate();
+  const router = useRouter()
   return (
     <div className="flex gap-2 py-4">
       <div
@@ -33,7 +33,7 @@ const NotificationsCard = ({
             className="font-button-medium text-light-primary-text-rest flex gap-2"
             onClick={() => {
               setOpenDrawer(false);
-              navigate(`/app/notif/Notifications/${id}`);
+              router.push(`/app/notif/Notifications/${id}`);
               unread && notification.markAsReadNotification(id);
             }}
           >

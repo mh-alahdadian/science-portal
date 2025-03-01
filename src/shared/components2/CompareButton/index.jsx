@@ -3,7 +3,7 @@ import { CButton } from "../ui/CButton.jsx";
 import { Exclude, FileArrowDown } from "@phosphor-icons/react";
 import PropTypes from "prop-types";
 import ToolTip from "components/ui/ToolTip.jsx";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import compare from "service/api/compare.js";
 import { useCompareStore } from "store/compareStore.js";
 
@@ -14,7 +14,7 @@ export const CompareButton = ({
   minimize,
   filters,
 }) => {
-  const navigate = useNavigate();
+  const router = useRouter()
   const setCompare = useCompareStore((state) => state.setCompare);
 
   const navigateToCompare = async () => {
@@ -42,7 +42,7 @@ export const CompareButton = ({
           },
         ],
       });
-      navigate("/app/compare/create");
+      router.push("/app/compare/create");
     } catch (e) {
       console.error(e);
     }

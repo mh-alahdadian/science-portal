@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import {
   Alarm,
   NewspaperClipping,
@@ -23,11 +22,11 @@ import {
   Exclude,
   Target,
 } from "@phosphor-icons/react";
-import { useLocation } from "react-router-dom";
 import { useLayoutContext } from "context/layout-context.jsx";
 import { SidebarMenuItem } from "./SidebarMenuItem.jsx";
 import LogoImg from "../../assets/images/logo.png";
 import AuthContext from "../../context/auth-context.jsx";
+import {Link} from 'next/link'
 
 export const AdminSidebar = () => {
   const { isSidebarOpened } = useLayoutContext();

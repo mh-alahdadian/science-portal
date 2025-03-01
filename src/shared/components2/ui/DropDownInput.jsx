@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { Check, Plus, X } from "@phosphor-icons/react";
-import { Link } from "react-router-dom";
-import useSearchStore from "store/searchStore.js";
+import { Check, Plus, X } from '@phosphor-icons/react';
+import Link from 'next/link';
+import PropTypes from 'prop-types';
+import { useCallback, useEffect, useState } from 'react';
+import useSearchStore from 'store/searchStore.js';
 
 export const DropDownInput = ({
   id,
-  size = "md",
+  size = 'md',
   inset = false,
-  state = "rest",
-  validation = "none",
-  direction = "rtl",
+  state = 'rest',
+  validation = 'none',
+  direction = 'rtl',
   title,
   placeholder,
   value,
@@ -33,42 +33,30 @@ export const DropDownInput = ({
   form: { errors, touched },
 }) => {
   const [dropdownRef, setDropdownRef] = useState(null);
-  const [inputClasses, setInputClasses] = useState("");
-  const [inputValue, setInputValue] = useState(value || "");
+  const [inputClasses, setInputClasses] = useState('');
+  const [inputValue, setInputValue] = useState(value || '');
   const [dropdownIsOpen, setDropdownIsOpen] = useState(false);
-  const [filteredDropdownArray, setFilteredDropdownArray] =
-    useState(dropdownArray);
+  const [filteredDropdownArray, setFilteredDropdownArray] = useState(dropdownArray);
   const [selectedList, setSelectedList] = useState([]);
 
   const getInputClasses = useCallback(() => {
-    let baseClass = "c-input";
+    let baseClass = 'c-input';
     let classes = baseClass;
 
     classes += ` ${baseClass}-${size}`;
     if (inset) classes += ` ${baseClass}-inset`;
     classes += ` ${baseClass}-${state}`;
-    if (touched[field.name] && errors[field.name])
-      classes += ` ${baseClass}-error`;
+    if (touched[field.name] && errors[field.name]) classes += ` ${baseClass}-error`;
 
     classes += ` ${baseClass}-${direction}`;
 
-    classes += ` ${className || ""}`;
+    classes += ` ${className || ''}`;
 
     // return 'cinput cinput-sm cinput-rest cinput-ltr';
     return classes;
-  }, [
-    className,
-    disabled,
-    state,
-    validation,
-    size,
-    inset,
-    direction,
-    errors,
-    touched,
-  ]);
+  }, [className, disabled, state, validation, size, inset, direction, errors, touched]);
   const clearClicked = async () => {
-    setInputValue("");
+    setInputValue('');
   };
 
   useEffect(() => {
@@ -85,25 +73,21 @@ export const DropDownInput = ({
     };
 
     // Attach event listener when the component mounts
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
 
     // Detach event listener when the component unmounts
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [dropdownRef]);
 
   useEffect(() => {
-    const filteredArray = dropdownArray.filter((item) =>
-      item.title.toLowerCase().includes(inputValue.toLowerCase()),
-    );
+    const filteredArray = dropdownArray.filter((item) => item.title.toLowerCase().includes(inputValue.toLowerCase()));
     setFilteredDropdownArray(filteredArray);
   }, [inputValue, dropdownArray]);
 
   useEffect(() => {
-    const updatedSelectedList = dropdownArray.filter((item) =>
-      selectedItems.includes(item.id),
-    );
+    const updatedSelectedList = dropdownArray.filter((item) => selectedItems.includes(item.id));
     setSelectedList(updatedSelectedList);
     onChange(selectedItems);
   }, [selectedItems, dropdownArray]);
@@ -121,10 +105,7 @@ export const DropDownInput = ({
     // If the id exists, remove it from selectedItems; otherwise, add it
     if (index !== -1) {
       // Remove the id from selectedItems
-      const updatedSelectedItems = [
-        ...selectedItems.slice(0, index),
-        ...selectedItems.slice(index + 1),
-      ];
+      const updatedSelectedItems = [...selectedItems.slice(0, index), ...selectedItems.slice(index + 1)];
       setSelectedItems(updatedSelectedItems);
     } else {
       // Add the id to selectedItems
@@ -145,16 +126,14 @@ export const DropDownInput = ({
 
   return (
     <div className={inputClasses} ref={setDropdownRef}>
-      <div className={"label-wrapper"}>
+      <div className={'label-wrapper'}>
         {title && <label htmlFor={field.name}>{title}</label>}
         {link && <a href={link}>{linkText}</a>}
       </div>
-      <div className={"input-wrapper"}>
-        {headingIcon && (
-          <span className="action-icon text-left">{headingIcon}</span>
-        )}
+      <div className={'input-wrapper'}>
+        {headingIcon && <span className="action-icon text-left">{headingIcon}</span>}
         <input
-          type={"text"}
+          type={'text'}
           id={id}
           name={field.name}
           placeholder={placeholder}
@@ -166,38 +145,24 @@ export const DropDownInput = ({
           {...inputProps}
         />
         {clearAction && (
-          <button
-            type={"button"}
-            onClick={clearClicked}
-            className={"action-icon text-right"}
-          >
+          <button type={'button'} onClick={clearClicked} className={'action-icon text-right'}>
             <X />
           </button>
         )}
       </div>
       {dropdownIsOpen && (
-        <div className={"input-dropdown"}>
-          <ul className={"dropdown-wrapper"}>
+        <div className={'input-dropdown'}>
+          <ul className={'dropdown-wrapper'}>
             {filteredDropdownArray.length > 0 ? (
               filteredDropdownArray.map(({ id, title }) => (
-                <li
-                  className={"dropdown-item"}
-                  key={id}
-                  onClick={() => onItemSelect(id)}
-                >
-                  <span className={"inline-flex flex-1 text-body-small"}>
-                    {title}
-                  </span>
-                  {selectedItems.includes(id) && (
-                    <Check size={16} className={"inline-flex"} />
-                  )}
+                <li className={'dropdown-item'} key={id} onClick={() => onItemSelect(id)}>
+                  <span className={'inline-flex flex-1 text-body-small'}>{title}</span>
+                  {selectedItems.includes(id) && <Check size={16} className={'inline-flex'} />}
                 </li>
               ))
             ) : (
-              <li className={"text-center justify-center"}>
-                <span className={"inline-flex flex-1 text-body-small"}>
-                  موردی یافت نشد
-                </span>
+              <li className={'text-center justify-center'}>
+                <span className={'inline-flex flex-1 text-body-small'}>موردی یافت نشد</span>
               </li>
             )}
           </ul>
@@ -206,27 +171,27 @@ export const DropDownInput = ({
             <Link
               to={actionLink}
               className={
-                "flex w-full justify-center border-t-2 text-center mt-1 p-4 font-button-medium cursor-pointer text-light-primary-text-rest"
+                'flex w-full justify-center border-t-2 text-center mt-1 p-4 font-button-medium cursor-pointer text-light-primary-text-rest'
               }
             >
               <span>{actionText}</span>
-              <Plus size={13} className={"ml-2"} />
+              <Plus size={13} className={'ml-2'} />
             </Link>
           )}
         </div>
       )}
-      <div className={"text-right"}>
+      <div className={'text-right'}>
         {selectedList.map(({ id, title }) => (
           <div
             key={id}
             className={
-              "inline-flex flex-row items-center bg-light-neutral-background-low ml-2 my-1 border border-light-neutral-border-low-rest h-[30px] py-[6px] px-2 rounded-[8px] [direction:rtl]"
+              'inline-flex flex-row items-center bg-light-neutral-background-low ml-2 my-1 border border-light-neutral-border-low-rest h-[30px] py-[6px] px-2 rounded-[8px] [direction:rtl]'
             }
           >
-            <span className={"flex flex-1 pl-2 text-body-small"}>{title}</span>
+            <span className={'flex flex-1 pl-2 text-body-small'}>{title}</span>
             <X
               size={13}
-              className={"cursor-pointer text-light-neutral-text-low "}
+              className={'cursor-pointer text-light-neutral-text-low '}
               onClick={() => {
                 onItemSelect(id);
               }}
@@ -241,12 +206,12 @@ export const DropDownInput = ({
 DropDownInput.propTypes = {
   id: PropTypes.string,
   // name: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(["text", "password", "number"]),
-  size: PropTypes.oneOf(["sm", "md", "lg"]),
+  type: PropTypes.oneOf(['text', 'password', 'number']),
+  size: PropTypes.oneOf(['sm', 'md', 'lg']),
   inset: PropTypes.bool,
-  state: PropTypes.oneOf(["rest", "typing", "filled", "disabled", "read-only"]),
-  validation: PropTypes.oneOf(["none", "success", "error"]),
-  direction: PropTypes.oneOf(["rtl", "ltr"]),
+  state: PropTypes.oneOf(['rest', 'typing', 'filled', 'disabled', 'read-only']),
+  validation: PropTypes.oneOf(['none', 'success', 'error']),
+  direction: PropTypes.oneOf(['rtl', 'ltr']),
   innerLabel: PropTypes.string,
   title: PropTypes.string,
   placeholder: PropTypes.string,
@@ -271,7 +236,7 @@ DropDownInput.propTypes = {
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-    }),
+    })
   ),
   selectedItems: PropTypes.array,
   setSelectedItems: PropTypes.func,

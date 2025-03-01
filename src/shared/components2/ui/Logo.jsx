@@ -1,10 +1,10 @@
-import { Link as RouterLink } from 'react-router-dom';
-import { Button } from "@mui/material";
-import logoImage from "../../assets/images/logo.png";
+import RouterLink from 'next/link';
+import { Button } from '@mui/material';
+import logoImage from '../../assets/images/logo.png';
 
-function Logo ({ sx, maxHeight }) {
+function Logo({ sx, maxHeight }) {
   return (
-    <Button component={ RouterLink } to="/" sx={{ style, ...sx }}>
+    <Button component={RouterLink} to="/" sx={{ style, ...sx }}>
       <img src={logoImage} alt="Stinas Logo" style={{ maxHeight: maxHeight || '50px' }} />
     </Button>
   );
@@ -12,7 +12,7 @@ function Logo ({ sx, maxHeight }) {
 
 export default Logo;
 const style = {
-  "&:hover": {
-    backgroundColor: "transparent",
+  '&:hover': {
+    backgroundColor: 'transparent',
   },
-}
+};

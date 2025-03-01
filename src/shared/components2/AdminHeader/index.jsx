@@ -13,7 +13,6 @@ import {
 } from "@phosphor-icons/react";
 import { useLayoutContext } from "context/layout-context.jsx";
 import AuthContext from "../../context/auth-context.jsx";
-import { useNavigate } from "react-router-dom";
 import { toPersianNumber } from "utils/helper.js";
 import Divider from "../ui/Divider.jsx";
 import Drawer from "../Drawer/index.jsx";
@@ -36,7 +35,7 @@ export const AdminHeader = () => {
 
   const { isScrolled } = useScrollPosition();
   const { profile, logout } = useContext(AuthContext);
-  const navigate = useNavigate();
+  const router = useRouter()
   const [open, setOpen] = useState(false);
   const toggleSidebar = () => setIsSidebarOpened(!isSidebarOpened);
 
@@ -88,7 +87,7 @@ export const AdminHeader = () => {
                   className="group cursor-pointer items-center gap-2 rounded-lg py-2 hover:bg-light-neutral-surface-highlight flex justify-between"
                   onClick={() => {
                     setOpen(false);
-                    navigate("/app/user/profile");
+                    router.push("/app/user/profile");
                   }}
                 >
                   <div className="flex items-center gap-2">
@@ -121,7 +120,7 @@ export const AdminHeader = () => {
                   className="group cursor-pointer flex items-center gap-2 rounded-lg p-2 hover:bg-light-neutral-surface-highlight justify-between"
                   onClick={() => {
                     setOpen(false);
-                    navigate("/app/bookmarks");
+                    router.push("/app/bookmarks");
                   }}
                 >
                   <div className="flex items-center gap-3">
@@ -136,7 +135,7 @@ export const AdminHeader = () => {
                   justify-between"
                   onClick={() => {
                     setOpen(false);
-                    navigate("/app/notes");
+                    router.push("/app/notes");
                   }}
                 >
                   <div className="flex items-center gap-3">
@@ -157,7 +156,7 @@ export const AdminHeader = () => {
                 {/*  </div>*/}
                 {/*  <CaretLeft className="text-light-neutral-text-medium hidden group-hover:block" />*/}
                 {/*</div>*/}
-                <CButton size={"sm"} onClick={() => navigate("/app/dashboard")}>
+                <CButton size={"sm"} onClick={() => router.push("/app/dashboard")}>
                   بازگشت به پنل کابری
                 </CButton>
                 <Divider />

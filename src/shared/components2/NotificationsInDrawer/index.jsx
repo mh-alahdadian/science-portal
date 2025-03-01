@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { CTabs } from "../ui/CTabs";
 import Announcement from "./Announcement";
 import Notifications from "./Notifications";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import notification from "../../service/api/notification";
 import { useLayoutContext } from "../../context/layout-context";
 
@@ -12,7 +12,7 @@ const NotificationsInDrawer = () => {
   const [activeTab, setActiveTab] = useState("Announcement");
   const [totalNotif, setTotalNotif] = useState(0);
   const [totalAnnounce, setTotalAnnounce] = useState(0);
-  const navigate = useNavigate();
+  const router = useRouter()
   useEffect(() => {
     notification
       .statistical()
@@ -36,7 +36,7 @@ const NotificationsInDrawer = () => {
           <div
             className="flex gap-2 font-button-medium text-light-primary-text-rest cursor-pointer"
             onClick={() => {
-              navigate(`/app/notif/${activeTab}`);
+              router.push(`/app/notif/${activeTab}`);
               setOpenDrawer(false);
             }}
           >

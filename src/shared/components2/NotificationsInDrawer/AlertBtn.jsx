@@ -1,12 +1,12 @@
 import { CaretLeft } from "@phosphor-icons/react";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from 'next/navigation';
 import { useLayoutContext } from "../../context/layout-context";
 import notification from "../../service/api/notification";
 
 const AlertBtn = ({ read = false, link, id }) => {
   const { setOpenDrawer } = useLayoutContext();
-  const navigate = useNavigate();
+  const router = useRouter()
 
   return (
     <button
@@ -16,7 +16,7 @@ const AlertBtn = ({ read = false, link, id }) => {
       onClick={() => {
         setOpenDrawer(false);
         !read && notification.markAsReadNotification(id);
-        navigate(`alert/list/${link}`);
+        router.push(`alert/list/${link}`);
       }}
     >
       <span className="font-button-medium">نمایش هشدار</span>
