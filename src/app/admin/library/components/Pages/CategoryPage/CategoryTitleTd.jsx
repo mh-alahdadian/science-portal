@@ -3,7 +3,7 @@ import { useState } from 'react';
 function CategoryTitleTd({ row, getValue }) {
   const [showFullName, setShowFullName] = useState(false);
 
-  const value = getValue() || row.original.firstName + row.original.lastName;
+  const value = getValue() || `${row.original.firstName} ${row.original.lastName}`;
 
   return (
     <div className="relative flex items-center">

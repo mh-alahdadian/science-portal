@@ -99,9 +99,11 @@ function NavItem({
   return (
     <Link
       href={route.path || '#'}
-      className={`flex items-center p-3 rounded-md transition-colors ${
-        isActive ? 'bg-blue-600 text-white' : 'hover:bg-gray-700'
-      } ${isChild && !isCollapsed ? 'pl-6 text-sm' : ''}`}
+      className={clsx(
+        `flex items-center p-3 rounded-md transition-colors`,
+        isActive ? 'bg-blue-600 text-white' : 'hover:bg-gray-700',
+        isChild && !isCollapsed ? 'pl-6 text-sm' : ''
+      )}
     >
       <span className={`${!isChild ? 'mr-3' : 'mr-2'}`}>{route.icon}</span>
       {!isCollapsed && <span>{route.name}</span>}
@@ -123,14 +125,14 @@ export default function Sidebar() {
   return (
     <aside
       className={clsx(
-        'fixed right-0 top-0 h-full z-50 flex flex-col gap-16 items-center px-8 py-16 duration-300',
+        'fixed right-0 top-0 h-full z-50 flex flex-col gap-16 items-center py-16 duration-300',
         `transition-all bg-gray-800 text-white h-screen`,
-        isCollapsed ? 'w-20' : 'w-64'
+        isCollapsed ? 'w-20 px-2' : 'w-64 px-8'
       )}
     >
       <div className="flex justify-between items-center w-full border-b border-gray-700">
         {!isCollapsed && <h1 className="text-xl font-bold">پنل ادمین</h1>}
-        <button onClick={toggleSidebar} className="p-2 rounded-md hover:bg-gray-700 transition-colors">
+        <button onClick={toggleSidebar} className="rounded-md hover:bg-gray-700 transition-colors">
           <List size={24} weight="regular" />
         </button>
       </div>
@@ -149,11 +151,9 @@ export default function Sidebar() {
         </ul>
       </nav>
 
-      <div className="absolute bottom-0 w-full p-4 border-t border-gray-700">
-        <Link href="/logout" className="flex items-center p-3 rounded-md hover:bg-gray-700 transition-colors">
-          <span className="mr-3">
-            <SignOut size={24} weight="regular" />
-          </span>
+      <div className="mt-auto w-full p-4 border-t border-gray-700">
+        <Link href="/logout" className="flex items-center gap-2 rounded-md hover:bg-gray-700 transition-colors">
+          <SignOut size={24} weight="regular" />
           {!isCollapsed && <span>خروج</span>}
         </Link>
       </div>

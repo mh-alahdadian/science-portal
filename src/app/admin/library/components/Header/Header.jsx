@@ -1,4 +1,7 @@
+import { usePathname } from "next/navigation";
+
 function Header() {
+  const pathname = usePathname()
   let obj = {
     '/admin/library/': 'داشبورد',
     '/admin/library/categories': 'مدیریت دسته‌ بندی',
@@ -8,7 +11,7 @@ function Header() {
     '/admin/library/comments': 'مدیریت کامنت‌ها',
   };
 
-  const title = obj[location.pathname];
+  const title = obj[pathname];
 
   return (
     <>
