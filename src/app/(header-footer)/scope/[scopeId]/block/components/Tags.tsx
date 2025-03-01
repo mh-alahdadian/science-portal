@@ -106,6 +106,8 @@ const tagsData = [
     time: 'پانزده سال',
   },
 ];
+
+
 export default function Tags() {
   return (
     <div className="mr-56 flex  w-full border-l border-b border-gray-300 pt-6 pb-2">

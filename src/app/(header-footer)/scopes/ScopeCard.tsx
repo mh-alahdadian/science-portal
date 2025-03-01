@@ -29,7 +29,9 @@ export default function ScopeCard({ scope }: Props) {
     ...mutateService('post', 'core:/v1/membership-requests'),
     onSuccess() {
       toast.success('درخواست شما ثبت شد.');
-      queryClient.invalidateQueries({ queryKey: queryService('core:/v1/membership-requests', {}).queryKey });
+      queryClient.invalidateQueries({
+        queryKey: queryService('core:/v1/membership-requests', {}).queryKey,
+      });
     },
     onError(e: any) {
       toast.error(e.message);
@@ -53,15 +55,44 @@ export default function ScopeCard({ scope }: Props) {
 
   return (
     <Component
-      href={`/scope/${scope.id}`}
-      className="card card-body flex flex-col justify-evenly items-center gap-5 max-w-sm pb-4"
+      href={_hasAccess ? `/scope/${scope.id}` : undefined}
+      className="card card-body flex flex-col justify-between items-center gap-5 max-w-sm p-6"
     >
-      <img
-        src={createFileUrl(scope.coverImage, scope.fileKey)}
-        className={clsx('w-80 h-80 object-contain', !_hasAccess && 'blur-sm opacity-50')}
-      />
-      <div className="text-2xl mb-auto">{scope.title}</div>
-      {!_hasAccess && <LockKey weight="fill" className="absolute top-32" size={80} />}
+      <div className="relative w-full">
+        <img
+          src={createFileUrl(scope.coverImage, scope.fileKey)}
+          alt={scope.title}
+          className={clsx('w-full h-80 object-contain rounded-lg', !_hasAccess && 'blur-sm opacity-50')}
+        />
+        {!_hasAccess && (
+          <LockKey
+            weight="fill"
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            size={80}
+          />
+        )}
+      </div>
+
+      <div className="w-full text-center">
+        <h3 className="text-2xl font-semibold mb-2">{scope.title}</h3>
+        {scope.description && <p className="text-gray-600 mb-4">{scope.description}</p>}
+      </div>
+
+      <div className="flex justify-between w-full text-sm text-gray-500 mb-4">
+        <div className="flex flex-col items-center">
+          <span className="font-semibold">{scope.usersCount || 10}</span>
+          <span>کاربران</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="font-semibold">{scope.newsCount || 7}</span>
+          <span>اخبار</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="font-semibold">{scope.topicsCount || 5}</span>
+          <span>موضوعات</span>
+        </div>
+      </div>
+
       {isLoggedIn && !_hasAccess && membershipElement}
     </Component>
   );
