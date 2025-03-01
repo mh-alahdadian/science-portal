@@ -15,6 +15,7 @@ import ShowRepliesBtn from "../../Buttons/ShowRepliesBtn"
 import TableHeader from "../../TableHeader/TableHeader"
 import TableHeaderItem from "../../TableHeaderItem/TableHeaderItem"
 import CommentTextTd from "./CommentTextTd"
+import { useRouter } from "next/navigation"
 
 
 

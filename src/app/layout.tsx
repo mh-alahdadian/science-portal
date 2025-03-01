@@ -20,7 +20,7 @@ export default function RootLayout({ children, header }: LayoutProps<'header'>) 
     <html lang="en" className="d-styled" dir="rtl" data-theme={myTheme} data-bs-theme={myTheme}>
       <body className={clsx('flex flex-col', bgColor)}>
         <Providers>
-          {header}
+          {!isAdmin && header}
           <main className="flex-1 grid">{children}</main>
           {!isAdmin && <Footer />}
         </Providers>

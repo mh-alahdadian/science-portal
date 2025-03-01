@@ -60,7 +60,7 @@ const textUtility = plugin(({ addUtilities }) => {
   addUtilities({ '.text-bidi': { unicodeBidi: 'plaintext' } }, {});
 });
 
-const colors = require('tailwindcss/colors')
+const colors = require('tailwindcss/colors');
 
 const config: Config = {
   daisyui: { logs: false, themes: [themes], utils: true } as DaisyConfig,
@@ -75,6 +75,14 @@ const config: Config = {
         custom1: colors.emerald,
         custom2: colors.teal,
         custom3: colors.cyan,
+
+        linen: '#F3F3F3',
+        ocean: '#A1CED6',
+        sand: '#FFFFFF',
+        sandals: '#D1BAA7',
+        white: 'white',
+        dark: '#101321',
+        orange: '#DF5330',
 
         // src/app/(header-footer)/block/page.tsx costum colors
         blockBtn: '#1b76d0',
