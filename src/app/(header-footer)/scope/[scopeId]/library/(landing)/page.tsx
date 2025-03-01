@@ -49,7 +49,7 @@ export default function Library(props: PageProps<'scopeId'>) {
           ...(filteredDateString ? { from: filteredDateString, to: filteredDateString } : {}),
         } as any,
       },
-    })
+    }),
   ).data;
   const books = booksData.content!;
 

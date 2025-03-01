@@ -83,7 +83,7 @@ export const columns = [
 
   columnHelper.accessor('isPublic', {
     header: 'سطح دسترسی',
-    cell: ({ getValue }) => ({ true: 'عمومی', false: 'خصوصی' }[String(getValue()!)]),
+    cell: ({ getValue }) => ({ true: 'عمومی', false: 'خصوصی' })[String(getValue()!)],
     filter: ({ column, table }) => {
       return (
         <InlineSelectField

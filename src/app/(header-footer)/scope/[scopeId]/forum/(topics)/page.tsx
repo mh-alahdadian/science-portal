@@ -97,7 +97,7 @@ export default function Forum(props: PageProps<'scopeId'>) {
           searchDTO: { title: searchText },
         },
       },
-    })
+    }),
   );
 
   const table = useReactTable({

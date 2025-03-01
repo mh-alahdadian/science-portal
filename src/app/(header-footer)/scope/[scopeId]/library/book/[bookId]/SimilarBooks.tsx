@@ -18,7 +18,7 @@ export function SimilarBooks({ params, tags }: Props) {
         path: params,
         query: { pageable: { size: 4 }, tags } as any,
       },
-    })
+    }),
   ).data.content!;
   return (
     <div className="mt-10 card card-body bg-white flex flex-col gap-3">

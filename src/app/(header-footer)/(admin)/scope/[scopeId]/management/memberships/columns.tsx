@@ -16,7 +16,7 @@ declare module '@tanstack/table-core' {
 export const columns = [
   ...userInfoColumns
     .filter((c) => c.id !== 'actions')
-    .map((c) => ({ ...c, accessorKey: 'user.' + c.accessorKey } as AccessorKeyColumnDef<MembershipResponseDTO, any>)),
+    .map((c) => ({ ...c, accessorKey: 'user.' + c.accessorKey }) as AccessorKeyColumnDef<MembershipResponseDTO, any>),
   columnHelper.accessor('requestedAt', {
     header: 'زمان درخواست',
     enableSorting: false,

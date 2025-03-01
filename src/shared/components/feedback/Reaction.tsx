@@ -39,8 +39,8 @@ export function Reaction(props: Props) {
     // mutateService('post', 'feedback:/v1/reactions')
     // // TODO: check me
     props.modelTypeId! in serviceNames
-      ? (mutateService('post', 'news:/v1/scope/{scopeId}/reactions') )
-      : (mutateService('post', 'feedback:/v1/reactions') )
+      ? mutateService('post', 'news:/v1/scope/{scopeId}/reactions')
+      : mutateService('post', 'feedback:/v1/reactions'),
   );
 
   function handleToggleReaction() {
@@ -56,7 +56,7 @@ export function Reaction(props: Props) {
       setReactionData(
         reactionData.userReacted
           ? { count: reactionData.count - 1, userReacted: false }
-          : { count: reactionData.count + 1, userReacted: true }
+          : { count: reactionData.count + 1, userReacted: true },
       );
     });
   }
@@ -66,7 +66,7 @@ export function Reaction(props: Props) {
       className={clsx(
         'flex gap-1 items-center px-3 py-1.5 bg-[#f5f7f8] rounded-md',
         isAction && 'hover:bg-gray-200 cursor-pointer',
-        reactionData.userReacted && 'text-primary'
+        reactionData.userReacted && 'text-primary',
       )}
       onClick={handleToggleReaction}
     >

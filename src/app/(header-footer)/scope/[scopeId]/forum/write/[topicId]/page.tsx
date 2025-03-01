@@ -146,7 +146,7 @@ export default function NewTopicPage(props: PageProps<'scopeId', 'topicId?'>) {
                 onSuccess(data, variables, context) {
                   router.push('../topic/' + String('id' in data ? data.id : topicId));
                 },
-              }
+              },
             );
           })}
         >

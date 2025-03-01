@@ -16,7 +16,7 @@ export default function NewsPostPage(props: PageProps<'scopeId' | 'postId'>) {
   const news = useSuspenseQuery(
     queryService('news:/v1/scope/{scopeId}/posts/{postId}', {
       params: { path: { scopeId: params.scopeId, postId: params.postId } },
-    })
+    }),
   ).data;
 
   const latestNewsService = queryService('news:/v1/scope/{scopeId}/posts', {

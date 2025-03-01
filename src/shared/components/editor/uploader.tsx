@@ -21,7 +21,10 @@ export class CustomUploadAdapter extends Plugin {
 
 class Adapter implements UploadAdapter {
   private xhr?: XMLHttpRequest;
-  constructor(private loader: FileLoader, private uploadData: UploadData) {}
+  constructor(
+    private loader: FileLoader,
+    private uploadData: UploadData,
+  ) {}
 
   async upload(): Promise<UploadResponse> {
     const file = (await this.loader.file)!;

@@ -29,7 +29,7 @@ export function SubmitComment(props: Props) {
         queryClient.invalidateQueries(
           queryService('feedback:/v1/comments', {
             params: { query: { dto: { modelId: props.modelId, modelTypeId: props.modelTypeId } } },
-          })
+          }),
         );
       })
       .catch(() => {

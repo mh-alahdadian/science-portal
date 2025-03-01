@@ -8,7 +8,7 @@ import Link from 'next/link';
 const SLIDER_COUNT = 5;
 
 interface Props {
-  params: Awaited<PageProps<'scopeId'>['params']>
+  params: Awaited<PageProps<'scopeId'>['params']>;
 }
 
 export function BooksSlider({ params }: Props) {
@@ -18,7 +18,7 @@ export function BooksSlider({ params }: Props) {
         path: { scopeId: +params.scopeId },
         query: { sort: ['id,desc'], pageable: { size: SLIDER_COUNT } } as any,
       },
-    })
+    }),
   ).data.content!;
 
   const { sliderButtons } = useSlider({ ids: items.map((item) => item.id!) });

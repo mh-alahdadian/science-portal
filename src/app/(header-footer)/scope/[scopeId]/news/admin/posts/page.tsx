@@ -58,12 +58,8 @@ function Admin(props: PageProps<'scopeId'>) {
     combine: combineQueries,
   });
 
-  const { mutateAsync: mutateStatus } = useMutation(
-    mutateService('patch', 'news:/v1/manager/posts/{postId}/status')
-  );
-  const { mutateAsync: mutateBulkPublish } = useMutation(
-    mutateService('post', 'news:/v1/manager/posts/publish')
-  );
+  const { mutateAsync: mutateStatus } = useMutation(mutateService('patch', 'news:/v1/manager/posts/{postId}/status'));
+  const { mutateAsync: mutateBulkPublish } = useMutation(mutateService('post', 'news:/v1/manager/posts/publish'));
 
   const table = useReactTable({
     columns,
@@ -82,8 +78,8 @@ function Admin(props: PageProps<'scopeId'>) {
   async function handleChangeStatus(e: any, postId: number) {
     await mutateStatus({
       params: {
-        path: {  postId },
-        query: { scopeId: (params.scopeId!), statusId: e.target.value },
+        path: { postId },
+        query: { scopeId: params.scopeId!, statusId: e.target.value },
       },
     });
     queryClient.invalidateQueries({

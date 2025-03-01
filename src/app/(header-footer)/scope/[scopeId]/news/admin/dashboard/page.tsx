@@ -25,15 +25,15 @@ const statisticColors = ['7BDFF2', 'B2F7EF', 'EFF7F6', 'F7D6E0', 'F2B5D4', 'ffa6
 function NewsDashboard(props: PageProps<'scopeId'>) {
   const params = use(props.params);
   const dailyPostsReport = useSuspenseQuery(
-    queryService('news:/v1/report/daily/posts', { params: { query: { scopeId: +params.scopeId } } })
+    queryService('news:/v1/report/daily/posts', { params: { query: { scopeId: +params.scopeId } } }),
   ).data;
 
   const monthlyPostsReport = useSuspenseQuery(
-    queryService('news:/v1/report/monthly/posts', { params: { query: { scopeId: +params.scopeId } } })
+    queryService('news:/v1/report/monthly/posts', { params: { query: { scopeId: +params.scopeId } } }),
   ).data;
 
   const todayNewsReport = useSuspenseQuery(
-    queryService('news:/v1/report/online/today/posts', { params: { query: { scopeId: +params.scopeId } } })
+    queryService('news:/v1/report/online/today/posts', { params: { query: { scopeId: +params.scopeId } } }),
   ).data;
 
   const { allNewsPerMonth, allCommentsPerMonth, monthTitles } = useMemo(() => {

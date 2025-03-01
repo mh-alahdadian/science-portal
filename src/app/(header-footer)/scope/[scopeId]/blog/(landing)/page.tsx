@@ -1,5 +1,5 @@
-'use client';;
-import { use } from "react";
+'use client';
+import { use } from 'react';
 
 import { queryService } from '@/api';
 import { useSuspenseQuery } from '@tanstack/react-query';

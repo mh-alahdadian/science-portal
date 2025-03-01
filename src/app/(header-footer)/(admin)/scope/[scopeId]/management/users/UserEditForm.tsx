@@ -18,20 +18,20 @@ const UserEditForm = ({ user, currentScope, onClose }: Props) => {
   const newRoleRef = useRef<HTMLSelectElement>(null);
   const [isEnabled, setIsEnabled] = useState(user.enable);
   const [roles, setRoles] = useState<Schema<'Role'>[]>(
-    () => user.userRoles!.find((r) => r.scopeId == currentScope)?.roles || []
+    () => user.userRoles!.find((r) => r.scopeId == currentScope)?.roles || [],
   );
 
   const { mutate: mutateUserRoles } = useMutation(
-    mutateService('post', 'core:/v1/manager/{page}/users/{userId}/roles')
+    mutateService('post', 'core:/v1/manager/{page}/users/{userId}/roles'),
   );
   const { mutate: mutateUserEnable } = useMutation(
-    mutateService('patch', 'core:/v1/manager/users/{userId}/block-unblock')
+    mutateService('patch', 'core:/v1/manager/users/{userId}/block-unblock'),
   );
 
   const allRoles = useSuspenseQuery(
     queryService('core:/v1/manager/{page}/roles', {
       params: { path: { page: String(currentScope) } },
-    })
+    }),
   ).data!;
 
   const { register, handleSubmit, control } = useForm({
@@ -58,7 +58,7 @@ const UserEditForm = ({ user, currentScope, onClose }: Props) => {
           toast.success('بروز رسانی نقش‌ها با موفقیت انجام شد');
           onClose();
         },
-      }
+      },
     );
   };
 
@@ -77,7 +77,7 @@ const UserEditForm = ({ user, currentScope, onClose }: Props) => {
         onSuccess: () => {
           toast.success('تغییرات با موفقیت انجام شد');
         },
-      }
+      },
     );
   };
 

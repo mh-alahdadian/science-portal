@@ -98,7 +98,7 @@ export function Post(props: Props) {
                     queryKey: queryService('forum:/v1/scope/{scopeId}/topic/{topicId}/messages', {} as any).queryKey,
                   });
                 },
-              }
+              },
             );
           }}
         >

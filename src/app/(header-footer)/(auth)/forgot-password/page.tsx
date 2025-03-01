@@ -21,7 +21,7 @@ export default function ForgotPassword(props: PageProps) {
 
   const { mutate: resetPassword } = useMutation(mutateService('post', 'core:/v1/auth/new-password'));
   const { mutate: sendVerifyCode } = useMutation(
-    mutateService('post', 'core:/v1/auth/forget-password/send-verify-code')
+    mutateService('post', 'core:/v1/auth/forget-password/send-verify-code'),
   );
 
   const handleResetPassword = handleSubmit((data) => {
@@ -38,7 +38,7 @@ export default function ForgotPassword(props: PageProps) {
         onError(error: any) {
           toast.error(error.message);
         },
-      }
+      },
     );
   });
 

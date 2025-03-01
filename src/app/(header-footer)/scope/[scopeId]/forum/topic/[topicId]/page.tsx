@@ -12,7 +12,7 @@ import { TopicInfo } from './TopicInfo';
 export default function TopicPage(props: PageProps<'scopeId' | 'topicId'>) {
   const params = use(props.params);
   const topic = useSuspenseQuery(
-    queryService('forum:/v1/scope/{scopeId}/topics/{topicId}', { params: { path: params } })
+    queryService('forum:/v1/scope/{scopeId}/topics/{topicId}', { params: { path: params } }),
   ).data;
   const posts = useSuspenseQuery({
     ...queryService('forum:/v1/scope/{scopeId}/topic/{topicId}/messages', { params: { path: params } }),

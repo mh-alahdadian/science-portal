@@ -23,9 +23,7 @@ export default function UserProfile() {
         </div>
         <div className="flex mt-10 justify-between mb-3 ">
           <span className="text-xl leading-7">جوامع</span>
-          <button className="text-xs leading-4 text-blockTextGray hover:text-blockBtn">
-            ویرایش
-          </button>
+          <button className="text-xs leading-4 text-blockTextGray hover:text-blockBtn">ویرایش</button>
         </div>
         <div className="flex w-56 bg-white justify-between text-right  p-3 rounded-md  border-2 border-blockTagsBorder gap-4">
           <span className="text-xs leading-4">کاگنتیو</span>
@@ -36,8 +34,7 @@ export default function UserProfile() {
         <span className="text-xl leading-7">درباره</span>
         <div className="h-24 min-w-2xl flex items-center justify-center bg-blockUserBtnHover rounded-md flex-col border-2 border-blockTagsBorder">
           <p className=" w-1/2 mx-auto text-xs leading-4 text-gray">
-            بخش درباره من شما در حال حاضر خالی است. آیا می خواهید یکی را اضافه
-            کنید؟
+            بخش درباره من شما در حال حاضر خالی است. آیا می خواهید یکی را اضافه کنید؟
             <a className="underline" href="">
               ویرایش نمایه
             </a>
@@ -46,25 +43,16 @@ export default function UserProfile() {
         <span className="text-xl leading-7">مدال ها</span>
         <div className="h-24 min-w-2xl flex items-center justify-center bg-blockUserBtnHover rounded-md flex-col border-2 border-blockTagsBorder">
           <p className=" w-1/2 mx-auto text-xs leading-4 text-gray">
-            شما هیچ{" "}
-            <a
-              className="text-blockTagsLink text-xs leading-4 no-underline mt-5"
-              href=""
-            >
+            شما هیچ{' '}
+            <a className="text-blockTagsLink text-xs leading-4 no-underline mt-5" href="">
               مدالی
-            </a>{" "}
+            </a>{' '}
             کسب نکرده اید.
           </p>
         </div>
         <span className="text-xl leading-7">پست ها</span>
         <div className="min-h-96 min-w-2xl flex items-center justify-center bg-blockUserBtnHover rounded-md flex-col border-2 border-blockTagsBorder">
-          <svg
-            aria-hidden="true"
-            className="mb-10"
-            width="196"
-            height="196"
-            viewBox="0 0 196 196"
-          >
+          <svg aria-hidden="true" className="mb-10" width="196" height="196" viewBox="0 0 196 196">
             <path
               d="M35 177.5c-19.5-9-29.35-26.54-26-82s14.8-66.9 32.5-73S127.72.55 161.5 28s37.46 52.67 23 96.5c-14.46 43.84-22.26 63.24-60 61-11.4-.68-22.3-.85-32.5-1.02-23.56-.38-43.4-.7-57-6.98M33 42v26a7 7 0 0 0 7 7h113a7 7 0 0 0 7-7V42a7 7 0 0 0-7-7H40a7 7 0 0 0-7 7m7 39a7 7 0 0 0-7 7v27a7 7 0 0 0 7 7h113a7 7 0 0 0 7-7V88a7 7 0 0 0-7-7z"
               opacity=".07"
@@ -76,16 +64,12 @@ export default function UserProfile() {
             <path d="M124.49 14.24 120.24 10 116 14.24l4.24 4.25zM52 58a4 4 0 1 0 0-8 4 4 0 0 0 0 8m12-4c0-1.1.9-2 2-2h80a2 2 0 1 1 0 4H66a2 2 0 0 1-2-2M33 42a7 7 0 0 1 7-7h113a7 7 0 0 1 7 7v26a7 7 0 0 1-7 7H40a7 7 0 0 1-7-7zm7-3a3 3 0 0 0-3 3v26a3 3 0 0 0 3 3h113a3 3 0 0 0 3-3V42a3 3 0 0 0-3-3zm16 62a4 4 0 1 1-8 0 4 4 0 0 1 8 0m10-2a2 2 0 1 0 0 4h80a2 2 0 1 0 0-4zM40 81a7 7 0 0 0-7 7v27a7 7 0 0 0 7 7h113a7 7 0 0 0 7-7V88a7 7 0 0 0-7-7zm-3 7a3 3 0 0 1 3-3h113a3 3 0 0 1 3 3v27a3 3 0 0 1-3 3H40a3 3 0 0 1-3-3zm150.97 54.49L179.5 134l-8.49 8.49 8.49 8.48zm-8.48 2.82-2.83-2.82 2.83-2.83 2.82 2.83zM8 97a2 2 0 0 1 2 2v4h4a2 2 0 1 1 0 4h-4v4a2 2 0 1 1-4 0v-4H2a2 2 0 1 1 0-4h4v-4c0-1.1.9-2 2-2"></path>
           </svg>
           <p className=" w-1/2 mx-auto text-xs leading-4 text-gray">
-            تازه شروع شده؟ سعی کنید به یک سوال پاسخ دهید! مفیدترین سوالات، پاسخ
-            ها و برچسب های شما در اینجا ظاهر می شوند.
-            <a
-              className="text-blockTagsLink text-xs leading-4 no-underline mt-5"
-              href=""
-            >
+            تازه شروع شده؟ سعی کنید به یک سوال پاسخ دهید! مفیدترین سوالات، پاسخ ها و برچسب های شما در اینجا ظاهر می
+            شوند.
+            <a className="text-blockTagsLink text-xs leading-4 no-underline mt-5" href="">
               با پاسخ دادن به یک سوال
             </a>
-            یا انتخاب برچسب هایی که با موضوعات مورد علاقه شما مطابقت دارند شروع
-            کنید.
+            یا انتخاب برچسب هایی که با موضوعات مورد علاقه شما مطابقت دارند شروع کنید.
           </p>
         </div>
       </div>

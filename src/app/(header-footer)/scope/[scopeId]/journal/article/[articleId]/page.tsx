@@ -8,7 +8,7 @@ export default function ArticlePage(props: PageProps<'scopeId' | 'articleId'>) {
   const article = useSuspenseQuery(
     queryService('article:/v1/scope/{scopeId}/articles', {
       params: { path: { scopeId: use(props.params).scopeId } },
-    })
+    }),
   ).data?.content!;
 
   return 'Hi';
